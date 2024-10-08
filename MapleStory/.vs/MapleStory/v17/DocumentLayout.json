@@ -1,0 +1,113 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\dpcks\\Desktop\\MapleStory\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2328267E-FA11-8963-DBD1-F81F6DA9F0BA}|Assembly-CSharp.csproj|c:\\users\\dpcks\\desktop\\maplestory\\assets\\scripts\\scene\\loginscene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2328267E-FA11-8963-DBD1-F81F6DA9F0BA}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\scene\\loginscene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2328267E-FA11-8963-DBD1-F81F6DA9F0BA}|Assembly-CSharp.csproj|c:\\users\\dpcks\\desktop\\maplestory\\assets\\scripts\\scene\\basescene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2328267E-FA11-8963-DBD1-F81F6DA9F0BA}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\scene\\basescene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2328267E-FA11-8963-DBD1-F81F6DA9F0BA}|Assembly-CSharp.csproj|C:\\Users\\dpcks\\Desktop\\MapleStory\\assets\\scripts\\utils\\define.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2328267E-FA11-8963-DBD1-F81F6DA9F0BA}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\utils\\define.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2328267E-FA11-8963-DBD1-F81F6DA9F0BA}|Assembly-CSharp.csproj|c:\\users\\dpcks\\desktop\\maplestory\\assets\\scripts\\scene\\scenemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2328267E-FA11-8963-DBD1-F81F6DA9F0BA}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\scene\\scenemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2328267E-FA11-8963-DBD1-F81F6DA9F0BA}|Assembly-CSharp.csproj|c:\\users\\dpcks\\desktop\\maplestory\\assets\\scripts\\manager\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2328267E-FA11-8963-DBD1-F81F6DA9F0BA}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\manager\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BaseScene.cs",
+              "DocumentMoniker": "C:\\Users\\dpcks\\Desktop\\MapleStory\\Assets\\Scripts\\Scene\\BaseScene.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Scene\\BaseScene.cs",
+              "ToolTip": "C:\\Users\\dpcks\\Desktop\\MapleStory\\Assets\\Scripts\\Scene\\BaseScene.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Scene\\BaseScene.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-08T15:24:30.758Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "GameManager.cs",
+              "DocumentMoniker": "C:\\Users\\dpcks\\Desktop\\MapleStory\\Assets\\Scripts\\Manager\\GameManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Manager\\GameManager.cs",
+              "ToolTip": "C:\\Users\\dpcks\\Desktop\\MapleStory\\Assets\\Scripts\\Manager\\GameManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Manager\\GameManager.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAcwAwAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-08T15:15:10.719Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LoginScene.cs",
+              "DocumentMoniker": "C:\\Users\\dpcks\\Desktop\\MapleStory\\Assets\\Scripts\\Scene\\LoginScene.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Scene\\LoginScene.cs",
+              "ToolTip": "C:\\Users\\dpcks\\Desktop\\MapleStory\\Assets\\Scripts\\Scene\\LoginScene.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Scene\\LoginScene.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAYwB4AAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-08T15:13:44.596Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SceneManager.cs",
+              "DocumentMoniker": "C:\\Users\\dpcks\\Desktop\\MapleStory\\Assets\\Scripts\\Scene\\SceneManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Scene\\SceneManager.cs",
+              "ToolTip": "C:\\Users\\dpcks\\Desktop\\MapleStory\\Assets\\Scripts\\Scene\\SceneManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Scene\\SceneManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-08T15:00:08.647Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Define.cs",
+              "DocumentMoniker": "C:\\Users\\dpcks\\Desktop\\MapleStory\\Assets\\Scripts\\Utils\\Define.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Utils\\Define.cs",
+              "ToolTip": "C:\\Users\\dpcks\\Desktop\\MapleStory\\Assets\\Scripts\\Utils\\Define.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Utils\\Define.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwQAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-08T15:00:31.419Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

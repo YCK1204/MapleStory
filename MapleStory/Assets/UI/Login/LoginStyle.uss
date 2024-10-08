@@ -1,0 +1,31 @@
+.Button-Base {
+    background-color: rgba(0, 0, 0, 0);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+}
+
+.Button-Base:active {
+    -unity-background-image-tint-color: rgb(159, 159, 159);
+}
+
+.unity-text-field__input {
+    background-color: rgba(255, 255, 255, 0);
+    border-color: rgba(255, 255, 255, 0);
+}
+
+.Notice-Show {
+    flex-grow: 1;
+    left: 35%;
+    top: 30%;
+    transition-duration: 0.5s;
+}
+
+.Notice-Hide {
+    left: 30%;
+    top: 25%;
+    display: none;
+    transition-duration: 0.5s;
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0);
+}
