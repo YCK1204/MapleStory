@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class SceneManagerEx : MonoBehaviour, IManager
 {
     public BaseScene CurScene;
+    public SceneManagerEx() { Init(); }
     public void Clear()
     {
     }

@@ -1,0 +1,35 @@
+// Example IDL file for our monster's schema.
+
+enum Color:byte { Red = 0, Green, Blue = 2 }
+ 
+union Equipment { 
+C_Monster,
+S_Monster,
+}
+ 
+struct Vec3 {
+  x:float;
+  y:float;
+  z:float;
+}
+ 
+    table C_Monster {
+  pos:Vec3; // Struct.
+  mana:short = 150;
+  hp:short = 100;
+  name:string;
+  friendly:bool = false (deprecated);
+  inventory:[ubyte];  // Vector of scalars.
+  color:Color = Blue; // Enum.
+  equipped:Equipment; // Union.
+  path:[Vec3];        // Vector of structs.
+  temp:[int];
+}
+ 
+table S_Monster {
+  name:string;
+  damage:short;
+  dmg:short;
+}
+ 
+root_type C_Monster;

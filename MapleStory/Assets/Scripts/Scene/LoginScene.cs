@@ -15,6 +15,7 @@ public class LoginScene : BaseScene
         base.Init();
         root = GetComponent<UIDocument>().rootVisualElement;
         LoadingCircle = root.Q<VisualElement>("Img_LoadingCircle");
+        StartLoadingAnim();
     }
 
     public void StartLoadingAnim()
