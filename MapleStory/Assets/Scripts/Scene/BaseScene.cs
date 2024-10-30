@@ -1,22 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Define;
 using UnityEngine.UIElements;
 
-public abstract class BaseScene : MonoBehaviour
+public class BaseScene : BaseMonobehaviour
 {
-    [HideInInspector]
-    public SceneType SceneType = SceneType.None;
-    protected VisualElement root;
-    private void Awake()
+    protected UIDocument document;
+    private void Start()
     {
-        GameManager.Init();
         Init();
     }
     protected virtual void Init()
     {
-        GameManager.Scene.CurScene = this;
+        document = GetComponent<UIDocument>();
     }
-    protected abstract void Clear();
+
+    protected virtual void Clear()
+    {
+
+    }
 }

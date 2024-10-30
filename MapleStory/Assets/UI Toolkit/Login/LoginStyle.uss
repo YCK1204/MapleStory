@@ -1,0 +1,230 @@
+VisualElement {
+}
+
+.Button-Base {
+}
+
+.Button-Base:hover {
+    -unity-background-image-tint-color: rgb(99, 99, 99);
+}
+
+.Button-Base:active {
+    -unity-background-image-tint-color: rgb(176, 176, 176);
+}
+
+.unity-base-text-field__input {
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.unity-base-text-field__label {
+    display: none;
+}
+
+.PopupBG-Normal {
+    flex-grow: 1;
+    background-image: resource('Imgs/Login/Notice/Notice_249x142');
+}
+
+.PopupBG-Crash {
+    flex-grow: 1;
+    background-image: resource('Imgs/Login/Notice/NoticeCrash_249x142');
+}
+
+.PopupBG-ConnectingServer {
+    flex-grow: 1;
+    background-image: resource('Imgs/Login/Notice/Loading/Notice.Loading.backgrnd');
+}
+
+.PopupBG-GettingCharacter {
+    flex-grow: 1;
+    background-image: resource('Imgs/Login/Notice/Loading/Notice.Loading.backgrnd2');
+}
+
+.Popup-Show {
+    width: 35%;
+    height: 35%;
+    background-image: none;
+    position: absolute;
+    left: 32.5%;
+    top: 32.5%;
+    translate: 0 0;
+    opacity: 1;
+    transition-property: all;
+    transition-duration: 1s;
+}
+
+.Popup-Hide {
+    width: 35%;
+    height: 35%;
+    background-image: none;
+    position: absolute;
+    left: 32.5%;
+    top: 32.5%;
+    translate: 5% -5%;
+    transition-property: all;
+    opacity: 0;
+    transition-duration: 1s;
+    display: none;
+}
+
+.Button-Ok {
+    position: absolute;
+    background-image: resource('Imgs/Login/OkNormal');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    bottom: 10%;
+    align-self: center;
+}
+
+.Button-Ok:hover {
+    position: absolute;
+    background-image: resource('Imgs/Login/OkOver');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    bottom: 10%;
+    align-self: center;
+}
+
+.Button-Ok {
+    position: absolute;
+    background-image: resource('Imgs/Login/OkPressed');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    bottom: 10%;
+    align-self: center;
+}
+
+.PopupText-CreatedId {
+    flex-grow: 0;
+    position: absolute;
+    width: 88%;
+    height: 62%;
+    background-image: resource('Imgs/Login/Notice.CreateIdSuccess');
+    align-self: center;
+    margin-top: 7px;
+    left: 36.5px;
+    top: 22.5px;
+}
+
+.PopupText-RegisteredId {
+    flex-grow: 0;
+    position: absolute;
+    width: 88%;
+    height: 62%;
+    background-image: resource('Imgs/Login/Notice/Failed/Notice.overlapId');
+    align-self: center;
+    margin-top: 7px;
+    left: 36.5px;
+    top: 22.5px;
+}
+
+.PopupText-Id {
+    flex-grow: 0;
+    position: absolute;
+    width: 88%;
+    height: 62%;
+    background-image: resource('Imgs/Login/Notice/Failed/NoticeFailed_ID');
+    align-self: center;
+    margin-top: 7px;
+    left: 36.5px;
+    top: 22.5px;
+}
+
+.PopupText-Password {
+    flex-grow: 0;
+    position: absolute;
+    width: 88%;
+    height: 62%;
+    background-image: resource('Imgs/Login/Notice/Failed/NoticeFailed_Password');
+    align-self: center;
+    margin-top: 7px;
+    left: 36.5px;
+    top: 22.5px;
+}
+
+.PopupText-Unknown {
+    flex-grow: 0;
+    position: absolute;
+    width: 88%;
+    height: 62%;
+    background-image: resource('Imgs/Login/Notice/NoticeFailed_Unkown');
+    align-self: center;
+    margin-top: 7px;
+    left: 36.5px;
+    top: 22.5px;
+}
+
+.PopupText-GameExit {
+    flex-grow: 0;
+    position: absolute;
+    width: 88%;
+    height: 62%;
+    background-image: resource('Imgs/Login/Notice/Notice_GameExit');
+    align-self: center;
+    margin-top: 7px;
+    left: 36.5px;
+    top: 22.5px;
+}
+
+.PopupText-InputPattern {
+    flex-grow: 0;
+    position: absolute;
+    width: 88%;
+    height: 62%;
+    background-image: resource('Imgs/Login/Notice/Setting/Notice_InputPattern');
+    align-self: center;
+    margin-top: 7px;
+    left: 36.5px;
+    top: 22.5px;
+}
+
+.PopupText-Length {
+    flex-grow: 0;
+    position: absolute;
+    width: 88%;
+    height: 62%;
+    background-image: resource('Imgs/Login/Notice/Setting/Notice_Length');
+    align-self: center;
+    margin-top: 7px;
+    left: 36.5px;
+    top: 22.5px;
+}
