@@ -6,3 +6,6 @@
 **/[Ll]ogs/
 **/[Mm]emoryCaptures/
 **/[Uu]ser[Ss]ettings/
+**/*.vs
+**/x64
+**/**/x64

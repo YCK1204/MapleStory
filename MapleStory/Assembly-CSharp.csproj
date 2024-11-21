@@ -69,13 +69,17 @@
     <Compile Include="Assets\Scripts\Scene\SceneManager.cs" />
     <Compile Include="Assets\Scripts\Scene\LoginScene.cs" />
     <Compile Include="Assets\Scripts\Scene\IntroScene.cs" />
+    <Compile Include="Assets\Scripts\Packet\PacketManager.cs" />
     <Compile Include="Assets\Scripts\Packet\PacketHandler.cs" />
     <Compile Include="Assets\Scripts\Managers\ResourceManager.cs" />
     <Compile Include="Assets\Scripts\Managers\Manager.cs" />
+    <Compile Include="Assets\Scripts\Session\ServerSession.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\UI Toolkit\Login\LoginDocument.uxml" />
     <None Include="Assets\UI Toolkit\Login\LoginStyle.uss" />
+    <None Include="Assets\DLL\Google.FlatBuffers.dll" />
+    <None Include="Assets\DLL\ServerCore.dll" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -548,6 +552,14 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Google.FlatBuffers">
+      <HintPath>Assets\DLL\Google.FlatBuffers.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ServerCore">
+      <HintPath>Assets\DLL\ServerCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
