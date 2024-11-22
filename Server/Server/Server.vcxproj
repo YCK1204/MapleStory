@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClInclude Include="ClientSession.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Protocol_generated.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

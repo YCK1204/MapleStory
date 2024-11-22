@@ -65,7 +65,6 @@ void Listener::RegisterAccept(AcceptEvent* acceptEvent)
 			break;
 		this_thread::yield();
 	}
-
 	acceptEvent->Init();
 	acceptEvent->SetSession(session);
 

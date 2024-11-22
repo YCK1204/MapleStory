@@ -9,13 +9,8 @@ public class ServerSession : PacketSession
     public override void OnConnect(EndPoint endPoint)
     {
         Debug.Log($"OnConnect");
-        string a = "hello world!";
-        byte[] bytes = Encoding.UTF8.GetBytes(a);
-        ushort size = (ushort)((bytes.Length) + sizeof(ushort));
-        var pkt = new ArraySegment<byte>(new byte[size]);
-        BitConverter.TryWriteBytes(new Span<byte>(pkt.Array, pkt.Offset, pkt.Count), size);
-        Array.Copy(bytes, 0, pkt.Array, 2, bytes.Length);
-        Send(pkt);
+
+        
     }
 
     public override void OnDisconnect(EndPoint endPoint)

@@ -75,13 +75,13 @@ public:
 			uint16 packetSize = BitConverter::ToUInt16(_recvBuffer, processLen);
 			if (packetSize < 0 || packetSize > size)
 				break;
-			OnRecvPacket(data);
+			OnRecvPacket(packetSize, data);
 			processLen += packetSize;
 			data = data + packetSize;
-			size -= processLen;
+			size -= packetSize;
 		}
 		return processLen;
 	}
-	virtual void OnRecvPacket(byte* data) = 0;
+	virtual void OnRecvPacket(int32 size, byte* data) = 0;
 };
 

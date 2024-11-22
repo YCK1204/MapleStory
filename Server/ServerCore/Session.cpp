@@ -59,6 +59,7 @@ void Session::RegisterRecv()
 	wsaBuf.buf = reinterpret_cast<char*>(_recvBuffer.GetWriteSegment());
 	wsaBuf.len = _recvBuffer.GetWriteSize();
 
+	SocketUtils::SetRecvBufferSize(_socket, _recvBuffer.GetWriteSize());
 	try {
 		DWORD numOfBytes = 0;
 		DWORD flags = 0;
@@ -140,8 +141,10 @@ void Session::RegisterSend()
 	{
 		auto& sendBuffer = sendList[i];
 
-		wsaBuf[i].buf = (char*)sendBuffer->operator std::byte *();
-		wsaBuf[i].len = sendBuffer->Size();
+		WSABUF buf;
+		buf.buf = reinterpret_cast<char*>(sendBuffer->operator byte * ());
+		buf.len = sendBuffer->Size();
+		wsaBuf.push_back(buf);
 	}
 	DWORD numOfBytes = 0;
 	if (SOCKET_ERROR == WSASend(_socket, wsaBuf.data(), wsaBuf.size(), OUT & numOfBytes, 0, &_sendEvent, nullptr))
@@ -178,7 +181,10 @@ void Session::ProcessDisconnect()
 void Session::Init()
 {
 	_connected.store(true);
-	GIocpCore->Register(this);
+	if (GIocpCore->Register(this) == false)
+	{
+		cout << "flase!\n";
+	}
 	_recvBuffer.Init();
 }
 
@@ -198,9 +204,16 @@ void Session::HandleError(int32 errCode)
 
 void Session::Send(byte* data, uint32 size)
 {
+	vector<byte> b;
+	b.assign(size + 2, (byte)0);
+
+	for (uint32 i = 0; i < size; i++)
+		b[2 + i] = data[i];
+	BitConverter::TryWriteBytes(b, (uint16)(size + 2), 0);
+	
 	WRITE_LOCK;
 
-	_sendQueue.push(make_shared<SendBuffer>(data, size));
+	_sendQueue.push(make_shared<SendBuffer>(b.data(), size + 2));
 	if (_sendEvent._sendList.size() == 0)
 		RegisterSend();
 }

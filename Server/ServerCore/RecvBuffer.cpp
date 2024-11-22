@@ -5,8 +5,9 @@ RecvBuffer::~RecvBuffer()
 {
 }
 
-RecvBuffer::RecvBuffer(uint16 size) : Array<byte>(size)
+RecvBuffer::RecvBuffer(uint16 size)
 {
+	_buffer.assign(size, (byte)0);
 }
 
 uint16 RecvBuffer::GetReadSize()
@@ -16,17 +17,22 @@ uint16 RecvBuffer::GetReadSize()
 
 uint16 RecvBuffer::GetWriteSize()
 {
-	return Size() - _writePos;
+	return _buffer.size() - _writePos;
 }
 
 byte* RecvBuffer::GetReadSegment()
 {
-	return &this->Array<byte>::operator[](_readPos);
+	return &_buffer[_readPos];
 }
 
 byte* RecvBuffer::GetWriteSegment()
 {
-	return &this->Array<byte>::operator[](_writePos);
+	return &_buffer[_writePos];
+}
+
+RecvBuffer::operator vector<byte>& ()
+{
+	return _buffer;
 }
 
 bool RecvBuffer::OnWrite(uint16 numOfBytes)
@@ -56,7 +62,7 @@ void RecvBuffer::Clear()
 	else
 	{
 		for (uint16 i = 0; i < readSize; i++)
-			this->Array<byte>::operator[](i) = this->Array<byte>::operator[](i + _readPos);
+			_buffer[i] = _buffer[i + _readPos];
 		_readPos = 0;
 		_writePos = readSize;
 	}
@@ -66,7 +72,7 @@ void RecvBuffer::Init()
 {
 	_readPos = 0;
 	_writePos = 0;
-	uint32 size = Size();
+	uint32 size = _buffer.size();
 	for (uint32 i = 0; i < size; i++)
-		this->Array<byte>::operator[](i) = (byte)0;
+		_buffer[i] = (byte)0;
 }

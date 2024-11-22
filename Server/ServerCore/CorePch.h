@@ -20,7 +20,6 @@
 #include "CoreGlobal.h"
 #include "Lock.h"
 #include "PoolManager.h"
-#include "Array.h"
 #include "BitConverter.h"
 
 using namespace std;

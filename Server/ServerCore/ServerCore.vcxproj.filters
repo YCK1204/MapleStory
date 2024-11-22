@@ -60,9 +60,6 @@
     <ClInclude Include="BitConverter.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Array.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="SendBuffer.h" />
   </ItemGroup>
   <ItemGroup>

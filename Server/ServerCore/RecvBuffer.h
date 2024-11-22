@@ -1,7 +1,6 @@
 #pragma once
-#include "Array.h"
 
-class RecvBuffer : public Array<byte>
+class RecvBuffer
 {
 public:
 	RecvBuffer() = delete;
@@ -11,6 +10,7 @@ public:
 	uint16 GetWriteSize();
 	byte* GetReadSegment();
 	byte* GetWriteSegment();
+	operator vector<byte>&();
 
 public:
 	bool OnWrite(uint16 numOfBytes);
@@ -19,6 +19,7 @@ public:
 	void Init();
 
 private:
+	vector<byte> _buffer;
 	uint16 _readPos = 0;
 	uint16 _writePos = 0;
 };
