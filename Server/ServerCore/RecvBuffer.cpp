@@ -30,9 +30,9 @@ byte* RecvBuffer::GetWriteSegment()
 	return &_buffer[_writePos];
 }
 
-RecvBuffer::operator vector<byte>& ()
+RecvBuffer::operator byte* ()
 {
-	return _buffer;
+	return _buffer.data();
 }
 
 bool RecvBuffer::OnWrite(uint16 numOfBytes)

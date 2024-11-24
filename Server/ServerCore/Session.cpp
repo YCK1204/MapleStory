@@ -202,18 +202,19 @@ void Session::HandleError(int32 errCode)
 	}
 }
 
-void Session::Send(byte* data, uint32 size)
+void Session::Send(vector<byte>& bb)
 {
-	vector<byte> b;
-	b.assign(size + 2, (byte)0);
+	uint32 size = bb.size();
 
-	for (uint32 i = 0; i < size; i++)
-		b[2 + i] = data[i];
-	BitConverter::TryWriteBytes(b, (uint16)(size + 2), 0);
-	
+	SendBufferRef buffer = make_shared<SendBuffer>(bb.data(), size);
+	Send(buffer);
+}
+
+void Session::Send(SendBufferRef& buffer)
+{
 	WRITE_LOCK;
 
-	_sendQueue.push(make_shared<SendBuffer>(b.data(), size + 2));
+	_sendQueue.push(buffer);
 	if (_sendEvent._sendList.size() == 0)
 		RegisterSend();
 }

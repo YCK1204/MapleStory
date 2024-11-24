@@ -19,9 +19,9 @@
 #include "CoreMacro.h"
 #include "CoreGlobal.h"
 #include "Lock.h"
-#include "PoolManager.h"
-#include "BitConverter.h"
 
 using namespace std;
 using namespace chrono;
+using namespace Utils;
+
 #include "pch.h" 

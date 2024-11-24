@@ -33,8 +33,9 @@ private:
 	void ProcessSend(int32 numOfBytes);
 
 public:
-	void Send(byte* data, uint32 size);
-	//void Send(byte* data, )
+	void Send(vector<byte>& bb);
+	void Send(SendBufferRef& buffer);
+		//void Send(byte* data, )
 	void Disconnect();
 public:
 	virtual void OnConnect() = 0;

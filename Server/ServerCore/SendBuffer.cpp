@@ -2,10 +2,13 @@
 
 SendBuffer::SendBuffer(byte* buffer, uint32 size)
 {
-	_buffer.assign(size, (byte)0);
-	
-	for (uint32 i = 0; i < size; i++)
-		_buffer[i] = buffer[i];
+	_size = size;
+	_buffer = buffer;
+}
+
+SendBuffer::~SendBuffer()
+{
+	delete[] _buffer;
 }
 
 shared_ptr<SendBuffer> SendBuffer::GetSharedPtr()
@@ -15,10 +18,10 @@ shared_ptr<SendBuffer> SendBuffer::GetSharedPtr()
 
 uint32 SendBuffer::Size()
 {
-	return _buffer.size();
+	return _size;
 }
 
 SendBuffer::operator byte* ()
 {
-	return _buffer.data();
+	return _buffer;
 }

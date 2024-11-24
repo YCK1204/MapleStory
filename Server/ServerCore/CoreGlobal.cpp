@@ -5,6 +5,7 @@
 #include "IocpCore.h"
 #include "PoolManager.h"
 
+
 ThreadManager* GThreadManager = nullptr;
 IocpCore* GIocpCore = nullptr;
 PoolManager* GPoolManager = nullptr;

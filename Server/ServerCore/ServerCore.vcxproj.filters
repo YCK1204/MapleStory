@@ -61,6 +61,9 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="SendBuffer.h" />
+    <ClInclude Include="Array.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CorePch.h">

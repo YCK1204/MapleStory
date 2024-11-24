@@ -10,7 +10,7 @@ public:
 	uint16 GetWriteSize();
 	byte* GetReadSegment();
 	byte* GetWriteSegment();
-	operator vector<byte>&();
+	operator byte* ();
 
 public:
 	bool OnWrite(uint16 numOfBytes);

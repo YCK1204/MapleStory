@@ -1,5 +1,4 @@
 #pragma once
-#include "pch.h"
 
 class IPool
 {
@@ -63,53 +62,55 @@ public:
 	}
 };
 
-class PoolManager
-{
-private:
-	unordered_map<string, IPool*> _pools;
-	mutex _lock;
-public:
-	template <typename T>
-	void CreatePool(int count = 5, int maxSize = 10)
+namespace Utils {
+	class PoolManager
 	{
-		if (maxSize < count)
-			maxSize = count;
-		string name = typeid(T).name();
+	private:
+		unordered_map<string, IPool*> _pools;
+		mutex _lock;
+	public:
+		template <typename T>
+		void CreatePool(int count = 5, int maxSize = 10)
+		{
+			if (maxSize < count)
+				maxSize = count;
+			string name = typeid(T).name();
 
-		lock_guard<mutex> lock(_lock);
+			lock_guard<mutex> lock(_lock);
+			{
+				auto it = _pools.find(name);
+				if (it != _pools.end())
+					return;
+				Pool<T>* pool = new Pool<T>();
+				pool->Init(count, maxSize);
+				_pools[name] = pool;
+			}
+		}
+		template <typename T>
+		void Push(T* obj)
 		{
+			string name = typeid(T).name();
 			auto it = _pools.find(name);
-			if (it != _pools.end())
+			if (it == _pools.end())
+			{
+				delete obj;
 				return;
-			Pool<T>* pool = new Pool<T>();
-			pool->Init(count, maxSize);
-			_pools[name] = pool;
+			}
+			Pool<T>* pool = static_cast<Pool<T>*>(it->second);
+			pool->Push(obj);
 		}
-	}
-	template <typename T>
-	void Push(T* obj)
-	{
-		string name = typeid(T).name();
-		auto it = _pools.find(name);
-		if (it == _pools.end())
+		template <typename T>
+		T* Pop()
 		{
-			delete obj;
-			return;
+			string name = typeid(T).name();
+			auto it = _pools.find(name);
+			if (it == _pools.end())
+			{
+				CreatePool<T>(5);
+				it = _pools.find(name);
+			}
+			Pool<T>* pool = static_cast<Pool<T>*>(it->second);
+			return pool->Pop();
 		}
-		Pool<T>* pool = static_cast<Pool<T>*>(it->second);
-		pool->Push(obj);
-	}
-	template <typename T>
-	T* Pop()
-	{
-		string name = typeid(T).name();
-		auto it = _pools.find(name);
-		if (it == _pools.end())
-		{
-			CreatePool<T>(5);
-			it = _pools.find(name);
-		}
-		Pool<T>* pool = static_cast<Pool<T>*>(it->second);
-		return pool->Pop();
-	}
-};
+	};
+}

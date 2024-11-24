@@ -17,3 +17,4 @@ using int64 = long long;
 using LockGuard = lock_guard<mutex>;
 using Mutex = mutex;
 using SendBufferRef = shared_ptr<class SendBuffer>;
+using ByteRef = shared_ptr<std::byte[]>;
