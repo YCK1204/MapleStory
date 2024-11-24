@@ -5,9 +5,11 @@
 #include "SocketUtils.h"
 #include "ClientSession.h"
 #include "PoolManager.h"
+#include "PacketManager.h"
 
 int main()
 {
+	PacketManager();
 	Listener listener;
 	sockaddr_in addr;
 	::memset(&addr, 0, sizeof(addr));

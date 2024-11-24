@@ -1,4 +1,0 @@
-table Test {
-	test:int;
-	str:string;
-}

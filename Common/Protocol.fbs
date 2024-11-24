@@ -1,0 +1,15 @@
+union PacketType {
+	C_Test,
+	S_Test,
+}
+
+table C_Test {
+	test:int;
+	str:string;
+}
+
+table S_Test {
+	test:int;
+	str:string;
+}
+

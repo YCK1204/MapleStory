@@ -33,13 +33,13 @@ public class NetworkManager : IManager
     }
     public void COco()
     {
-        string a = "hello world!";
-        byte[] bytes = Encoding.UTF8.GetBytes(a);
-        ushort size = (ushort)((bytes.Length) + sizeof(ushort));
-        var pkt = new ArraySegment<byte>(new byte[size]);
-        BitConverter.TryWriteBytes(new Span<byte>(pkt.Array, pkt.Offset, pkt.Count), size);
-        Array.Copy(bytes, 0, pkt.Array, 2, bytes.Length);
-        Send(pkt.Array);
+        FlatBufferBuilder builder = new FlatBufferBuilder(1);
+
+        var test = C_Test.CreateC_Test(builder, 10, builder.CreateString("hello world!"));
+
+        builder.Finish(test.Value);
+        var pkt = Manager.Packet.CreatePacket(test, builder, PacketType.C_Test);
+        Send(pkt);
     }
     public void Update()
     {
