@@ -17,7 +17,7 @@ SOCKET Session::GetSocket()
 	return _socket;
 }
 
-sockaddr_in Session::GetAddress()
+sockaddr_in& Session::GetAddress()
 {
 	return _addr;
 }
@@ -36,9 +36,8 @@ void Session::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 {
 	switch (iocpEvent->GetType())
 	{
-	case EventType::Connect:
-		break;
 	case EventType::Send:
+		ProcessSend(numOfBytes);
 		break;
 	case EventType::Disconnect:
 		ProcessDisconnect();

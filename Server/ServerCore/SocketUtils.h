@@ -10,7 +10,7 @@ public:
 	static void Init();
 	static void Clear();
 	static SOCKET CreateSocket();
-	static bool Bind(SOCKET socket, sockaddr_in addr);
+	static bool Bind(SOCKET socket, sockaddr_in& addr);
 	static bool BindAnyAddress(SOCKET socket, uint16 port);
 	static bool BindWindowsFunction(SOCKET socket, GUID guid, LPVOID* fn);
 

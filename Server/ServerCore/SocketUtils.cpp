@@ -27,7 +27,7 @@ SOCKET SocketUtils::CreateSocket()
 	return ::WSASocketW(AF_INET, SOCK_STREAM, IPPROTO_TCP, nullptr, 0, WSA_FLAG_OVERLAPPED);
 }
 
-bool SocketUtils::Bind(SOCKET socket, sockaddr_in addr)
+bool SocketUtils::Bind(SOCKET socket, sockaddr_in& addr)
 {
 	return SOCKET_ERROR != ::bind(socket, (const sockaddr*)&addr, sizeof(addr));
 }

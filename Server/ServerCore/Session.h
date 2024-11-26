@@ -16,7 +16,7 @@ public:
 
 public:
 	SOCKET GetSocket();
-	sockaddr_in GetAddress();
+	sockaddr_in& GetAddress();
 	void SetAddress(sockaddr_in& addr);
 public:
 	virtual HANDLE GetHandle() override;
@@ -24,19 +24,19 @@ public:
 
 protected:
 	void RegisterRecv();
+	void RegisterSend();
+	void RegisterDisconnect();
 
 private:
 	void ProcessRecv(int32 numOfBytes);
 	void ProcessDisconnect();
-	void RegisterDisconnect();
-	void RegisterSend();
 	void ProcessSend(int32 numOfBytes);
 
 public:
 	void Send(vector<byte>& bb);
 	void Send(SendBufferRef& buffer);
-		//void Send(byte* data, )
 	void Disconnect();
+
 public:
 	virtual void OnConnect() = 0;
 	virtual void OnDisconnect() = 0;
@@ -44,9 +44,9 @@ public:
 	virtual int32 OnRecv(byte* data, int32 size) = 0;
 	void Init();
 
-private:
+public:
 	void HandleError(int32 errCode);
-private:
+protected:
 	USE_LOCK;
 	queue<SendBufferRef> _sendQueue;
 	SOCKET _socket = INVALID_SOCKET;

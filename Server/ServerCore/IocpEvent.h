@@ -22,6 +22,16 @@ private:
 	EventType _type;
 };
 
+class ConnectEvent : public IocpEvent
+{
+public:
+	ConnectEvent() : IocpEvent(EventType::Connect) {}
+	void SetSession(Session* session) { _session = session; }
+	Session* GetSession() { return _session; }
+private:
+	Session* _session = nullptr;
+};
+
 class DisconnectEvent : public IocpEvent
 {
 public:
@@ -50,10 +60,4 @@ public:
 	SendEvent() : IocpEvent(EventType::Send) {}
 public:
 	vector<SendBufferRef> _sendList;
-};
-
-class ConnectEvent : public IocpEvent
-{
-public:
-	ConnectEvent() : IocpEvent(EventType::Connect) {}
 };
