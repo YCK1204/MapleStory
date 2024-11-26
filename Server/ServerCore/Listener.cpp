@@ -100,6 +100,5 @@ void Listener::ProcessAccept(AcceptEvent* acceptEvent)
 
 	session->SetAddress(addr);
 	session->OnConnect();
-	cout << "client connected!" << endl;
 	RegisterAccept(acceptEvent);
 }

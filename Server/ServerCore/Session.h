@@ -23,16 +23,19 @@ public:
 	virtual void Dispatch(class IocpEvent* iocpEvent, int32 numOfBytes) override;
 
 protected:
+	void RegisterConnect();
 	void RegisterRecv();
 	void RegisterSend();
 	void RegisterDisconnect();
 
 private:
+	void ProcessConnect();
 	void ProcessRecv(int32 numOfBytes);
 	void ProcessDisconnect();
 	void ProcessSend(int32 numOfBytes);
 
 public:
+	void Connect(sockaddr_in& addr);
 	void Send(vector<byte>& bb);
 	void Send(SendBufferRef& buffer);
 	void Disconnect();
@@ -52,9 +55,10 @@ protected:
 	SOCKET _socket = INVALID_SOCKET;
 	sockaddr_in _addr = {};
 private:
-	RecvEvent _recvEvent;
-	SendEvent _sendEvent;
-	DisconnectEvent _disconnectEvent;
+	RecvEvent* _recvEvent;
+	SendEvent* _sendEvent;
+	DisconnectEvent* _disconnectEvent;
+	ConnectEvent* _connectEvent;
 protected:
 	atomic<bool> _connected = false;
 	RecvBuffer _recvBuffer;

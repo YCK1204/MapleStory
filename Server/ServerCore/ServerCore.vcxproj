@@ -146,7 +146,6 @@
   <ItemGroup>
     <ClInclude Include="Array.h" />
     <ClInclude Include="BitConverter.h" />
-    <ClInclude Include="Connector.h" />
     <ClInclude Include="CoreGlobal.h" />
     <ClInclude Include="CoreMacro.h" />
     <ClInclude Include="CoreTLS.h" />
@@ -165,7 +164,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BitConverter.cpp" />
-    <ClCompile Include="Connector.cpp" />
     <ClCompile Include="CoreGlobal.cpp" />
     <ClCompile Include="CorePch.cpp" />
     <ClCompile Include="CorePch.h" />

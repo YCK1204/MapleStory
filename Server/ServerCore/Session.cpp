@@ -5,6 +5,11 @@
 Session::Session() : _recvBuffer(bufferSize)
 {
 	_socket = SocketUtils::CreateSocket();
+
+	_recvEvent = new RecvEvent();
+	_sendEvent = new SendEvent();
+	_disconnectEvent = new DisconnectEvent();
+	_connectEvent = new ConnectEvent();
 }
 
 Session::~Session()
@@ -36,6 +41,9 @@ void Session::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 {
 	switch (iocpEvent->GetType())
 	{
+	case EventType::Connect:
+		ProcessConnect();
+		break;
 	case EventType::Send:
 		ProcessSend(numOfBytes);
 		break;
@@ -48,12 +56,24 @@ void Session::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 	}
 }
 
+void Session::RegisterConnect()
+{
+	SOCKADDR_IN& addr = GetAddress();
+
+	if (false == SocketUtils::connectEx(_socket, reinterpret_cast<sockaddr*>(&addr), sizeof(sockaddr_in), nullptr, 0, nullptr, (LPOVERLAPPED)_connectEvent))
+	{
+		int32 errCode = WSAGetLastError();
+		if (errCode != WSA_IO_PENDING)
+			HandleError(errCode);
+	}
+}
+
 void Session::RegisterRecv()
 {
 	if (_connected.load() == false)
 		return;
 
-	_recvEvent.Init();
+	_recvEvent->Init();
 	WSABUF wsaBuf;
 	wsaBuf.buf = reinterpret_cast<char*>(_recvBuffer.GetWriteSegment());
 	wsaBuf.len = _recvBuffer.GetWriteSize();
@@ -62,7 +82,7 @@ void Session::RegisterRecv()
 	try {
 		DWORD numOfBytes = 0;
 		DWORD flags = 0;
-		if (SOCKET_ERROR == WSARecv(_socket, &wsaBuf, 1, OUT & numOfBytes, OUT & flags, &_recvEvent, nullptr))
+		if (SOCKET_ERROR == WSARecv(_socket, &wsaBuf, 1, OUT & numOfBytes, OUT & flags, _recvEvent, nullptr))
 		{
 			int32 errCode = ::WSAGetLastError();
 			if (errCode != WSA_IO_PENDING)
@@ -75,6 +95,11 @@ void Session::RegisterRecv()
 	{
 		Disconnect();
 	}
+}
+
+void Session::ProcessConnect()
+{
+	OnConnect();
 }
 
 void Session::ProcessRecv(int32 numOfBytes)
@@ -108,9 +133,9 @@ void Session::ProcessRecv(int32 numOfBytes)
 
 void Session::RegisterDisconnect()
 {
-	_disconnectEvent.Init();
+	_disconnectEvent->Init();
 
-	if (false == SocketUtils::disconnectEx(_socket, &_disconnectEvent, TF_REUSE_SOCKET, 0))
+	if (false == SocketUtils::disconnectEx(_socket, _disconnectEvent, TF_REUSE_SOCKET, 0))
 	{
 		int32 errCode = ::WSAGetLastError();
 		if (errCode != WSA_IO_PENDING)
@@ -122,7 +147,7 @@ void Session::RegisterSend()
 {
 	uint32 size = _sendQueue.size();
 
-	auto& sendList = _sendEvent._sendList;
+	auto& sendList = _sendEvent->_sendList;
 	sendList.reserve(size);
 
 	while (size > 0)
@@ -146,7 +171,7 @@ void Session::RegisterSend()
 		wsaBuf.push_back(buf);
 	}
 	DWORD numOfBytes = 0;
-	if (SOCKET_ERROR == WSASend(_socket, wsaBuf.data(), wsaBuf.size(), OUT & numOfBytes, 0, &_sendEvent, nullptr))
+	if (SOCKET_ERROR == WSASend(_socket, wsaBuf.data(), wsaBuf.size(), OUT & numOfBytes, 0, _sendEvent, nullptr))
 	{
 		int32 errCode = WSAGetLastError();
 		if (errCode != WSA_IO_PENDING)
@@ -161,7 +186,7 @@ void Session::ProcessSend(int32 numOfBytes)
 {
 	if (numOfBytes > 0)
 	{
-		_sendEvent._sendList.clear();
+		_sendEvent->_sendList.clear();
 		OnSend();
 		if (_sendQueue.size() > 0)
 			RegisterSend();
@@ -201,6 +226,19 @@ void Session::HandleError(int32 errCode)
 	}
 }
 
+void Session::Connect(sockaddr_in& addr)
+{
+	auto port = addr.sin_port;
+	addr.sin_port = 0;
+	bool success = SocketUtils::Bind(_socket, addr);
+	addr.sin_port = port;
+	SetAddress(addr);
+	GIocpCore->Register(this);
+
+	_connectEvent->Init();
+	RegisterConnect();
+}
+
 void Session::Send(vector<byte>& bb)
 {
 	uint32 size = bb.size();
@@ -214,7 +252,7 @@ void Session::Send(SendBufferRef& buffer)
 	WRITE_LOCK;
 
 	_sendQueue.push(buffer);
-	if (_sendEvent._sendList.size() == 0)
+	if (_sendEvent->_sendList.size() == 0)
 		RegisterSend();
 }
 
