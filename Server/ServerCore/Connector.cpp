@@ -29,7 +29,7 @@ void Connector::Start(sockaddr_in& addr, function<PacketSession* ()> sessionFact
 	bool success = SocketUtils::Bind(socket, addr);
 	addr.sin_port = port;
 	_session->SetAddress(addr);
-	success &= (GIocpCore->Register(this) == true);
+	success &= (GIocpCore->Register(_session) == true);
 
 	_connectEvent = new ConnectEvent();
 	_connectEvent->Init();
@@ -52,6 +52,8 @@ HANDLE Connector::GetHandle()
 
 void Connector::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 {
-	ASSERT_CRASH((iocpEvent->GetType() == EventType::Connect));
+	//ASSERT_CRASH((iocpEvent->GetType() == EventType::Connect));
+	if (iocpEvent->GetType() != EventType::Connect)
+		CRASH("");
 	ProcessConnect();
 }
