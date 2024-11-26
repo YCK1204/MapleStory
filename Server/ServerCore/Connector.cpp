@@ -24,8 +24,10 @@ void Connector::Start(sockaddr_in& addr, function<PacketSession* ()> sessionFact
 {
 	_session = sessionFactory();
 	SOCKET socket = _session->GetSocket();
+	auto port = addr.sin_port;
+	::memset(&addr.sin_port, 0, sizeof(addr.sin_port));
 	bool success = SocketUtils::Bind(socket, addr);
-	addr.sin_port = htons(8087);
+	addr.sin_port = port;
 	_session->SetAddress(addr);
 	success &= (GIocpCore->Register(this) == true);
 
