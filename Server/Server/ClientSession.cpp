@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "ClientSession.h"
-#include "PacketManager.h"
+#include "Manager.h"
 
 void ClientSession::OnConnect()
 {
@@ -13,7 +13,7 @@ void ClientSession::OnConnect()
 	cout << "connected!" << endl;
 	RegisterRecv();
 
-	auto data = PacketManager::CreatePacket(test, builder, PacketType_S_Test);
+	auto data = Manager::Packet.CreatePacket(test, builder, PacketType_S_Test);
 	Send(data);
 }
 
@@ -29,7 +29,7 @@ void ClientSession::OnSend()
 
 void ClientSession::OnRecvPacket(int32 size, byte* data)
 {
-	PacketManager::OnRecvPacket(this, data);
+	Manager::Packet.OnRecvPacket(this, data);
 	/*vector<byte> arr;
 	arr.assign(size, (byte)0);
 	for (int32 i = 0; i < size; i++)

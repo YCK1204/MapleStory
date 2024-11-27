@@ -4,7 +4,14 @@
 #include "PacketHandler.h"
 #include "BitConverter.h"
 
-unordered_map<int, function<void(PacketSession*, ByteRef&)> > PacketManager::_handler;
+PacketManager* PacketManager::_instance = nullptr;
+
+PacketManager& PacketManager::Instance()
+{
+	if (_instance == nullptr)
+		_instance = new PacketManager();
+	return *_instance;
+}
 
 PacketManager::PacketManager()
 {
@@ -17,7 +24,8 @@ PacketManager::~PacketManager()
 
 void PacketManager::Register()
 {
-    _handler[PacketType::PacketType_C_Test] = PacketHandler::C_TestHandler;
+    _handler[PacketType::PacketType_D_Test] = PacketHandler::D_TestHandler;
+		_handler[PacketType::PacketType_C_Test] = PacketHandler::C_TestHandler;
 		
 }
 

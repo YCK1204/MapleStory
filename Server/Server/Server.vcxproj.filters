@@ -7,6 +7,9 @@
     <Filter Include="Session">
       <UniqueIdentifier>{e3734d27-cab9-4c65-8f18-af43707fca6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{879be0e8-e45e-46e2-ba1e-846441776e66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -19,6 +22,15 @@
     </ClCompile>
     <ClCompile Include="PacketHandler.cpp">
       <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="DbSession.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="SessionManager.cpp">
+      <Filter>Session</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -34,6 +46,15 @@
     </ClInclude>
     <ClInclude Include="Protocol_generated.h">
       <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="DbSession.h">
+      <Filter>Session</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="SessionManager.h">
+      <Filter>Session</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

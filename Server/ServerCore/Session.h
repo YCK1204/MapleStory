@@ -23,8 +23,10 @@ public:
 	virtual void Dispatch(class IocpEvent* iocpEvent, int32 numOfBytes) override;
 
 protected:
-	void RegisterConnect();
 	void RegisterRecv();
+
+private:
+	void RegisterConnect();
 	void RegisterSend();
 	void RegisterDisconnect();
 
@@ -45,23 +47,26 @@ public:
 	virtual void OnDisconnect() = 0;
 	virtual void OnSend() = 0;
 	virtual int32 OnRecv(byte* data, int32 size) = 0;
-	void Init();
 
 public:
+	void Init();
 	void HandleError(int32 errCode);
+
 protected:
 	USE_LOCK;
-	queue<SendBufferRef> _sendQueue;
 	SOCKET _socket = INVALID_SOCKET;
 	sockaddr_in _addr = {};
+	RecvBuffer _recvBuffer;
+
 private:
 	RecvEvent* _recvEvent;
 	SendEvent* _sendEvent;
 	DisconnectEvent* _disconnectEvent;
 	ConnectEvent* _connectEvent;
-protected:
+
+private:
 	atomic<bool> _connected = false;
-	RecvBuffer _recvBuffer;
+	queue<SendBufferRef> _sendQueue;
 };
 
 class PacketSession : public Session

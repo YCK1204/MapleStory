@@ -6,6 +6,13 @@ Session::Session() : _recvBuffer(bufferSize)
 {
 	_socket = SocketUtils::CreateSocket();
 
+	if (_socket == INVALID_SOCKET)
+	{
+
+		cout << "invalid\n";
+		cout << WSAGetLastError() << endl;
+	}
+
 	_recvEvent = new RecvEvent();
 	_sendEvent = new SendEvent();
 	_disconnectEvent = new DisconnectEvent();
@@ -56,18 +63,7 @@ void Session::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 	}
 }
 
-void Session::RegisterConnect()
-{
-	SOCKADDR_IN& addr = GetAddress();
-
-	if (false == SocketUtils::connectEx(_socket, reinterpret_cast<sockaddr*>(&addr), sizeof(sockaddr_in), nullptr, 0, nullptr, (LPOVERLAPPED)_connectEvent))
-	{
-		int32 errCode = WSAGetLastError();
-		if (errCode != WSA_IO_PENDING)
-			HandleError(errCode);
-	}
-}
-
+#pragma region Register
 void Session::RegisterRecv()
 {
 	if (_connected.load() == false)
@@ -97,47 +93,13 @@ void Session::RegisterRecv()
 	}
 }
 
-void Session::ProcessConnect()
+void Session::RegisterConnect()
 {
-	OnConnect();
-}
+	SOCKADDR_IN& addr = GetAddress();
 
-void Session::ProcessRecv(int32 numOfBytes)
-{
-	if (numOfBytes == 0)
+	if (false == SocketUtils::connectEx(_socket, reinterpret_cast<sockaddr*>(&addr), sizeof(sockaddr_in), nullptr, 0, nullptr, (LPOVERLAPPED)_connectEvent))
 	{
-		Disconnect();
-		return;
-	}
-
-	if (_recvBuffer.OnWrite(numOfBytes) == false)
-	{
-		Disconnect();
-		return;
-	}
-
-	int32 processLen = OnRecv(_recvBuffer.GetReadSegment(), _recvBuffer.GetReadSize());
-	if (processLen > _recvBuffer.GetReadSize())
-	{
-		Disconnect();
-		return;
-	}
-	if (_recvBuffer.OnRead(processLen) == false)
-	{
-		Disconnect();
-		return;
-	}
-	_recvBuffer.Clear();
-	RegisterRecv();
-}
-
-void Session::RegisterDisconnect()
-{
-	_disconnectEvent->Init();
-
-	if (false == SocketUtils::disconnectEx(_socket, _disconnectEvent, TF_REUSE_SOCKET, 0))
-	{
-		int32 errCode = ::WSAGetLastError();
+		int32 errCode = WSAGetLastError();
 		if (errCode != WSA_IO_PENDING)
 			HandleError(errCode);
 	}
@@ -182,6 +144,54 @@ void Session::RegisterSend()
 	}
 }
 
+void Session::RegisterDisconnect()
+{
+	_disconnectEvent->Init();
+
+	if (false == SocketUtils::disconnectEx(_socket, _disconnectEvent, TF_REUSE_SOCKET, 0))
+	{
+		int32 errCode = ::WSAGetLastError();
+		if (errCode != WSA_IO_PENDING)
+			HandleError(errCode);
+	}
+}
+#pragma endregion
+
+#pragma region Process Handler
+void Session::ProcessConnect()
+{
+	OnConnect();
+}
+
+void Session::ProcessRecv(int32 numOfBytes)
+{
+	if (numOfBytes == 0)
+	{
+		Disconnect();
+		return;
+	}
+
+	if (_recvBuffer.OnWrite(numOfBytes) == false)
+	{
+		Disconnect();
+		return;
+	}
+
+	int32 processLen = OnRecv(_recvBuffer.GetReadSegment(), _recvBuffer.GetReadSize());
+	if (processLen > _recvBuffer.GetReadSize())
+	{
+		Disconnect();
+		return;
+	}
+	if (_recvBuffer.OnRead(processLen) == false)
+	{
+		Disconnect();
+		return;
+	}
+	_recvBuffer.Clear();
+	RegisterRecv();
+}
+
 void Session::ProcessSend(int32 numOfBytes)
 {
 	if (numOfBytes > 0)
@@ -193,7 +203,7 @@ void Session::ProcessSend(int32 numOfBytes)
 	}
 	else
 	{
-
+		// todo
 	}
 }
 
@@ -201,31 +211,9 @@ void Session::ProcessDisconnect()
 {
 	OnDisconnect();
 }
+#pragma endregion
 
-void Session::Init()
-{
-	_connected.store(true);
-	if (GIocpCore->Register(this) == false)
-	{
-		cout << "flase!\n";
-	}
-	_recvBuffer.Init();
-}
-
-void Session::HandleError(int32 errCode)
-{
-	switch (errCode)
-	{
-	case WSAECONNRESET:
-	case WSAECONNABORTED:
-		Disconnect();
-	default:
-		// TODO : Log
-		cout << "Handle Error : " << errCode << endl;
-		break;
-	}
-}
-
+#pragma region Network
 void Session::Connect(sockaddr_in& addr)
 {
 	auto port = addr.sin_port;
@@ -262,4 +250,26 @@ void Session::Disconnect()
 		return;
 
 	RegisterDisconnect();
+}
+#pragma endregion
+
+void Session::Init()
+{
+	_connected.store(true);
+	GIocpCore->Register(this);
+	_recvBuffer.Init();
+}
+
+void Session::HandleError(int32 errCode)
+{
+	switch (errCode)
+	{
+	case WSAECONNRESET:
+	case WSAECONNABORTED:
+		Disconnect();
+	default:
+		// TODO : Log
+		cout << "Handle Error : " << errCode << endl;
+		break;
+	}
 }
