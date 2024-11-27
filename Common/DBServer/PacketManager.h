@@ -9,15 +9,17 @@
 class PacketManager
 {
 private:
-    static unordered_map<int, function<void(PacketSession*, ByteRef&)> > _handler;
+    static PacketManager* _instance;
+    unordered_map<int, function<void(PacketSession*, ByteRef&)> > _handler;
     void Register();
+    PacketManager();
 
 public:
-    PacketManager();
+    static PacketManager& Instance();
     ~PacketManager();
-    static void OnRecvPacket(PacketSession* session, byte* buffer);
+    void OnRecvPacket(PacketSession* session, byte* buffer);
     template <typename T>
-    static SendBufferRef CreatePacket(Offset<T>& data, FlatBufferBuilder& builder, PacketType id);
+    SendBufferRef CreatePacket(Offset<T>& data, FlatBufferBuilder& builder, PacketType id);
 };
 
 template<typename T>

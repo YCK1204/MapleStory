@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="PacketManager.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketHandler.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="DbContext.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="DbCore.cpp" />
+    <ClCompile Include="ServerSession.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModel.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="PacketManager.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketHandler.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol_generated.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="DbContext.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="DbCore.h" />
+    <ClInclude Include="ServerSession.h">
+      <Filter>Session</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModel.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Packet">
+      <UniqueIdentifier>{16d9832f-6b38-47d9-8ee5-8063b60a375a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{02b87110-0dcf-47c0-bd53-01b8997cdf92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{eae9b424-49d0-43a5-8f28-2730a2f309d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Session">
+      <UniqueIdentifier>{741f00e2-ee7e-4a44-8303-b3fef8834df2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{8728f74b-dcb8-482d-b70d-0ef57d01f6e4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

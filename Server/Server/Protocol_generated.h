@@ -13,47 +13,38 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 24 &&
               FLATBUFFERS_VERSION_REVISION == 25,
              "Non-compatible flatbuffers version included");
 
-struct C_Test;
-struct C_TestBuilder;
-
-struct S_Test;
-struct S_TestBuilder;
-
-struct D_Test;
-struct D_TestBuilder;
+#include "Db_generated.h"
+#include "DbLogin_generated.h"
 
 enum PacketType : uint8_t {
   PacketType_NONE = 0,
-  PacketType_D_Test = 1,
-  PacketType_C_Test = 2,
-  PacketType_S_Test = 3,
+  PacketType_S_Login = 1,
+  PacketType_D_Login = 2,
   PacketType_MIN = PacketType_NONE,
-  PacketType_MAX = PacketType_S_Test
+  PacketType_MAX = PacketType_D_Login
 };
 
-inline const PacketType (&EnumValuesPacketType())[4] {
+inline const PacketType (&EnumValuesPacketType())[3] {
   static const PacketType values[] = {
     PacketType_NONE,
-    PacketType_D_Test,
-    PacketType_C_Test,
-    PacketType_S_Test
+    PacketType_S_Login,
+    PacketType_D_Login
   };
   return values;
 }
 
 inline const char * const *EnumNamesPacketType() {
-  static const char * const names[5] = {
+  static const char * const names[4] = {
     "NONE",
-    "D_Test",
-    "C_Test",
-    "S_Test",
+    "S_Login",
+    "D_Login",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNamePacketType(PacketType e) {
-  if (::flatbuffers::IsOutRange(e, PacketType_NONE, PacketType_S_Test)) return "";
+  if (::flatbuffers::IsOutRange(e, PacketType_NONE, PacketType_D_Login)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesPacketType()[index];
 }
@@ -62,225 +53,28 @@ template<typename T> struct PacketTypeTraits {
   static const PacketType enum_value = PacketType_NONE;
 };
 
-template<> struct PacketTypeTraits<D_Test> {
-  static const PacketType enum_value = PacketType_D_Test;
+template<> struct PacketTypeTraits<S_Login> {
+  static const PacketType enum_value = PacketType_S_Login;
 };
 
-template<> struct PacketTypeTraits<C_Test> {
-  static const PacketType enum_value = PacketType_C_Test;
-};
-
-template<> struct PacketTypeTraits<S_Test> {
-  static const PacketType enum_value = PacketType_S_Test;
+template<> struct PacketTypeTraits<D_Login> {
+  static const PacketType enum_value = PacketType_D_Login;
 };
 
 bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj, PacketType type);
 bool VerifyPacketTypeVector(::flatbuffers::Verifier &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types);
-
-struct C_Test FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef C_TestBuilder Builder;
-  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_TEST = 4,
-    VT_STR = 6
-  };
-  int32_t test() const {
-    return GetField<int32_t>(VT_TEST, 0);
-  }
-  const ::flatbuffers::String *str() const {
-    return GetPointer<const ::flatbuffers::String *>(VT_STR);
-  }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           VerifyField<int32_t>(verifier, VT_TEST, 4) &&
-           VerifyOffset(verifier, VT_STR) &&
-           verifier.VerifyString(str()) &&
-           verifier.EndTable();
-  }
-};
-
-struct C_TestBuilder {
-  typedef C_Test Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  void add_test(int32_t test) {
-    fbb_.AddElement<int32_t>(C_Test::VT_TEST, test, 0);
-  }
-  void add_str(::flatbuffers::Offset<::flatbuffers::String> str) {
-    fbb_.AddOffset(C_Test::VT_STR, str);
-  }
-  explicit C_TestBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
-        : fbb_(_fbb) {
-    start_ = fbb_.StartTable();
-  }
-  ::flatbuffers::Offset<C_Test> Finish() {
-    const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<C_Test>(end);
-    return o;
-  }
-};
-
-inline ::flatbuffers::Offset<C_Test> CreateC_Test(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
-    int32_t test = 0,
-    ::flatbuffers::Offset<::flatbuffers::String> str = 0) {
-  C_TestBuilder builder_(_fbb);
-  builder_.add_str(str);
-  builder_.add_test(test);
-  return builder_.Finish();
-}
-
-inline ::flatbuffers::Offset<C_Test> CreateC_TestDirect(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
-    int32_t test = 0,
-    const char *str = nullptr) {
-  auto str__ = str ? _fbb.CreateString(str) : 0;
-  return CreateC_Test(
-      _fbb,
-      test,
-      str__);
-}
-
-struct S_Test FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef S_TestBuilder Builder;
-  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_TEST = 4,
-    VT_STR = 6
-  };
-  int32_t test() const {
-    return GetField<int32_t>(VT_TEST, 0);
-  }
-  const ::flatbuffers::String *str() const {
-    return GetPointer<const ::flatbuffers::String *>(VT_STR);
-  }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           VerifyField<int32_t>(verifier, VT_TEST, 4) &&
-           VerifyOffset(verifier, VT_STR) &&
-           verifier.VerifyString(str()) &&
-           verifier.EndTable();
-  }
-};
-
-struct S_TestBuilder {
-  typedef S_Test Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  void add_test(int32_t test) {
-    fbb_.AddElement<int32_t>(S_Test::VT_TEST, test, 0);
-  }
-  void add_str(::flatbuffers::Offset<::flatbuffers::String> str) {
-    fbb_.AddOffset(S_Test::VT_STR, str);
-  }
-  explicit S_TestBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
-        : fbb_(_fbb) {
-    start_ = fbb_.StartTable();
-  }
-  ::flatbuffers::Offset<S_Test> Finish() {
-    const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<S_Test>(end);
-    return o;
-  }
-};
-
-inline ::flatbuffers::Offset<S_Test> CreateS_Test(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
-    int32_t test = 0,
-    ::flatbuffers::Offset<::flatbuffers::String> str = 0) {
-  S_TestBuilder builder_(_fbb);
-  builder_.add_str(str);
-  builder_.add_test(test);
-  return builder_.Finish();
-}
-
-inline ::flatbuffers::Offset<S_Test> CreateS_TestDirect(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
-    int32_t test = 0,
-    const char *str = nullptr) {
-  auto str__ = str ? _fbb.CreateString(str) : 0;
-  return CreateS_Test(
-      _fbb,
-      test,
-      str__);
-}
-
-struct D_Test FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef D_TestBuilder Builder;
-  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_TEST = 4,
-    VT_STR = 6
-  };
-  int32_t test() const {
-    return GetField<int32_t>(VT_TEST, 0);
-  }
-  const ::flatbuffers::String *str() const {
-    return GetPointer<const ::flatbuffers::String *>(VT_STR);
-  }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           VerifyField<int32_t>(verifier, VT_TEST, 4) &&
-           VerifyOffset(verifier, VT_STR) &&
-           verifier.VerifyString(str()) &&
-           verifier.EndTable();
-  }
-};
-
-struct D_TestBuilder {
-  typedef D_Test Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  void add_test(int32_t test) {
-    fbb_.AddElement<int32_t>(D_Test::VT_TEST, test, 0);
-  }
-  void add_str(::flatbuffers::Offset<::flatbuffers::String> str) {
-    fbb_.AddOffset(D_Test::VT_STR, str);
-  }
-  explicit D_TestBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
-        : fbb_(_fbb) {
-    start_ = fbb_.StartTable();
-  }
-  ::flatbuffers::Offset<D_Test> Finish() {
-    const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<D_Test>(end);
-    return o;
-  }
-};
-
-inline ::flatbuffers::Offset<D_Test> CreateD_Test(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
-    int32_t test = 0,
-    ::flatbuffers::Offset<::flatbuffers::String> str = 0) {
-  D_TestBuilder builder_(_fbb);
-  builder_.add_str(str);
-  builder_.add_test(test);
-  return builder_.Finish();
-}
-
-inline ::flatbuffers::Offset<D_Test> CreateD_TestDirect(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
-    int32_t test = 0,
-    const char *str = nullptr) {
-  auto str__ = str ? _fbb.CreateString(str) : 0;
-  return CreateD_Test(
-      _fbb,
-      test,
-      str__);
-}
 
 inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj, PacketType type) {
   switch (type) {
     case PacketType_NONE: {
       return true;
     }
-    case PacketType_D_Test: {
-      auto ptr = reinterpret_cast<const D_Test *>(obj);
+    case PacketType_S_Login: {
+      auto ptr = reinterpret_cast<const S_Login *>(obj);
       return verifier.VerifyTable(ptr);
     }
-    case PacketType_C_Test: {
-      auto ptr = reinterpret_cast<const C_Test *>(obj);
-      return verifier.VerifyTable(ptr);
-    }
-    case PacketType_S_Test: {
-      auto ptr = reinterpret_cast<const S_Test *>(obj);
+    case PacketType_D_Login: {
+      auto ptr = reinterpret_cast<const D_Login *>(obj);
       return verifier.VerifyTable(ptr);
     }
     default: return true;

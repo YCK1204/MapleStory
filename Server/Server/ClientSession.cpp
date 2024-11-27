@@ -4,17 +4,11 @@
 
 void ClientSession::OnConnect()
 {
-	flatbuffers::FlatBufferBuilder builder;
-	auto str = builder.CreateString("test string");
-	auto test = CreateS_Test(builder, 32, str);
-	auto size = builder.GetSize();
-	//auto* data = builder.GetBufferPointer();
+	
+
 	Init();
 	cout << "connected!" << endl;
 	RegisterRecv();
-
-	auto data = Manager::Packet.CreatePacket(test, builder, PacketType_S_Test);
-	Send(data);
 }
 
 void ClientSession::OnDisconnect()

@@ -14,7 +14,7 @@ int main()
 		dbAddr.sin_family = AF_INET;
 		Manager::Session.dbSession->Connect(dbAddr);
 	}
-
+	
 	GPoolManager->CreatePool<ClientSession>(500);
 	{
 		sockaddr_in clientAddr;

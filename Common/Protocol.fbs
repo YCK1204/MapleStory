@@ -1,15 +1,7 @@
+include "Db.fbs";
+include "DbLogin.fbs";
+
 union PacketType {
-	C_Test,
-	S_Test,
+	S_Login,
+	D_Login,
 }
-
-table C_Test {
-	test:int;
-	str:string;
-}
-
-table S_Test {
-	test:int;
-	str:string;
-}
-

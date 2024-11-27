@@ -75,6 +75,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\C_Test.cs" />
     <Compile Include="Assets\Scripts\Packet\PacketHandler.cs" />
     <Compile Include="Assets\Scripts\Managers\ResourceManager.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\D_Test.cs" />
     <Compile Include="Assets\Scripts\Managers\Manager.cs" />
     <Compile Include="Assets\Scripts\Session\ServerSession.cs" />
     <Compile Include="Assets\Scripts\Test.cs" />

@@ -13,6 +13,10 @@ namespace PacketGenerator
         static string ServerHeaderStr = "";
         static string ServerSourceStr = "";
 
+        static string DBServerHeaderStr = "";
+        static string DBServerSourceStr = "";
+
+
         static void Main(string[] args)
         {
             if (args.Length == 1)
@@ -22,6 +26,7 @@ namespace PacketGenerator
             {
                 string clientRegister = "";
                 string serverRegister = "";
+                string dbServerRegister = "";
                 while (true)
                 {
                     string line = sr.ReadLine();
@@ -46,9 +51,12 @@ namespace PacketGenerator
                             {
                                 case "S_":
                                     clientRegister += String.Format(PacketFormat_CSharp.PMRegister, line) + "\n\t\t";
-
+                                    dbServerRegister += String.Format(PacketFormat_CPP.PMRegister, line) + "\n\t\t";
                                     break;
                                 case "C_":
+                                    serverRegister += String.Format(PacketFormat_CPP.PMRegister, line) + "\n\t\t";
+                                    break;
+                                case "D_":
                                     serverRegister += String.Format(PacketFormat_CPP.PMRegister, line) + "\n\t\t";
                                     break;
                                 default:
@@ -66,8 +74,13 @@ namespace PacketGenerator
 
                 ServerHeaderStr = PacketFormat_CPP.Header.HTotal;
                 ServerSourceStr = String.Format(PacketFormat_CPP.Source.STotal, serverRegister);
-                File.WriteAllText("PacketManager.h", ServerHeaderStr);
-                File.WriteAllText("PacketManager.cpp", ServerSourceStr);
+                File.WriteAllText("./Server/PacketManager.h", ServerHeaderStr);
+                File.WriteAllText("./Server/PacketManager.cpp", ServerSourceStr);
+
+                DBServerHeaderStr = PacketFormat_CPP.Header.HTotal;
+                DBServerSourceStr = String.Format(PacketFormat_CPP.Source.STotal, dbServerRegister);
+                File.WriteAllText("./DBServer/PacketManager.h", DBServerHeaderStr);
+                File.WriteAllText("./DBServer/PacketManager.cpp", DBServerSourceStr);
             }
         }
     }

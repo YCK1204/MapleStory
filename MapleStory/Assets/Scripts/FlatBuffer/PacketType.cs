@@ -5,8 +5,8 @@
 public enum PacketType : byte
 {
   NONE = 0,
-  C_Test = 1,
-  S_Test = 2,
+  S_Login = 1,
+  D_Login = 2,
 };
 
 
@@ -18,11 +18,11 @@ static public class PacketTypeVerify
     bool result = true;
     switch((PacketType)typeId)
     {
-      case PacketType.C_Test:
-        result = C_TestVerify.Verify(verifier, tablePos);
+      case PacketType.S_Login:
+        result = S_LoginVerify.Verify(verifier, tablePos);
         break;
-      case PacketType.S_Test:
-        result = S_TestVerify.Verify(verifier, tablePos);
+      case PacketType.D_Login:
+        result = D_LoginVerify.Verify(verifier, tablePos);
         break;
       default: result = true;
         break;

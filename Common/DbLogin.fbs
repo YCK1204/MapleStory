@@ -1,0 +1,8 @@
+table S_Login {
+	id:string;
+	password:string;
+}
+
+table D_Login {
+	ok:bool;
+}
