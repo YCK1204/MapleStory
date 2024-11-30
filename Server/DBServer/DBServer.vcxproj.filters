@@ -9,10 +9,6 @@
     <ClCompile Include="PacketHandler.cpp">
       <Filter>Packet</Filter>
     </ClCompile>
-    <ClCompile Include="DbContext.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="DbCore.cpp" />
     <ClCompile Include="ServerSession.cpp">
       <Filter>Session</Filter>
     </ClCompile>
@@ -21,6 +17,9 @@
     </ClCompile>
     <ClCompile Include="DataModel.cpp">
       <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="DbManager.cpp">
+      <Filter>Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -34,10 +33,6 @@
     <ClInclude Include="Protocol_generated.h">
       <Filter>Packet</Filter>
     </ClInclude>
-    <ClInclude Include="DbContext.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="DbCore.h" />
     <ClInclude Include="ServerSession.h">
       <Filter>Session</Filter>
     </ClInclude>
@@ -46,6 +41,9 @@
     </ClInclude>
     <ClInclude Include="DataModel.h">
       <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="DbManager.h">
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

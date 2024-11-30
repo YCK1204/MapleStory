@@ -11,11 +11,14 @@ private:
 	queue<function<void()>> _jobQueue;
 	condition_variable _cv;
 	bool _allStop = false;
+
+private:
+	void WorkerThread();
+
 public:
 	ThreadPool() = delete;
 	ThreadPool(uint32 n);
 	~ThreadPool();
-	void WorkerThread();
 	template <class F, class ...Args>
 	future<typename invoke_result<F, Args...>::type> EnqueueJob(F&& f, Args&&... args) {
 		using ReturnType = invoke_result<F, Args...>::type;

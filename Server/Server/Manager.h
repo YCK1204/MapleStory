@@ -3,11 +3,15 @@
 #include "PacketManager.h"
 #include "SessionManager.h"
 
+#ifndef COMMON_JSON_PATH
+	#define COMMON_JSON_PATH "../../Common/json/Data/"
+#endif
+
 class Manager
 {
 public:
 	static PacketManager& Packet;
 	static SessionManager& Session;
 public:
-	Manager();
+	static void Init();
 };
