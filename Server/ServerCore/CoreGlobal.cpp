@@ -1,26 +1,26 @@
 #include "pch.h"
 #include "CoreGlobal.h"
-#include "ThreadManager.h"
 #include "SocketUtils.h"
 #include "IocpCore.h"
 #include "PoolManager.h"
+#include "ThreadPool.h"
 
-
-ThreadManager* GThreadManager = nullptr;
 IocpCore* GIocpCore = nullptr;
 PoolManager* GPoolManager = nullptr;
+ThreadPool* GThreadPool = nullptr;
 
 class CoreGlobal
 {
 public:
 	CoreGlobal() {
-		GThreadManager = new ThreadManager();
+		const uint32 threadSize = 7;
+
 		GIocpCore = new IocpCore();
 		GPoolManager = new PoolManager();
+		GThreadPool = new ThreadPool(threadSize);
 		SocketUtils::Init();
 	}
 	~CoreGlobal() {
-		delete GThreadManager;
 		delete GIocpCore;
 		delete GPoolManager;
 		SocketUtils::Clear();

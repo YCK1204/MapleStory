@@ -1,5 +1,7 @@
 #pragma once
 
+#include <future>
+#include <fstream>
 #include <iostream>
 #include <vector>
 #include <map>
@@ -8,6 +10,7 @@
 #include <WinSock2.h>
 #include <Windows.h>
 #include <thread>
+#include <condition_variable>
 #include <cstddef>
 #include <atomic>
 #include <mutex>
