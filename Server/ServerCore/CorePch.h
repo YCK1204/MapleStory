@@ -23,6 +23,7 @@
 #include "CoreMacro.h"
 #include "CoreGlobal.h"
 #include "Lock.h"
+#include "CoreRef.h"
 
 using namespace std;
 using namespace chrono;

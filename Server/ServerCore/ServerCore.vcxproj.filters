@@ -109,5 +109,8 @@
     <ClCompile Include="ThreadPool.cpp">
       <Filter>Thread</Filter>
     </ClCompile>
+    <ClCompile Include="CoreRef.h">
+      <Filter>Main</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

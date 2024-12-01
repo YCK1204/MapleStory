@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Types.h"
+using uint32 = unsigned int;
 
 namespace Utils
 {

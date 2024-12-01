@@ -3,6 +3,7 @@
 #include <mutex>
 #include <cstddef>
 #include <memory>
+
 using namespace std;
 
 using uint8 = unsigned char;
@@ -17,4 +18,16 @@ using int64 = long long;
 using LockGuard = lock_guard<mutex>;
 using Mutex = mutex;
 using SendBufferRef = shared_ptr<class SendBuffer>;
-using ByteRef = shared_ptr<std::byte[]>;
+
+template <class _Ty>
+class BaseRef;
+
+using Int8Ref = shared_ptr<BaseRef<int8>>;
+using UInt8Ref = shared_ptr<BaseRef<uint8>>;
+using Int16Ref = shared_ptr<BaseRef<int16>>;
+using UInt16Ref = shared_ptr<BaseRef<uint16>>;
+using Int32Ref = shared_ptr<BaseRef<int32>>;
+using UInt32Ref = shared_ptr<BaseRef<uint32>>;
+using Int64Ref = shared_ptr<BaseRef<int64>>;
+using UInt64Ref = shared_ptr<BaseRef<uint64>>;
+using ByteRef = shared_ptr<BaseRef<std::byte>>;

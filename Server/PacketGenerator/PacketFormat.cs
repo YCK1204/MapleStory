@@ -154,11 +154,10 @@ void PacketManager::OnRecvPacket(PacketSession* session, byte* buffer)
 	if (func != _handler.end())
 	{{
 		size -= count;
-		ByteRef buf = std::shared_ptr<std::byte[]>(
-			new std::byte[size],
-			std::default_delete<std::byte[]>()
-		);
-		Utils::Array::Copy(buffer, count, buf.get(), 0, size);
+		ByteRef buf = make_shared<BaseRef<byte>>();
+
+		buf->Reserve(size);
+		buf->Copy(buffer + count, size);
 		func->second(session, buf);
 	}}
 }}

@@ -46,24 +46,37 @@ namespace PacketGenerator
                             if (line.Equals("}"))
                                 break;
                             line = line.Substring(0, line.Length - 1);
-                            string packetType = line.Substring(0, 2);
-                            switch (packetType)
+
+                            if (line.StartsWith("S_"))
                             {
-                                case "S_":
-                                    clientRegister += String.Format(PacketFormat_CSharp.PMRegister, line) + "\n\t\t";
-                                    dbServerRegister += String.Format(PacketFormat_CPP.PMRegister, line) + "\n\t\t";
-                                    break;
-                                case "C_":
-                                    serverRegister += String.Format(PacketFormat_CPP.PMRegister, line) + "\n\t\t";
-                                    break;
-                                case "D_":
-                                    serverRegister += String.Format(PacketFormat_CPP.PMRegister, line) + "\n\t\t";
-                                    break;
-                                default:
-                                    Console.Error.WriteLine("Error : Packet Name is not valid");
-                                    List<string> list = null;
-                                    list.Add("");
-                                    break;
+                                clientRegister += String.Format(PacketFormat_CSharp.PMRegister, line) + "\n\t\t";
+                                dbServerRegister += String.Format(PacketFormat_CPP.PMRegister, line) + "\n\t\t";
+                            }
+                            else if (line.StartsWith("SD_"))
+                            {
+                                dbServerRegister += String.Format(PacketFormat_CPP.PMRegister, line) + "\n\t\t";
+                            }
+                            else if (line.StartsWith("SC_"))
+                            {
+                                clientRegister += String.Format(PacketFormat_CSharp.PMRegister, line) + "\n\t\t";
+                            }
+                            else if (line.StartsWith("C_"))
+                            {
+                                serverRegister += String.Format(PacketFormat_CPP.PMRegister, line) + "\n\t\t";
+                            }
+                            else if (line.StartsWith("D_"))
+                            {
+                                serverRegister += String.Format(PacketFormat_CPP.PMRegister, line) + "\n\t\t";
+                            }
+                            else if (line.StartsWith("//"))
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                Console.Error.WriteLine("Error : Packet Name is not valid");
+                                List<string> list = null;
+                                list.Add("");
                             }
                         }
                         break;

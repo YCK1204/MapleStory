@@ -167,6 +167,7 @@
     <ClCompile Include="CoreGlobal.cpp" />
     <ClCompile Include="CorePch.cpp" />
     <ClCompile Include="CorePch.h" />
+    <ClCompile Include="CoreRef.h" />
     <ClCompile Include="CoreTLS.cpp" />
     <ClCompile Include="IocpCore.cpp" />
     <ClCompile Include="IocpEvent.cpp" />
