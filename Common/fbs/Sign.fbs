@@ -1,0 +1,57 @@
+table C_SignUp {
+	user_id:string;
+	password:string;
+}
+
+table SD_SignUp {
+	user_id:string;
+	passowrd:string;
+}
+
+enum SignUpError : ushort {
+	SUCCESS,
+	INVALID_PATTERN,
+	INVALID_CHAR,
+	INVALID_LENGTH,
+	OVERLAPPED_USERID,
+	UNKNOWN,
+}
+
+table SC_SignUp {
+	ok:SignUpError;
+}
+
+table D_SignUp {
+	ok:SignUpError;
+}
+
+enum SignInError : ushort {
+	SUCCESS,
+	NOT_FOUND,
+	INVALID_PW,
+	UNKNOWN,
+}
+
+table C_SignIn {
+	user_id:string;
+	password:string;
+}
+
+table SD_SignIn {
+	user_id:string;
+	password:string;
+}
+
+table SC_SignIn {
+	ok:SignInError;
+}
+
+table D_SignIn {
+	ok:SignInError;
+}
+
+table SC_SignOut {
+}
+
+table C_SignOut {
+}

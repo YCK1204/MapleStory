@@ -1,7 +1,0 @@
-include "Db.fbs";
-include "DbLogin.fbs";
-
-union PacketType {
-	S_Login,
-	D_Login,
-}

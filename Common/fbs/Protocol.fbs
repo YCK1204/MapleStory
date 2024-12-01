@@ -1,0 +1,24 @@
+include "Sign.fbs";
+include "Connect.fbs";
+
+union PacketType {
+// ------------------- Sign -----------------
+	C_SignUp,
+	SD_SignUp,
+	SC_SignUp,
+	D_SignUp,
+
+	C_SignIn,
+	SD_SignIn,
+	SC_SignIn,
+	D_SignIn,
+
+	SC_SignOut,
+	C_SignOut,
+// ------------------- Sign -----------------
+
+// ------------------- Connect -----------------
+	C_Connect,
+	SC_Connect,
+// ------------------- Connect -----------------
+}

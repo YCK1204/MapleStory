@@ -1,0 +1,7 @@
+table C_Connect {
+	pubkey:string;
+}
+
+table SC_Connect {
+	key:string;
+}

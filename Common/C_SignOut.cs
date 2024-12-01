@@ -6,26 +6,26 @@ using global::System;
 using global::System.Collections.Generic;
 using global::Google.FlatBuffers;
 
-public struct C_Temp : IFlatbufferObject
+public struct C_SignOut : IFlatbufferObject
 {
   private Table __p;
   public ByteBuffer ByteBuffer { get { return __p.bb; } }
   public static void ValidateVersion() { FlatBufferConstants.FLATBUFFERS_24_3_25(); }
-  public static C_Temp GetRootAsC_Temp(ByteBuffer _bb) { return GetRootAsC_Temp(_bb, new C_Temp()); }
-  public static C_Temp GetRootAsC_Temp(ByteBuffer _bb, C_Temp obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
+  public static C_SignOut GetRootAsC_SignOut(ByteBuffer _bb) { return GetRootAsC_SignOut(_bb, new C_SignOut()); }
+  public static C_SignOut GetRootAsC_SignOut(ByteBuffer _bb, C_SignOut obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
-  public C_Temp __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
+  public C_SignOut __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
 
-  public static void StartC_Temp(FlatBufferBuilder builder) { builder.StartTable(0); }
-  public static Offset<C_Temp> EndC_Temp(FlatBufferBuilder builder) {
+  public static void StartC_SignOut(FlatBufferBuilder builder) { builder.StartTable(0); }
+  public static Offset<C_SignOut> EndC_SignOut(FlatBufferBuilder builder) {
     int o = builder.EndTable();
-    return new Offset<C_Temp>(o);
+    return new Offset<C_SignOut>(o);
   }
 }
 
 
-static public class C_TempVerify
+static public class C_SignOutVerify
 {
   static public bool Verify(Google.FlatBuffers.Verifier verifier, uint tablePos)
   {
