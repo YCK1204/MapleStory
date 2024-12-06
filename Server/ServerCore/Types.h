@@ -23,11 +23,11 @@ template <class _Ty>
 class BaseRef;
 
 using Int8Ref = shared_ptr<BaseRef<int8>>;
-using UInt8Ref = shared_ptr<BaseRef<uint8>>;
 using Int16Ref = shared_ptr<BaseRef<int16>>;
-using UInt16Ref = shared_ptr<BaseRef<uint16>>;
 using Int32Ref = shared_ptr<BaseRef<int32>>;
-using UInt32Ref = shared_ptr<BaseRef<uint32>>;
 using Int64Ref = shared_ptr<BaseRef<int64>>;
+using UInt8Ref = shared_ptr<BaseRef<uint8>>;
+using UInt16Ref = shared_ptr<BaseRef<uint16>>;
+using UInt32Ref = shared_ptr<BaseRef<uint32>>;
 using UInt64Ref = shared_ptr<BaseRef<uint64>>;
 using ByteRef = shared_ptr<BaseRef<std::byte>>;

@@ -1,6 +1,5 @@
 #pragma once
 
-#define out
 #define in
 
 #define CRASH(cause)						\

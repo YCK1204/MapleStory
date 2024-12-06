@@ -8,7 +8,6 @@ Session::Session() : _recvBuffer(bufferSize)
 
 	if (_socket == INVALID_SOCKET)
 	{
-
 		cout << "invalid\n";
 		cout << WSAGetLastError() << endl;
 	}

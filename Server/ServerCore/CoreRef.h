@@ -26,6 +26,6 @@ public:
 	shared_ptr<BaseRef<_Ty>> GetPtr() { return this->shared_from_this(); }
 
 public:
-	operator const _Ty* () { return _data.data(); }
+	operator _Ty* () { return _data.data(); }
 	_Ty& operator[] (const uint32 i) { return _data[i]; }
 };

@@ -64,6 +64,9 @@
     <ClInclude Include="ThreadPool.h">
       <Filter>Thread</Filter>
     </ClInclude>
+    <ClInclude Include="format.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CorePch.h">
