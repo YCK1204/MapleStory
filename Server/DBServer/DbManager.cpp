@@ -118,20 +118,6 @@ void DbManager::Init(json& j)
 			ASSERT_CRASH(SQL_SUCCEEDED(ret));
 			ret = SQLDriverConnect(*dbc, NULL, (SQLTCHAR*)str, SQL_NTS, NULL, 0, NULL, SQL_DRIVER_NOPROMPT);
 			ASSERT_CRASH(SQL_SUCCEEDED(ret));
-			/*SQLUINTEGER asyncMode;
-			ret = SQLGetInfo(*dbc, SQL_ASYNC_MODE, &asyncMode, sizeof(SQLUINTEGER), nullptr);
-			ASSERT_CRASH(SQL_SUCCEEDED(ret));
-
-			if (asyncMode != asyncMode)
-			{
-#ifndef ASYNC
-#endif
-			}
-			else
-			{
-#ifndef SYNC
-#endif
-			}*/
 			dbcVec.push_back(dbc);
 		}
 		for (SQLHDBC* dbc : dbcVec)
@@ -213,7 +199,7 @@ void DbManager::RequestAsync(wstring cmd, wstring table, wstring condition, wstr
 
 void DbManager::HandleError(SQLSMALLINT htype, SQLHANDLE* dbc)
 {
-	SQLWCHAR sql_state[6] = {}, message[4096] = {};
+	SQLWCHAR sql_state[6] = {}, message[1024] = {};
 	SQLSMALLINT msg_len = 0;
 	SQLINTEGER native_error = 0;
 	auto ret = SQLGetDiagRec(htype, *dbc, 1, sql_state, &native_error, message, sizeof(message) / sizeof(wchar_t), &msg_len);
