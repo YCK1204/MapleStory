@@ -62,20 +62,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Utils\Extension.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_SignUp.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_SignUp.cs" />
     <Compile Include="Assets\Scripts\Scene\BaseScene.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_SignOut.cs" />
     <Compile Include="Assets\Scripts\Utils\Util.cs" />
-    <Compile Include="Assets\Scripts\FlatBuffer\S_Test.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SignInError.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SignUpError.cs" />
     <Compile Include="Assets\Scripts\Managers\NetworkManager.cs" />
     <Compile Include="Assets\Scripts\Utils\BaseMonobehaviour.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\D_SignIn.cs" />
     <Compile Include="Assets\Scripts\Scene\SceneManager.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_SignOut.cs" />
     <Compile Include="Assets\Scripts\Scene\LoginScene.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_SignIn.cs" />
     <Compile Include="Assets\Scripts\Scene\IntroScene.cs" />
     <Compile Include="Assets\Scripts\Packet\PacketManager.cs" />
+    <Compile Include="Assets\UI Toolkit\Login\UILoginController.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\D_SignUp.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SD_SignIn.cs" />
+    <Compile Include="Assets\UI Toolkit\UIBaseController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\PacketType.cs" />
-    <Compile Include="Assets\Scripts\FlatBuffer\C_Test.cs" />
     <Compile Include="Assets\Scripts\Packet\PacketHandler.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_SignIn.cs" />
     <Compile Include="Assets\Scripts\Managers\ResourceManager.cs" />
-    <Compile Include="Assets\Scripts\FlatBuffer\D_Test.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SD_SignUp.cs" />
     <Compile Include="Assets\Scripts\Managers\Manager.cs" />
     <Compile Include="Assets\Scripts\Session\ServerSession.cs" />
     <Compile Include="Assets\Scripts\Test.cs" />

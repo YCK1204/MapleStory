@@ -15,8 +15,6 @@ public enum PacketType : byte
   D_SignIn = 8,
   SC_SignOut = 9,
   C_SignOut = 10,
-  C_Connect = 11,
-  SC_Connect = 12,
 };
 
 
@@ -57,12 +55,6 @@ static public class PacketTypeVerify
         break;
       case PacketType.C_SignOut:
         result = C_SignOutVerify.Verify(verifier, tablePos);
-        break;
-      case PacketType.C_Connect:
-        result = C_ConnectVerify.Verify(verifier, tablePos);
-        break;
-      case PacketType.SC_Connect:
-        result = SC_ConnectVerify.Verify(verifier, tablePos);
         break;
       default: result = true;
         break;

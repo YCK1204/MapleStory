@@ -24,8 +24,12 @@ PacketManager::~PacketManager()
 
 void PacketManager::Register()
 {
-    _handler[PacketType::PacketType_D_Login] = PacketHandler::D_LoginHandler;
-
+    _handler[PacketType::PacketType_C_SignUp] = PacketHandler::C_SignUpHandler;
+		_handler[PacketType::PacketType_D_SignUp] = PacketHandler::D_SignUpHandler;
+		_handler[PacketType::PacketType_C_SignIn] = PacketHandler::C_SignInHandler;
+		_handler[PacketType::PacketType_D_SignIn] = PacketHandler::D_SignInHandler;
+		_handler[PacketType::PacketType_C_SignOut] = PacketHandler::C_SignOutHandler;
+		
 }
 
 void PacketManager::OnRecvPacket(PacketSession* session, byte* buffer)
@@ -41,11 +45,10 @@ void PacketManager::OnRecvPacket(PacketSession* session, byte* buffer)
 	if (func != _handler.end())
 	{
 		size -= count;
-		ByteRef buf = std::shared_ptr<std::byte[]>(
-			new std::byte[size],
-			std::default_delete<std::byte[]>()
-		);
-		Utils::Array::Copy(buffer, count, buf.get(), 0, size);
+		ByteRef buf = make_shared<BaseRef<byte>>();
+
+		buf->Reserve(size);
+		buf->Copy(buffer + count, size);
 		func->second(session, buf);
 	}
 }

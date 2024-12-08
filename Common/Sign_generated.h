@@ -45,21 +45,15 @@ struct C_SignOutBuilder;
 
 enum SignUpError : uint16_t {
   SignUpError_SUCCESS = 0,
-  SignUpError_INVALID_PATTERN = 1,
-  SignUpError_INVALID_CHAR = 2,
-  SignUpError_INVALID_LENGTH = 3,
-  SignUpError_OVERLAPPED_USERID = 4,
-  SignUpError_UNKNOWN = 5,
+  SignUpError_OVERLAPPED_USERID = 1,
+  SignUpError_UNKNOWN = 2,
   SignUpError_MIN = SignUpError_SUCCESS,
   SignUpError_MAX = SignUpError_UNKNOWN
 };
 
-inline const SignUpError (&EnumValuesSignUpError())[6] {
+inline const SignUpError (&EnumValuesSignUpError())[3] {
   static const SignUpError values[] = {
     SignUpError_SUCCESS,
-    SignUpError_INVALID_PATTERN,
-    SignUpError_INVALID_CHAR,
-    SignUpError_INVALID_LENGTH,
     SignUpError_OVERLAPPED_USERID,
     SignUpError_UNKNOWN
   };
@@ -67,11 +61,8 @@ inline const SignUpError (&EnumValuesSignUpError())[6] {
 }
 
 inline const char * const *EnumNamesSignUpError() {
-  static const char * const names[7] = {
+  static const char * const names[4] = {
     "SUCCESS",
-    "INVALID_PATTERN",
-    "INVALID_CHAR",
-    "INVALID_LENGTH",
     "OVERLAPPED_USERID",
     "UNKNOWN",
     nullptr
@@ -189,9 +180,13 @@ inline ::flatbuffers::Offset<C_SignUp> CreateC_SignUpDirect(
 struct SD_SignUp FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef SD_SignUpBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_USER_ID = 4,
-    VT_PASSOWRD = 6
+    VT_SESSION_ID = 4,
+    VT_USER_ID = 6,
+    VT_PASSOWRD = 8
   };
+  uint32_t session_id() const {
+    return GetField<uint32_t>(VT_SESSION_ID, 0);
+  }
   const ::flatbuffers::String *user_id() const {
     return GetPointer<const ::flatbuffers::String *>(VT_USER_ID);
   }
@@ -200,6 +195,7 @@ struct SD_SignUp FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_SESSION_ID, 4) &&
            VerifyOffset(verifier, VT_USER_ID) &&
            verifier.VerifyString(user_id()) &&
            VerifyOffset(verifier, VT_PASSOWRD) &&
@@ -212,6 +208,9 @@ struct SD_SignUpBuilder {
   typedef SD_SignUp Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_session_id(uint32_t session_id) {
+    fbb_.AddElement<uint32_t>(SD_SignUp::VT_SESSION_ID, session_id, 0);
+  }
   void add_user_id(::flatbuffers::Offset<::flatbuffers::String> user_id) {
     fbb_.AddOffset(SD_SignUp::VT_USER_ID, user_id);
   }
@@ -231,22 +230,26 @@ struct SD_SignUpBuilder {
 
 inline ::flatbuffers::Offset<SD_SignUp> CreateSD_SignUp(
     ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t session_id = 0,
     ::flatbuffers::Offset<::flatbuffers::String> user_id = 0,
     ::flatbuffers::Offset<::flatbuffers::String> passowrd = 0) {
   SD_SignUpBuilder builder_(_fbb);
   builder_.add_passowrd(passowrd);
   builder_.add_user_id(user_id);
+  builder_.add_session_id(session_id);
   return builder_.Finish();
 }
 
 inline ::flatbuffers::Offset<SD_SignUp> CreateSD_SignUpDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t session_id = 0,
     const char *user_id = nullptr,
     const char *passowrd = nullptr) {
   auto user_id__ = user_id ? _fbb.CreateString(user_id) : 0;
   auto passowrd__ = passowrd ? _fbb.CreateString(passowrd) : 0;
   return CreateSD_SignUp(
       _fbb,
+      session_id,
       user_id__,
       passowrd__);
 }
@@ -295,13 +298,18 @@ inline ::flatbuffers::Offset<SC_SignUp> CreateSC_SignUp(
 struct D_SignUp FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef D_SignUpBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_OK = 4
+    VT_SESSION_ID = 4,
+    VT_OK = 6
   };
+  uint32_t session_id() const {
+    return GetField<uint32_t>(VT_SESSION_ID, 0);
+  }
   SignUpError ok() const {
     return static_cast<SignUpError>(GetField<uint16_t>(VT_OK, 0));
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_SESSION_ID, 4) &&
            VerifyField<uint16_t>(verifier, VT_OK, 2) &&
            verifier.EndTable();
   }
@@ -311,6 +319,9 @@ struct D_SignUpBuilder {
   typedef D_SignUp Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_session_id(uint32_t session_id) {
+    fbb_.AddElement<uint32_t>(D_SignUp::VT_SESSION_ID, session_id, 0);
+  }
   void add_ok(SignUpError ok) {
     fbb_.AddElement<uint16_t>(D_SignUp::VT_OK, static_cast<uint16_t>(ok), 0);
   }
@@ -327,8 +338,10 @@ struct D_SignUpBuilder {
 
 inline ::flatbuffers::Offset<D_SignUp> CreateD_SignUp(
     ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t session_id = 0,
     SignUpError ok = SignUpError_SUCCESS) {
   D_SignUpBuilder builder_(_fbb);
+  builder_.add_session_id(session_id);
   builder_.add_ok(ok);
   return builder_.Finish();
 }
@@ -401,9 +414,13 @@ inline ::flatbuffers::Offset<C_SignIn> CreateC_SignInDirect(
 struct SD_SignIn FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef SD_SignInBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_USER_ID = 4,
-    VT_PASSWORD = 6
+    VT_SESSION_ID = 4,
+    VT_USER_ID = 6,
+    VT_PASSWORD = 8
   };
+  uint32_t session_id() const {
+    return GetField<uint32_t>(VT_SESSION_ID, 0);
+  }
   const ::flatbuffers::String *user_id() const {
     return GetPointer<const ::flatbuffers::String *>(VT_USER_ID);
   }
@@ -412,6 +429,7 @@ struct SD_SignIn FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_SESSION_ID, 4) &&
            VerifyOffset(verifier, VT_USER_ID) &&
            verifier.VerifyString(user_id()) &&
            VerifyOffset(verifier, VT_PASSWORD) &&
@@ -424,6 +442,9 @@ struct SD_SignInBuilder {
   typedef SD_SignIn Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_session_id(uint32_t session_id) {
+    fbb_.AddElement<uint32_t>(SD_SignIn::VT_SESSION_ID, session_id, 0);
+  }
   void add_user_id(::flatbuffers::Offset<::flatbuffers::String> user_id) {
     fbb_.AddOffset(SD_SignIn::VT_USER_ID, user_id);
   }
@@ -443,22 +464,26 @@ struct SD_SignInBuilder {
 
 inline ::flatbuffers::Offset<SD_SignIn> CreateSD_SignIn(
     ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t session_id = 0,
     ::flatbuffers::Offset<::flatbuffers::String> user_id = 0,
     ::flatbuffers::Offset<::flatbuffers::String> password = 0) {
   SD_SignInBuilder builder_(_fbb);
   builder_.add_password(password);
   builder_.add_user_id(user_id);
+  builder_.add_session_id(session_id);
   return builder_.Finish();
 }
 
 inline ::flatbuffers::Offset<SD_SignIn> CreateSD_SignInDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t session_id = 0,
     const char *user_id = nullptr,
     const char *password = nullptr) {
   auto user_id__ = user_id ? _fbb.CreateString(user_id) : 0;
   auto password__ = password ? _fbb.CreateString(password) : 0;
   return CreateSD_SignIn(
       _fbb,
+      session_id,
       user_id__,
       password__);
 }
@@ -466,13 +491,18 @@ inline ::flatbuffers::Offset<SD_SignIn> CreateSD_SignInDirect(
 struct SC_SignIn FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef SC_SignInBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_OK = 4
+    VT_SESSION_ID = 4,
+    VT_OK = 6
   };
+  uint32_t session_id() const {
+    return GetField<uint32_t>(VT_SESSION_ID, 0);
+  }
   SignInError ok() const {
     return static_cast<SignInError>(GetField<uint16_t>(VT_OK, 0));
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_SESSION_ID, 4) &&
            VerifyField<uint16_t>(verifier, VT_OK, 2) &&
            verifier.EndTable();
   }
@@ -482,6 +512,9 @@ struct SC_SignInBuilder {
   typedef SC_SignIn Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_session_id(uint32_t session_id) {
+    fbb_.AddElement<uint32_t>(SC_SignIn::VT_SESSION_ID, session_id, 0);
+  }
   void add_ok(SignInError ok) {
     fbb_.AddElement<uint16_t>(SC_SignIn::VT_OK, static_cast<uint16_t>(ok), 0);
   }
@@ -498,8 +531,10 @@ struct SC_SignInBuilder {
 
 inline ::flatbuffers::Offset<SC_SignIn> CreateSC_SignIn(
     ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t session_id = 0,
     SignInError ok = SignInError_SUCCESS) {
   SC_SignInBuilder builder_(_fbb);
+  builder_.add_session_id(session_id);
   builder_.add_ok(ok);
   return builder_.Finish();
 }
@@ -507,13 +542,23 @@ inline ::flatbuffers::Offset<SC_SignIn> CreateSC_SignIn(
 struct D_SignIn FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef D_SignInBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_OK = 4
+    VT_DB_ID = 4,
+    VT_SESSION_ID = 6,
+    VT_OK = 8
   };
+  uint32_t db_id() const {
+    return GetField<uint32_t>(VT_DB_ID, 0);
+  }
+  uint32_t session_id() const {
+    return GetField<uint32_t>(VT_SESSION_ID, 0);
+  }
   SignInError ok() const {
     return static_cast<SignInError>(GetField<uint16_t>(VT_OK, 0));
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_DB_ID, 4) &&
+           VerifyField<uint32_t>(verifier, VT_SESSION_ID, 4) &&
            VerifyField<uint16_t>(verifier, VT_OK, 2) &&
            verifier.EndTable();
   }
@@ -523,6 +568,12 @@ struct D_SignInBuilder {
   typedef D_SignIn Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_db_id(uint32_t db_id) {
+    fbb_.AddElement<uint32_t>(D_SignIn::VT_DB_ID, db_id, 0);
+  }
+  void add_session_id(uint32_t session_id) {
+    fbb_.AddElement<uint32_t>(D_SignIn::VT_SESSION_ID, session_id, 0);
+  }
   void add_ok(SignInError ok) {
     fbb_.AddElement<uint16_t>(D_SignIn::VT_OK, static_cast<uint16_t>(ok), 0);
   }
@@ -539,8 +590,12 @@ struct D_SignInBuilder {
 
 inline ::flatbuffers::Offset<D_SignIn> CreateD_SignIn(
     ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t db_id = 0,
+    uint32_t session_id = 0,
     SignInError ok = SignInError_SUCCESS) {
   D_SignInBuilder builder_(_fbb);
+  builder_.add_session_id(session_id);
+  builder_.add_db_id(db_id);
   builder_.add_ok(ok);
   return builder_.Finish();
 }

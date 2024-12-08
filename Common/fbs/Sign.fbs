@@ -4,15 +4,13 @@ table C_SignUp {
 }
 
 table SD_SignUp {
+	session_id:uint32;
 	user_id:string;
 	passowrd:string;
 }
 
 enum SignUpError : ushort {
 	SUCCESS,
-	INVALID_PATTERN,
-	INVALID_CHAR,
-	INVALID_LENGTH,
 	OVERLAPPED_USERID,
 	UNKNOWN,
 }
@@ -22,6 +20,7 @@ table SC_SignUp {
 }
 
 table D_SignUp {
+	session_id:uint32;
 	ok:SignUpError;
 }
 
@@ -38,15 +37,19 @@ table C_SignIn {
 }
 
 table SD_SignIn {
+	session_id:uint32;
 	user_id:string;
 	password:string;
 }
 
 table SC_SignIn {
+	session_id:uint32;
 	ok:SignInError;
 }
 
 table D_SignIn {
+	db_id:uint32;
+	session_id:uint32;
 	ok:SignInError;
 }
 

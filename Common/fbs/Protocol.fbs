@@ -1,5 +1,4 @@
 include "Sign.fbs";
-include "Connect.fbs";
 
 union PacketType {
 // ------------------- Sign -----------------
@@ -16,9 +15,4 @@ union PacketType {
 	SC_SignOut,
 	C_SignOut,
 // ------------------- Sign -----------------
-
-// ------------------- Connect -----------------
-	C_Connect,
-	SC_Connect,
-// ------------------- Connect -----------------
 }

@@ -4,5 +4,6 @@
 class PacketHandler
 {
 public:
-	static void S_LoginHandler(PacketSession* session, ByteRef& buffer);
+	static void SD_SignUpHandler(PacketSession* session, ByteRef& buffer);
+	static void SD_SignInHandler(PacketSession* session, ByteRef& buffer);
 };

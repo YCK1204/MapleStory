@@ -9,3 +9,7 @@
 **/*.vs
 **/x64
 **/**/x64
+**/**/bin
+Data/
+**/**/Debug
+MapleStory/Assets/Scripts/FlatBuffer

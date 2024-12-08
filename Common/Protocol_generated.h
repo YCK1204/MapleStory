@@ -13,7 +13,6 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 24 &&
               FLATBUFFERS_VERSION_REVISION == 25,
              "Non-compatible flatbuffers version included");
 
-#include "Connect_generated.h"
 #include "Sign_generated.h"
 
 enum PacketType : uint8_t {
@@ -28,13 +27,11 @@ enum PacketType : uint8_t {
   PacketType_D_SignIn = 8,
   PacketType_SC_SignOut = 9,
   PacketType_C_SignOut = 10,
-  PacketType_C_Connect = 11,
-  PacketType_SC_Connect = 12,
   PacketType_MIN = PacketType_NONE,
-  PacketType_MAX = PacketType_SC_Connect
+  PacketType_MAX = PacketType_C_SignOut
 };
 
-inline const PacketType (&EnumValuesPacketType())[13] {
+inline const PacketType (&EnumValuesPacketType())[11] {
   static const PacketType values[] = {
     PacketType_NONE,
     PacketType_C_SignUp,
@@ -46,15 +43,13 @@ inline const PacketType (&EnumValuesPacketType())[13] {
     PacketType_SC_SignIn,
     PacketType_D_SignIn,
     PacketType_SC_SignOut,
-    PacketType_C_SignOut,
-    PacketType_C_Connect,
-    PacketType_SC_Connect
+    PacketType_C_SignOut
   };
   return values;
 }
 
 inline const char * const *EnumNamesPacketType() {
-  static const char * const names[14] = {
+  static const char * const names[12] = {
     "NONE",
     "C_SignUp",
     "SD_SignUp",
@@ -66,15 +61,13 @@ inline const char * const *EnumNamesPacketType() {
     "D_SignIn",
     "SC_SignOut",
     "C_SignOut",
-    "C_Connect",
-    "SC_Connect",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNamePacketType(PacketType e) {
-  if (::flatbuffers::IsOutRange(e, PacketType_NONE, PacketType_SC_Connect)) return "";
+  if (::flatbuffers::IsOutRange(e, PacketType_NONE, PacketType_C_SignOut)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesPacketType()[index];
 }
@@ -123,14 +116,6 @@ template<> struct PacketTypeTraits<C_SignOut> {
   static const PacketType enum_value = PacketType_C_SignOut;
 };
 
-template<> struct PacketTypeTraits<C_Connect> {
-  static const PacketType enum_value = PacketType_C_Connect;
-};
-
-template<> struct PacketTypeTraits<SC_Connect> {
-  static const PacketType enum_value = PacketType_SC_Connect;
-};
-
 bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj, PacketType type);
 bool VerifyPacketTypeVector(::flatbuffers::Verifier &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types);
 
@@ -177,14 +162,6 @@ inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj,
     }
     case PacketType_C_SignOut: {
       auto ptr = reinterpret_cast<const C_SignOut *>(obj);
-      return verifier.VerifyTable(ptr);
-    }
-    case PacketType_C_Connect: {
-      auto ptr = reinterpret_cast<const C_Connect *>(obj);
-      return verifier.VerifyTable(ptr);
-    }
-    case PacketType_SC_Connect: {
-      auto ptr = reinterpret_cast<const SC_Connect *>(obj);
       return verifier.VerifyTable(ptr);
     }
     default: return true;

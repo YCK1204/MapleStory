@@ -52,4 +52,8 @@ public class IntroScene : BaseScene
         Manager.Scene.LoadScene("Login");
         StopCoroutine(CoStartIntro());
     }
+
+    public override void OnRecvPacket<T>(T pkt)
+    {
+    }
 }

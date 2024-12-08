@@ -12,4 +12,11 @@ public static class Extension
         }
         return true;
     }
+
+    public static bool IsInLengthRange(this string input, int minLength, int maxLength)
+    {
+        if (input == null) return false;
+        int length = input.Length;
+        return length >= minLength && length <= maxLength;
+    }
 }

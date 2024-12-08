@@ -24,23 +24,14 @@ VisualElement {
 }
 
 .PopupBG-Normal {
-    flex-grow: 1;
     background-image: resource('Imgs/Login/Notice/Notice_249x142');
+    width: 100%;
+    height: 100%;
 }
 
 .PopupBG-Crash {
     flex-grow: 1;
     background-image: resource('Imgs/Login/Notice/NoticeCrash_249x142');
-}
-
-.PopupBG-ConnectingServer {
-    flex-grow: 1;
-    background-image: resource('Imgs/Login/Notice/Loading/Notice.Loading.backgrnd');
-}
-
-.PopupBG-GettingCharacter {
-    flex-grow: 1;
-    background-image: resource('Imgs/Login/Notice/Loading/Notice.Loading.backgrnd2');
 }
 
 .Popup-Show {
@@ -52,8 +43,9 @@ VisualElement {
     top: 32.5%;
     translate: 0 0;
     opacity: 1;
-    transition-property: all;
-    transition-duration: 1s;
+    visibility: visible;
+    pointer-events: auto;
+    transition: all 1s;
 }
 
 .Popup-Hide {
@@ -64,73 +56,10 @@ VisualElement {
     left: 32.5%;
     top: 32.5%;
     translate: 5% -5%;
-    transition-property: all;
+    transition: all 1s;
     opacity: 0;
-    transition-duration: 1s;
-    display: none;
-}
-
-.Button-Ok {
-    position: absolute;
-    background-image: resource('Imgs/Login/OkNormal');
-    border-top-width: 0;
-    border-right-width: 0;
-    border-bottom-width: 0;
-    border-left-width: 0;
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
-    width: 13%;
-    height: 13%;
-    bottom: 10%;
-    align-self: center;
-}
-
-.Button-Ok:hover {
-    position: absolute;
-    background-image: resource('Imgs/Login/OkOver');
-    border-top-width: 0;
-    border-right-width: 0;
-    border-bottom-width: 0;
-    border-left-width: 0;
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
-    width: 13%;
-    height: 13%;
-    bottom: 10%;
-    align-self: center;
-}
-
-.Button-Ok {
-    position: absolute;
-    background-image: resource('Imgs/Login/OkPressed');
-    border-top-width: 0;
-    border-right-width: 0;
-    border-bottom-width: 0;
-    border-left-width: 0;
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
-    width: 13%;
-    height: 13%;
-    bottom: 10%;
-    align-self: center;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .PopupText-CreatedId {
@@ -151,18 +80,6 @@ VisualElement {
     width: 88%;
     height: 62%;
     background-image: resource('Imgs/Login/Notice/Failed/Notice.overlapId');
-    align-self: center;
-    margin-top: 7px;
-    left: 36.5px;
-    top: 22.5px;
-}
-
-.PopupText-Id {
-    flex-grow: 0;
-    position: absolute;
-    width: 88%;
-    height: 62%;
-    background-image: resource('Imgs/Login/Notice/Failed/NoticeFailed_ID');
     align-self: center;
     margin-top: 7px;
     left: 36.5px;
@@ -227,4 +144,225 @@ VisualElement {
     margin-top: 7px;
     left: 36.5px;
     top: 22.5px;
+}
+
+.PopupText-Id {
+    flex-grow: 0;
+    position: absolute;
+    width: 88%;
+    height: 62%;
+    background-image: resource('Imgs/Login/Notice/Failed/NoticeFailed_ID');
+    align-self: center;
+    margin-top: 7px;
+    left: 36.5px;
+    top: 22.5px;
+}
+
+.PopupText-GettingCharacter {
+    background-image: resource('Imgs/Login/Notice/Loading/Notice.Loading.backgrnd2');
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.PopupText-ConnectingServer {
+    background-image: resource('Imgs/Login/Notice/Loading/Notice.Loading.backgrnd');
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.Button-Ok {
+    position: absolute;
+    background-image: resource('Imgs/Login/OkNormal');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    bottom: 10%;
+    align-self: center;
+}
+
+.Button-Ok:hover {
+    position: absolute;
+    background-image: resource('Imgs/Login/OkOver');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    bottom: 10%;
+    align-self: center;
+}
+
+.Button-Ok:active {
+    position: absolute;
+    background-image: resource('Imgs/Login/OkPressed');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    bottom: 10%;
+    align-self: center;
+}
+
+.Button-Yes {
+    position: absolute;
+    background-image: resource('Imgs/Login/YesNormal');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    bottom: 10%;
+    align-self: center;
+    left: 25%;
+}
+
+.Button-Yes:hover {
+    position: absolute;
+    background-image: resource('Imgs/Login/YesOver');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    bottom: 10%;
+    align-self: center;
+    left: 25%;
+}
+
+.Button-Yes:active {
+    position: absolute;
+    background-image: resource('Imgs/Login/YesPressed');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    bottom: 10%;
+    align-self: center;
+    left: 25%;
+}
+
+.Button-No {
+    position: absolute;
+    background-image: resource('Imgs/Login/NoNormal');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    align-self: center;
+    bottom: 10%;
+    right: 25%;
+}
+
+.Button-No:hover {
+    position: absolute;
+    background-image: resource('Imgs/Login/NoOver');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    align-self: center;
+    bottom: 10%;
+    right: 25%;
+}
+
+.Button-No:active {
+    position: absolute;
+    background-image: resource('Imgs/Login/NoPressed');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    align-self: center;
+    bottom: 10%;
+    right: 25%;
 }

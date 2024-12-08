@@ -1,11 +1,12 @@
 #include "pch.h"
 #include "Manager.h"
-#include "ServerSession.h"
 #include "Listener.h"
 #include "ThreadPool.h"
 
 PacketManager& Manager::Packet = PacketManager::Instance();
 DbManager& Manager::DB = DbManager::Instance();
+
+ServerSession* Manager::session = nullptr;
 
 void Manager::Init()
 {
@@ -33,12 +34,12 @@ void Manager::Init()
 	{
 		Listener* listener = new Listener();
 
-		ServerSession* session = new ServerSession();
 		string portJsonPath = COMMON_JSON_PATH + (string)"port.json";
 		ifstream port(portJsonPath);
 
 		ASSERT_CRASH(port.is_open());
 
+		Manager::session = new ServerSession();
 		json j = json::parse(port);
 		port.close();
 

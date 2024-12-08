@@ -16,33 +16,37 @@ public struct SD_SignUp : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public SD_SignUp __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public string UserId { get { int o = __p.__offset(4); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public uint SessionId { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetUint(o + __p.bb_pos) : (uint)0; } }
+  public string UserId { get { int o = __p.__offset(6); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetUserIdBytes() { return __p.__vector_as_span<byte>(4, 1); }
+  public Span<byte> GetUserIdBytes() { return __p.__vector_as_span<byte>(6, 1); }
 #else
-  public ArraySegment<byte>? GetUserIdBytes() { return __p.__vector_as_arraysegment(4); }
+  public ArraySegment<byte>? GetUserIdBytes() { return __p.__vector_as_arraysegment(6); }
 #endif
-  public byte[] GetUserIdArray() { return __p.__vector_as_array<byte>(4); }
-  public string Passowrd { get { int o = __p.__offset(6); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public byte[] GetUserIdArray() { return __p.__vector_as_array<byte>(6); }
+  public string Passowrd { get { int o = __p.__offset(8); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetPassowrdBytes() { return __p.__vector_as_span<byte>(6, 1); }
+  public Span<byte> GetPassowrdBytes() { return __p.__vector_as_span<byte>(8, 1); }
 #else
-  public ArraySegment<byte>? GetPassowrdBytes() { return __p.__vector_as_arraysegment(6); }
+  public ArraySegment<byte>? GetPassowrdBytes() { return __p.__vector_as_arraysegment(8); }
 #endif
-  public byte[] GetPassowrdArray() { return __p.__vector_as_array<byte>(6); }
+  public byte[] GetPassowrdArray() { return __p.__vector_as_array<byte>(8); }
 
   public static Offset<SD_SignUp> CreateSD_SignUp(FlatBufferBuilder builder,
+      uint session_id = 0,
       StringOffset user_idOffset = default(StringOffset),
       StringOffset passowrdOffset = default(StringOffset)) {
-    builder.StartTable(2);
+    builder.StartTable(3);
     SD_SignUp.AddPassowrd(builder, passowrdOffset);
     SD_SignUp.AddUserId(builder, user_idOffset);
+    SD_SignUp.AddSessionId(builder, session_id);
     return SD_SignUp.EndSD_SignUp(builder);
   }
 
-  public static void StartSD_SignUp(FlatBufferBuilder builder) { builder.StartTable(2); }
-  public static void AddUserId(FlatBufferBuilder builder, StringOffset userIdOffset) { builder.AddOffset(0, userIdOffset.Value, 0); }
-  public static void AddPassowrd(FlatBufferBuilder builder, StringOffset passowrdOffset) { builder.AddOffset(1, passowrdOffset.Value, 0); }
+  public static void StartSD_SignUp(FlatBufferBuilder builder) { builder.StartTable(3); }
+  public static void AddSessionId(FlatBufferBuilder builder, uint sessionId) { builder.AddUint(0, sessionId, 0); }
+  public static void AddUserId(FlatBufferBuilder builder, StringOffset userIdOffset) { builder.AddOffset(1, userIdOffset.Value, 0); }
+  public static void AddPassowrd(FlatBufferBuilder builder, StringOffset passowrdOffset) { builder.AddOffset(2, passowrdOffset.Value, 0); }
   public static Offset<SD_SignUp> EndSD_SignUp(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<SD_SignUp>(o);
@@ -55,8 +59,9 @@ static public class SD_SignUpVerify
   static public bool Verify(Google.FlatBuffers.Verifier verifier, uint tablePos)
   {
     return verifier.VerifyTableStart(tablePos)
-      && verifier.VerifyString(tablePos, 4 /*UserId*/, false)
-      && verifier.VerifyString(tablePos, 6 /*Passowrd*/, false)
+      && verifier.VerifyField(tablePos, 4 /*SessionId*/, 4 /*uint*/, 4, false)
+      && verifier.VerifyString(tablePos, 6 /*UserId*/, false)
+      && verifier.VerifyString(tablePos, 8 /*Passowrd*/, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

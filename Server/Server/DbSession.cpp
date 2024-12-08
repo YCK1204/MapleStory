@@ -4,14 +4,6 @@
 
 void DbSession::OnConnect()
 {
-	flatbuffers::FlatBufferBuilder builder;
-	auto id = builder.CreateString("test id");
-	auto password = builder.CreateString("test password");
-
-	auto login = CreateS_Login(builder, id, password);
-
-	auto data = Manager::Packet.CreatePacket(login, builder, PacketType_S_Login);
-	Send(data);
 	cout << "DbSession OnConnect\n";
 	Init();
 	RegisterRecv();

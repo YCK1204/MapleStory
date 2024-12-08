@@ -7,7 +7,9 @@ class SessionManager
 {
 private:
 	static SessionManager* _instance;
-	vector<ClientSession*> _sessions;
+	map<uint32, ClientSession*> _sessions;
+	uint32 _curId = 0;
+	USE_LOCK;
 
 private:
 	SessionManager();
@@ -18,5 +20,7 @@ public:
 	static SessionManager& Instance();
 	~SessionManager();
 public:
-
+	void Push(ClientSession* session);
+	ClientSession* Find(uint32 id);
+	void Erase(uint32 id);
 };

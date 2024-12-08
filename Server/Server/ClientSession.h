@@ -1,7 +1,7 @@
 #pragma once
 #include "Session.h"
 
-class ClientSession : PacketSession
+class ClientSession : public PacketSession
 {
 private:
 	void OnConnect() override;

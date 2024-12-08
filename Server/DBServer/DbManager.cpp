@@ -1,8 +1,8 @@
-#include <format>
 #include "pch.h"
 #include "DbManager.h"
 #include "PoolManager.h"
 #include "ThreadPool.h"
+#include "format.h"
 
 DbManager* DbManager::_instance = nullptr;
 
@@ -86,15 +86,6 @@ void DbManager::WaitForEvents()
 
 }
 
-void DbManager::HandleError(SQLHDBC* dbc)
-{
-	SQLWCHAR sql_state[6] = {}, message[1024] = {};
-	SQLSMALLINT msg_len = 0;
-	SQLINTEGER native_error = 0;
-	auto ret = SQLGetDiagRec(SQL_HANDLE_DBC, *dbc, 1, sql_state, &native_error, message, sizeof(message) / sizeof(wchar_t), &msg_len);
-	wcout << "state : " << sql_state << ", message : " << message << endl;
-}
-
 void DbManager::Init(json& j)
 {
 	auto ret = SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &_henv);
@@ -108,9 +99,8 @@ void DbManager::Init(json& j)
 	string password = j["password"];
 	string driver = j["driver"];
 
-	string connectionString = format("DRIVER={{{0}}};SERVER={1};DATABASE={2};UID={3};PWD={4};MULTI_HOST=1;", driver, ip, dbName, uid, password);
+	string connectionString = Utils::format((string)CONNECTION_STRING, { driver, ip, dbName, uid, password });
 
-	cout << connectionString << endl;
 	wstring connectionStringW;
 	connectionStringW.assign(connectionString.begin(), connectionString.end());
 	const wchar_t* str = connectionStringW.c_str();
@@ -166,15 +156,15 @@ void DbManager::RequestAsync(wstring req, function<void(QUERY_REF)> callback)
 				delete stmt;
 			});
 
-		HANDLE* hdbc = nullptr;
+		SQLHDBC* hdbc = nullptr;
 		while (hdbc == nullptr)
-			hdbc = GPoolManager->Pop<HANDLE>();
+			hdbc = GPoolManager->Pop<SQLHDBC>();
 
 		auto ret = SQLAllocHandle(SQL_HANDLE_STMT, *hdbc, stmt.get());
 		if (SQL_SUCCEEDED(ret) == false)
 		{
 			cerr << "Sql Query Gen Failed\n";
-			HandleError(hdbc);
+			HandleError(SQL_HANDLE_DBC, hdbc);
 			return;
 		}
 
@@ -182,6 +172,8 @@ void DbManager::RequestAsync(wstring req, function<void(QUERY_REF)> callback)
 			CloseHandle(*hEvent);
 			delete hEvent;
 			});
+		QUERY_REF queryArgs = make_shared<QueryArgs>(stmt, hEvent, hdbc, callback);
+		queryArgs->_ret = SQLExecDirect(queryArgs->GetStmt(), (SQLWCHAR*)req.c_str(), SQL_NTS);
 #if defined(ASYNC)
 		ret = SQLSetStmtAttr(*stmt.get(), SQL_ATTR_ASYNC_ENABLE, (SQLPOINTER)SQL_ASYNC_ENABLE_ON, SQL_IS_INTEGER);
 		if (SQL_SUCCEEDED(ret) == false)
@@ -197,10 +189,6 @@ void DbManager::RequestAsync(wstring req, function<void(QUERY_REF)> callback)
 			HandleError(hdbc);
 			return;
 		}
-#endif
-		QUERY_REF queryArgs = make_shared<QueryArgs>(stmt, hEvent, hdbc, callback);
-		queryArgs->_ret = SQLExecDirect(queryArgs->GetStmt(), (SQLWCHAR*)req.c_str(), SQL_NTS);
-#if defined(ASYNC)
 		if (queryArgs->_ret != SQL_STILL_EXECUTING) {
 			cerr << "SQLExecDirect Failed\n";
 			return;
@@ -223,7 +211,16 @@ void DbManager::RequestAsync(wstring cmd, wstring table, wstring condition, wstr
 	RequestAsync(req, callback);
 }
 
-DbManager::QueryArgs::QueryArgs(STMT_REF stmt, HANDLE_REF hEvent, HANDLE* hdbc, function<void(QUERY_REF)> callback)
+void DbManager::HandleError(SQLSMALLINT htype, SQLHANDLE* dbc)
+{
+	SQLWCHAR sql_state[6] = {}, message[4096] = {};
+	SQLSMALLINT msg_len = 0;
+	SQLINTEGER native_error = 0;
+	auto ret = SQLGetDiagRec(htype, *dbc, 1, sql_state, &native_error, message, sizeof(message) / sizeof(wchar_t), &msg_len);
+	wcout << "state : " << sql_state << ", message : " << message << endl;
+}
+
+DbManager::QueryArgs::QueryArgs(STMT_REF stmt, HANDLE_REF hEvent, SQLHDBC* hdbc, function<void(QUERY_REF)> callback)
 {
 	_stmt = move(stmt);
 	_hEvent = move(hEvent);

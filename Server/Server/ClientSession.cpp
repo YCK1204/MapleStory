@@ -4,16 +4,16 @@
 
 void ClientSession::OnConnect()
 {
-	
-
 	Init();
 	cout << "connected!" << endl;
 	RegisterRecv();
+	Manager::Session.Push(this);
 }
 
 void ClientSession::OnDisconnect()
 {
 	GPoolManager->Push<ClientSession>(this);
+	Manager::Session.Erase(this->_sessionId);
 	cout << "disconnected!\n";
 }
 
@@ -24,13 +24,4 @@ void ClientSession::OnSend()
 void ClientSession::OnRecvPacket(int32 size, byte* data)
 {
 	Manager::Packet.OnRecvPacket(this, data);
-	/*vector<byte> arr;
-	arr.assign(size, (byte)0);
-	for (int32 i = 0; i < size; i++)
-		arr[i] = data[i];
-	uint16 packetSize = BitConverter::ToUInt16(arr);
-	data += 2;
-	char* str = (char*)data;
-	cout << packetSize << endl;
-	cout << str << endl;*/
 }

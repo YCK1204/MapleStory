@@ -1,6 +1,10 @@
 using System.Collections;
 using UnityEngine;
 
+using System.Security.Cryptography;
+using System.IO;
+using System;
+
 public interface IManager
 {
     void Init();
@@ -25,17 +29,7 @@ public class Manager : BaseMonobehaviour
         _instance = this;
         DontDestroyOnLoad(gameObject);
         Network.Init();
-        StartCoroutine(Coco());
     }
-    IEnumerator Coco()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(1);
-            Network.COco();
-        }
-    }
-
     void Update()
     {
         Network.Update();

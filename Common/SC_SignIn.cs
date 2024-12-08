@@ -16,17 +16,21 @@ public struct SC_SignIn : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public SC_SignIn __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public SignInError Ok { get { int o = __p.__offset(4); return o != 0 ? (SignInError)__p.bb.GetUshort(o + __p.bb_pos) : SignInError.SUCCESS; } }
+  public uint SessionId { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetUint(o + __p.bb_pos) : (uint)0; } }
+  public SignInError Ok { get { int o = __p.__offset(6); return o != 0 ? (SignInError)__p.bb.GetUshort(o + __p.bb_pos) : SignInError.SUCCESS; } }
 
   public static Offset<SC_SignIn> CreateSC_SignIn(FlatBufferBuilder builder,
+      uint session_id = 0,
       SignInError ok = SignInError.SUCCESS) {
-    builder.StartTable(1);
+    builder.StartTable(2);
+    SC_SignIn.AddSessionId(builder, session_id);
     SC_SignIn.AddOk(builder, ok);
     return SC_SignIn.EndSC_SignIn(builder);
   }
 
-  public static void StartSC_SignIn(FlatBufferBuilder builder) { builder.StartTable(1); }
-  public static void AddOk(FlatBufferBuilder builder, SignInError ok) { builder.AddUshort(0, (ushort)ok, 0); }
+  public static void StartSC_SignIn(FlatBufferBuilder builder) { builder.StartTable(2); }
+  public static void AddSessionId(FlatBufferBuilder builder, uint sessionId) { builder.AddUint(0, sessionId, 0); }
+  public static void AddOk(FlatBufferBuilder builder, SignInError ok) { builder.AddUshort(1, (ushort)ok, 0); }
   public static Offset<SC_SignIn> EndSC_SignIn(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<SC_SignIn>(o);
@@ -39,7 +43,8 @@ static public class SC_SignInVerify
   static public bool Verify(Google.FlatBuffers.Verifier verifier, uint tablePos)
   {
     return verifier.VerifyTableStart(tablePos)
-      && verifier.VerifyField(tablePos, 4 /*Ok*/, 2 /*SignInError*/, 2, false)
+      && verifier.VerifyField(tablePos, 4 /*SessionId*/, 4 /*uint*/, 4, false)
+      && verifier.VerifyField(tablePos, 6 /*Ok*/, 2 /*SignInError*/, 2, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

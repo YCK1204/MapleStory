@@ -5,8 +5,16 @@
 public enum PacketType : byte
 {
   NONE = 0,
-  S_Login = 1,
-  D_Login = 2,
+  C_SignUp = 1,
+  SD_SignUp = 2,
+  SC_SignUp = 3,
+  D_SignUp = 4,
+  C_SignIn = 5,
+  SD_SignIn = 6,
+  SC_SignIn = 7,
+  D_SignIn = 8,
+  SC_SignOut = 9,
+  C_SignOut = 10,
 };
 
 
@@ -18,11 +26,35 @@ static public class PacketTypeVerify
     bool result = true;
     switch((PacketType)typeId)
     {
-      case PacketType.S_Login:
-        result = S_LoginVerify.Verify(verifier, tablePos);
+      case PacketType.C_SignUp:
+        result = C_SignUpVerify.Verify(verifier, tablePos);
         break;
-      case PacketType.D_Login:
-        result = D_LoginVerify.Verify(verifier, tablePos);
+      case PacketType.SD_SignUp:
+        result = SD_SignUpVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_SignUp:
+        result = SC_SignUpVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.D_SignUp:
+        result = D_SignUpVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.C_SignIn:
+        result = C_SignInVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SD_SignIn:
+        result = SD_SignInVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_SignIn:
+        result = SC_SignInVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.D_SignIn:
+        result = D_SignInVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_SignOut:
+        result = SC_SignOutVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.C_SignOut:
+        result = C_SignOutVerify.Verify(verifier, tablePos);
         break;
       default: result = true;
         break;

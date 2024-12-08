@@ -29,7 +29,6 @@ void PacketManager::Register()
 		_handler[PacketType::PacketType_C_SignIn] = PacketHandler::C_SignInHandler;
 		_handler[PacketType::PacketType_D_SignIn] = PacketHandler::D_SignInHandler;
 		_handler[PacketType::PacketType_C_SignOut] = PacketHandler::C_SignOutHandler;
-		_handler[PacketType::PacketType_C_Connect] = PacketHandler::C_ConnectHandler;
 		
 }
 

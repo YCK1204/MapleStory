@@ -2,9 +2,10 @@
 
 #include "PacketManager.h"
 #include "DbManager.h"
+#include "ServerSession.h"
 
 #ifndef COMMON_JSON_PATH
-	#define COMMON_JSON_PATH "../../Common/json/Data/"
+	#define COMMON_JSON_PATH "../../Data/"
 #endif
 
 class Manager
@@ -12,7 +13,8 @@ class Manager
 private:
 	Manager();
 
-private:
+public:
+	static ServerSession* session;
 
 public:
 	static PacketManager& Packet;

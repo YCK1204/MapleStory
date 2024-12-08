@@ -11,6 +11,8 @@ using json = nlohmann::json;
 
 #define SYNC
 
+#define CONNECTION_STRING "DRIVER={{0}};SERVER={1};DATABASE={2};UID={3};PWD={4};MULTI_HOST=1;"
+
 class DbManager
 {
 public:
@@ -26,16 +28,16 @@ public:
 	private:
 		STMT_REF _stmt;
 		HANDLE_REF _hEvent;
-		HANDLE* _hdbc;
+		SQLHDBC* _hdbc;
 		function<void(QUERY_REF)> _callback;
 	public:
 		SQLRETURN _ret;
 		QueryArgs() = delete;
-		//QueryArgs(STMT_REF& stmt, HANDLE_REF& hEvent, HANDLE* hdbc, function<void(QUERY_REF)> callback = nullptr) : _stmt(stmt), _hEvent(hEvent), _hdbc(hdbc), _callback(move(callback)) {}
-		QueryArgs(STMT_REF stmt, HANDLE_REF hEvent, HANDLE* hdbc, function<void(QUERY_REF)> callback);
-		virtual ~QueryArgs() { GPoolManager->Push<HANDLE>(_hdbc); }
+		QueryArgs(STMT_REF stmt, HANDLE_REF hEvent, SQLHDBC* hdbc, function<void(QUERY_REF)> callback);
+		virtual ~QueryArgs() { GPoolManager->Push<SQLHDBC>(_hdbc); }
 		const HANDLE& GetHandle() const { return *_hEvent.get(); }
 		const SQLHSTMT& GetStmt() const { return *_stmt.get(); }
+		const SQLHDBC& GetHdbc() const { return *_hdbc; }
 		function<void(QUERY_REF)> GetCallBack() { return _callback; }
 	};
 
@@ -53,10 +55,10 @@ public:
 private:
 	DbManager();
 	void WaitForEvents();
-	void HandleError(SQLHDBC* dbc);
 
 public:
 	void Init(json& j);
 	void RequestAsync(wstring req, function<void(QUERY_REF)> callback);
 	void RequestAsync(wstring cmd, wstring table, wstring condition, wstring order, function<void(QUERY_REF)> callback);
+	void HandleError(SQLSMALLINT htype, SQLHANDLE* dbc);
 };

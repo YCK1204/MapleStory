@@ -5,10 +5,7 @@
 public enum SignUpError : ushort
 {
   SUCCESS = 0,
-  INVALID_PATTERN = 1,
-  INVALID_CHAR = 2,
-  INVALID_LENGTH = 3,
-  OVERLAPPED_USERID = 4,
-  UNKNOWN = 5,
+  OVERLAPPED_USERID = 1,
+  UNKNOWN = 2,
 };
 

@@ -4,7 +4,7 @@
 #include "SessionManager.h"
 
 #ifndef COMMON_JSON_PATH
-	#define COMMON_JSON_PATH "../../Common/json/Data/"
+	#define COMMON_JSON_PATH "../../Data/"
 #endif
 
 class Manager
