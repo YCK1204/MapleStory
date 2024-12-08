@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)ServerCore\;$(SolutionDir)\..\Common\json\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)ServerCore\;$(SolutionDir)\..\Common\json\include;$(SolutionDir)Lib\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Lib\;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
   </PropertyGroup>

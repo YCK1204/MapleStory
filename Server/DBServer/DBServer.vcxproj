@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Program Files\MySQL\MySQL Server 8.0\include;$(SolutionDir)ServerCore\;$(SolutionDir)\..\Common\json\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Program Files\MySQL\MySQL Server 8.0\include;$(SolutionDir)ServerCore\;$(SolutionDir)Lib\;$(SolutionDir)\..\Common\json\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files\MySQL\MySQL Server 8.0\lib;$(SolutionDir)Lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
