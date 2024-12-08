@@ -38,6 +38,26 @@ void Session::SetAddress(sockaddr_in& addr)
 	_addr = addr;
 }
 
+void Session::SetSessionId(uint32 id)
+{
+	_sessionId = id;
+}
+
+const int Session::GetSessionId() const
+{
+	return _sessionId;
+}
+
+void Session::SetDbId(uint32 id)
+{
+	_dbId = id;
+}
+
+const int Session::GetDbId() const
+{
+	return _dbId;
+}
+
 HANDLE Session::GetHandle()
 {
 	return reinterpret_cast<HANDLE>(_socket);

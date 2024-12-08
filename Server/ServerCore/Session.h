@@ -18,6 +18,11 @@ public:
 	SOCKET GetSocket();
 	sockaddr_in& GetAddress();
 	void SetAddress(sockaddr_in& addr);
+	void SetSessionId(uint32 id);
+	const int GetSessionId() const;
+	void SetDbId(uint32 id);
+	const int GetDbId() const;
+
 public:
 	virtual HANDLE GetHandle() override;
 	virtual void Dispatch(class IocpEvent* iocpEvent, int32 numOfBytes) override;
@@ -57,6 +62,8 @@ protected:
 	SOCKET _socket = INVALID_SOCKET;
 	sockaddr_in _addr = {};
 	RecvBuffer _recvBuffer;
+	uint32 _sessionId;
+	uint32 _dbId;
 
 private:
 	RecvEvent* _recvEvent;
