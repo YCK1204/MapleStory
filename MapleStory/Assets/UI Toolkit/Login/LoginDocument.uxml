@@ -1,21 +1,18 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/Login/LoginStyle.uss?fileID=7433441132597879392&amp;guid=456d039d128ff1b479daf6c92a7a6701&amp;type=3#LoginStyle" />
-    <engine:VisualElement name="BG" style="flex-grow: 1; background-image: resource(&apos;Imgs/Login/Background&apos;);">
-        <engine:VisualElement name="Img-GameGrade" style="position: absolute; background-image: resource(&apos;Imgs/Login/GameGrade_1&apos;); width: 125px; height: 125px; right: 7.5%; top: 1%;" />
-        <engine:VisualElement name="Container-MainInput" style="width: 23%; height: 30%; position: absolute; bottom: 28%; right: 27%;">
-            <engine:Button name="Button-SignIn" class="Button-Base" style="position: absolute; top: 24%; right: 8%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; background-color: rgba(188, 188, 188, 0); background-image: resource(&apos;Imgs/Login/Login&apos;); width: 20%; height: 15%;" />
-            <engine:Button name="Button-GameExit" class="Button-Base" style="position: absolute; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; background-color: rgba(188, 188, 188, 0); background-image: resource(&apos;Imgs/Login/Exit&apos;); width: 20%; height: 15%; bottom: 12%; right: 9%;" />
-            <engine:Button name="Button-SignUp" class="Button-Base" style="position: absolute; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; background-color: rgba(188, 188, 188, 0); background-image: resource(&apos;Imgs/Login/SignUp&apos;); width: 20%; height: 15%; bottom: 12%; left: 7%;" />
-            <engine:TextField name="TextField-Id" style="width: 45%; height: 11%; position: absolute; top: 20%; left: 20%; font-size: 28px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
-            <engine:TextField name="TextField-Password" password="true" mask-character="●" style="width: 45%; height: 11%; position: absolute; top: 32.5%; left: 20%; font-size: 28px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
+    <engine:VisualElement name="BG" style="flex-grow: 1; background-image: resource(&apos;Imgs/Login/배경&apos;);">
+        <engine:VisualElement name="Container-MainInput" style="width: 557px; height: 370px; position: absolute; bottom: 146px; right: 405px;">
+            <engine:Button name="Button-SignIn" class="Button_Login-Base" style="position: absolute; top: 61px; right: 29px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; background-color: rgba(188, 188, 188, 0); background-image: resource(&apos;Imgs/Login/Button/Login_Bt-Signin&apos;); width: 20%; height: 15%;" />
+            <engine:Button name="Button-SignUp" class="Button_Login-Base" style="position: absolute; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; background-color: rgba(188, 188, 188, 0); background-image: resource(&apos;Imgs/Login/Button/Login_Bt-SignUp&apos;); width: 25%; height: 20%; bottom: 27px; align-self: center; left: 10%;" />
+            <engine:Button name="Button-Exit" class="Button_Login-Base" style="position: absolute; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; background-color: rgba(188, 188, 188, 0); background-image: resource(&apos;Imgs/Login/Button/Login_Bt-Exit&apos;); width: 25%; height: 20%; align-self: center; bottom: 29px; right: 10%;" />
+            <engine:TextField name="TextField-Id" style="width: 265px; height: 48px; position: absolute; top: 35px; left: 109px; font-size: 28px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
+            <engine:TextField name="TextField-Password" password="true" mask-character="●" style="width: 265px; height: 48px; position: absolute; top: 92px; left: 110px; font-size: 28px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
         </engine:VisualElement>
-        <engine:VisualElement name="Container-Popup" class="Popup-Show Popup-Hide">
-            <engine:VisualElement name="Img-PopupBackground" class="PopupBG-Normal" />
+        <engine:VisualElement name="Container-Popup" class="Popup-Show Popup-Hide" style="position: absolute; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+            <engine:Button name="Button-GameExit" class="Button-GameExit" />
+            <engine:Button name="Button-Ok" class="Button-Ok" />
+            <engine:Button name="Button-No" class="Button-No" />
             <engine:VisualElement name="Img-Loading" style="position: absolute; align-self: center; width: 150px; height: 150px; background-image: resource(&apos;Imgs/Login/Notice/Loading/Notice.Loading.circle.0&apos;); top: 27%; display: none;" />
-            <engine:VisualElement name="Img-PopupText" />
-            <engine:Button name="Button-PopupOk" class="Button-Ok" />
-            <engine:Button name="Button-PopupYes" class="Button-Yes" />
-            <engine:Button name="Button-PopupNo" class="Button-No" />
         </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>

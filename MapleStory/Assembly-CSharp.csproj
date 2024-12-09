@@ -89,7 +89,6 @@
     <Compile Include="Assets\Scripts\FlatBuffer\SD_SignUp.cs" />
     <Compile Include="Assets\Scripts\Managers\Manager.cs" />
     <Compile Include="Assets\Scripts\Session\ServerSession.cs" />
-    <Compile Include="Assets\Scripts\Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\UI Toolkit\Login\LoginDocument.uxml" />

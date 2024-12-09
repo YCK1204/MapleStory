@@ -70,4 +70,20 @@ public class UIBaseController : BaseMonobehaviour
         _audioSource.clip = DefaultOnMouseClickAudio;
         _audioSource.Play();
     }
+    protected void AddClassToHierarchy(VisualElement e, string className)
+    {
+        e.AddToClassList(className);
+        foreach (var child in e.Children())
+        {
+            AddClassToHierarchy(child, className);
+        }
+    }
+    protected void RemoveClassToHierarchy(VisualElement e, string className)
+    {
+        e.RemoveFromClassList(className);
+        foreach (var child in e.Children())
+        {
+            RemoveClassToHierarchy(child, className);
+        }
+    }
 }

@@ -32,11 +32,9 @@ public class UILoginController : UIBaseController
     struct Popup
     {
         public VisualElement Container;
-        public VisualElement BG;
         public VisualElement Loading;
-        public VisualElement Text;
         public Button Ok;
-        public Button Yes;
+        public Button Exit;
         public Button No;
     }
     PopupState _state;
@@ -47,22 +45,10 @@ public class UILoginController : UIBaseController
         {
             _state = value;
 
-            // 상황별 팝업 문자 이미지 전환
-            {
-                _popup.BG.ClearClassList();
-                _popup.Text.ClearClassList();
-                string bgState = "Normal";
-                string textState = _state.ToString();
-                if (_state <= PopupState.InputPattern)
-                    bgState = "Crash";
-                _popup.BG.AddToClassList($"PopupBG-{bgState}");
-                _popup.Text.AddToClassList($"PopupText-{textState}");
-                _popup.Container.RemoveFromClassList("Popup-Hide");
-            }
             // 버튼 상황별 숨기기
             {
                 _popup.Ok.style.visibility = Visibility.Hidden;
-                _popup.Yes.style.visibility = Visibility.Hidden;
+                _popup.Exit.style.visibility = Visibility.Hidden;
                 _popup.No.style.visibility = Visibility.Hidden;
 
                 if (_state < PopupState.GameExit)
@@ -71,13 +57,22 @@ public class UILoginController : UIBaseController
                 }
                 else if (_state == PopupState.GameExit)
                 {
-                    _popup.Yes.style.visibility = Visibility.Visible;
+                    _popup.Exit.style.visibility = Visibility.Visible;
                     _popup.No.style.visibility = Visibility.Visible;
                 }
             }
+
+            // 상황별 팝업 문자 이미지 전환
+            {
+                string textState = _state.ToString();
+
+                _popup.Container.ClearClassList();
+                _popup.Container.AddToClassList("Popup-Show");
+                _popup.Container.AddToClassList($"PopupText-{textState}");
+                _popup.Container.RemoveFromClassList("Popup-Hide");
+            }
         }
     }
-
     protected override void Init()
     {
         base.Init();
@@ -89,18 +84,19 @@ public class UILoginController : UIBaseController
         {
             _buttons["SignIn"].RegisterCallback<ClickEvent>(ClickSignInBtn);
             _buttons["SignUp"].RegisterCallback<ClickEvent>(ClickSignUpBtn);
-            _buttons["GameExit"].RegisterCallback<ClickEvent>(ClickGameExitBtn);
+            _buttons["Exit"].RegisterCallback<ClickEvent>(ClickGameExitBtn);
         }
         {
             _popup.Container = _containers["Popup"];
-            _popup.BG = _imgs["PopupBackground"];
             _popup.Loading = _imgs["Loading"];
-            _popup.Text = _imgs["PopupText"];
-            _popup.Ok = _buttons["PopupOk"];
-            _popup.Yes = _buttons["PopupYes"];
-            _popup.No = _buttons["PopupNo"];
-            _popup.Ok.RegisterCallback<ClickEvent>((e) => { _popup.Container.AddToClassList("Popup-Hide"); });
-            _popup.Yes.RegisterCallback<ClickEvent>((e) =>
+            _popup.Ok = _buttons["Ok"];
+            _popup.Exit = _buttons["GameExit"];
+            _popup.No = _buttons["No"];
+            _popup.Ok.RegisterCallback<ClickEvent>((e) =>
+            {
+                _popup.Container.AddToClassList("Popup-Hide");
+            });
+            _popup.Exit.RegisterCallback<ClickEvent>((e) =>
             {
                 if (_state == PopupState.GameExit)
                 {
@@ -111,7 +107,10 @@ public class UILoginController : UIBaseController
 #endif
                 }
             });
-            _popup.No.RegisterCallback<ClickEvent>((e) => { _popup.Container.AddToClassList("Popup-Hide"); });
+            _popup.No.RegisterCallback<ClickEvent>((e) =>
+            {
+                _popup.Container.AddToClassList("Popup-Hide");
+            });
         }
     }
     private void BaseSignBtn<T>(PacketType type, Func<FlatBufferBuilder, StringOffset, StringOffset, Offset<T>> create) where T : struct, IFlatbufferObject
@@ -150,7 +149,7 @@ public class UILoginController : UIBaseController
     {
         State = PopupState.GameExit;
     }
-    public void OnRecvPacket<T>(T pkt)  where T : struct, IFlatbufferObject
+    public void OnRecvPacket<T>(T pkt) where T : struct, IFlatbufferObject
     {
         if (pkt is SC_SignUp signUp)
         {

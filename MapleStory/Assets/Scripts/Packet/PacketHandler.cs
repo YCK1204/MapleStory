@@ -8,7 +8,7 @@ public class PacketHandler
 {
     public static void SC_SignInHandler(PacketSession session, ByteBuffer buffer)
     {
-        var pkt = SC_SignUp.GetRootAsSC_SignUp(buffer);
+        var pkt = SC_SignIn.GetRootAsSC_SignIn(buffer);
         Manager.Scene.CurScene.OnRecvPacket<SC_SignIn>(pkt);
     }
     public static void SC_SignOutHandler(PacketSession session, ByteBuffer buffer)

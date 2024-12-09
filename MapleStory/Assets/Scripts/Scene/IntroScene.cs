@@ -38,7 +38,7 @@ public class IntroScene : BaseScene
         }
 
         a = 1f;
-
+        img.color = new Color(1, 1, 1, a);
         yield return new WaitForSeconds(2f);
 
         while (true)
@@ -49,6 +49,9 @@ public class IntroScene : BaseScene
             a -= .05f;
             yield return new WaitForSeconds(tick);
         }
+
+        a = 0;
+        img.color = new Color(1, 1, 1, a);
         Manager.Scene.LoadScene("Login");
         StopCoroutine(CoStartIntro());
     }
