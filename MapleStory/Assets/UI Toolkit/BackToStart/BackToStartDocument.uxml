@@ -1,0 +1,7 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/BackToStart/BackToStartStyle.uss?fileID=7433441132597879392&amp;guid=b291935d08538944fa49ecbc8dc7b45f&amp;type=3#BackToStartStyle" />
+    <engine:VisualElement name="Container-BackAndBackToStart" style="flex-grow: 0; position: absolute; width: 8%; height: 15%; bottom: 5%; justify-content: space-around;">
+        <engine:Button name="Button-BackToStart" class="Button-Base Button-BackToStart" />
+        <engine:Button name="Button-Back" class="Button-Base Button-Back" />
+    </engine:VisualElement>
+</engine:UXML>
