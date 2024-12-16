@@ -1,0 +1,152 @@
+.Button-Base {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+}
+
+.Button-Scania {
+    background-image: resource('Imgs/WorldSelectTitle/Button/WorldSelect_Bt-ScaniaNormal');
+    width: 100%;
+}
+
+.Button-Scania:hover {
+    background-image: resource('Imgs/WorldSelectTitle/Button/WorldSelect_Bt-ScaniaOver');
+    width: 100%;
+}
+
+.Button-Scania:active {
+    background-image: resource('Imgs/WorldSelectTitle/Button/WorldSelect_Bt-ScaniaPressed');
+    width: 100%;
+}
+
+.Button-Luna {
+    background-image: resource('Imgs/WorldSelectTitle/Button/WorldSelect_Bt-LunaNormal');
+    width: 100%;
+}
+
+.Button-Luna:hover {
+    background-image: resource('Imgs/WorldSelectTitle/Button/WorldSelect_Bt-LunaOver');
+    width: 100%;
+}
+
+.Button-Luna:active {
+    background-image: resource('Imgs/WorldSelectTitle/Button/WorldSelect_Bt-LunaPressed');
+    width: 100%;
+}
+
+.Button-GoToSelectedChannel {
+    position: absolute;
+    right: 4.75%;
+    background-image: resource('Imgs/WorldSelectTitle/Button/WorldSelect_Bt-GoToSelectedChannelNormal');
+    width: 256px;
+    height: 57px;
+    top: 8.5%;
+    background-color: rgba(188, 188, 188, 0);
+}
+
+.Button-GoToSelectedChannel:hover {
+    position: absolute;
+    right: 4.75%;
+    background-image: resource('Imgs/WorldSelectTitle/Button/WorldSelect_Bt-GoToSelectedChannelOver');
+    width: 256px;
+    height: 57px;
+    top: 8.5%;
+    background-color: rgba(188, 188, 188, 0);
+}
+
+.Button-GoToSelectedChannel:active {
+    position: absolute;
+    right: 4.75%;
+    background-image: resource('Imgs/WorldSelectTitle/Button/WorldSelect_Bt-GoToSelectedChannelPressed');
+    width: 256px;
+    height: 57px;
+    top: 8.5%;
+    background-color: rgba(188, 188, 188, 0);
+}
+
+.ServerTitle-Scania {
+    background-image: resource('Imgs/WorldSelectTitle/scania');
+    width: 31%;
+    height: 13%;
+}
+
+.ServerTitle-Luna {
+    background-image: resource('Imgs/WorldSelectTitle/luna');
+    height: 13%;
+    width: 20%;
+}
+
+.Button-Channel1 {
+    background-image: resource('Imgs/WorldSelectTitle/WorldSelect_Bt-Channel1Normal');
+}
+
+.Button-Channel1:focus {
+    background-image: resource('Imgs/WorldSelectTitle/WorldSelect_Bt-Channel1Over');
+}
+
+.Button-Channel2 {
+    background-image: resource('Imgs/WorldSelectTitle/WorldSelect_Bt-Channel2Normal');
+}
+
+.Button-Channel2:focus {
+    background-image: resource('Imgs/WorldSelectTitle/WorldSelect_Bt-Channel2Over');
+}
+
+.Button-Channel {
+    width: 19.25%;
+    height: 45px;
+    background-color: rgba(188, 188, 188, 0);
+    margin-top: 2.5px;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0.75%;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.unity-slider__label {
+    display: none;
+}
+
+.unity-base-slider__dragger {
+    display: none;
+}
+
+.unity-base-slider__tracker {
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+}
+
+#Container-ChannelSelect .unity-scroll-view__content-container {
+    flex-direction: row;
+}
+
+.unity-base-slider__fill {
+    background-image: resource('Imgs/WorldSelectTitle/WorldSelect.BtChannel.gauge');
+    height: 11px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.Slider-ChannelGuage {
+    margin-top: 17px;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 7%;
+    width: 85%;
+}
