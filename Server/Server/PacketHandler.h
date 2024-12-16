@@ -9,4 +9,6 @@ public:
 	static void C_SignInHandler(PacketSession* session, ByteRef& buffer);
 	static void D_SignInHandler(PacketSession* session, ByteRef& buffer);
 	static void C_SignOutHandler(PacketSession* session, ByteRef& buffer);
+	static void C_EnterChannelHandler(PacketSession* session, ByteRef& buffer);
+	static void C_ChannelInfoHandler(PacketSession* session, ByteRef& buffer);
 };

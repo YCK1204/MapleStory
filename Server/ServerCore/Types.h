@@ -31,3 +31,10 @@ using UInt16Ref = shared_ptr<BaseRef<uint16>>;
 using UInt32Ref = shared_ptr<BaseRef<uint32>>;
 using UInt64Ref = shared_ptr<BaseRef<uint64>>;
 using ByteRef = shared_ptr<BaseRef<std::byte>>;
+
+using GameObjectRef = shared_ptr<class GameObject>;
+using GameRoomRef = shared_ptr<class GameRoom>;
+using PlayerRef = shared_ptr<class Player>;
+
+using ChannelRef = shared_ptr<class Channel>;
+using ServerRef = shared_ptr<class Server>;

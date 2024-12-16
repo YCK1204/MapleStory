@@ -5,27 +5,27 @@
 
 PacketManager& Manager::Packet = PacketManager::Instance();
 SessionManager& Manager::Session = SessionManager::Instance();
+RoomManager& Manager::Room = RoomManager::Instance();
+ServerManager& Manager::Server = ServerManager::Instance();
 
 void Manager::Init() {
-	string portJsonPath = COMMON_JSON_PATH + (string)"port.json";
-	ifstream portJson(portJsonPath);
-
-	ASSERT_CRASH(portJson.is_open());
-
-	json j = json::parse(portJson);
-	// ------------- db연결 --------------
+#pragma region DB 연결
 	{
+		string portJsonPath = COMMON_JSON_PATH + (string)"port.json";
+		ifstream portJson(portJsonPath);
+
+		ASSERT_CRASH(portJson.is_open());
+
+		json j = json::parse(portJson);
 		sockaddr_in dbAddr;
 		::memset(&dbAddr, 0, sizeof(dbAddr));
 		dbAddr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
 		dbAddr.sin_port = htons(::atoi(j["server_to_db"].dump().c_str()));
 		dbAddr.sin_family = AF_INET;
 		Manager::Session.dbSession->Connect(dbAddr);
-	}
-	// ------------- db연결 --------------
+#pragma endregion
 
-	// ------------- Listen ---------------
-	{
+#pragma region Listen
 		GPoolManager->CreatePool<ClientSession>(500);
 		Listener* listener = new Listener();
 
@@ -41,5 +41,17 @@ void Manager::Init() {
 		}
 		cout << "Listening...\n";
 	}
-	// ------------- Listen ---------------
+#pragma endregion
+
+#pragma region Server
+	{
+		string serverJsonPath = COMMON_JSON_PATH + (string)"server.json";
+		ifstream serverJson(serverJsonPath);
+
+		ASSERT_CRASH(serverJson.is_open());
+		json j = json::parse(serverJson);
+		Server.Init(j);
+		serverJson.close();
+	}
+#pragma endregion
 }

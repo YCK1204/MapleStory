@@ -10,6 +10,21 @@
     <Filter Include="Managers">
       <UniqueIdentifier>{879be0e8-e45e-46e2-ba1e-846441776e66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{f8056489-b864-45c7-8071-33fbb1834562}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameServer">
+      <UniqueIdentifier>{631f22cd-317f-4fb1-976c-7a85247c672b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameServer\Room">
+      <UniqueIdentifier>{3f49e61c-0182-409e-abb3-19ca9c7f683d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameServer\Channel">
+      <UniqueIdentifier>{b99210f8-1bc7-4d9c-9329-4b3340a6d28b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameServer\Server">
+      <UniqueIdentifier>{46eaf1c9-4d53-4247-955b-566bb47cacb2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -31,6 +46,30 @@
     </ClCompile>
     <ClCompile Include="SessionManager.cpp">
       <Filter>Session</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Creature.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GameRoom.cpp">
+      <Filter>GameServer\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomManager.cpp">
+      <Filter>GameServer\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="Channel.cpp">
+      <Filter>GameServer\Channel</Filter>
+    </ClCompile>
+    <ClCompile Include="Server.cpp">
+      <Filter>GameServer\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerManager.cpp">
+      <Filter>GameServer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +94,30 @@
     </ClInclude>
     <ClInclude Include="SessionManager.h">
       <Filter>Session</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Creature.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="GameRoom.h">
+      <Filter>GameServer\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomManager.h">
+      <Filter>GameServer\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="Channel.h">
+      <Filter>GameServer\Channel</Filter>
+    </ClInclude>
+    <ClInclude Include="Server.h">
+      <Filter>GameServer\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerManager.h">
+      <Filter>GameServer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

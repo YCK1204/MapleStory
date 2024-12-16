@@ -61,13 +61,18 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_ChannelInfo.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\EnterChannelError.cs" />
     <Compile Include="Assets\Scripts\Utils\Extension.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_SignUp.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_SignUp.cs" />
     <Compile Include="Assets\Scripts\Scene\BaseScene.cs" />
+    <Compile Include="Assets\UI Toolkit\WorldSelect\UIWorldSelectController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_SignOut.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_EnterChannel.cs" />
     <Compile Include="Assets\Scripts\Utils\Util.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SignInError.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\ChannelInfo.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SignUpError.cs" />
     <Compile Include="Assets\Scripts\Managers\NetworkManager.cs" />
     <Compile Include="Assets\Scripts\Utils\BaseMonobehaviour.cs" />
@@ -77,13 +82,19 @@
     <Compile Include="Assets\Scripts\Scene\LoginScene.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_SignIn.cs" />
     <Compile Include="Assets\Scripts\Scene\IntroScene.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_EnterChannel.cs" />
     <Compile Include="Assets\Scripts\Packet\PacketManager.cs" />
     <Compile Include="Assets\UI Toolkit\Login\UILoginController.cs" />
+    <Compile Include="Assets\UI Toolkit\BackToStart\UIBackToStartController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_SignUp.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_SignIn.cs" />
+    <Compile Include="Assets\UI Toolkit\Notice\UINoticeController.cs" />
     <Compile Include="Assets\UI Toolkit\UIBaseController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\PacketType.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\ServerInfo.cs" />
     <Compile Include="Assets\Scripts\Packet\PacketHandler.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_ChannelInfo.cs" />
+    <Compile Include="Assets\Scripts\Scene\WorldSelectScene.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_SignIn.cs" />
     <Compile Include="Assets\Scripts\Managers\ResourceManager.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_SignUp.cs" />
@@ -91,10 +102,17 @@
     <Compile Include="Assets\Scripts\Session\ServerSession.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\DLL\Newtonsoft.Json.dll" />
+    <None Include="Assets\UI Toolkit\WorldSelect\WorldSelectStyle.uss" />
+    <None Include="Assets\UI Toolkit\BackToStart\BackToStartStyle.uss" />
     <None Include="Assets\UI Toolkit\Login\LoginDocument.uxml" />
     <None Include="Assets\UI Toolkit\Login\LoginStyle.uss" />
+    <None Include="Assets\UI Toolkit\Notice\NoticeDocument.uxml" />
     <None Include="Assets\DLL\Google.FlatBuffers.dll" />
     <None Include="Assets\DLL\ServerCore.dll" />
+    <None Include="Assets\UI Toolkit\Notice\NoticeStyle.uss" />
+    <None Include="Assets\UI Toolkit\WorldSelect\WorldSelectDocument.uxml" />
+    <None Include="Assets\UI Toolkit\BackToStart\BackToStartDocument.uxml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -567,6 +585,10 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Assets\DLL\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Google.FlatBuffers">

@@ -25,3 +25,13 @@ void ClientSession::OnRecvPacket(int32 size, byte* data)
 {
 	Manager::Packet.OnRecvPacket(this, data);
 }
+
+Player* ClientSession::GetPlayer() const
+{
+	return _player.get();
+}
+
+void ClientSession::SetPlayer()
+{
+	_player = shared_ptr<Player>(new Player());
+}

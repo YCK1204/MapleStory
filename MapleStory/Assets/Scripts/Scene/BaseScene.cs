@@ -5,16 +5,19 @@ using UnityEngine.UIElements;
 
 public abstract class BaseScene : BaseMonobehaviour
 {
-    protected GameObject UIControllers;
-
+    public GameObject UIControllers;
+    public string PrevSceneName;
+    private void Awake()
+    {
+        UIControllers = GameObject.Find("@UIControllers");
+        Manager.Scene.CurScene = this;
+    }
     private void Start()
     {
         Init();
     }
     protected virtual void Init()
     {
-        Manager.Scene.CurScene = this;
-        UIControllers = GameObject.Find("@UIControllers");
     }
 
     protected virtual void Clear()

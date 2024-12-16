@@ -1,0 +1,30 @@
+{
+	 "servers" : [
+		{
+			"id":0,
+			"name":"Scania",
+			"max_user_count":100,
+			"channels":[
+				{
+					"id":0
+				},
+				{
+					"id":1
+				}
+			]
+		},
+		{
+			"id":1,
+			"name":"Luna",
+			"max_user_count":10,
+			"channels":[
+				{
+					"id":0
+				},
+				{
+					"id":1
+				}
+			]
+		}
+	]
+}

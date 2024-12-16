@@ -1,4 +1,5 @@
 include "Sign.fbs";
+include "WorldSelect.fbs";
 
 union PacketType {
 // ------------------- Sign -----------------
@@ -15,4 +16,10 @@ union PacketType {
 	SC_SignOut,
 	C_SignOut,
 // ------------------- Sign -----------------
+// ------------------- WorldSelect -----------------
+	C_EnterChannel,
+	SC_EnterChannel,
+	C_ChannelInfo,
+	SC_ChannelInfo,
+// ------------------- WorldSelect -----------------
 }

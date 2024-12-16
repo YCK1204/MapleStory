@@ -1,0 +1,605 @@
+fileFormatVersion: 2
+guid: b57696fe84213984bad0a6c2b5513755
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7753805792602475293
+    second: RaceSelect_new.Back2.12.0_0
+  - first:
+      213: -320932989269914878
+    second: RaceSelect_new.Back2.12.0_1
+  - first:
+      213: 5601130297670281974
+    second: RaceSelect_new.Back2.12.0_2
+  - first:
+      213: 6712006228227174567
+    second: RaceSelect_new.Back2.12.0_3
+  - first:
+      213: 5772386904992280220
+    second: RaceSelect_new.Back2.12.0_4
+  - first:
+      213: 7781106975215109905
+    second: RaceSelect_new.Back2.12.0_5
+  - first:
+      213: 7310921130585513503
+    second: RaceSelect_new.Back2.12.0_6
+  - first:
+      213: 7686575675979104964
+    second: RaceSelect_new.Back2.12.0_7
+  - first:
+      213: 6727619774602555265
+    second: RaceSelect_new.Back2.12.0_8
+  - first:
+      213: -1757439985653352576
+    second: RaceSelect_new.Back2.12.0_9
+  - first:
+      213: 728478840668262954
+    second: RaceSelect_new.Back2.12.0_10
+  - first:
+      213: 1486196058472785235
+    second: RaceSelect_new.Back2.12.0_11
+  - first:
+      213: -4984298501704536998
+    second: RaceSelect_new.Back2.12.0_12
+  - first:
+      213: 6545664014024725154
+    second: RaceSelect_new.Back2.12.0_13
+  - first:
+      213: -1031428674265336623
+    second: RaceSelect_new.Back2.12.0_14
+  - first:
+      213: -8240984653586110856
+    second: RaceSelect_new.Back2.12.0_15
+  - first:
+      213: 7732289369757963696
+    second: RaceSelect_new.Back2.12.0_16
+  - first:
+      213: -1389037947851505047
+    second: RaceSelect_new.Back2.12.0_17
+  - first:
+      213: -5255956337436154958
+    second: RaceSelect_new.Back2.12.0_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: RaceSelect_new.Back2.12.0_0
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 249
+        width: 85
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e4309a86b2f46490800000000000000
+      internalID: -7753805792602475293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RaceSelect_new.Back2.12.0_1
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 255
+        width: 84
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20bccd98521db8bf0800000000000000
+      internalID: -320932989269914878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RaceSelect_new.Back2.12.0_2
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 230
+        width: 51
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6faa05564563bbd40800000000000000
+      internalID: 5601130297670281974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RaceSelect_new.Back2.12.0_3
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 233
+        width: 46
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a0b0b35a16d52d50800000000000000
+      internalID: 6712006228227174567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RaceSelect_new.Back2.12.0_4
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 150
+        width: 274
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9e6e228e43ab1050800000000000000
+      internalID: 5772386904992280220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RaceSelect_new.Back2.12.0_5
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 92
+        width: 281
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 117c201619b0cfb60800000000000000
+      internalID: 7781106975215109905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RaceSelect_new.Back2.12.0_6
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 0
+        width: 46
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1e5279880c957560800000000000000
+      internalID: 7310921130585513503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RaceSelect_new.Back2.12.0_7
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 62
+        width: 24
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c284e12ad33caa60800000000000000
+      internalID: 7686575675979104964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RaceSelect_new.Back2.12.0_8
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 66
+        width: 126
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18f24116a8e4d5d50800000000000000
+      internalID: 6727619774602555265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RaceSelect_new.Back2.12.0_9
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 62
+        width: 24
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0877015f4a15c97e0800000000000000
+      internalID: -1757439985653352576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RaceSelect_new.Back2.12.0_10
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 42
+        width: 24
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a229b6c55a31c1a00800000000000000
+      internalID: 728478840668262954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RaceSelect_new.Back2.12.0_11
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 46
+        width: 126
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3552bd3e07700a410800000000000000
+      internalID: 1486196058472785235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RaceSelect_new.Back2.12.0_12
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 42
+        width: 24
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5ca36fabe634dab0800000000000000
+      internalID: -4984298501704536998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RaceSelect_new.Back2.12.0_13
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 22
+        width: 24
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a250078dbed6da50800000000000000
+      internalID: 6545664014024725154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RaceSelect_new.Back2.12.0_14
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 26
+        width: 126
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d43343e511afa1f0800000000000000
+      internalID: -1031428674265336623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RaceSelect_new.Back2.12.0_15
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 22
+        width: 25
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 876ed83ce1422ad80800000000000000
+      internalID: -8240984653586110856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RaceSelect_new.Back2.12.0_16
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 2
+        width: 24
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b5d3f0e63c9e4b60800000000000000
+      internalID: 7732289369757963696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RaceSelect_new.Back2.12.0_17
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 6
+        width: 126
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96206ca885529bce0800000000000000
+      internalID: -1389037947851505047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RaceSelect_new.Back2.12.0_18
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 2
+        width: 32
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b3a720fe871f07b0800000000000000
+      internalID: -5255956337436154958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

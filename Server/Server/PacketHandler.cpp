@@ -3,12 +3,12 @@
 
 void PacketHandler::C_SignUpHandler(PacketSession* session, ByteRef& buffer)
 {
+	FlatBufferBuilder builder;
 	const int32 lengthRangeStart = 4;
 	const int32 lengthRangeEnd = 20;
-	FlatBufferBuilder builder;
 
 	try {
-		auto pkt = GetRoot<C_SignUp>(reinterpret_cast<uint8*>(buffer->operator std::byte * ()));
+		auto pkt = GetRoot<C_SignUp>(reinterpret_cast<uint8*>(buffer->operator byte * ()));
 
 		string id = pkt->user_id()->str();
 		string password = pkt->password()->str();
@@ -56,7 +56,7 @@ void PacketHandler::D_SignUpHandler(PacketSession* session, ByteRef& buffer)
 	FlatBufferBuilder builder;
 
 	try {
-		auto pkt = GetRoot<D_SignUp>(reinterpret_cast<uint8*>(buffer->operator std::byte * ()));
+		auto pkt = GetRoot<D_SignUp>(reinterpret_cast<uint8*>(buffer->operator byte * ()));
 		auto error = pkt->ok();
 		auto sessionId = pkt->session_id();
 
@@ -76,12 +76,12 @@ void PacketHandler::D_SignUpHandler(PacketSession* session, ByteRef& buffer)
 
 void PacketHandler::C_SignInHandler(PacketSession* session, ByteRef& buffer)
 {
+	FlatBufferBuilder builder;
 	const int32 lengthRangeStart = 4;
 	const int32 lengthRangeEnd = 20;
-	FlatBufferBuilder builder;
 
 	try {
-		auto pkt = GetRoot<C_SignIn>(reinterpret_cast<uint8*>(buffer->operator std::byte * ()));
+		auto pkt = GetRoot<C_SignIn>(reinterpret_cast<uint8*>(buffer->operator byte * ()));
 
 		string id = pkt->user_id()->str();
 		string password = pkt->password()->str();
@@ -129,13 +129,19 @@ void PacketHandler::D_SignInHandler(PacketSession* session, ByteRef& buffer)
 	FlatBufferBuilder builder;
 
 	try {
-		auto pkt = GetRoot<D_SignIn>(reinterpret_cast<uint8*>(buffer->operator std::byte * ()));
+		auto pkt = GetRoot<D_SignIn>(reinterpret_cast<uint8*>(buffer->operator byte * ()));
 		auto sessionId = pkt->session_id();
 		ClientSession* clientSession = Manager::Session.Find(sessionId);
 
 		if (clientSession != nullptr)
 		{
 			auto error = pkt->ok();
+
+			if (error == SignInError_SUCCESS)
+			{
+				clientSession->SetPlayer();
+				clientSession->GetPlayer()->SetState(CreatureState::LOBBY);
+			}
 			auto data = CreateSC_SignIn(builder, sessionId, error);
 			auto bytes = Manager::Packet.CreatePacket(data, builder, PacketType_SC_SignIn);
 			clientSession->SetDbId(pkt->db_id());
@@ -151,4 +157,68 @@ void PacketHandler::D_SignInHandler(PacketSession* session, ByteRef& buffer)
 
 void PacketHandler::C_SignOutHandler(PacketSession* session, ByteRef& buffer)
 {
+}
+
+void PacketHandler::C_EnterChannelHandler(PacketSession* session, ByteRef& buffer)
+{
+	FlatBufferBuilder builder;
+	ClientSession* clientSession = reinterpret_cast<ClientSession*>(session);
+
+	EnterChannelError error = EnterChannelError::EnterChannelError_SUCCESS;
+	try {
+		Player* player = clientSession->GetPlayer();
+		if (player == nullptr || player->GetState() != CreatureState::LOBBY)
+			return;
+
+		auto pkt = GetRoot<C_EnterChannel>(reinterpret_cast<uint8*>(buffer->operator std::byte * ()));
+		uint8 channelId = pkt->channel_index();
+		uint8 serverId = pkt->server_index();
+
+		Server* server = Manager::Server.Find(serverId);
+		if (server == nullptr)
+			return;
+		Channel* channel = server->FindChannel(channelId);
+		if (channel == nullptr)
+			return;
+
+		if (channel->GetUserCount() >= server->GetMaxUserCount())
+			error = EnterChannelError::EnterChannelError_FULL;
+	}
+	catch (exception& e)
+	{
+		cerr << e.what() << endl;
+		error = EnterChannelError::EnterChannelError_UNKNOWN;
+	}
+	auto data = CreateSC_EnterChannel(builder, error);
+	auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_EnterChannel); 
+	clientSession->Send(packet);
+}
+
+void PacketHandler::C_ChannelInfoHandler(PacketSession* session, ByteRef& buffer)
+{
+	ClientSession* clientSession = reinterpret_cast<ClientSession*>(session);
+	FlatBufferBuilder builder;
+
+	try {
+		Player* player = clientSession->GetPlayer();
+		if (player == nullptr || player->GetState() != CreatureState::LOBBY)
+			return;
+
+		auto pkt = GetRoot<C_ChannelInfo>(reinterpret_cast<uint8*>(buffer->operator std::byte * ()));
+		uint8 serverId = pkt->server_id();
+
+		Server* server = Manager::Server.Find(serverId);
+		if (server == nullptr)
+			clientSession->Disconnect();
+		else
+		{
+			auto data = Manager::Server.GetChannelInfo(server, builder);
+			auto packet = Manager::Packet.CreatePacket(data, builder, PacketType::PacketType_SC_ChannelInfo);
+			clientSession->Send(packet);
+		}
+	}
+	catch (exception& e)
+	{
+		cerr << e.what() << endl;
+	}
 }

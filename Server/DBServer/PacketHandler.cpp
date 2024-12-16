@@ -4,7 +4,7 @@
 
 void PacketHandler::SD_SignUpHandler(PacketSession* session, ByteRef& buffer)
 {
-	auto pkt = GetRoot<SD_SignUp>(reinterpret_cast<uint8*>(buffer->operator std::byte * ()));
+	auto pkt = GetRoot<SD_SignUp>(reinterpret_cast<uint8*>(buffer->operator byte * ()));
 	string id = pkt->user_id()->str();
 	string password = pkt->passowrd()->str();
 	uint32 sessionId = pkt->session_id();
@@ -50,16 +50,16 @@ void PacketHandler::SD_SignUpHandler(PacketSession* session, ByteRef& buffer)
 
 void PacketHandler::SD_SignInHandler(PacketSession* session, ByteRef& buffer)
 {
-	auto pkt = GetRoot<SD_SignIn>(reinterpret_cast<uint8*>(buffer->operator std::byte * ()));
+	auto pkt = GetRoot<SD_SignIn>(reinterpret_cast<uint8*>(buffer->operator byte * ()));
 	string id = pkt->user_id()->str();
 	string password = pkt->password()->str();
 	uint32 sessionId = pkt->session_id();
 
 	string query = Utils::format("with data as "
-		"(select * from user_account where user_id='{0}' "
+		"(select * from user_account where user_id='{0}') "
 		"select id, case "
 			"when user_id is null then 1 "	// 1 == INVALID_ID
-			"when password != '{1}' "		// 2 == INVALID_PW
+			"when password != '{1}' then 2 "// 2 == INVALID_PW
 			"else 0 "						// 0 == SUCCESS
 		"end as result "
 		"from data", {id, password});
