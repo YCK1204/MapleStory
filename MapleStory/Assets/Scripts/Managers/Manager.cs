@@ -24,7 +24,7 @@ public class Manager : BaseMonobehaviour
     public static NetworkManager Network { get { return _instance._network; } }
     public static PacketManager Packet { get { return _instance._packet; } }
     #endregion
-    void Start()
+    void Awake()
     {
         _instance = this;
         DontDestroyOnLoad(gameObject);
