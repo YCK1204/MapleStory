@@ -1,0 +1,340 @@
+.Button-Ok {
+    position: absolute;
+    background-image: resource('Imgs/Login/Button/Login_Bt-OkNormal');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    bottom: 10%;
+    align-self: center;
+}
+
+.Button-Ok:hover {
+    position: absolute;
+    background-image: resource('Imgs/Login/Button/Login_Bt-OkOver');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    bottom: 10%;
+    align-self: center;
+}
+
+.Button-Ok:active {
+    position: absolute;
+    background-image: resource('Imgs/Login/Button/Login_Bt-OkPressed');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    bottom: 10%;
+    align-self: center;
+}
+
+.Button-GameExit {
+    position: absolute;
+    background-image: resource('Imgs/Login/Button/Login_Bt-ExitNormal.0');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    bottom: 10%;
+    align-self: center;
+    left: 25%;
+}
+
+.Button-GameExit:hover {
+    position: absolute;
+    background-image: resource('Imgs/Login/Button/Login_Bt-ExitOver.0');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    bottom: 10%;
+    align-self: center;
+    left: 25%;
+}
+
+.Button-GameExit:active {
+    position: absolute;
+    background-image: resource('Imgs/Login/Button/Login_Bt-ExitPressed.0');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    bottom: 10%;
+    align-self: center;
+    left: 25%;
+}
+
+.Button-Yes {
+    position: absolute;
+    background-image: resource('Imgs/Login/Button/Login_Bt-YesNormal');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    bottom: 10%;
+    align-self: center;
+    left: 25%;
+}
+
+.Button-Yes:hover {
+    position: absolute;
+    background-image: resource('Imgs/Login/Button/Login_Bt-YesOver');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    bottom: 10%;
+    align-self: center;
+    left: 25%;
+}
+
+.Button-Yes:active {
+    position: absolute;
+    background-image: resource('Imgs/Login/Button/Login_Bt-YesPressed');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    bottom: 10%;
+    align-self: center;
+    left: 25%;
+}
+
+.Button-No {
+    position: absolute;
+    background-image: resource('Imgs/Login/Button/Login_Bt-NoNormal');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    align-self: center;
+    bottom: 10%;
+    right: 25%;
+}
+
+.Button-No:hover {
+    position: absolute;
+    background-image: resource('Imgs/Login/Button/Login_Bt-NoOver');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    align-self: center;
+    bottom: 10%;
+    right: 25%;
+}
+
+.Button-No:active {
+    position: absolute;
+    background-image: resource('Imgs/Login/Button/Login_Bt-NoPressed');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 13%;
+    height: 13%;
+    align-self: center;
+    bottom: 10%;
+    right: 25%;
+}
+
+.Popup-Show {
+    width: 35%;
+    height: 35%;
+    position: absolute;
+    left: 32.5%;
+    top: 32.5%;
+    translate: 5% -5%;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: all 1s;
+}
+
+.Popup-Hide {
+    width: 35%;
+    height: 35%;
+    position: absolute;
+    left: 32.5%;
+    top: 32.5%;
+    transition: all 1s;
+    opacity: 0;
+    display: none;
+}
+
+.PopupText-CreatedId {
+    background-image: resource('Imgs/Login/Notice/Notice.CreateIdSuccess');
+    margin-top: 7px;
+}
+
+.Popup-Hide {
+    width: 35%;
+    height: 35%;
+    position: absolute;
+    left: 32.5%;
+    top: 32.5%;
+    transition: all 1s;
+    opacity: 0;
+    display: none;
+}
+
+.PopupText-Password {
+    background-image: resource('Imgs/Login/Notice/Failed/Notice_InvalidPassword');
+}
+
+.PopupText-Unknown {
+    background-image: resource('Imgs/Login/Notice/Failed/Notice_Unkown');
+}
+
+.PopupText-InputPattern {
+    background-image: resource('Imgs/Login/Notice/Failed/Notice_InputPattern');
+}
+
+.PopupText-Length {
+    background-image: resource('Imgs/Login/Notice/Failed/Notice_Length');
+}
+
+.PopupText-GettingCharacter {
+    background-image: resource('Imgs/Login/Notice/Loading/Notice_GetCharacters');
+}
+
+.PopupText-RegisteredId {
+    background-image: resource('Imgs/Login/Notice/Failed/Notice_OverlappedId');
+}
+
+.PopupText-ConnectingServer {
+    background-image: resource('Imgs/Login/Notice/Loading/Notice_ConnectServer');
+}
+
+.PopupText-GameExit {
+    background-image: resource('Imgs/Login/Notice/Failed/Notice_GameExit');
+}
+
+.PopupText-Id {
+    background-image: resource('Imgs/Login/Notice/Failed/Notice_InvalidId');
+}
+
+.PopupText-BackToFirst {
+    background-image: resource('Imgs/Login/Notice/Failed/Notice_BackToFirstScene');
+}
