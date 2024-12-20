@@ -58,5 +58,11 @@ namespace Utils {
 		}
 		return result;
 	}
+	static wstring wformat(const string& input, const initializer_list<string>& args) {
+		wstring result;
+		string t = format(input, args);
+		result.assign(t.begin(), t.end());
+		return result;
+	}
 }
 #endif
