@@ -1,0 +1,6 @@
+{
+	"server_to_client": 8080,
+	"server_to_db": 8000,
+	"client_to_server": 8080,
+	"db_to_server": 8000
+}

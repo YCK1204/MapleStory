@@ -20,13 +20,14 @@ table SC_SignUp {
 }
 
 table D_SignUp {
+	db_id:uint32;
 	session_id:uint32;
 	ok:SignUpError;
 }
 
 enum SignInError : ushort {
 	SUCCESS,
-	NOT_FOUND,
+	INVALID_ID,
 	INVALID_PW,
 	UNKNOWN,
 }

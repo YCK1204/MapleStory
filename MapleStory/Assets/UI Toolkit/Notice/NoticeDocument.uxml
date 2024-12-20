@@ -1,10 +1,8 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI%20Toolkit/Notice/NoticeStyle.uss?fileID=7433441132597879392&amp;guid=aae2a8b76b264ab41946f1ece12e85d6&amp;type=3#NoticeStyle" />
-    <engine:VisualElement name="Container-Popup" class="Popup-Show Popup-Hide" style="position: absolute; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
-        <engine:Button name="Button-GameExit" class="Button-GameExit" />
-        <engine:Button name="Button-Ok" class="Button-Ok" />
-        <engine:Button name="Button-No" class="Button-No" />
-        <engine:VisualElement name="Img-Loading" style="position: absolute; align-self: center; width: 150px; height: 150px; background-image: resource(&apos;Imgs/Login/Notice/Loading/Notice.Loading.circle.0&apos;); top: 27%; display: none;" />
-        <engine:Button name="Button-Yes" class="Button-No" />
+    <Style src="project://database/Assets/UI%20Toolkit/notice/NoticeStyle.uss?fileID=7433441132597879392&amp;guid=161d6221201b36243b072df6766e3d5a&amp;type=3#NoticeStyle" />
+    <engine:VisualElement name="Img-Text" style="width: 50%; height: 50%; align-self: center; top: 25%; display: none;">
+        <engine:Button name="Button-Ok" class="Button-Base Button-Ok" style="left: 30%;" />
+        <engine:Button name="Button-Cancel" class="Button-Base Button-Cancel" style="right: 30%;" />
+        <engine:Button name="Button-OkCenter" class="Button-Base Button-Ok" style="align-self: center;" />
     </engine:VisualElement>
 </engine:UXML>

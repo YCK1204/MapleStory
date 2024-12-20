@@ -1,0 +1,141 @@
+.Button-EnterSelectedChannel {
+    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect.BtGoworld.normal.0');
+}
+
+.Button-EnterSelectedChannel:hover {
+    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect.BtGoworld.mouseOver.0');
+}
+
+.Button-EnterSelectedChannel:active {
+    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect.BtGoworld.pressed.0');
+}
+
+.Button-World {
+    width: 4.5%;
+    height: 180px;
+    margin-left: 4.25px;
+}
+
+.Button-Scania {
+    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect-ScaniaNormal');
+}
+
+.Button-Scania:hover {
+    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect-ScaniaOver');
+}
+
+.Button-Scania:active {
+    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect-ScaniaPressed');
+}
+
+.Button-Bera {
+    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect-BeraNormal');
+}
+
+.Button-Bera:hover {
+    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect-BeraOver');
+}
+
+.Button-Bera:active {
+    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect-BeraPressed');
+}
+
+.Button-EmptyWorld {
+    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect-EmptyServer');
+}
+
+.ServerTitle-Bera {
+    background-image: resource('PrevInGame/Imgs/WorldSelect/WorldSelect-Bera');
+    width: 25%;
+}
+
+.ServerTitle-Scania {
+    background-image: resource('PrevInGame/Imgs/WorldSelect/WorldSelect-Scania');
+    width: 30%;
+}
+
+.Channel-Base {
+    height: 50px;
+    width: 24%;
+    margin-left: 1%;
+    margin-top: 8px;
+    overflow: visible;
+}
+
+.Channel-1 {
+    background-image: resource('PrevInGame/Imgs/WorldSelect/WorldSelect-Channel1');
+}
+
+.Channel-2 {
+    background-image: resource('PrevInGame/Imgs/WorldSelect/WorldSelect-Channel2');
+}
+
+.Channel-Empty {
+    background-image: resource('PrevInGame/Imgs/WorldSelect/WorldSelect-ChannelEmpty');
+}
+
+.Channel-Sign {
+    width: 55%;
+    height: 120%;
+    position: absolute;
+    top: -10px;
+}
+
+.ChannelGuage-Frame {
+    height: 40%;
+    bottom: 9%;
+    position: absolute;
+    left: 6%;
+    width: 83%;
+}
+
+.ChannelGuage-Container {
+    position: absolute;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+}
+
+.ChannelGuage-Guage {
+    background-image: resource('PrevInGame/Imgs/WorldSelect/ChannelGuage');
+    width: 160px;
+    height: 100%;
+}
+
+.Button-Base {
+    background-color: rgba(0, 0, 0, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    flex-grow: 0;
+}
+
+.ChannelSelect-Show {
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+    visibility: visible;
+    transition-duration: 0.5s;
+}
+
+.ChannelSelect-Hide {
+    opacity: 0;
+    visibility: hidden;
+    transition-duration: 1s;
+}
+
+#ScrollView-ChannelSelect .unity-scroll-view__content-viewport {
+    overflow: visible;
+}

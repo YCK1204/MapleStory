@@ -5,7 +5,7 @@
 public enum SignInError : ushort
 {
   SUCCESS = 0,
-  NOT_FOUND = 1,
+  INVALID_ID = 1,
   INVALID_PW = 2,
   UNKNOWN = 3,
 };

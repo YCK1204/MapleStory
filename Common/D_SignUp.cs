@@ -16,21 +16,25 @@ public struct D_SignUp : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public D_SignUp __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public uint SessionId { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetUint(o + __p.bb_pos) : (uint)0; } }
-  public SignUpError Ok { get { int o = __p.__offset(6); return o != 0 ? (SignUpError)__p.bb.GetUshort(o + __p.bb_pos) : SignUpError.SUCCESS; } }
+  public uint DbId { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetUint(o + __p.bb_pos) : (uint)0; } }
+  public uint SessionId { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetUint(o + __p.bb_pos) : (uint)0; } }
+  public SignUpError Ok { get { int o = __p.__offset(8); return o != 0 ? (SignUpError)__p.bb.GetUshort(o + __p.bb_pos) : SignUpError.SUCCESS; } }
 
   public static Offset<D_SignUp> CreateD_SignUp(FlatBufferBuilder builder,
+      uint db_id = 0,
       uint session_id = 0,
       SignUpError ok = SignUpError.SUCCESS) {
-    builder.StartTable(2);
+    builder.StartTable(3);
     D_SignUp.AddSessionId(builder, session_id);
+    D_SignUp.AddDbId(builder, db_id);
     D_SignUp.AddOk(builder, ok);
     return D_SignUp.EndD_SignUp(builder);
   }
 
-  public static void StartD_SignUp(FlatBufferBuilder builder) { builder.StartTable(2); }
-  public static void AddSessionId(FlatBufferBuilder builder, uint sessionId) { builder.AddUint(0, sessionId, 0); }
-  public static void AddOk(FlatBufferBuilder builder, SignUpError ok) { builder.AddUshort(1, (ushort)ok, 0); }
+  public static void StartD_SignUp(FlatBufferBuilder builder) { builder.StartTable(3); }
+  public static void AddDbId(FlatBufferBuilder builder, uint dbId) { builder.AddUint(0, dbId, 0); }
+  public static void AddSessionId(FlatBufferBuilder builder, uint sessionId) { builder.AddUint(1, sessionId, 0); }
+  public static void AddOk(FlatBufferBuilder builder, SignUpError ok) { builder.AddUshort(2, (ushort)ok, 0); }
   public static Offset<D_SignUp> EndD_SignUp(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<D_SignUp>(o);
@@ -43,8 +47,9 @@ static public class D_SignUpVerify
   static public bool Verify(Google.FlatBuffers.Verifier verifier, uint tablePos)
   {
     return verifier.VerifyTableStart(tablePos)
-      && verifier.VerifyField(tablePos, 4 /*SessionId*/, 4 /*uint*/, 4, false)
-      && verifier.VerifyField(tablePos, 6 /*Ok*/, 2 /*SignUpError*/, 2, false)
+      && verifier.VerifyField(tablePos, 4 /*DbId*/, 4 /*uint*/, 4, false)
+      && verifier.VerifyField(tablePos, 6 /*SessionId*/, 4 /*uint*/, 4, false)
+      && verifier.VerifyField(tablePos, 8 /*Ok*/, 2 /*SignUpError*/, 2, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

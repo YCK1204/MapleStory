@@ -1,14 +1,23 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class UIBaseController : BaseMonobehaviour
 {
+    [System.Serializable]
+    public class SpriteCycle
+    {
+        public Texture2D[] Imgs;
+        public float Tick;
+    }
     [SerializeField]
-    string DefaultMouseOverAudioPath = "Audio/BtMouseOver";
+    public SpriteCycle[] AnimationSet;
     [SerializeField]
-    string DefaultMouseClickAudioPath = "Audio/BtMouseClick";
+    AudioClip DefaultMouseOverAudio;
+    [SerializeField]
+    AudioClip DefaultMouseClickAudio;
 
 
     protected UIDocument document;
@@ -38,9 +47,7 @@ public class UIBaseController : BaseMonobehaviour
     {
         Init();
     }
-    void InitHandler<T1, T2>(string target, T2 destination, Action<T1> callback = null)
-        where T1 : VisualElement
-        where T2 : Dictionary<string, T1>
+    void InitHandler<T1>(string target, Dictionary<string, T1> destination, Action<T1> callback = null) where T1 : VisualElement
     {
         var allElements = _root.Query<T1>();
 
@@ -54,43 +61,28 @@ public class UIBaseController : BaseMonobehaviour
     }
     protected virtual void Init()
     {
-        DefaultOnMouseClickAudio = Manager.Resource.Load<AudioClip>(DefaultMouseClickAudioPath);
-        DefaultOnMouseOverAudio = Manager.Resource.Load<AudioClip>(DefaultMouseOverAudioPath);
-
         _audioSource = gameObject.AddComponent<AudioSource>();
+        if (DefaultOnMouseOverAudio == null)
+            DefaultOnMouseOverAudio = Manager.Resource.Load<AudioClip>("Common/Sounds/BtMouseOver");
+        if (DefaultOnMouseClickAudio == null)
+            DefaultOnMouseClickAudio = Manager.Resource.Load<AudioClip>("Common/Sounds/BtMouseClick");
         document = GetComponent<UIDocument>();
 
         _root = document.rootVisualElement;
         // UI DOCUMENT 객체들 전부 가져오기
-        InitHandler<VisualElement, Dictionary<string, VisualElement>>("Container-", _containers);
-        InitHandler<VisualElement, Dictionary<string, VisualElement>>("Img-", _imgs);
-        InitHandler<Button, Dictionary<string, Button>>("Button-", _buttons, (b) =>
+        InitHandler<VisualElement>("Container-", _containers);
+        InitHandler<VisualElement>("Img-", _imgs);
+        InitHandler<Button>("Button-", _buttons, (b) =>
         {
             b.RegisterCallback<MouseOverEvent>(OnMouseOverPlay);
             b.RegisterCallback<ClickEvent>(OnMouseClickPlay);
         });
-        InitHandler<TextField, Dictionary<string, TextField>>("TextField-", _textFields);
-        InitHandler<ListView, Dictionary<string, ListView>>("ListView-", _listViews);
-        InitHandler<ScrollView, Dictionary<string, ScrollView>>("ScrollView-", _scrollViews);
+        InitHandler<TextField>("TextField-", _textFields);
+        InitHandler<ListView>("ListView-", _listViews);
+        InitHandler<ScrollView>("ScrollView-", _scrollViews);
     }
     protected virtual void OnMouseOverPlay(MouseOverEvent e) { CurAudioClip = DefaultOnMouseOverAudio; }
     protected virtual void OnMouseClickPlay(ClickEvent e) { CurAudioClip = DefaultOnMouseClickAudio; }
-    protected void AddClassToHierarchy(VisualElement e, string className)
-    {
-        e.AddToClassList(className);
-        foreach (var child in e.Children())
-        {
-            AddClassToHierarchy(child, className);
-        }
-    }
-    protected void RemoveClassToHierarchy(VisualElement e, string className)
-    {
-        e.RemoveFromClassList(className);
-        foreach (var child in e.Children())
-        {
-            RemoveClassToHierarchy(child, className);
-        }
-    }
     protected int ExtractIdFromElementName(string name, char seperator = '_')
     {
         return int.Parse(name.Substring(name.IndexOf(seperator) + 1));
@@ -102,5 +94,29 @@ public class UIBaseController : BaseMonobehaviour
     protected int ExtractIdFromElementName(ClickEvent e, char seperator = '_')
     {
         return ExtractIdFromElementName(e.currentTarget as VisualElement, seperator);
+    }
+    protected Button CreateButton(string name = "")
+    {
+        var button = new Button() { name = name };
+
+        button.AddToClassList("Button-Base");
+        button.RegisterCallback<ClickEvent>(OnMouseClickPlay);
+        button.RegisterCallback<MouseOverEvent>(OnMouseOverPlay);
+        return button;
+    }
+    IEnumerator ImgAnimation(VisualElement target, int dataIdx, Action callback)
+    {
+        SpriteCycle data = AnimationSet[dataIdx];
+        foreach (var img in data.Imgs)
+        {
+            target.style.backgroundImage = img;
+            yield return new WaitForSeconds(data.Tick);
+        }
+        callback?.Invoke();
+        StopCoroutine("ImgAnimation");
+    }
+    protected void StartImgAnimation(VisualElement target, int dataIdx, Action callback = null)
+    {
+        StartCoroutine(ImgAnimation(target, dataIdx, callback));
     }
 }

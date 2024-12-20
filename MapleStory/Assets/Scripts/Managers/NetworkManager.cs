@@ -6,6 +6,8 @@ using System.Net;
 using Google.FlatBuffers;
 using System.Text;
 using System.Collections;
+using Newtonsoft.Json.Linq;
+using System.IO;
 public class NetworkManager : IManager
 {
     Queue<ArraySegment<byte>> _queue = new Queue<ArraySegment<byte>>();
@@ -28,7 +30,12 @@ public class NetworkManager : IManager
     }
     public void Init()
     {
-        IPEndPoint endPoint = new IPEndPoint(IPAddress.Loopback, 8080);
+        TextAsset PortJson = Manager.Resource.Load<TextAsset>("Json/Port");
+
+        JObject json = JObject.Parse(PortJson.ToString());
+        int serverPort = json["client_to_server"].Value<int>();
+        IPEndPoint endPoint = new IPEndPoint(IPAddress.Loopback, serverPort);
+
         _conenctor.Init(endPoint, () => { return _session; });
     }
     public void Update()

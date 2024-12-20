@@ -1,38 +1,47 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UINoticeController;
 
 public class UINoticeController : UIBaseController
 {
-    Popup _popup = new Popup();
-
-    public enum PopupState : ushort
+    VisualElement Text;
+    Button Ok;
+    Button OkCenter;
+    Button Cancel;
+    public enum PopupState
     {
-        /* CRASH */
-        Password,
-        Id,
-        Length,
-        Unknown,
-        InputPattern,
-        /* CRASH */
+        /*------------*/
+        /* Ok, Cancel */
+        /*------------*/
+        ReturnToFirst,              // 처음으로 버튼
+        CharacterDelete,            // 캐릭터 삭제 확정
+        /*------------*/
+        /* Ok, Cancel */
+        /*------------*/
 
-        /* NORMAL */
-        CreatedId,
-        RegisteredId,
-        GameExit,
-        GettingCharacter,
-        ConnectingServer,
-        BackToFirst,
-        /* NORMAL */
+        /*------------*/
+        /*     Ok     */
+        /*------------*/
+            /*-------------*/
+            /*    Login    */
+            /*-------------*/
+        InvalidId,                  // 잘못된 아이디로 회원가입
+        InvalidPassword,            // 잘못된 패스워드 로그인
+        LoggedIn,                   // 이미 로그인된 아이디 or 이미 있는 아이디
+        NotRegisteredId,            // 회원가입 되어있지 않은 아이디
+            /*-------------*/
+            /*     Etc     */
+            /*-------------*/
+        BeingUsed,                  // 닉네임 사용 중
+        CanUseName,                 // 닉네임 사용 가능
+        CannotCreateCharacter,      // 캐릭터 더 이상 생성 불가
+        SelectChannel,              // 채널 선택 해달라
+        Unknown                     // 알 수 없는 에러
+        /*------------*/
+        /*     Ok     */
+        /*------------*/
     }
-    struct Popup
-    {
-        public VisualElement Container;
-        public VisualElement Loading;
-        public Button Ok;
-        public Button Exit;
-        public Button Yes;
-        public Button No;
-    }
+
     PopupState _state;
     public PopupState State
     {
@@ -41,73 +50,50 @@ public class UINoticeController : UIBaseController
         {
             _state = value;
 
-            // 버튼 상황별 숨기기
+            string className = $"PopupImg-{value.ToString()}";
+            Ok.style.display = DisplayStyle.None;
+            OkCenter.style.display = DisplayStyle.None;
+            Cancel.style.display = DisplayStyle.None;
+            if (value <= PopupState.CharacterDelete)
             {
-                _popup.Ok.style.visibility = Visibility.Hidden;
-                _popup.Exit.style.visibility = Visibility.Hidden;
-                _popup.No.style.visibility = Visibility.Hidden;
-                _popup.Yes.style.visibility = Visibility.Hidden;
-
-                if (_state < PopupState.GameExit)
-                {
-                    _popup.Ok.style.visibility = Visibility.Visible;
-                }
-                else if (_state == PopupState.GameExit)
-                {
-                    _popup.Exit.style.visibility = Visibility.Visible;
-                    _popup.No.style.visibility = Visibility.Visible;
-                }
-                else if (_state == PopupState.BackToFirst)
-                {
-                    _popup.Yes.style.visibility = Visibility.Visible;
-                    _popup.No.style.visibility = Visibility.Visible;
-                }
+                Ok.style.display = DisplayStyle.Flex;
+                Cancel.style.display = DisplayStyle.Flex;
             }
-
-            // 상황별 팝업 문자 이미지 전환
+            else
             {
-                string textState = _state.ToString();
-
-                _popup.Container.ClearClassList();
-                _popup.Container.AddToClassList("Popup-Show");
-                _popup.Container.AddToClassList($"PopupText-{textState}");
-                _popup.Container.RemoveFromClassList("Popup-Hide");
+                OkCenter.style.display = DisplayStyle.Flex;
             }
+            Text.ClearClassList();
+            Text.AddToClassList(className);
+            Text.style.display = DisplayStyle.Flex;
         }
     }
     protected override void Init()
     {
         base.Init();
+
+        Text = _imgs["Text"];
+        Ok = _buttons["Ok"];
+        Cancel = _buttons["Cancel"];
+        OkCenter = _buttons["OkCenter"];
+
+        Ok.RegisterCallback<ClickEvent>(HandleOkBtn);
+        Cancel.RegisterCallback<ClickEvent>((e) => { Text.style.display = DisplayStyle.None; });
+        OkCenter.RegisterCallback<ClickEvent>((e) => { Text.style.display = DisplayStyle.None; });
+    }
+    private void HandleOkBtn(ClickEvent e)
+    {
+        switch (State)
         {
-            _popup.Container = _containers["Popup"];
-            _popup.Loading = _imgs["Loading"];
-            _popup.Ok = _buttons["Ok"];
-            _popup.Exit = _buttons["GameExit"];
-            _popup.No = _buttons["No"];
-            _popup.Yes = _buttons["Yes"];
-            _popup.Ok.RegisterCallback<ClickEvent>((e) =>
-            {
-                _popup.Container.AddToClassList("Popup-Hide");
-            });
-            _popup.Yes.RegisterCallback<ClickEvent>((e) =>
-            {
-                Manager.Scene.LoadScene("Login");
-            });
-            _popup.Exit.RegisterCallback<ClickEvent>((e) =>
-            {
-                if (_state == PopupState.GameExit)
-                {
-#if UNITY_EDITOR
-                    UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit(); // 어플리케이션 종료
-#endif
-                }
-            });
-            _popup.No.RegisterCallback<ClickEvent>((e) =>
-            {
-                _popup.Container.AddToClassList("Popup-Hide");
-            });
+            case PopupState.ReturnToFirst:
+                // Login으로 돌리기
+                break;
+            case PopupState.CharacterDelete:
+                // 캐릭터 삭제
+                break;
         }
+        Text.style.display = DisplayStyle.None;
     }
 }
+
+

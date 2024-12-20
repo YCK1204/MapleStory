@@ -1,23 +1,24 @@
 using Google.FlatBuffers;
 using System.Collections.Generic;
+using UnityEditor;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public abstract class BaseScene : BaseMonobehaviour
 {
+    [HideInInspector]
     public GameObject UIControllers;
-    public string PrevSceneName;
+    [SerializeField]
+    protected SceneAsset NextScene;
     private void Awake()
-    {
-        UIControllers = GameObject.Find("@UIControllers");
-        Manager.Scene.CurScene = this;
-    }
-    private void Start()
     {
         Init();
     }
     protected virtual void Init()
     {
+        UIControllers = GameObject.Find("@UIControllers");
+        Manager.Scene.CurScene = this;
     }
 
     protected virtual void Clear()

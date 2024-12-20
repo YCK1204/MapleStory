@@ -6,23 +6,23 @@
 			"max_user_count":100,
 			"channels":[
 				{
-					"id":0
+					"id":1
 				},
 				{
-					"id":1
+					"id":2
 				}
 			]
 		},
 		{
 			"id":1,
-			"name":"Luna",
+			"name":"Bera",
 			"max_user_count":10,
 			"channels":[
 				{
-					"id":0
+					"id":1
 				},
 				{
-					"id":1
+					"id":2
 				}
 			]
 		}

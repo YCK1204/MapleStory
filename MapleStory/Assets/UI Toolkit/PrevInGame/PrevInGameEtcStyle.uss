@@ -1,0 +1,41 @@
+.Container-Base {
+    width: 80%;
+    height: 17%;
+    position: absolute;
+    left: 13%;
+}
+
+.MainBG-Base {
+    background-image: resource('Imgs/MainBG1');
+    width: 95%;
+    height: 450%;
+    position: absolute;
+}
+
+.MainBG-Login {
+    translate: 0 -76%;
+    transition-duration: 1s;
+    transition-timing-function: ease-out-cubic;
+}
+
+.MainBG-WorldSelect {
+    translate: 0 -51.25%;
+    transition-duration: 1s;
+    transition-timing-function: ease-out-cubic;
+}
+
+.unity-scroll-view__content-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.unity-base-text-field__input {
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.unity-base-text-field__label {
+    display: none;
+}
