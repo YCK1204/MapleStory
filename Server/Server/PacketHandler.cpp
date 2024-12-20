@@ -60,9 +60,15 @@ void PacketHandler::D_SignUpHandler(PacketSession* session, ByteRef& buffer)
 		auto error = pkt->ok();
 		auto sessionId = pkt->session_id();
 
+		ClientSession* clientSession = Manager::Session.Find(sessionId);
+		if (error == SignInError_SUCCESS)
+		{
+			clientSession->SetDbId(pkt->db_id());
+			clientSession->SetPlayer();
+			clientSession->GetPlayer()->SetState(CreatureState::LOBBY);
+		}
 		auto data = CreateSC_SignUp(builder, error);
 		auto bytes = Manager::Packet.CreatePacket(data, builder, PacketType_SC_SignUp);
-		ClientSession* clientSession = Manager::Session.Find(sessionId);
 
 		if (clientSession != nullptr)
 			clientSession->Send(bytes);
