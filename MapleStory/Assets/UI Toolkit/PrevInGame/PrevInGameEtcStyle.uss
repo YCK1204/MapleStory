@@ -26,6 +26,10 @@
     left: 13%;
 }
 
+.MainBG-CharacterSelect {
+    translate: 0 -27%;
+}
+
 .MainBG-Base {
     background-image: resource('Imgs/MainBG1');
     width: 95%;
@@ -64,3 +68,5 @@
 .unity-base-text-field__label {
     display: none;
 }
+
+

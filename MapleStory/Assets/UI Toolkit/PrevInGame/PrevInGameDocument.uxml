@@ -3,7 +3,7 @@
     <Style src="project://database/Assets/UI%20Toolkit/PrevInGame/LoginStyle.uss?fileID=7433441132597879392&amp;guid=e2aab891898fcdc4f89717b98e82546c&amp;type=3#LoginStyle" />
     <Style src="project://database/Assets/UI%20Toolkit/PrevInGame/WorldSelectStyle.uss?fileID=7433441132597879392&amp;guid=90c21c34ffad086408e5b44a27266a27&amp;type=3#WorldSelectStyle" />
     <Style src="project://database/Assets/UI%20Toolkit/PrevInGame/CharacterSelect.uss?fileID=7433441132597879392&amp;guid=ea7ad8a4accad924695c6e6819681345&amp;type=3#CharacterSelect" />
-    <engine:VisualElement name="Img-MainBG" class="MainBG-Base MainBG-Login" style="background-image: resource(&apos;Imgs/MainBG1&apos;);">
+    <engine:VisualElement name="Img-MainBG" class="MainBG-Base MainBG-CharacterSelect" style="background-image: resource(&apos;Imgs/MainBG1&apos;);">
         <engine:VisualElement name="Container-Login" class="Container-Base" style="bottom: 6%;">
             <engine:VisualElement name="Container-LoginMainBoard" style="width: 43%; height: 50%; position: absolute; bottom: 7%; right: 12%;">
                 <engine:Button name="Button-SignIn" class="Button-Base Button-SignIn" style="position: absolute; width: 30%; height: 21%; right: 0.5%; top: 9.5%;" />
@@ -27,9 +27,17 @@
                 <engine:ScrollView name="ScrollView-WorldBoard" style="width: 90%; height: 100%; align-self: center; padding-left: 54px;" />
             </engine:VisualElement>
         </engine:VisualElement>
-        <engine:VisualElement name="Container-CharacterSelect" class="Container-Base" style="background-color: rgba(0, 0, 0, 0.33); bottom: 55%;">
-            <engine:VisualElement name="Frame-CharacterList" />
-            <engine:VisualElement name="Img-Navi" style="flex-grow: 1; position: absolute;" />
+        <engine:VisualElement name="Container-CharacterSelect" class="Container-Base" style="bottom: 55%;">
+            <engine:VisualElement name="Frame-CharacterList" style="width: 55%; bottom: 29.5%; position: absolute; height: 22%; left: 26%; justify-content: space-between; flex-direction: row;">
+                <engine:VisualElement name="Img-Character1" style="width: 15%; height: 100%; background-image: resource(&apos;PrevInGame/Imgs/CharacterSelect/CharAfterImg&apos;);" />
+                <engine:VisualElement name="Img-Character2" style="width: 15%; height: 100%; background-image: resource(&apos;PrevInGame/Imgs/CharacterSelect/CharAfterImg&apos;);" />
+                <engine:VisualElement name="Img-Character3" style="width: 15%; height: 100%; background-image: resource(&apos;PrevInGame/Imgs/CharacterSelect/CharAfterImg&apos;);" />
+            </engine:VisualElement>
+            <engine:VisualElement name="Img-Navi" style="flex-grow: 1; position: absolute; right: 3%; bottom: 29.5%; width: 20%; height: 50%; background-image: resource(&apos;PrevInGame/Imgs/CharacterSelect/CharacterSelect-Board&apos;);">
+                <engine:Button name="Button-SelectCharacter" class="Button-Base Button-SelectChacracter" style="top: 27.5px; width: 75.8%; height: 13.5%; left: 38px; display: flex; position: absolute;" />
+                <engine:Button name="Button-CreateCharacter" class="Button-Base Button-CreateCharacter" style="top: 93.5px; width: 75.8%; height: 14.7%; left: 37.5px; display: flex; position: absolute;" />
+                <engine:Button name="Button-DeleteCharacter" class="Button-Base Button-DeleteChacracter" style="top: 178px; width: 76%; height: 18.5%; left: 37.5px; display: flex; position: absolute;" />
+            </engine:VisualElement>
         </engine:VisualElement>
     </engine:VisualElement>
     <engine:VisualElement name="Img-DefaultBG" picking-mode="Ignore" style="width: 100%; height: 100%; background-image: resource(&apos;PrevInGame/Imgs/Common/login.img.Common.frame.0.0&apos;);" />
