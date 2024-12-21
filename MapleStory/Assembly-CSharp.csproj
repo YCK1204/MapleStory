@@ -110,6 +110,7 @@
     <None Include="Assets\UI Toolkit\notice\NoticeStyle.uss" />
     <None Include="Assets\DLL\ServerCore.dll" />
     <None Include="Assets\UI Toolkit\PrevInGame\PrevInGameEtcStyle.uss" />
+    <None Include="Assets\UI Toolkit\PrevInGame\CharacterSelect.uss" />
     <None Include="Assets\UI Toolkit\notice\NoticeDocument.uxml" />
   </ItemGroup>
   <ItemGroup>
