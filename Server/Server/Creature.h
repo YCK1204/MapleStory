@@ -16,26 +16,19 @@ enum class CreatureState :uint8 {
 
 class Creature : public GameObject
 {
-protected:
-	PosInfo _posInfo;
-	int32 _hp;
-	CreatureState _state;
-	GameRoomRef _room;
-
+public:
+	PosInfo Pos;
+	int32 Hp;
+	CreatureState State;
+	GameRoomRef Room;
+	uint16 ChannelId;
+	uint16 ServerId;
 protected:
 	const bool IsAlive() const;
-	const int32& GetHp() const;
-	const PosInfo& GetPosInfo() const;
-	void SetHp(int32& hp);
-	void SetPosInfo(int16 x, int16 y);
-	void SetPosInfo(PosInfo posInfo);
 public:
-	Creature();
 	virtual ~Creature();
 	void EnterRoom(uint32& roomId);
 	void LeaveRoom(uint32& roomId);
-	void SetState(CreatureState state);
-	const CreatureState& GetState() const;
 
 public:
 	virtual void TakeDamage(int32& damage) = 0;

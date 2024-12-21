@@ -64,8 +64,7 @@ void PacketHandler::D_SignUpHandler(PacketSession* session, ByteRef& buffer)
 		if (error == SignInError_SUCCESS)
 		{
 			clientSession->SetDbId(pkt->db_id());
-			clientSession->SetPlayer();
-			clientSession->GetPlayer()->SetState(CreatureState::LOBBY);
+			clientSession->Player = shared_ptr<Player>(new Player());
 		}
 		auto data = CreateSC_SignUp(builder, error);
 		auto bytes = Manager::Packet.CreatePacket(data, builder, PacketType_SC_SignUp);
@@ -144,10 +143,7 @@ void PacketHandler::D_SignInHandler(PacketSession* session, ByteRef& buffer)
 			auto error = pkt->ok();
 
 			if (error == SignInError_SUCCESS)
-			{
-				clientSession->SetPlayer();
-				clientSession->GetPlayer()->SetState(CreatureState::LOBBY);
-			}
+				clientSession->Player = shared_ptr<Player>(new Player());
 			auto data = CreateSC_SignIn(builder, sessionId, error);
 			auto bytes = Manager::Packet.CreatePacket(data, builder, PacketType_SC_SignIn);
 			clientSession->SetDbId(pkt->db_id());
@@ -172,8 +168,8 @@ void PacketHandler::C_EnterChannelHandler(PacketSession* session, ByteRef& buffe
 
 	EnterChannelError error = EnterChannelError::EnterChannelError_SUCCESS;
 	try {
-		Player* player = clientSession->GetPlayer();
-		if (player == nullptr || player->GetState() != CreatureState::LOBBY)
+		Player* player = clientSession->Player.get();
+		if (player == nullptr || player->State != CreatureState::LOBBY)
 			return;
 
 		auto pkt = GetRoot<C_EnterChannel>(reinterpret_cast<uint8*>(buffer->operator std::byte * ()));
@@ -206,8 +202,8 @@ void PacketHandler::C_ChannelInfoHandler(PacketSession* session, ByteRef& buffer
 	FlatBufferBuilder builder;
 
 	try {
-		Player* player = clientSession->GetPlayer();
-		if (player == nullptr || player->GetState() != CreatureState::LOBBY)
+		Player* player = clientSession->Player.get();
+		if (player == nullptr || player->State != CreatureState::LOBBY)
 			return;
 
 		auto pkt = GetRoot<C_ChannelInfo>(reinterpret_cast<uint8*>(buffer->operator std::byte * ()));

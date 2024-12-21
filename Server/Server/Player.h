@@ -5,13 +5,12 @@
 
 class Player : public Creature
 {
-private:
-	int32 _mp;
+public:
+	int32 Mp;
 public:
 	Player();
 	virtual ~Player();
-	void SetMp(int32 mp);
-	const int32 GetMp() const;
+
 public:
 	virtual void TakeDamage(int32& damage);
 };
