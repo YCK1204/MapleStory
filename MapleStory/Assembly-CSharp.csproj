@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\Utils\Util.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\WorldSelect.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SignInError.cs" />
+    <Compile Include="Assets\UI Toolkit\NewCharacter\UINewCharacterController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\ChannelInfo.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SignUpError.cs" />
     <Compile Include="Assets\Scripts\Managers\NetworkManager.cs" />
@@ -103,6 +104,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\UI Toolkit\PrevInGame\PrevInGameDocument.uxml" />
+    <None Include="Assets\UI Toolkit\NewCharacter\NewCharacterStyle.uss" />
+    <None Include="Assets\UI Toolkit\NewCharacter\NewCharacterDocument.uxml" />
     <None Include="Assets\UI Toolkit\PrevInGame\WorldSelectStyle.uss" />
     <None Include="Assets\DLL\Newtonsoft.Json.dll" />
     <None Include="Assets\UI Toolkit\PrevInGame\LoginStyle.uss" />
