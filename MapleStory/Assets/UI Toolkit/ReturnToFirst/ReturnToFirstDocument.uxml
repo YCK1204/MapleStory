@@ -1,0 +1,16 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/ReturnToFirst/ReturnToFirstStyle.uss?fileID=7433441132597879392&amp;guid=d99923760a3eb5a41b6f73a83ff713b5&amp;type=3#ReturnToFirstStyle" />
+    <engine:VisualElement name="Container-Step" class="Base Show Hide" style="position: absolute; height: 10%; top: 10%;">
+        <engine:VisualElement name="Img-Step_Shadow" class="Shadow-Show" style="background-image: resource(&apos;PrevInGame/Imgs/Common/Common.shadow.0&apos;); width: 100%; height: 100%;" />
+        <engine:VisualElement name="Img-Step" class="Step-WorldSelect" style="position: absolute; width: 100%; height: 100%; top: -20%;" />
+    </engine:VisualElement>
+    <engine:VisualElement name="Container-WorldInfo" class="Base Show Hide" style="position: absolute; top: 21.5%; height: 10%;">
+        <engine:VisualElement name="Img-WorldInfo_Shadow" class="Shadow-Show" style="flex-grow: 1; background-image: resource(&apos;PrevInGame/Imgs/Common/Common.shadow.0&apos;); height: 100%; width: 100%;">
+            <engine:VisualElement name="Img-SelectedWorld" style="background-image: resource(&apos;PrevInGame/Imgs/Common/Common.selectWorld&apos;); position: absolute; width: 100%; height: 100%; top: -20%;">
+                <engine:Label text="Scania&#10;CH.01" name="Label-WorldInfo" style="height: 80%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; width: 60%; position: absolute; right: 5%; top: 10%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(255, 255, 255); -unity-text-align: middle-center; font-size: 22px; -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=0250f2da9e368bd4ab7a08b011d0657b&amp;type=3#NotInter-Regular&quot;);" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+    </engine:VisualElement>
+    <engine:Button name="Button-ReturnToBack" class="Button-ReturnToBack Base Show Hide" style="position: absolute; bottom: 20%; height: 10%;" />
+    <engine:Button name="Button-ReturnToFirst" class="Base Show Hide" style="position: absolute; bottom: 10%; height: 10%;" />
+</engine:UXML>

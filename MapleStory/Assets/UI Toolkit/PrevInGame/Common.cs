@@ -7,14 +7,15 @@ using static UINoticeController;
 public partial class UIPrevInGameController : UIBaseController
 {
     UINoticeController notice;
+    UIReturnToFirstController returnToFirst;
     VisualElement MainBG;
 
-    enum BGState
+    public enum BGState
     {
         Login,
         WorldSelect,
         CharacterSelect,
-        CreateChacracter,
+        CreateCharacter,
     }
     PopupState NoticeState
     {
@@ -34,10 +35,13 @@ public partial class UIPrevInGameController : UIBaseController
         set
         {
             _bgState = value;
-            MainBG.ClearClassList();
-            MainBG.AddToClassList("MainBG-Base");
-            MainBG.AddToClassList($"MainBG-{value.ToString()}");
-            CurAudioClip = ScrollUpAudio;
+            returnToFirst.MoveImgs(value, () =>
+            {
+                MainBG.ClearClassList();
+                MainBG.AddToClassList("MainBG-Base");
+                MainBG.AddToClassList($"MainBG-{value.ToString()}");
+                CurAudioClip = ScrollUpAudio;
+            });
         }
     }
     protected override void Init()
@@ -45,6 +49,10 @@ public partial class UIPrevInGameController : UIBaseController
         base.Init();
 
         notice = Util.FindChild<UINoticeController>(Manager.Scene.CurScene.UIControllers.transform);
+        returnToFirst = Util.FindChild<UIReturnToFirstController>(Manager.Scene.CurScene.UIControllers.transform);
+        returnToFirst.ReturnToBack.RegisterCallback<ClickEvent>((e) => {
+            --BackgroundState;
+        });
         MainBG = _imgs["MainBG"];
         #region Login
         {
@@ -69,6 +77,43 @@ public partial class UIPrevInGameController : UIBaseController
         _channelSelect.CsScrollView = _scrollViews["ChannelSelect"];
         _channelSelect.EnterSelectedChannel.RegisterCallback<ClickEvent>(EnterChannel);
         InitializeServer();
+        #endregion
+        #region CharacterSelect
+        SelectCharacter = _buttons["SelectCharacter"];
+        CreateCharacter = _buttons["CreateCharacter"];
+        DeleteCharacter = _buttons["DeleteCharacter"];
+
+        SelectCharacter.RegisterCallback<ClickEvent>(HandleSelectChar);
+        CreateCharacter.RegisterCallback<ClickEvent>(HandleCreateChar);
+        DeleteCharacter.RegisterCallback<ClickEvent>(HandleDeleteChar);
+        #endregion
+        #region CreateCharacter
+        _charStatus.NameCheck = _buttons["NameCheck"];
+        _charStatus.Container = _imgs["CharacterStatus"];
+        _charStatus.CharacterName = _textFields["CharacterName"];
+
+        _charStatus.Main.Container = _containers["Main"];
+        _charStatus.Main.DiceBtn = _buttons["Dice"];
+        _charStatus.Main.DiceImg = _imgs["Dice"];
+        _charStatus.Main.TextAbilityGroup = _groupBoxes["Ability"];
+        _charStatus.Main.STR = _labels["STR"];
+        _charStatus.Main.DEX = _labels["DEX"];
+        _charStatus.Main.INT = _labels["INT"];
+        _charStatus.Main.LUK = _labels["LUK"];
+
+        CharacterImg = _imgs["Character"];
+        CharacterList = _scrollViews["CharacterList"];
+        CharacterInfo = _imgs["CharacterInfo"];
+        CharacterCreate = _buttons["CharacterCreate"];
+
+
+        CharacterCreate.RegisterCallback<ClickEvent>(FormCharacter);
+        _charStatus.NameCheck.RegisterCallback<ClickEvent>(CheckName);
+        _charStatus.Main.DiceBtn.RegisterCallback<ClickEvent>(GenerateAbilities);
+        _charStatus.Main.DiceBtn.UnregisterCallback<MouseOverEvent>(OnMouseOverPlay);
+
+        GenerateAbilities();
+        InitializeCharList();
         #endregion
     }
     public void OnRecvPacket<T>(T pkt) where T : struct, IFlatbufferObject
@@ -166,16 +211,34 @@ public partial class UIPrevInGameController : UIBaseController
             switch (enterChannel.Ok)
             {
                 case EnterChannelError.SUCCESS:
-                    Debug.Log("Success");
+                    BackgroundState = BGState.CharacterSelect;
                     break;
                 case EnterChannelError.FULL:
-                    Debug.Log("Full");
+                    NoticeState = PopupState.Unknown;
                     break;
                 case EnterChannelError.UNKNOWN:
                     NoticeState = UINoticeController.PopupState.Unknown;
                     break;
             }
         }
+        #endregion
+        #region CharacterSelect
+        else if (pkt is SC_CreateCharacter createChar)
+        {
+            switch (createChar.Ok)
+            {
+                case CreateCharacterError.SUCCESS:
+                    // 성공 시 캐릭터 생성 창으로 이동
+                    break;
+                case CreateCharacterError.FULL: // 에셋이 없어서 일단 unknown으로 대체 추후 full은 클라에서 disable 버튼으로 막을거임
+                case CreateCharacterError.UNKNOWN:
+                    NoticeState = PopupState.Unknown;
+                    break;
+            }
+        }
+        #endregion
+        #region CreateCharacter
+
         #endregion
     }
 }

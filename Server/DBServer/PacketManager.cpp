@@ -26,6 +26,7 @@ void PacketManager::Register()
 {
     _handler[PacketType::PacketType_SD_SignUp] = PacketHandler::SD_SignUpHandler;
 		_handler[PacketType::PacketType_SD_SignIn] = PacketHandler::SD_SignInHandler;
+		_handler[PacketType::PacketType_SD_CreateCharacter] = PacketHandler::SD_CreateCharacterHandler;
 		
 }
 

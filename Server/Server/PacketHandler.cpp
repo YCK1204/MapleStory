@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "PacketHandler.h"
 
+// [ 패킷 크기 ushort 2byte][ 패킷 종류 ushort  ] [uint64][uint64][ushort]
+
 void PacketHandler::C_SignUpHandler(PacketSession* session, ByteRef& buffer)
 {
 	FlatBufferBuilder builder;
@@ -169,7 +171,7 @@ void PacketHandler::C_EnterChannelHandler(PacketSession* session, ByteRef& buffe
 	EnterChannelError error = EnterChannelError::EnterChannelError_SUCCESS;
 	try {
 		Player* player = clientSession->Player.get();
-		if (player == nullptr || player->State != CreatureState::LOBBY)
+		if (player == nullptr || player->State != PlayerState::Lobby)
 			return;
 
 		auto pkt = GetRoot<C_EnterChannel>(reinterpret_cast<uint8*>(buffer->operator std::byte * ()));
@@ -191,8 +193,9 @@ void PacketHandler::C_EnterChannelHandler(PacketSession* session, ByteRef& buffe
 		cerr << e.what() << endl;
 		error = EnterChannelError::EnterChannelError_UNKNOWN;
 	}
+	
 	auto data = CreateSC_EnterChannel(builder, error);
-	auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_EnterChannel); 
+	auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_EnterChannel);
 	clientSession->Send(packet);
 }
 
@@ -203,7 +206,7 @@ void PacketHandler::C_ChannelInfoHandler(PacketSession* session, ByteRef& buffer
 
 	try {
 		Player* player = clientSession->Player.get();
-		if (player == nullptr || player->State != CreatureState::LOBBY)
+		if (player == nullptr || player->State != PlayerState::Lobby)
 			return;
 
 		auto pkt = GetRoot<C_ChannelInfo>(reinterpret_cast<uint8*>(buffer->operator std::byte * ()));
@@ -223,4 +226,13 @@ void PacketHandler::C_ChannelInfoHandler(PacketSession* session, ByteRef& buffer
 	{
 		cerr << e.what() << endl;
 	}
+}
+void PacketHandler::C_CreateCharacterHandler(PacketSession* session, ByteRef& buffer)
+{
+
+}
+
+void PacketHandler::D_CreateCharacterHandler(PacketSession* session, ByteRef& buffer)
+{
+
 }

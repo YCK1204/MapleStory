@@ -51,11 +51,19 @@
 
 .MainBG-CharacterSelect {
     translate: 0 -27%;
+    transition-duration: 1s;
+}
+
+.MainBG-CreateCharacter {
+    translate: 0 0;
+    transition-duration: 1s;
+    transition-timing-function: ease-out-cubic;
 }
 
 .unity-scroll-view__content-container {
     flex-direction: row;
     flex-wrap: wrap;
+    height: 100%;
 }
 
 .unity-base-text-field__input {
@@ -68,5 +76,3 @@
 .unity-base-text-field__label {
     display: none;
 }
-
-

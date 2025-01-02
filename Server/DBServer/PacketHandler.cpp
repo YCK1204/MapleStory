@@ -116,3 +116,8 @@ void PacketHandler::SD_SignInHandler(PacketSession* session, ByteRef& buffer)
 		Manager::session->Send(bytes);
 	}
 }
+
+void PacketHandler::SD_CreateCharacterHandler(PacketSession* session, ByteRef& buffer)
+{
+
+}

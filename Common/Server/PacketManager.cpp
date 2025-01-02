@@ -31,6 +31,8 @@ void PacketManager::Register()
 		_handler[PacketType::PacketType_C_SignOut] = PacketHandler::C_SignOutHandler;
 		_handler[PacketType::PacketType_C_EnterChannel] = PacketHandler::C_EnterChannelHandler;
 		_handler[PacketType::PacketType_C_ChannelInfo] = PacketHandler::C_ChannelInfoHandler;
+		_handler[PacketType::PacketType_C_CreateCharacter] = PacketHandler::C_CreateCharacterHandler;
+		_handler[PacketType::PacketType_D_CreateCharacter] = PacketHandler::D_CreateCharacterHandler;
 		
 }
 

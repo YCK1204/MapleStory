@@ -19,6 +19,10 @@ public enum PacketType : byte
   SC_EnterChannel = 12,
   C_ChannelInfo = 13,
   SC_ChannelInfo = 14,
+  C_CreateCharacter = 15,
+  SD_CreateCharacter = 16,
+  D_CreateCharacter = 17,
+  SC_CreateCharacter = 18,
 };
 
 
@@ -71,6 +75,18 @@ static public class PacketTypeVerify
         break;
       case PacketType.SC_ChannelInfo:
         result = SC_ChannelInfoVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.C_CreateCharacter:
+        result = C_CreateCharacterVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SD_CreateCharacter:
+        result = SD_CreateCharacterVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.D_CreateCharacter:
+        result = D_CreateCharacterVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_CreateCharacter:
+        result = SC_CreateCharacterVerify.Verify(verifier, tablePos);
         break;
       default: result = true;
         break;

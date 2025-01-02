@@ -1,0 +1,25 @@
+table C_CreateCharacter {
+	char_id:ushort;
+}
+
+table SD_CreateCharacter {
+	db_id:uint64;
+	session_id:uint64;
+	char_id:ushort;
+}
+
+enum CreateCharacterError : ushort {
+	SUCCESS,
+	FULL,
+	UNKNOWN,
+}
+
+table D_CreateCharacter {
+	db_id:uint64;
+	session_id:uint64;
+	ok:CreateCharacterError;
+}
+
+table SC_CreateCharacter {
+	ok:CreateCharacterError;
+}

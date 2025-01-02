@@ -33,4 +33,7 @@ public class PacketHandler
 
         Manager.Scene.CurScene.OnRecvPacket<SC_ChannelInfo>(pkt);
     }
+    public static void SC_CreateCharacterHandler(PacketSession session, ByteBuffer buffer)
+    {
+    }
 }

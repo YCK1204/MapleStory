@@ -18,6 +18,7 @@ public class PacketManager
 		_handler.Add((ushort)PacketType.SC_SignOut, PacketHandler.SC_SignOutHandler);
 		_handler.Add((ushort)PacketType.SC_EnterChannel, PacketHandler.SC_EnterChannelHandler);
 		_handler.Add((ushort)PacketType.SC_ChannelInfo, PacketHandler.SC_ChannelInfoHandler);
+		_handler.Add((ushort)PacketType.SC_CreateCharacter, PacketHandler.SC_CreateCharacterHandler);
 		
     }
     public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

@@ -2,7 +2,7 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
+  serializedVersion: 3
   tags: []
   layers:
   - Default
@@ -41,3 +41,44 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: ArmHide
+    uniqueID: 2682059367
+    locked: 0
+  - name: Body
+    uniqueID: 420701543
+    locked: 0
+  - name: WeaponHandle
+    uniqueID: 1146066455
+    locked: 0
+  - name: BodyCloth
+    uniqueID: 2108665305
+    locked: 0
+  - name: Shoes
+    uniqueID: 1470554799
+    locked: 0
+  - name: ArmClothHide
+    uniqueID: 4054636767
+    locked: 0
+  - name: Head
+    uniqueID: 2789164495
+    locked: 0
+  - name: Face&Hair
+    uniqueID: 3944571783
+    locked: 0
+  - name: Arm
+    uniqueID: 3273851093
+    locked: 0
+  - name: ArmCloth
+    uniqueID: 2960044163
+    locked: 0
+  - name: HadeFront
+    uniqueID: 2421254235
+    locked: 0
+  - name: Hand
+    uniqueID: 4076788317
+    locked: 0
+  - name: Weapon
+    uniqueID: 1919711345
+    locked: 0
+  m_RenderingLayers:
+  - Default

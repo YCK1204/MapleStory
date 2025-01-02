@@ -11,4 +11,6 @@ public:
 	static void C_SignOutHandler(PacketSession* session, ByteRef& buffer);
 	static void C_EnterChannelHandler(PacketSession* session, ByteRef& buffer);
 	static void C_ChannelInfoHandler(PacketSession* session, ByteRef& buffer);
+	static void C_CreateCharacterHandler(PacketSession* session, ByteRef& buffer);
+	static void D_CreateCharacterHandler(PacketSession* session, ByteRef& buffer);
 };

@@ -3,7 +3,7 @@
 
 Player::Player()
 {
-	State = CreatureState::LOBBY;
+	State = PlayerState::Lobby;
 	Type = ObjectType::PLAYER;
 }
 

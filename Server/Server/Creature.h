@@ -8,18 +8,11 @@ typedef struct {
 	int16 Y;
 } PosInfo;
 
-enum class CreatureState :uint8 {
-	DEAD,
-	LOBBY,
-	ALIVE,
-};
-
 class Creature : public GameObject
 {
 public:
 	PosInfo Pos;
 	int32 Hp;
-	CreatureState State;
 	GameRoomRef Room;
 	uint16 ChannelId;
 	uint16 ServerId;

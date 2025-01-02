@@ -7,9 +7,15 @@ using UnityEngine.UIElements;
 public class UIBaseController : BaseMonobehaviour
 {
     [System.Serializable]
+    public class SpriteInfo
+    {
+        public Texture2D Img;
+        public Vector2 Size = Vector2.zero;
+    }
+    [System.Serializable]
     public class SpriteCycle
     {
-        public Texture2D[] Imgs;
+        public SpriteInfo[] SpriteInfo;
         public float Tick;
     }
     [SerializeField]
@@ -27,8 +33,10 @@ public class UIBaseController : BaseMonobehaviour
     protected Dictionary<string, VisualElement> _imgs = new Dictionary<string, VisualElement>();
     protected Dictionary<string, Button> _buttons = new Dictionary<string, Button>();
     protected Dictionary<string, TextField> _textFields = new Dictionary<string, TextField>();
+    protected Dictionary<string, Label> _labels = new Dictionary<string, Label>();
     protected Dictionary<string, ListView> _listViews = new Dictionary<string, ListView>();
     protected Dictionary<string, ScrollView> _scrollViews = new Dictionary<string, ScrollView>();
+    protected Dictionary<string, GroupBox> _groupBoxes = new Dictionary<string, GroupBox>();
 
     protected AudioSource _audioSource;
     protected AudioClip DefaultOnMouseOverAudio;
@@ -72,6 +80,7 @@ public class UIBaseController : BaseMonobehaviour
         // UI DOCUMENT 객체들 전부 가져오기
         InitHandler<VisualElement>("Container-", _containers);
         InitHandler<VisualElement>("Img-", _imgs);
+        InitHandler<Label>("Label-", _labels);
         InitHandler<Button>("Button-", _buttons, (b) =>
         {
             b.RegisterCallback<MouseOverEvent>(OnMouseOverPlay);
@@ -80,6 +89,7 @@ public class UIBaseController : BaseMonobehaviour
         InitHandler<TextField>("TextField-", _textFields);
         InitHandler<ListView>("ListView-", _listViews);
         InitHandler<ScrollView>("ScrollView-", _scrollViews);
+        InitHandler<GroupBox>("GroupBox-", _groupBoxes);
     }
     protected virtual void OnMouseOverPlay(MouseOverEvent e) { CurAudioClip = DefaultOnMouseOverAudio; }
     protected virtual void OnMouseClickPlay(ClickEvent e) { CurAudioClip = DefaultOnMouseClickAudio; }
@@ -107,16 +117,37 @@ public class UIBaseController : BaseMonobehaviour
     IEnumerator ImgAnimation(VisualElement target, int dataIdx, Action callback)
     {
         SpriteCycle data = AnimationSet[dataIdx];
-        foreach (var img in data.Imgs)
+        StyleLength originalX = target.style.width;
+        StyleLength originalY = target.style.height;
+
+        foreach (var info in data.SpriteInfo)
         {
-            target.style.backgroundImage = img;
+            target.style.backgroundImage = info.Img;
+            target.style.width = (info.Size.x != 0) ? new Length(info.Size.x, LengthUnit.Percent) : originalX;
+            target.style.height = (info.Size.y != 0) ? new Length(info.Size.y, LengthUnit.Percent) : originalY;
             yield return new WaitForSeconds(data.Tick);
         }
         callback?.Invoke();
-        StopCoroutine("ImgAnimation");
+        StopCoroutine(ImgAnimation(target, dataIdx, callback));
     }
     protected void StartImgAnimation(VisualElement target, int dataIdx, Action callback = null)
     {
         StartCoroutine(ImgAnimation(target, dataIdx, callback));
+    }
+    IEnumerator RepeatCallback(Action callback, float t, float interval)
+    {
+        float time = Time.time;
+        while (true)
+        {
+            if (Time.time - time > interval)
+                break;
+            callback?.Invoke();
+            yield return new WaitForSeconds(t);
+        }
+        StopCoroutine(RepeatCallback(callback, t, interval));
+    }
+    protected void StartRepeat(Action callback, float t, float interval)
+    {
+        StartCoroutine(RepeatCallback(callback, t, interval));
     }
 }

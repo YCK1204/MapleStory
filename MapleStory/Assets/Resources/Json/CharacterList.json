@@ -1,0 +1,13 @@
+{
+	 "characters" : [
+		{
+			"id":0,
+			"name":"AngelicBuster",
+			"max_user_count":100,
+		},
+		{
+			"id":1,
+			"name":"Tanjiro",
+		}
+	]
+}

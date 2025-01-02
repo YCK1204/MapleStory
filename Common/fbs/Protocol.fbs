@@ -1,5 +1,6 @@
 include "Sign.fbs";
 include "WorldSelect.fbs";
+include "CharacterSelect.fbs";
 
 union PacketType {
 // ------------------- Sign -----------------
@@ -22,4 +23,10 @@ union PacketType {
 	C_ChannelInfo,
 	SC_ChannelInfo,
 // ------------------- WorldSelect -----------------
+// ------------------- CharacterSelect -----------------
+	C_CreateCharacter,
+	SD_CreateCharacter,
+	D_CreateCharacter,
+	SC_CreateCharacter,
+// ------------------- CharacterSelect -----------------
 }

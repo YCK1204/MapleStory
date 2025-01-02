@@ -1,0 +1,70 @@
+.CharacterList-Base {
+    height: 100%;
+    width: 20%;
+}
+
+.Button-Confirm {
+    background-image: resource('PrevInGame/Imgs/NewCharacter/NewChar.BtYes.normal.0');
+}
+
+.Button-AngelicBuster {
+    background-image: resource('Imgs/WorldSelectTitle/RaceSelect_new.button.12.normal.0');
+}
+
+.Button-AngelicBuster:hover {
+    background-image: resource('Imgs/WorldSelectTitle/RaceSelect_new.button.12.mouseOver.0');
+}
+
+.Button-AngelicBuster:focus {
+    background-image: resource('Imgs/WorldSelectTitle/RaceSelect_new.button.12.mouseOver.0');
+}
+
+.Button-Tanjiro {
+    background-image: resource('Imgs/WorldSelectTitle/RaceSelect_new.button.29.normal.0');
+}
+
+.Button-Tanjiro:hover {
+    background-image: resource('Imgs/WorldSelectTitle/RaceSelect_new.button.29.mouseOver.0');
+}
+
+.Button-Tanjiro:focus {
+    background-image: resource('Imgs/WorldSelectTitle/RaceSelect_new.button.29.mouseOver.0');
+}
+
+.Button-CharacterCreate {
+    background-image: resource('PrevInGame/Imgs/NewCharacter/RaceSelect_new.make.normal.0');
+}
+
+.Button-CharacterCreate:hover {
+    background-image: resource('PrevInGame/Imgs/NewCharacter/RaceSelect_new.make.mouseOver.0');
+}
+
+.Button-CharacterCreate:active {
+    background-image: resource('PrevInGame/Imgs/NewCharacter/RaceSelect_new.make.pressed.0');
+}
+
+.Button-NameCheck {
+    background-image: resource('PrevInGame/Imgs/NewCharacter/NewChar.BtCheck.normal.0');
+}
+
+.Button-NameCheck:hover {
+    background-image: resource('PrevInGame/Imgs/NewCharacter/NewChar.BtCheck.mouseOver.0');
+}
+
+.Button-NameCheck:active {
+    background-image: resource('PrevInGame/Imgs/NewCharacter/NewChar.BtCheck.pressed.0');
+}
+
+.CharacterInfo-AngelicBuster {
+    background-image: resource('Imgs/WorldSelectTitle/RaceSelect_new.AngelicBuster');
+}
+
+.CharacterInfo-Tanjiro {
+    background-image: resource('Imgs/WorldSelectTitle/RaceSelect_new.Tanjiro');
+}
+
+.MainBG-CreateCharacter {
+    translate: 0 0;
+    transition-duration: 1s;
+    transition-timing-function: ease-out-cubic;
+}

@@ -1,0 +1,82 @@
+.Base {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    background-color: rgba(0, 0, 0, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    flex-grow: 0;
+    width: 15%;
+}
+
+.Button-ReturnToBack {
+    background-image: resource('PrevInGame/Imgs/Common/Button/Common.BtStart.normal.0');
+}
+
+.Button-ReturnToBack:hover {
+    background-image: resource('PrevInGame/Imgs/Common/Button/Common.BtStart.mouseOver.0');
+}
+
+.Button-ReturnToBack:active {
+    background-image: resource('PrevInGame/Imgs/Common/Button/Common.BtStart.pressed.0');
+}
+
+.Button-ReturnToFirst {
+    background-image: resource('PrevInGame/Imgs/Common/Button/Common.BtStart2.normal.0');
+}
+
+.Button-ReturnToFirst:hover {
+    background-image: resource('PrevInGame/Imgs/Common/Button/Common.BtStart2.mouseOver.0');
+}
+
+.Button-ReturnToFirst:active {
+    background-image: resource('PrevInGame/Imgs/Common/Button/Common.BtStart2.pressed.0');
+}
+
+.Show {
+    transition-duration: 0.75s;
+}
+
+.Hide {
+    opacity: 0;
+    transition-property: opacity;
+}
+
+.HideLeft {
+    translate: -100% 0;
+}
+
+.Shadow-Show {
+    opacity: 1;
+    transition-duration: 0.75s;
+    transition-property: opacity;
+}
+
+.Shadow-Hide {
+    opacity: 0;
+    transition-duration: 0.75s;
+    transition-property: opacity;
+}
+
+.Step-CharacterSelect {
+    background-image: resource('PrevInGame/Imgs/Common/Common.step.2');
+}
+
+.Step-CreateCharacter {
+    background-image: resource('PrevInGame/Imgs/Common/Common.step.3');
+}
+
+.Step-Login {
+    background-image: resource('PrevInGame/Imgs/Common/Common.step.5');
+}
+
+.Step-WorldSelect {
+    background-image: resource('PrevInGame/Imgs/Common/Common.step.1');
+}

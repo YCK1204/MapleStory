@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Channel.h"
+#include "Player.h"
 
 Channel::Channel()
 {
