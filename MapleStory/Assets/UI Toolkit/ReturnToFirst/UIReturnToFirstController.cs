@@ -27,6 +27,7 @@ public class UIReturnToFirstController : UIBaseController
     protected override void Init()
     {
         base.Init();
+
         notice = Util.FindChild<UINoticeController>(Manager.Scene.CurScene.UIControllers.transform);
 
         ReturnToBack = _buttons["ReturnToBack"];
@@ -42,7 +43,6 @@ public class UIReturnToFirstController : UIBaseController
             _worldInfo.WorldInfoImg = _imgs["SelectedWorld"];
             _worldInfo.WorldInfoText = _labels["WorldInfo"];
         }
-
         ReturnToFirst.RegisterCallback<ClickEvent>((e) =>
         {
             notice.State = UINoticeController.PopupState.ReturnToFirst;
@@ -92,7 +92,8 @@ public class UIReturnToFirstController : UIBaseController
                     ReturnToFirst.RemoveFromClassList("HideLeft");
                     _step.Container.RemoveFromClassList("HideLeft");
                     _worldInfo.Container.RemoveFromClassList("HideLeft");
-                    Invoke(() => {
+                    Invoke(() =>
+                    {
                         _step.Shadow.RemoveFromClassList("Shadow-Hide");
                         _worldInfo.Shadow.RemoveFromClassList("Shadow-Hide");
                     }, .5f);

@@ -2,6 +2,7 @@
 #include "PacketHandler.h"
 #include "format.h"
 
+#pragma region Login
 void PacketHandler::HandleSignUp(PacketSession* session, const string& id, const uint32& sessionId)
 {
 	wstring query = Utils::wformat("select id from user_account where user_id='{0}'", { id });
@@ -116,8 +117,81 @@ void PacketHandler::SD_SignInHandler(PacketSession* session, ByteRef& buffer)
 		Manager::session->Send(bytes);
 	}
 }
+#pragma endregion
+#pragma region CharacterSelect
+void PacketHandler::SD_CharacterListHandler(PacketSession* session, ByteRef& buffer) {
+	auto pkt = GetRoot<SD_CharacterList>(reinterpret_cast<uint8*>(buffer->operator byte * ()));
+	uint64 sessionId = pkt->session_id();
 
+	wstring query = Utils::wformat(
+		"select * from character_info "
+		"where char_id in "
+		"(select char_id from user_character where owner = {0}) "
+		"and "
+		"server_id = {1};"
+		, initializer_list<uint64>{ pkt->db_id(), pkt->server_id() });
+
+	try {
+		Manager::DB.RequestAsync(query, [sessionId](shared_ptr<DbManager::QueryArgs> result) {
+
+			if (result->_ret == SQL_ERROR)
+				throw;
+
+			FlatBufferBuilder builder;
+			SQLHSTMT stmt = result->GetStmt();
+			HANDLE handle = result->GetHandle();
+
+			SQLCHAR name[50] = {};
+			SQLINTEGER level = 0;
+			SQLINTEGER charType = 0;
+			SQLLEN nameIndicator;
+			SQLLEN levelIndicator;
+			SQLLEN charTypeIndicator;
+			SQLBindCol(stmt, 2, SQL_C_CHAR, name, sizeof(name), &nameIndicator);
+			SQLBindCol(stmt, 3, SQL_C_LONG, &level, sizeof(level), &levelIndicator);
+			SQLBindCol(stmt, 4, SQL_C_LONG, &charType, sizeof(charType), &charTypeIndicator);
+
+			vector<Offset<CharacterInfo>> charInfos;
+			while (true)
+			{
+				SQLRETURN fetchResult = SQLFetch(stmt);
+				if (fetchResult == SQL_NO_DATA || fetchResult != SQL_SUCCESS)
+					break;
+
+				string str;
+				str.reserve(nameIndicator);
+				for (auto i = 0; i < nameIndicator; i++)
+					str.push_back(name[i]);
+				auto info = CreateCharacterInfo(
+					builder,
+					static_cast<uint8>(charType),
+					static_cast<uint16>(level),
+					builder.CreateString(str));
+				charInfos.push_back(info);
+			}
+
+			auto infos = builder.CreateVector(charInfos);
+			auto data = CreateD_CharacterList(builder, CharacterListError_SUCCESS, sessionId, infos);
+			auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_D_CharacterList);
+			Manager::session->Send(pkt);
+			});
+	}
+	catch (exception& e)
+	{
+		FlatBufferBuilder builder;
+		auto data = CreateD_CharacterList(builder, CharacterListError_UNKNOWN);
+		auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_D_CharacterList);
+		Manager::session->Send(pkt);
+	}
+}
+#pragma endregion
+#pragma region CreateCharacter
 void PacketHandler::SD_CreateCharacterHandler(PacketSession* session, ByteRef& buffer)
 {
 
 }
+
+void PacketHandler::SD_CheckNameHandler(PacketSession* session, ByteRef& buffer) {
+
+}
+#pragma endregion

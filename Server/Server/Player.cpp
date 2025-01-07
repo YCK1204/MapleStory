@@ -5,6 +5,7 @@ Player::Player()
 {
 	State = PlayerState::Lobby;
 	Type = ObjectType::PLAYER;
+	ServerId = -1;
 }
 
 Player::~Player()

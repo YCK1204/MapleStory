@@ -13,253 +13,354 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 24 &&
               FLATBUFFERS_VERSION_REVISION == 25,
              "Non-compatible flatbuffers version included");
 
-struct C_CreateCharacter;
-struct C_CreateCharacterBuilder;
+struct C_CharacterList;
+struct C_CharacterListBuilder;
 
-struct SD_CreateCharacter;
-struct SD_CreateCharacterBuilder;
+struct SD_CharacterList;
+struct SD_CharacterListBuilder;
 
-struct D_CreateCharacter;
-struct D_CreateCharacterBuilder;
+struct CharacterInfo;
+struct CharacterInfoBuilder;
 
-struct SC_CreateCharacter;
-struct SC_CreateCharacterBuilder;
+struct D_CharacterList;
+struct D_CharacterListBuilder;
 
-enum CreateCharacterError : uint16_t {
-  CreateCharacterError_SUCCESS = 0,
-  CreateCharacterError_FULL = 1,
-  CreateCharacterError_UNKNOWN = 2,
-  CreateCharacterError_MIN = CreateCharacterError_SUCCESS,
-  CreateCharacterError_MAX = CreateCharacterError_UNKNOWN
+struct SC_CharacterList;
+struct SC_CharacterListBuilder;
+
+enum CharacterListError : uint8_t {
+  CharacterListError_SUCCESS = 0,
+  CharacterListError_UNKNOWN = 1,
+  CharacterListError_MIN = CharacterListError_SUCCESS,
+  CharacterListError_MAX = CharacterListError_UNKNOWN
 };
 
-inline const CreateCharacterError (&EnumValuesCreateCharacterError())[3] {
-  static const CreateCharacterError values[] = {
-    CreateCharacterError_SUCCESS,
-    CreateCharacterError_FULL,
-    CreateCharacterError_UNKNOWN
+inline const CharacterListError (&EnumValuesCharacterListError())[2] {
+  static const CharacterListError values[] = {
+    CharacterListError_SUCCESS,
+    CharacterListError_UNKNOWN
   };
   return values;
 }
 
-inline const char * const *EnumNamesCreateCharacterError() {
-  static const char * const names[4] = {
+inline const char * const *EnumNamesCharacterListError() {
+  static const char * const names[3] = {
     "SUCCESS",
-    "FULL",
     "UNKNOWN",
     nullptr
   };
   return names;
 }
 
-inline const char *EnumNameCreateCharacterError(CreateCharacterError e) {
-  if (::flatbuffers::IsOutRange(e, CreateCharacterError_SUCCESS, CreateCharacterError_UNKNOWN)) return "";
+inline const char *EnumNameCharacterListError(CharacterListError e) {
+  if (::flatbuffers::IsOutRange(e, CharacterListError_SUCCESS, CharacterListError_UNKNOWN)) return "";
   const size_t index = static_cast<size_t>(e);
-  return EnumNamesCreateCharacterError()[index];
+  return EnumNamesCharacterListError()[index];
 }
 
-struct C_CreateCharacter FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef C_CreateCharacterBuilder Builder;
-  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_CHAR_ID = 4
-  };
-  uint16_t char_id() const {
-    return GetField<uint16_t>(VT_CHAR_ID, 0);
-  }
+struct C_CharacterList FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef C_CharacterListBuilder Builder;
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<uint16_t>(verifier, VT_CHAR_ID, 2) &&
            verifier.EndTable();
   }
 };
 
-struct C_CreateCharacterBuilder {
-  typedef C_CreateCharacter Table;
+struct C_CharacterListBuilder {
+  typedef C_CharacterList Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
-  void add_char_id(uint16_t char_id) {
-    fbb_.AddElement<uint16_t>(C_CreateCharacter::VT_CHAR_ID, char_id, 0);
-  }
-  explicit C_CreateCharacterBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit C_CharacterListBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<C_CreateCharacter> Finish() {
+  ::flatbuffers::Offset<C_CharacterList> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<C_CreateCharacter>(end);
+    auto o = ::flatbuffers::Offset<C_CharacterList>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<C_CreateCharacter> CreateC_CreateCharacter(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
-    uint16_t char_id = 0) {
-  C_CreateCharacterBuilder builder_(_fbb);
-  builder_.add_char_id(char_id);
+inline ::flatbuffers::Offset<C_CharacterList> CreateC_CharacterList(
+    ::flatbuffers::FlatBufferBuilder &_fbb) {
+  C_CharacterListBuilder builder_(_fbb);
   return builder_.Finish();
 }
 
-struct SD_CreateCharacter FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef SD_CreateCharacterBuilder Builder;
+struct SD_CharacterList FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SD_CharacterListBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_DB_ID = 4,
-    VT_SESSION_ID = 6,
-    VT_CHAR_ID = 8
+    VT_SESSION_ID = 4,
+    VT_DB_ID = 6,
+    VT_SERVER_ID = 8
   };
+  uint64_t session_id() const {
+    return GetField<uint64_t>(VT_SESSION_ID, 0);
+  }
   uint64_t db_id() const {
     return GetField<uint64_t>(VT_DB_ID, 0);
+  }
+  uint8_t server_id() const {
+    return GetField<uint8_t>(VT_SERVER_ID, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_SESSION_ID, 8) &&
+           VerifyField<uint64_t>(verifier, VT_DB_ID, 8) &&
+           VerifyField<uint8_t>(verifier, VT_SERVER_ID, 1) &&
+           verifier.EndTable();
+  }
+};
+
+struct SD_CharacterListBuilder {
+  typedef SD_CharacterList Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_session_id(uint64_t session_id) {
+    fbb_.AddElement<uint64_t>(SD_CharacterList::VT_SESSION_ID, session_id, 0);
+  }
+  void add_db_id(uint64_t db_id) {
+    fbb_.AddElement<uint64_t>(SD_CharacterList::VT_DB_ID, db_id, 0);
+  }
+  void add_server_id(uint8_t server_id) {
+    fbb_.AddElement<uint8_t>(SD_CharacterList::VT_SERVER_ID, server_id, 0);
+  }
+  explicit SD_CharacterListBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SD_CharacterList> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SD_CharacterList>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SD_CharacterList> CreateSD_CharacterList(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t session_id = 0,
+    uint64_t db_id = 0,
+    uint8_t server_id = 0) {
+  SD_CharacterListBuilder builder_(_fbb);
+  builder_.add_db_id(db_id);
+  builder_.add_session_id(session_id);
+  builder_.add_server_id(server_id);
+  return builder_.Finish();
+}
+
+struct CharacterInfo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef CharacterInfoBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_CHAR_TYPE = 4,
+    VT_LEVEL = 6,
+    VT_NAME = 8
+  };
+  uint8_t char_type() const {
+    return GetField<uint8_t>(VT_CHAR_TYPE, 0);
+  }
+  uint16_t level() const {
+    return GetField<uint16_t>(VT_LEVEL, 0);
+  }
+  const ::flatbuffers::String *name() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_NAME);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint8_t>(verifier, VT_CHAR_TYPE, 1) &&
+           VerifyField<uint16_t>(verifier, VT_LEVEL, 2) &&
+           VerifyOffset(verifier, VT_NAME) &&
+           verifier.VerifyString(name()) &&
+           verifier.EndTable();
+  }
+};
+
+struct CharacterInfoBuilder {
+  typedef CharacterInfo Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_char_type(uint8_t char_type) {
+    fbb_.AddElement<uint8_t>(CharacterInfo::VT_CHAR_TYPE, char_type, 0);
+  }
+  void add_level(uint16_t level) {
+    fbb_.AddElement<uint16_t>(CharacterInfo::VT_LEVEL, level, 0);
+  }
+  void add_name(::flatbuffers::Offset<::flatbuffers::String> name) {
+    fbb_.AddOffset(CharacterInfo::VT_NAME, name);
+  }
+  explicit CharacterInfoBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<CharacterInfo> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<CharacterInfo>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<CharacterInfo> CreateCharacterInfo(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint8_t char_type = 0,
+    uint16_t level = 0,
+    ::flatbuffers::Offset<::flatbuffers::String> name = 0) {
+  CharacterInfoBuilder builder_(_fbb);
+  builder_.add_name(name);
+  builder_.add_level(level);
+  builder_.add_char_type(char_type);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<CharacterInfo> CreateCharacterInfoDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint8_t char_type = 0,
+    uint16_t level = 0,
+    const char *name = nullptr) {
+  auto name__ = name ? _fbb.CreateString(name) : 0;
+  return CreateCharacterInfo(
+      _fbb,
+      char_type,
+      level,
+      name__);
+}
+
+struct D_CharacterList FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef D_CharacterListBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_OK = 4,
+    VT_SESSION_ID = 6,
+    VT_LIST = 8
+  };
+  CharacterListError ok() const {
+    return static_cast<CharacterListError>(GetField<uint8_t>(VT_OK, 0));
   }
   uint64_t session_id() const {
     return GetField<uint64_t>(VT_SESSION_ID, 0);
   }
-  uint16_t char_id() const {
-    return GetField<uint16_t>(VT_CHAR_ID, 0);
+  const ::flatbuffers::Vector<::flatbuffers::Offset<CharacterInfo>> *list() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<CharacterInfo>> *>(VT_LIST);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<uint64_t>(verifier, VT_DB_ID, 8) &&
+           VerifyField<uint8_t>(verifier, VT_OK, 1) &&
            VerifyField<uint64_t>(verifier, VT_SESSION_ID, 8) &&
-           VerifyField<uint16_t>(verifier, VT_CHAR_ID, 2) &&
+           VerifyOffset(verifier, VT_LIST) &&
+           verifier.VerifyVector(list()) &&
+           verifier.VerifyVectorOfTables(list()) &&
            verifier.EndTable();
   }
 };
 
-struct SD_CreateCharacterBuilder {
-  typedef SD_CreateCharacter Table;
+struct D_CharacterListBuilder {
+  typedef D_CharacterList Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
-  void add_db_id(uint64_t db_id) {
-    fbb_.AddElement<uint64_t>(SD_CreateCharacter::VT_DB_ID, db_id, 0);
+  void add_ok(CharacterListError ok) {
+    fbb_.AddElement<uint8_t>(D_CharacterList::VT_OK, static_cast<uint8_t>(ok), 0);
   }
   void add_session_id(uint64_t session_id) {
-    fbb_.AddElement<uint64_t>(SD_CreateCharacter::VT_SESSION_ID, session_id, 0);
+    fbb_.AddElement<uint64_t>(D_CharacterList::VT_SESSION_ID, session_id, 0);
   }
-  void add_char_id(uint16_t char_id) {
-    fbb_.AddElement<uint16_t>(SD_CreateCharacter::VT_CHAR_ID, char_id, 0);
+  void add_list(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<CharacterInfo>>> list) {
+    fbb_.AddOffset(D_CharacterList::VT_LIST, list);
   }
-  explicit SD_CreateCharacterBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit D_CharacterListBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<SD_CreateCharacter> Finish() {
+  ::flatbuffers::Offset<D_CharacterList> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<SD_CreateCharacter>(end);
+    auto o = ::flatbuffers::Offset<D_CharacterList>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<SD_CreateCharacter> CreateSD_CreateCharacter(
+inline ::flatbuffers::Offset<D_CharacterList> CreateD_CharacterList(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    uint64_t db_id = 0,
+    CharacterListError ok = CharacterListError_SUCCESS,
     uint64_t session_id = 0,
-    uint16_t char_id = 0) {
-  SD_CreateCharacterBuilder builder_(_fbb);
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<CharacterInfo>>> list = 0) {
+  D_CharacterListBuilder builder_(_fbb);
   builder_.add_session_id(session_id);
-  builder_.add_db_id(db_id);
-  builder_.add_char_id(char_id);
-  return builder_.Finish();
-}
-
-struct D_CreateCharacter FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef D_CreateCharacterBuilder Builder;
-  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_DB_ID = 4,
-    VT_SESSION_ID = 6,
-    VT_OK = 8
-  };
-  uint64_t db_id() const {
-    return GetField<uint64_t>(VT_DB_ID, 0);
-  }
-  uint64_t session_id() const {
-    return GetField<uint64_t>(VT_SESSION_ID, 0);
-  }
-  CreateCharacterError ok() const {
-    return static_cast<CreateCharacterError>(GetField<uint16_t>(VT_OK, 0));
-  }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           VerifyField<uint64_t>(verifier, VT_DB_ID, 8) &&
-           VerifyField<uint64_t>(verifier, VT_SESSION_ID, 8) &&
-           VerifyField<uint16_t>(verifier, VT_OK, 2) &&
-           verifier.EndTable();
-  }
-};
-
-struct D_CreateCharacterBuilder {
-  typedef D_CreateCharacter Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  void add_db_id(uint64_t db_id) {
-    fbb_.AddElement<uint64_t>(D_CreateCharacter::VT_DB_ID, db_id, 0);
-  }
-  void add_session_id(uint64_t session_id) {
-    fbb_.AddElement<uint64_t>(D_CreateCharacter::VT_SESSION_ID, session_id, 0);
-  }
-  void add_ok(CreateCharacterError ok) {
-    fbb_.AddElement<uint16_t>(D_CreateCharacter::VT_OK, static_cast<uint16_t>(ok), 0);
-  }
-  explicit D_CreateCharacterBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
-        : fbb_(_fbb) {
-    start_ = fbb_.StartTable();
-  }
-  ::flatbuffers::Offset<D_CreateCharacter> Finish() {
-    const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<D_CreateCharacter>(end);
-    return o;
-  }
-};
-
-inline ::flatbuffers::Offset<D_CreateCharacter> CreateD_CreateCharacter(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
-    uint64_t db_id = 0,
-    uint64_t session_id = 0,
-    CreateCharacterError ok = CreateCharacterError_SUCCESS) {
-  D_CreateCharacterBuilder builder_(_fbb);
-  builder_.add_session_id(session_id);
-  builder_.add_db_id(db_id);
+  builder_.add_list(list);
   builder_.add_ok(ok);
   return builder_.Finish();
 }
 
-struct SC_CreateCharacter FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef SC_CreateCharacterBuilder Builder;
+inline ::flatbuffers::Offset<D_CharacterList> CreateD_CharacterListDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    CharacterListError ok = CharacterListError_SUCCESS,
+    uint64_t session_id = 0,
+    const std::vector<::flatbuffers::Offset<CharacterInfo>> *list = nullptr) {
+  auto list__ = list ? _fbb.CreateVector<::flatbuffers::Offset<CharacterInfo>>(*list) : 0;
+  return CreateD_CharacterList(
+      _fbb,
+      ok,
+      session_id,
+      list__);
+}
+
+struct SC_CharacterList FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SC_CharacterListBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_OK = 4
+    VT_OK = 4,
+    VT_LIST = 6
   };
-  CreateCharacterError ok() const {
-    return static_cast<CreateCharacterError>(GetField<uint16_t>(VT_OK, 0));
+  CharacterListError ok() const {
+    return static_cast<CharacterListError>(GetField<uint8_t>(VT_OK, 0));
+  }
+  const ::flatbuffers::Vector<::flatbuffers::Offset<CharacterInfo>> *list() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<CharacterInfo>> *>(VT_LIST);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<uint16_t>(verifier, VT_OK, 2) &&
+           VerifyField<uint8_t>(verifier, VT_OK, 1) &&
+           VerifyOffset(verifier, VT_LIST) &&
+           verifier.VerifyVector(list()) &&
+           verifier.VerifyVectorOfTables(list()) &&
            verifier.EndTable();
   }
 };
 
-struct SC_CreateCharacterBuilder {
-  typedef SC_CreateCharacter Table;
+struct SC_CharacterListBuilder {
+  typedef SC_CharacterList Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
-  void add_ok(CreateCharacterError ok) {
-    fbb_.AddElement<uint16_t>(SC_CreateCharacter::VT_OK, static_cast<uint16_t>(ok), 0);
+  void add_ok(CharacterListError ok) {
+    fbb_.AddElement<uint8_t>(SC_CharacterList::VT_OK, static_cast<uint8_t>(ok), 0);
   }
-  explicit SC_CreateCharacterBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  void add_list(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<CharacterInfo>>> list) {
+    fbb_.AddOffset(SC_CharacterList::VT_LIST, list);
+  }
+  explicit SC_CharacterListBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<SC_CreateCharacter> Finish() {
+  ::flatbuffers::Offset<SC_CharacterList> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<SC_CreateCharacter>(end);
+    auto o = ::flatbuffers::Offset<SC_CharacterList>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<SC_CreateCharacter> CreateSC_CreateCharacter(
+inline ::flatbuffers::Offset<SC_CharacterList> CreateSC_CharacterList(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    CreateCharacterError ok = CreateCharacterError_SUCCESS) {
-  SC_CreateCharacterBuilder builder_(_fbb);
+    CharacterListError ok = CharacterListError_SUCCESS,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<CharacterInfo>>> list = 0) {
+  SC_CharacterListBuilder builder_(_fbb);
+  builder_.add_list(list);
   builder_.add_ok(ok);
   return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<SC_CharacterList> CreateSC_CharacterListDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    CharacterListError ok = CharacterListError_SUCCESS,
+    const std::vector<::flatbuffers::Offset<CharacterInfo>> *list = nullptr) {
+  auto list__ = list ? _fbb.CreateVector<::flatbuffers::Offset<CharacterInfo>>(*list) : 0;
+  return CreateSC_CharacterList(
+      _fbb,
+      ok,
+      list__);
 }
 
 #endif  // FLATBUFFERS_GENERATED_CHARACTERSELECT_H_

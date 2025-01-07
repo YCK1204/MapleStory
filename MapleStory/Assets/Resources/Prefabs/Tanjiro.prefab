@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7410887613857190022}
   - component: {fileID: 4253828618152029592}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7129475653416624442}
   - component: {fileID: 1987817724797877392}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EyeAccessory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5750959848172209971}
   - component: {fileID: 8338519507623480726}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HandF
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,7 +272,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3520935498064068363}
   - component: {fileID: 217236189837664034}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeaponBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -359,7 +359,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8776543621867109390}
   - component: {fileID: 8407896772995186403}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeaponBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -446,7 +446,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6657455565160496163}
   - component: {fileID: 999244070442037377}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ArmCloth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -533,7 +533,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3838347245605412606}
   - component: {fileID: 3477222863796515880}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeaponHandle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -620,7 +620,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3330530414724134531}
   - component: {fileID: 2669207103245331590}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Shoes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -691,7 +691,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.27, y: 0.1}
+  m_Size: {x: 0.21, y: 0.07}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -707,7 +707,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1481242206221055333}
   - component: {fileID: 279326558193198753}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeaponHandle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -794,7 +794,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8656863236118980116}
   - component: {fileID: 2486300721128105971}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HandF
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -882,7 +882,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6146151717385833052}
   - component: {fileID: 7249824494457291036}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -970,7 +970,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7638288632523769146}
   - component: {fileID: 21421778483567914}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ArmCloth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1041,7 +1041,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.12, y: 0.18}
+  m_Size: {x: 0.1, y: 0.14}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -1058,7 +1058,7 @@ GameObject:
   - component: {fileID: 4829720402234109159}
   - component: {fileID: 1318611165838041531}
   - component: {fileID: 4777615922139749267}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tanjiro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1169,7 +1169,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2348584894007324314}
   - component: {fileID: 23820256825422135}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1258,7 +1258,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7855102738727973724}
   - component: {fileID: 2433940703076387205}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HandH
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1345,7 +1345,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8924799011693072369}
   - component: {fileID: 3344732598507928664}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ArmF
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1435,7 +1435,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3894843220849399045}
   - component: {fileID: 6558918506450772662}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1503,13 +1503,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 12
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.13, y: 0.17}
+  m_Size: {x: 0.1, y: 0.19}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -1525,7 +1525,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8614600419636993016}
   - component: {fileID: 7935012092377928142}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HandH
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1612,7 +1612,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1274208942047241067}
   - component: {fileID: 4858821883629885634}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BodyCloth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1685,7 +1685,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.28, y: 0.27}
+  m_Size: {x: 0.27, y: 0.29}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -1701,7 +1701,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2764335854621790965}
   - component: {fileID: 5000596063015871679}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1774,7 +1774,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.26, y: 0.3}
+  m_Size: {x: 0.21, y: 0.31}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -1790,7 +1790,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4712131394627827713}
   - component: {fileID: 7956293101554909364}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1879,7 +1879,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2768886865510168519}
   - component: {fileID: 3114663958451443079}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}

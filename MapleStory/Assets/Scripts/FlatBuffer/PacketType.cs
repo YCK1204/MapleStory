@@ -19,10 +19,18 @@ public enum PacketType : byte
   SC_EnterChannel = 12,
   C_ChannelInfo = 13,
   SC_ChannelInfo = 14,
-  C_CreateCharacter = 15,
-  SD_CreateCharacter = 16,
-  D_CreateCharacter = 17,
-  SC_CreateCharacter = 18,
+  C_CharacterList = 15,
+  SD_CharacterList = 16,
+  D_CharacterList = 17,
+  SC_CharacterList = 18,
+  C_CheckName = 19,
+  SD_CheckName = 20,
+  D_CheckName = 21,
+  SC_CheckName = 22,
+  C_CreateCharacter = 23,
+  SD_CreateCharacter = 24,
+  D_CreateCharacter = 25,
+  SC_CreateCharacter = 26,
 };
 
 
@@ -75,6 +83,30 @@ static public class PacketTypeVerify
         break;
       case PacketType.SC_ChannelInfo:
         result = SC_ChannelInfoVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.C_CharacterList:
+        result = C_CharacterListVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SD_CharacterList:
+        result = SD_CharacterListVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.D_CharacterList:
+        result = D_CharacterListVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_CharacterList:
+        result = SC_CharacterListVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.C_CheckName:
+        result = C_CheckNameVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SD_CheckName:
+        result = SD_CheckNameVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.D_CheckName:
+        result = D_CheckNameVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_CheckName:
+        result = SC_CheckNameVerify.Verify(verifier, tablePos);
         break;
       case PacketType.C_CreateCharacter:
         result = C_CreateCharacterVerify.Verify(verifier, tablePos);

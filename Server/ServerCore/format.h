@@ -35,6 +35,20 @@ namespace Utils {
 				pos = input.find(target, pos + val.length());
 			}
 		}
+		template <typename T>
+		static wstring wformatHandler(const string& input, const initializer_list<T>& args) {
+			wstring result;
+			uint32 i = 0;
+
+			string t = input;
+			for (auto& arg : args)
+			{
+				ReplaceString(t, i, ::to_string(arg));
+				i++;
+			}
+			result.assign(t.begin(), t.end());
+			return result;
+		}
 	}
 	static string format(const string& input, const initializer_list<string>& args) {
 		string result = input;
@@ -63,6 +77,12 @@ namespace Utils {
 		string t = format(input, args);
 		result.assign(t.begin(), t.end());
 		return result;
+	}
+	static wstring wformat(const string& input, const initializer_list<uint64>& args) {
+		return wformatHandler(input, args);
+	}
+	static wstring wformat(const string& input, const initializer_list<uint32>& args) {
+		return wformatHandler(input, args);
 	}
 }
 #endif

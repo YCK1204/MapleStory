@@ -1,6 +1,9 @@
-include "Sign.fbs";
+// ------------------- PrevInGame -----------------
+include "Login.fbs";
 include "WorldSelect.fbs";
 include "CharacterSelect.fbs";
+include "CreateCharacter.fbs";
+// ------------------- PrevInGame -----------------
 
 union PacketType {
 // ------------------- Sign -----------------
@@ -24,9 +27,19 @@ union PacketType {
 	SC_ChannelInfo,
 // ------------------- WorldSelect -----------------
 // ------------------- CharacterSelect -----------------
+	C_CharacterList,
+	SD_CharacterList,
+	D_CharacterList,
+	SC_CharacterList,
+// ------------------- CharacterSelect -----------------
+// ------------------- CreateCharacter -----------------
+	C_CheckName,
+	SD_CheckName,
+	D_CheckName,
+	SC_CheckName,
 	C_CreateCharacter,
 	SD_CreateCharacter,
 	D_CreateCharacter,
 	SC_CreateCharacter,
-// ------------------- CharacterSelect -----------------
+// ------------------- CreateCharacter -----------------
 }

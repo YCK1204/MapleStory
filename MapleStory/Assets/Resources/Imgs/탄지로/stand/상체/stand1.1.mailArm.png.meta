@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a2a79347fd7c7244285c89a1b8fcb3db
+guid: 3bf494697984fd04e942853123fc0395
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7313810522370143895
-    second: 30.stand1.0.weaponBelowBody_0
+      213: -8615122882597696719
+    second: stand1.1.mailArm_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 30.stand1.0.weaponBelowBody_0
+      name: stand1.1.mailArm_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 54
-        height: 22
+        width: 10
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 796f26c7befdf7560800000000000000
-      internalID: 7313810522370143895
+      spriteID: 13bcc66126fe07880800000000000000
+      internalID: -8615122882597696719
       vertices: []
       indices: 
       edges: []

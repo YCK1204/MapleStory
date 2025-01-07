@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PrevInGameScene : BaseScene
 {
-    UIPrevInGameController prevInGameController;
+    public UIPrevInGameController prevInGameController;
     public override void OnRecvPacket<T>(T pkt)
     {
         prevInGameController.OnRecvPacket(pkt);

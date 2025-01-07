@@ -12,6 +12,11 @@ public partial class UIPrevInGameController : UIBaseController
     VisualElement CharacterInfo;
     Button CharacterCreate;
 
+    VisualElement CharacterPos;
+
+    [SerializeField]
+    GameObject[] Characters;
+
     struct CharacterStatusMain
     {
         public VisualElement Container;
@@ -37,22 +42,25 @@ public partial class UIPrevInGameController : UIBaseController
     [SerializeField]
     TextAsset CharacterJson;
     CharacterStatus _charStatus = new CharacterStatus();
-    struct Character
+    struct JCharacterInfo
     {
         public int id { get; set; }
         public string name { get; set; }
     }
-    struct Characters
+    struct JCharacterInfos
     {
-        public Character[] characters;
+        public JCharacterInfo[] characters;
     }
     #endregion
     List<Button> _characterButtons = new List<Button>();
     private void InitializeCharList()
     {
-        Characters characters = JsonConvert.DeserializeObject<Characters>(CharacterJson.ToString());
-        foreach (Character character in characters.characters)
+        JCharacterInfos characterInfos = JsonConvert.DeserializeObject<JCharacterInfos>(CharacterJson.ToString());
+
+        for (int i = 0; i < characterInfos.characters.Length; i++)
         {
+            JCharacterInfo character = characterInfos.characters[i];
+
             Button button = CreateButton(character.name);
             button.name = character.name;
             button.AddToClassList("CharacterList-Base");
@@ -62,11 +70,18 @@ public partial class UIPrevInGameController : UIBaseController
                 CharacterInfo.ClearClassList();
                 CharacterInfo.AddToClassList($"CharacterInfo-{character.name}");
                 // 나중에 중앙에 서 있는 캐릭터 이미지도 바꿔야함
+                if (character.name == "Tanjiro") // 일단 탄지로만
+                {
+                    Characters[0].SetActive(true);
+                }
+                else
+                {
+                    Characters[0].SetActive(false);
+                }
             });
             CharacterList.Add(button);
             _characterButtons.Add(button);
         }
-        
     }
     #region 주사위
     bool toggle = false;

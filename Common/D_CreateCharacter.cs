@@ -16,25 +16,21 @@ public struct D_CreateCharacter : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public D_CreateCharacter __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public ulong DbId { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetUlong(o + __p.bb_pos) : (ulong)0; } }
-  public ulong SessionId { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetUlong(o + __p.bb_pos) : (ulong)0; } }
-  public CreateCharacterError Ok { get { int o = __p.__offset(8); return o != 0 ? (CreateCharacterError)__p.bb.GetUshort(o + __p.bb_pos) : CreateCharacterError.SUCCESS; } }
+  public ulong SessionId { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetUlong(o + __p.bb_pos) : (ulong)0; } }
+  public CreateCharacterError Ok { get { int o = __p.__offset(6); return o != 0 ? (CreateCharacterError)__p.bb.Get(o + __p.bb_pos) : CreateCharacterError.SUCCESS; } }
 
   public static Offset<D_CreateCharacter> CreateD_CreateCharacter(FlatBufferBuilder builder,
-      ulong db_id = 0,
       ulong session_id = 0,
       CreateCharacterError ok = CreateCharacterError.SUCCESS) {
-    builder.StartTable(3);
+    builder.StartTable(2);
     D_CreateCharacter.AddSessionId(builder, session_id);
-    D_CreateCharacter.AddDbId(builder, db_id);
     D_CreateCharacter.AddOk(builder, ok);
     return D_CreateCharacter.EndD_CreateCharacter(builder);
   }
 
-  public static void StartD_CreateCharacter(FlatBufferBuilder builder) { builder.StartTable(3); }
-  public static void AddDbId(FlatBufferBuilder builder, ulong dbId) { builder.AddUlong(0, dbId, 0); }
-  public static void AddSessionId(FlatBufferBuilder builder, ulong sessionId) { builder.AddUlong(1, sessionId, 0); }
-  public static void AddOk(FlatBufferBuilder builder, CreateCharacterError ok) { builder.AddUshort(2, (ushort)ok, 0); }
+  public static void StartD_CreateCharacter(FlatBufferBuilder builder) { builder.StartTable(2); }
+  public static void AddSessionId(FlatBufferBuilder builder, ulong sessionId) { builder.AddUlong(0, sessionId, 0); }
+  public static void AddOk(FlatBufferBuilder builder, CreateCharacterError ok) { builder.AddByte(1, (byte)ok, 0); }
   public static Offset<D_CreateCharacter> EndD_CreateCharacter(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<D_CreateCharacter>(o);
@@ -47,9 +43,8 @@ static public class D_CreateCharacterVerify
   static public bool Verify(Google.FlatBuffers.Verifier verifier, uint tablePos)
   {
     return verifier.VerifyTableStart(tablePos)
-      && verifier.VerifyField(tablePos, 4 /*DbId*/, 8 /*ulong*/, 8, false)
-      && verifier.VerifyField(tablePos, 6 /*SessionId*/, 8 /*ulong*/, 8, false)
-      && verifier.VerifyField(tablePos, 8 /*Ok*/, 2 /*CreateCharacterError*/, 2, false)
+      && verifier.VerifyField(tablePos, 4 /*SessionId*/, 8 /*ulong*/, 8, false)
+      && verifier.VerifyField(tablePos, 6 /*Ok*/, 1 /*CreateCharacterError*/, 1, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

@@ -16,7 +16,7 @@ public struct SC_CreateCharacter : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public SC_CreateCharacter __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public CreateCharacterError Ok { get { int o = __p.__offset(4); return o != 0 ? (CreateCharacterError)__p.bb.GetUshort(o + __p.bb_pos) : CreateCharacterError.SUCCESS; } }
+  public CreateCharacterError Ok { get { int o = __p.__offset(4); return o != 0 ? (CreateCharacterError)__p.bb.Get(o + __p.bb_pos) : CreateCharacterError.SUCCESS; } }
 
   public static Offset<SC_CreateCharacter> CreateSC_CreateCharacter(FlatBufferBuilder builder,
       CreateCharacterError ok = CreateCharacterError.SUCCESS) {
@@ -26,7 +26,7 @@ public struct SC_CreateCharacter : IFlatbufferObject
   }
 
   public static void StartSC_CreateCharacter(FlatBufferBuilder builder) { builder.StartTable(1); }
-  public static void AddOk(FlatBufferBuilder builder, CreateCharacterError ok) { builder.AddUshort(0, (ushort)ok, 0); }
+  public static void AddOk(FlatBufferBuilder builder, CreateCharacterError ok) { builder.AddByte(0, (byte)ok, 0); }
   public static Offset<SC_CreateCharacter> EndSC_CreateCharacter(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<SC_CreateCharacter>(o);
@@ -39,7 +39,7 @@ static public class SC_CreateCharacterVerify
   static public bool Verify(Google.FlatBuffers.Verifier verifier, uint tablePos)
   {
     return verifier.VerifyTableStart(tablePos)
-      && verifier.VerifyField(tablePos, 4 /*Ok*/, 2 /*CreateCharacterError*/, 2, false)
+      && verifier.VerifyField(tablePos, 4 /*Ok*/, 1 /*CreateCharacterError*/, 1, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

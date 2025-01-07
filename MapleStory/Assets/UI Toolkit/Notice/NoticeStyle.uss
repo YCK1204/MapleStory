@@ -86,3 +86,7 @@
 .PopupImg-Unknown {
     background-image: resource('PrevInGame/Imgs/Notice/Notice-UnknownError');
 }
+
+.PopupImg-NoMoreCreateCharacter {
+    background-image: resource('PrevInGame/Imgs/Notice/Notice-NoMoreCreateCharacter');
+}

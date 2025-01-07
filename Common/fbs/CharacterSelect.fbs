@@ -1,25 +1,30 @@
-table C_CreateCharacter {
-	char_id:ushort;
+table C_CharacterList {
 }
 
-table SD_CreateCharacter {
-	db_id:uint64;
+table SD_CharacterList {
 	session_id:uint64;
-	char_id:ushort;
+	db_id:uint64;
+	server_id:uint8;
 }
 
-enum CreateCharacterError : ushort {
+table CharacterInfo {
+	char_type:uint8;
+	level:uint16;
+	name:string;
+}
+
+enum CharacterListError : uint8 {
 	SUCCESS,
-	FULL,
 	UNKNOWN,
 }
 
-table D_CreateCharacter {
-	db_id:uint64;
+table D_CharacterList {
+	ok:CharacterListError;
 	session_id:uint64;
-	ok:CreateCharacterError;
+	list:[CharacterInfo];
 }
 
-table SC_CreateCharacter {
-	ok:CreateCharacterError;
+table SC_CharacterList {
+	ok:CharacterListError;
+	list:[CharacterInfo];
 }

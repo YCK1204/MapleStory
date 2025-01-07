@@ -14,7 +14,8 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 24 &&
              "Non-compatible flatbuffers version included");
 
 #include "CharacterSelect_generated.h"
-#include "Sign_generated.h"
+#include "CreateCharacter_generated.h"
+#include "Login_generated.h"
 #include "WorldSelect_generated.h"
 
 enum PacketType : uint8_t {
@@ -33,15 +34,23 @@ enum PacketType : uint8_t {
   PacketType_SC_EnterChannel = 12,
   PacketType_C_ChannelInfo = 13,
   PacketType_SC_ChannelInfo = 14,
-  PacketType_C_CreateCharacter = 15,
-  PacketType_SD_CreateCharacter = 16,
-  PacketType_D_CreateCharacter = 17,
-  PacketType_SC_CreateCharacter = 18,
+  PacketType_C_CharacterList = 15,
+  PacketType_SD_CharacterList = 16,
+  PacketType_D_CharacterList = 17,
+  PacketType_SC_CharacterList = 18,
+  PacketType_C_CheckName = 19,
+  PacketType_SD_CheckName = 20,
+  PacketType_D_CheckName = 21,
+  PacketType_SC_CheckName = 22,
+  PacketType_C_CreateCharacter = 23,
+  PacketType_SD_CreateCharacter = 24,
+  PacketType_D_CreateCharacter = 25,
+  PacketType_SC_CreateCharacter = 26,
   PacketType_MIN = PacketType_NONE,
   PacketType_MAX = PacketType_SC_CreateCharacter
 };
 
-inline const PacketType (&EnumValuesPacketType())[19] {
+inline const PacketType (&EnumValuesPacketType())[27] {
   static const PacketType values[] = {
     PacketType_NONE,
     PacketType_C_SignUp,
@@ -58,6 +67,14 @@ inline const PacketType (&EnumValuesPacketType())[19] {
     PacketType_SC_EnterChannel,
     PacketType_C_ChannelInfo,
     PacketType_SC_ChannelInfo,
+    PacketType_C_CharacterList,
+    PacketType_SD_CharacterList,
+    PacketType_D_CharacterList,
+    PacketType_SC_CharacterList,
+    PacketType_C_CheckName,
+    PacketType_SD_CheckName,
+    PacketType_D_CheckName,
+    PacketType_SC_CheckName,
     PacketType_C_CreateCharacter,
     PacketType_SD_CreateCharacter,
     PacketType_D_CreateCharacter,
@@ -67,7 +84,7 @@ inline const PacketType (&EnumValuesPacketType())[19] {
 }
 
 inline const char * const *EnumNamesPacketType() {
-  static const char * const names[20] = {
+  static const char * const names[28] = {
     "NONE",
     "C_SignUp",
     "SD_SignUp",
@@ -83,6 +100,14 @@ inline const char * const *EnumNamesPacketType() {
     "SC_EnterChannel",
     "C_ChannelInfo",
     "SC_ChannelInfo",
+    "C_CharacterList",
+    "SD_CharacterList",
+    "D_CharacterList",
+    "SC_CharacterList",
+    "C_CheckName",
+    "SD_CheckName",
+    "D_CheckName",
+    "SC_CheckName",
     "C_CreateCharacter",
     "SD_CreateCharacter",
     "D_CreateCharacter",
@@ -156,6 +181,38 @@ template<> struct PacketTypeTraits<C_ChannelInfo> {
 
 template<> struct PacketTypeTraits<SC_ChannelInfo> {
   static const PacketType enum_value = PacketType_SC_ChannelInfo;
+};
+
+template<> struct PacketTypeTraits<C_CharacterList> {
+  static const PacketType enum_value = PacketType_C_CharacterList;
+};
+
+template<> struct PacketTypeTraits<SD_CharacterList> {
+  static const PacketType enum_value = PacketType_SD_CharacterList;
+};
+
+template<> struct PacketTypeTraits<D_CharacterList> {
+  static const PacketType enum_value = PacketType_D_CharacterList;
+};
+
+template<> struct PacketTypeTraits<SC_CharacterList> {
+  static const PacketType enum_value = PacketType_SC_CharacterList;
+};
+
+template<> struct PacketTypeTraits<C_CheckName> {
+  static const PacketType enum_value = PacketType_C_CheckName;
+};
+
+template<> struct PacketTypeTraits<SD_CheckName> {
+  static const PacketType enum_value = PacketType_SD_CheckName;
+};
+
+template<> struct PacketTypeTraits<D_CheckName> {
+  static const PacketType enum_value = PacketType_D_CheckName;
+};
+
+template<> struct PacketTypeTraits<SC_CheckName> {
+  static const PacketType enum_value = PacketType_SC_CheckName;
 };
 
 template<> struct PacketTypeTraits<C_CreateCharacter> {
@@ -236,6 +293,38 @@ inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj,
     }
     case PacketType_SC_ChannelInfo: {
       auto ptr = reinterpret_cast<const SC_ChannelInfo *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_C_CharacterList: {
+      auto ptr = reinterpret_cast<const C_CharacterList *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SD_CharacterList: {
+      auto ptr = reinterpret_cast<const SD_CharacterList *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_D_CharacterList: {
+      auto ptr = reinterpret_cast<const D_CharacterList *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_CharacterList: {
+      auto ptr = reinterpret_cast<const SC_CharacterList *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_C_CheckName: {
+      auto ptr = reinterpret_cast<const C_CheckName *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SD_CheckName: {
+      auto ptr = reinterpret_cast<const SD_CheckName *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_D_CheckName: {
+      auto ptr = reinterpret_cast<const D_CheckName *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_CheckName: {
+      auto ptr = reinterpret_cast<const SC_CheckName *>(obj);
       return verifier.VerifyTable(ptr);
     }
     case PacketType_C_CreateCharacter: {

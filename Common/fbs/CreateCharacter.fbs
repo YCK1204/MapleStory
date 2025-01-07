@@ -1,0 +1,51 @@
+table C_CheckName {
+	name:string;
+}
+
+table SD_CheckName {
+	session_id:uint64;
+	name:string;
+}
+
+enum CheckNameError : uint8 {
+	SUCCESS,
+	OVERLAPEED,
+	UNKNOWN,
+}
+
+table D_CheckName {
+	session_id:uint64;
+	ok:CheckNameError;
+}
+
+table SC_CheckName {
+	ok:CheckNameError;
+}
+
+table C_CreateCharacter {
+	name:string;
+	char_type:uint8;
+}
+
+table SD_CreateCharacter {
+	name:string;
+	char_type:ushort;
+	session_id:uint64;
+	db_id:uint64;
+}
+
+enum CreateCharacterError : uint8 {
+	SUCCESS,
+	FULL,
+	OVERLAPPED,
+	UNKNOWN,
+}
+
+table D_CreateCharacter {
+	session_id:uint64;
+	ok:CreateCharacterError;
+}
+
+table SC_CreateCharacter {
+	ok:CreateCharacterError;
+}
