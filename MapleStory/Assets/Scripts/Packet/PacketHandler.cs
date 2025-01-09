@@ -52,19 +52,8 @@ public class PacketHandler
     {
         var pkt = SC_CharacterList.GetRootAsSC_CharacterList(buffer);
 
-        if (pkt.Ok == CharacterListError.SUCCESS)
-        {
-            var scene = Manager.Scene.CurScene as PrevInGameScene;
-            var pc = scene.prevInGameController;
-            pc.BackgroundState = UIPrevInGameController.BGState.CharacterSelect;
-        }
-        Debug.Log(pkt.Ok);
-        for (int i = 0; i < pkt.ListLength; i++)
-        {
-            Debug.Log(pkt.List(i).Value.Name);
-            Debug.Log(pkt.List(i).Value.Level);
-            Debug.Log(pkt.List(i).Value.CharType);
-        }
+        Manager.Scene.CurScene.OnRecvPacket<SC_CharacterList>(pkt);
+
     }
     #endregion
     public static void SC_CreateCharacterHandler(PacketSession session, ByteBuffer buffer)

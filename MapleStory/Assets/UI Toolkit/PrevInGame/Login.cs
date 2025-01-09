@@ -6,13 +6,21 @@ using UnityEngine.UIElements;
 
 public partial class UIPrevInGameController : UIBaseController
 {
-    TextField Id;
-    TextField Password;
+    class LoginElement
+    {
+        public VisualElement ContainerLoginMainBoard;
+        public Button ButtonSignIn;
+        public Button ButtonSignUp;
+        public Button ButtonGameExit;
+        public TextField TextFieldId;
+        public TextField TextFieldPassword;
+    }
+    LoginElement login = new LoginElement();
     static readonly byte MaxLength = 20;
     private void HandleSign<T>(PacketType type, Func<FlatBufferBuilder, StringOffset, StringOffset, Offset<T>> create) where T : struct, IFlatbufferObject
     {
-        string idText = Id.text;
-        string passwordText = Password.text;
+        string idText = login.TextFieldId.text;
+        string passwordText = login.TextFieldPassword.text;
 
         if (idText.Length < 1 || passwordText.Length < 1)
             return;

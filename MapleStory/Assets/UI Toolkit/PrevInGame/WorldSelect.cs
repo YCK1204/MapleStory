@@ -33,24 +33,26 @@ public partial class UIPrevInGameController : UIBaseController
         public ServerStruct[] Servers { get; set; }
     }
     #endregion
-
-    struct WorldBoard
+    class WorldSelect
     {
-        public VisualElement Container;
-        public ScrollView WbScrollView;
+        public WorldBoard worldBoard = new WorldBoard();
+        public ChannelSelect channelSelect = new ChannelSelect();
     }
-    struct ChannelSelect
+    class WorldBoard
     {
-        public VisualElement Container;
-        public VisualElement ChannelScroll;
-        public VisualElement ChannelSelectMain;
-        public VisualElement ServerTitle;
-        public Button EnterSelectedChannel;
-        public ScrollView CsScrollView;
+        public VisualElement ContainerWorldBoard;
+        public ScrollView ScrollViewWorldBoard;
     }
-
-    WorldBoard _worldBoard = new WorldBoard();
-    ChannelSelect _channelSelect = new ChannelSelect();
+    class ChannelSelect
+    {
+        public VisualElement ContainerChannelSelect;
+        public VisualElement ImgChannelScroll;
+        public VisualElement ImgChannelSelectMain;
+        public VisualElement ImgServerTitle;
+        public Button ButtonEnterSelectedChannel;
+        public ScrollView ScrollViewChannelSelect;
+    }
+    WorldSelect worldSelect = new WorldSelect();
 
     Dictionary<byte, ServerStruct> _servers = new Dictionary<byte, ServerStruct>();
 
@@ -88,7 +90,7 @@ public partial class UIPrevInGameController : UIBaseController
             serverButton.name = $"Button-Server_{server.Id}";
             serverButton.AddToClassList("Button-World");
             serverButton.AddToClassList($"Button-{server.Name}");
-            _worldBoard.WbScrollView.Add(serverButton);
+            worldSelect.worldBoard.ScrollViewWorldBoard.Add(serverButton);
         }
         for (int i = 0; i < totalServerCnt - servers.Servers.Length; i++) // 없는 서버들 empty 이미지 대체
         {
@@ -96,13 +98,13 @@ public partial class UIPrevInGameController : UIBaseController
             tempWorld.AddToClassList("Button-Base");
             tempWorld.AddToClassList("Button-World");
             tempWorld.AddToClassList($"Button-EmptyWorld");
-            _worldBoard.WbScrollView.Add(tempWorld);
+            worldSelect.worldBoard.ScrollViewWorldBoard.Add(tempWorld);
         }
     }
     // 서버 클릭 시 서버 내 채널 정보 요청
     private void OnClickedServer(ClickEvent e)
     {
-        _channelSelect.ChannelSelectMain.AddToClassList("ChannelSelect-Hide");
+        worldSelect.channelSelect.ImgChannelSelectMain.AddToClassList("ChannelSelect-Hide");
 
         FlatBufferBuilder builder = new FlatBufferBuilder(50);
         ServerStruct server = _servers[(byte)ExtractIdFromElementName(e)];
@@ -130,7 +132,7 @@ public partial class UIPrevInGameController : UIBaseController
     }
     private string GetServerNameFromServerTitle()
     {
-        foreach (var str in _channelSelect.ServerTitle.GetClasses())
+        foreach (var str in worldSelect.channelSelect.ImgServerTitle.GetClasses())
         {
             if (str.StartsWith("ServerTitle-"))
                 return (str.Substring(str.IndexOf('-') + 1));

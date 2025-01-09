@@ -1,11 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEngine.GraphicsBuffer;
 
 public class UIBaseController : BaseMonobehaviour
 {
+    string[] conventionNames = { "Container", "Img", "Button", "Label", "GroupBox", "TextField", "ScrollView" };
+
     [System.Serializable]
     public class SpriteInfo
     {
@@ -55,18 +59,6 @@ public class UIBaseController : BaseMonobehaviour
     {
         Init();
     }
-    void InitHandler<T1>(string target, Dictionary<string, T1> destination, Action<T1> callback = null) where T1 : VisualElement
-    {
-        var allElements = _root.Query<T1>();
-
-        var list = allElements.Where((e) => { return e.name.StartsWith(target); });
-        list.ForEach((e) =>
-        {
-            destination.Add(e.name.Substring(target.Length), e);
-            if (callback != null)
-                callback.Invoke(e);
-        });
-    }
     protected virtual void Init()
     {
         _audioSource = gameObject.AddComponent<AudioSource>();
@@ -75,21 +67,15 @@ public class UIBaseController : BaseMonobehaviour
         if (DefaultOnMouseClickAudio == null)
             DefaultOnMouseClickAudio = Manager.Resource.Load<AudioClip>("Common/Sounds/BtMouseClick");
         document = GetComponent<UIDocument>();
-
         _root = document.rootVisualElement;
-        // UI DOCUMENT 객체들 전부 가져오기
-        InitHandler<VisualElement>("Container-", _containers);
-        InitHandler<VisualElement>("Img-", _imgs);
-        InitHandler<Label>("Label-", _labels);
-        InitHandler<Button>("Button-", _buttons, (b) =>
+
+        var allElements = _root.Query<Button>();
+        var list = allElements.Where((e) => { return e.name.StartsWith("Button-"); });
+        list.ForEach((e) =>
         {
-            b.RegisterCallback<MouseOverEvent>(OnMouseOverPlay);
-            b.RegisterCallback<ClickEvent>(OnMouseClickPlay);
+            e.RegisterCallback<MouseOverEvent>(OnMouseOverPlay);
+            e.RegisterCallback<ClickEvent>(OnMouseClickPlay);
         });
-        InitHandler<TextField>("TextField-", _textFields);
-        InitHandler<ListView>("ListView-", _listViews);
-        InitHandler<ScrollView>("ScrollView-", _scrollViews);
-        InitHandler<GroupBox>("GroupBox-", _groupBoxes);
     }
     protected virtual void OnMouseOverPlay(MouseOverEvent e) { CurAudioClip = DefaultOnMouseOverAudio; }
     protected virtual void OnMouseClickPlay(ClickEvent e) { CurAudioClip = DefaultOnMouseClickAudio; }
@@ -149,5 +135,38 @@ public class UIBaseController : BaseMonobehaviour
     protected void StartRepeat(Action callback, float t, float interval)
     {
         StartCoroutine(RepeatCallback(callback, t, interval));
+    }
+    string AssignElementsHandler(FieldInfo field)
+    {
+        foreach (var conventionName in conventionNames)
+        {
+            if (field.Name.Contains(conventionName))
+            {
+                string name = field.Name.Substring(conventionName.Length);
+                return conventionName + "-" + name;
+            }
+        }
+        return null;
+    }
+    protected void AssignElements(object container, VisualElement parent = null)
+    {
+        Type type = container.GetType();
+
+        foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+        {
+            string elementName = AssignElementsHandler(field);
+
+            if (elementName == null)
+                AssignElements(field.GetValue(container));
+            else
+            {
+                VisualElement element = null;
+                if (parent == null)
+                    element = _root.Q(elementName);
+                else
+                    element = parent.Q(elementName);
+                field.SetValue(container, element);
+            }
+        }
     }
 }

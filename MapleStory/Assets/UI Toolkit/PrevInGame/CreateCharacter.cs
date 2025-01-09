@@ -8,40 +8,31 @@ using Random = UnityEngine.Random;
 
 public partial class UIPrevInGameController : UIBaseController
 {
-    VisualElement CharacterImg;
-    VisualElement CharacterInfo;
-    Button CharacterCreate;
-
-    VisualElement CharacterPos;
-
     [SerializeField]
     GameObject[] Characters;
-
-    struct CharacterStatusMain
+    class CharacterAbility
     {
-        public VisualElement Container;
-        public Button DiceBtn;
-        public VisualElement DiceImg;
-        public GroupBox TextAbilityGroup;
-        public Label STR;
-        public Label DEX;
-        public Label INT;
-        public Label LUK;
+        public Button ButtonNameCheck;
+        public VisualElement ContainerMain;
+        public Button ButtonDice;
+        public VisualElement ImgDice;
+        public GroupBox GroupBoxAbility;
+        public Label LabelAbilitySTR;
+        public Label LabelAbilityDEX;
+        public Label LabelAbilityINT;
+        public Label LabelAbilityLUK;
+        public TextField TextFieldCharacterName;
     }
-    struct CharacterStatus
+    class CreateCharacter
     {
-        public VisualElement Container;
-        public Button NameCheck;
-        public TextField CharacterName;
-        public CharacterStatusMain Main;
+        public VisualElement ImgCharacterInfo;
+        public Button ButtonCharacterCreate;
+        public ScrollView ScrollViewCharacterList;
+        public CharacterAbility characterAbility = new CharacterAbility();
     }
-
     #region CharacterJson
-
-    ScrollView CharacterList;
     [SerializeField]
     TextAsset CharacterJson;
-    CharacterStatus _charStatus = new CharacterStatus();
     struct JCharacterInfo
     {
         public int id { get; set; }
@@ -52,6 +43,7 @@ public partial class UIPrevInGameController : UIBaseController
         public JCharacterInfo[] characters;
     }
     #endregion
+    CreateCharacter createCharacter = new CreateCharacter();
     List<Button> _characterButtons = new List<Button>();
     private void InitializeCharList()
     {
@@ -66,9 +58,9 @@ public partial class UIPrevInGameController : UIBaseController
             button.AddToClassList("CharacterList-Base");
             button.AddToClassList($"Button-{character.name}");
 
-            button.RegisterCallback<ClickEvent>((e) => { 
-                CharacterInfo.ClearClassList();
-                CharacterInfo.AddToClassList($"CharacterInfo-{character.name}");
+            button.RegisterCallback<ClickEvent>((e) => {
+                createCharacter.ImgCharacterInfo.ClearClassList();
+                createCharacter.ImgCharacterInfo.AddToClassList($"CharacterInfo-{character.name}");
                 // 나중에 중앙에 서 있는 캐릭터 이미지도 바꿔야함
                 if (character.name == "Tanjiro") // 일단 탄지로만
                 {
@@ -79,7 +71,7 @@ public partial class UIPrevInGameController : UIBaseController
                     Characters[0].SetActive(false);
                 }
             });
-            CharacterList.Add(button);
+            //CharacterList.Add(button);
             _characterButtons.Add(button);
         }
     }
@@ -107,17 +99,17 @@ public partial class UIPrevInGameController : UIBaseController
         fourth += (remainAbility - fourth);
         if (toggle)
         {
-            _charStatus.Main.STR.text = first.ToString();
-            _charStatus.Main.DEX.text = second.ToString();
-            _charStatus.Main.INT.text = third.ToString();
-            _charStatus.Main.LUK.text = fourth.ToString();
+            createCharacter.characterAbility.LabelAbilitySTR.text = first.ToString();
+            createCharacter.characterAbility.LabelAbilityDEX.text = second.ToString();
+            createCharacter.characterAbility.LabelAbilityINT.text = third.ToString();
+            createCharacter.characterAbility.LabelAbilityLUK.text = fourth.ToString();
         }
         else
         {
-            _charStatus.Main.LUK.text = second.ToString();
-            _charStatus.Main.INT.text = first.ToString();
-            _charStatus.Main.DEX.text = third.ToString();
-            _charStatus.Main.STR.text = fourth.ToString();
+            createCharacter.characterAbility.LabelAbilityLUK.text = second.ToString();
+            createCharacter.characterAbility.LabelAbilityINT.text = first.ToString();
+            createCharacter.characterAbility.LabelAbilityDEX.text = third.ToString();
+            createCharacter.characterAbility.LabelAbilitySTR.text = fourth.ToString();
         }
         toggle = !toggle;
     }
@@ -128,7 +120,7 @@ public partial class UIPrevInGameController : UIBaseController
     {
         if (Time.time - tick > timeInterval)
         {
-            StartImgAnimation(_charStatus.Main.DiceImg, 2);
+            StartImgAnimation(createCharacter.characterAbility.ImgDice, 2);
             StartRepeat(() =>
             {
                 GenerateAbilities();

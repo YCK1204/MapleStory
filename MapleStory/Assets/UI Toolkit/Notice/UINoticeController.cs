@@ -1,13 +1,18 @@
+using System.Xml;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static UINoticeController;
 
 public class UINoticeController : UIBaseController
 {
-    VisualElement Text;
-    Button Ok;
-    Button OkCenter;
-    Button Cancel;
+    class Notice
+    {
+        public VisualElement ImgText;
+        public Button ButtonOk;
+        public Button ButtonOkCenter;
+        public Button ButtonCancel;
+    }
+    Notice notice = new Notice();
     public enum PopupState
     {
         /*------------*/
@@ -22,16 +27,16 @@ public class UINoticeController : UIBaseController
         /*------------*/
         /*     Ok     */
         /*------------*/
-            /*-------------*/
-            /*    Login    */
-            /*-------------*/
+        /*-------------*/
+        /*    Login    */
+        /*-------------*/
         InvalidId,                  // 잘못된 아이디로 회원가입
         InvalidPassword,            // 잘못된 패스워드 로그인
         LoggedIn,                   // 이미 로그인된 아이디 or 이미 있는 아이디
         NotRegisteredId,            // 회원가입 되어있지 않은 아이디
-            /*-------------*/
-            /*     Etc     */
-            /*-------------*/
+        /*-------------*/
+        /*     Etc     */
+        /*-------------*/
         BeingUsed,                  // 닉네임 사용 중
         CanUseName,                 // 닉네임 사용 가능
         CannotCreateCharacter,      // 캐릭터 더 이상 생성 불가
@@ -52,35 +57,31 @@ public class UINoticeController : UIBaseController
             _state = value;
 
             string className = $"PopupImg-{value.ToString()}";
-            Ok.style.display = DisplayStyle.None;
-            OkCenter.style.display = DisplayStyle.None;
-            Cancel.style.display = DisplayStyle.None;
+            notice.ButtonOk.style.display = DisplayStyle.None;
+            notice.ButtonOkCenter.style.display = DisplayStyle.None;
+            notice.ButtonCancel.style.display = DisplayStyle.None;
             if (value <= PopupState.CharacterDelete)
             {
-                Ok.style.display = DisplayStyle.Flex;
-                Cancel.style.display = DisplayStyle.Flex;
+                notice.ButtonOk.style.display = DisplayStyle.Flex;
+                notice.ButtonCancel.style.display = DisplayStyle.Flex;
             }
             else
             {
-                OkCenter.style.display = DisplayStyle.Flex;
+                notice.ButtonOkCenter.style.display = DisplayStyle.Flex;
             }
-            Text.ClearClassList();
-            Text.AddToClassList(className);
-            Text.style.display = DisplayStyle.Flex;
+            notice.ImgText.ClearClassList();
+            notice.ImgText.AddToClassList(className);
+            notice.ImgText.style.display = DisplayStyle.Flex;
         }
     }
     protected override void Init()
     {
         base.Init();
 
-        Text = _imgs["Text"];
-        Ok = _buttons["Ok"];
-        Cancel = _buttons["Cancel"];
-        OkCenter = _buttons["OkCenter"];
-
-        Ok.RegisterCallback<ClickEvent>(HandleOkBtn);
-        Cancel.RegisterCallback<ClickEvent>((e) => { Text.style.display = DisplayStyle.None; });
-        OkCenter.RegisterCallback<ClickEvent>((e) => { Text.style.display = DisplayStyle.None; });
+        AssignElements(notice);
+        notice.ButtonOk.RegisterCallback<ClickEvent>(HandleOkBtn);
+        notice.ButtonCancel.RegisterCallback<ClickEvent>((e) => { notice.ImgText.style.display = DisplayStyle.None; });
+        notice.ButtonOkCenter.RegisterCallback<ClickEvent>((e) => { notice.ImgText.style.display = DisplayStyle.None; });
     }
     private void HandleOkBtn(ClickEvent e)
     {
@@ -93,7 +94,7 @@ public class UINoticeController : UIBaseController
                 // 캐릭터 삭제
                 break;
         }
-        Text.style.display = DisplayStyle.None;
+        notice.ImgText.style.display = DisplayStyle.None;
     }
 }
 

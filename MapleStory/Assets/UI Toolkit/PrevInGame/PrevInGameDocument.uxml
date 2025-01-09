@@ -29,10 +29,35 @@
             </engine:VisualElement>
         </engine:VisualElement>
         <engine:VisualElement name="Container-CharacterSelect" class="Container-Base" style="bottom: 55%;">
-            <engine:VisualElement name="Frame-CharacterList" style="width: 55%; bottom: 29.5%; position: absolute; height: 22%; left: 26%; justify-content: space-between; flex-direction: row;">
-                <engine:VisualElement name="Img-Character1" style="width: 15%; height: 100%; background-image: resource(&apos;PrevInGame/Imgs/CharacterSelect/CharAfterImg&apos;);" />
-                <engine:VisualElement name="Img-Character2" style="width: 15%; height: 100%; background-image: resource(&apos;PrevInGame/Imgs/CharacterSelect/CharAfterImg&apos;);" />
-                <engine:VisualElement name="Img-Character3" style="width: 15%; height: 100%; background-image: resource(&apos;PrevInGame/Imgs/CharacterSelect/CharAfterImg&apos;);" />
+            <engine:VisualElement name="Container-CharacterList" style="width: 45%; bottom: 29.5%; position: absolute; height: 22%; left: 26%; justify-content: space-between; flex-direction: row;">
+                <engine:Button name="Button-Character1" class="Button-Base" style="width: 15%; overflow: visible;">
+                    <engine:VisualElement name="Img-Character" style="flex-grow: 1; background-image: resource(&apos;PrevInGame/Imgs/CharacterSelect/CharAfterImg&apos;);" />
+                    <engine:VisualElement name="Img-CharacterSelectEffect" style="position: absolute; height: 318%; width: 100%; top: -221%;" />
+                    <engine:VisualElement name="Img-CharacterStatusScroll" style="flex-grow: 1; width: 300%; align-self: center; height: 150%; position: absolute; background-image: resource(&apos;PrevInGame/Imgs/Common/CharSelect.scroll.0.1&apos;); top: -155%;">
+                        <engine:VisualElement name="Img-CharacterStatusMain" style="background-image: resource(&apos;PrevInGame/Imgs/CharacterSelect/CharSelect.charInfo&apos;); width: 80%; left: 11%; height: 75%; top: 15%;">
+                            <engine:Label text="Label" name="Label-StatusJob" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 4px; height: 30px; position: absolute; top: 0; left: 47px; width: 183px; -unity-text-align: middle-left;" />
+                            <engine:GroupBox name="GroupBox-CharacterStatus1" style="position: absolute; top: 29px; left: 48px; height: 96px; width: 60px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+                                <engine:Label text="Label" name="Label-StatusLV" style="margin-top: 3.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 4px; height: 29px; width: 67px; -unity-text-align: middle-left; -unity-font-style: bold;" />
+                                <engine:Label text="Label" name="Label-StatusSTR" style="margin-top: 3.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 4px; height: 29px; width: 67px; -unity-text-align: middle-left; -unity-font-style: bold;" />
+                                <engine:Label text="Label" name="Label-StatusDEX" style="margin-top: 3.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 4px; height: 29px; width: 67px; -unity-text-align: middle-left; -unity-font-style: bold;" />
+                            </engine:GroupBox>
+                            <engine:GroupBox name="GroupdBox-CharacterStatus2" style="position: absolute; top: 29px; left: 162px; height: 96px; width: 60px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+                                <engine:Label text="Label" name="Label-StatusFAME" style="margin-top: 3.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 4px; height: 29px; width: 67px; -unity-text-align: middle-left; -unity-font-style: bold;" />
+                                <engine:Label text="Label" name="Label-StatusINT" style="margin-top: 3.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 4px; height: 29px; width: 67px; -unity-text-align: middle-left; -unity-font-style: bold;" />
+                                <engine:Label text="Label" name="Label-StatusLUK" style="margin-top: 3.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 4px; height: 29px; width: 67px; -unity-text-align: middle-left; -unity-font-style: bold;" />
+                            </engine:GroupBox>
+                        </engine:VisualElement>
+                    </engine:VisualElement>
+                </engine:Button>
+                <engine:Button name="Button-Character2" class="Button-Base" style="width: 15%; overflow: visible;">
+                    <engine:VisualElement name="Img-Character" style="flex-grow: 1; background-image: resource(&apos;PrevInGame/Imgs/CharacterSelect/CharAfterImg&apos;);" />
+                    <engine:VisualElement name="Img-CharacterSelectEffect" style="position: absolute; height: 318%; width: 100%; top: -221%;" />
+                </engine:Button>
+                <engine:Button name="Button-Character3" class="Button-Base" style="width: 15%; overflow: visible;">
+                    <engine:VisualElement name="Img-Character" style="flex-grow: 1; background-image: resource(&apos;PrevInGame/Imgs/CharacterSelect/CharAfterImg&apos;);" />
+                    <engine:VisualElement name="Img-CharacterSelectEffect" style="position: absolute; height: 318%; width: 100%; top: -221%;" />
+                    <engine:VisualElement style="flex-grow: 1; width: 300%; align-self: center; height: 150%; position: absolute; background-image: resource(&apos;PrevInGame/Imgs/Common/CharSelect.scroll.0.1&apos;); top: -155%;" />
+                </engine:Button>
             </engine:VisualElement>
             <engine:VisualElement name="Img-Navi" style="flex-grow: 1; position: absolute; right: 3%; bottom: 29.5%; width: 20%; height: 50%; background-image: resource(&apos;PrevInGame/Imgs/CharacterSelect/CharacterSelect-Board&apos;);">
                 <engine:Button name="Button-SelectCharacter" class="Button-Base Button-SelectChacracter" style="top: 27.5px; width: 75.8%; height: 13.5%; left: 38px; display: flex; position: absolute;" />
@@ -45,23 +70,21 @@
                 <engine:Button name="Button-CharacterCreate" class="Button-Base Button-CharacterCreate" style="width: 80%; height: 12%; align-self: center; position: absolute; bottom: 20px;" />
             </engine:VisualElement>
             <engine:ScrollView name="ScrollView-CharacterList" style="width: 60%; height: 20%; align-self: center; position: absolute; bottom: 0;" />
-            <engine:VisualElement name="Img-Character" style="flex-grow: 1; width: 10%; align-self: center; height: 20%; position: absolute; top: 55%;" />
-            <engine:VisualElement name="Img-CharacterStatus" style="width: 25%; height: 65%; position: absolute; right: 5%; top: 19%; background-image: resource(&apos;PrevInGame/Imgs/NewCharacter/login.img.NewChar.signboard.0.0&apos;);">
+            <engine:VisualElement name="Container-CharacterAbility" style="width: 25%; height: 65%; position: absolute; right: 5%; top: 19%; background-image: resource(&apos;PrevInGame/Imgs/NewCharacter/login.img.NewChar.signboard.0.0&apos;);">
                 <engine:Button name="Button-NameCheck" class="Button-Base Button-NameCheck" style="width: 25%; height: 9.2%; right: 12%; position: absolute; top: 25.5%;" />
                 <engine:VisualElement name="Container-Main" style="flex-grow: 1; width: 85%; height: 37%; left: 9%; position: absolute; bottom: 34px;">
                     <engine:Button name="Button-Dice" class="Button-Base" style="width: 40%; height: 40%; position: absolute; top: 71px; left: 164px;">
                         <engine:VisualElement name="Img-Dice" style="background-image: resource(&apos;PrevInGame/Imgs/NewCharacter/NewChar.dice.0&apos;); width: 50%; height: 50%; align-self: center; bottom: 0; position: absolute;" />
                     </engine:Button>
                     <engine:GroupBox name="GroupBox-Ability" style="width: 18%; height: 83%; top: 6%; position: absolute; left: 28%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
-                        <engine:Label name="Label-STR" style="margin-left: 10px; padding-top: 5px; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 20%; margin-bottom: 0; -unity-font-style: bold; font-size: 16px; margin-top: 13%;" />
-                        <engine:Label name="Label-DEX" style="margin-left: 10px; padding-top: 5px; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 20%; margin-bottom: 0; font-size: 16px; -unity-font-style: bold; margin-top: 14%;" />
-                        <engine:Label name="Label-INT" style="margin-left: 10px; padding-top: 5px; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 20%; margin-bottom: 0; font-size: 16px; -unity-font-style: bold; margin-top: 14%;" />
-                        <engine:Label name="Label-LUK" style="margin-left: 10px; padding-top: 5px; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 20%; margin-bottom: 0; font-size: 16px; -unity-font-style: bold; margin-top: 14%;" />
+                        <engine:Label name="Label-AbilitySTR" style="margin-left: 10px; padding-top: 5px; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 20%; margin-bottom: 0; -unity-font-style: bold; font-size: 16px; margin-top: 13%;" />
+                        <engine:Label name="Label-AbilityDEX" style="margin-left: 10px; padding-top: 5px; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 20%; margin-bottom: 0; font-size: 16px; -unity-font-style: bold; margin-top: 14%;" />
+                        <engine:Label name="Label-AbilityINT" style="margin-left: 10px; padding-top: 5px; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 20%; margin-bottom: 0; font-size: 16px; -unity-font-style: bold; margin-top: 14%;" />
+                        <engine:Label name="Label-AbilityLUK" style="margin-left: 10px; padding-top: 5px; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 20%; margin-bottom: 0; font-size: 16px; -unity-font-style: bold; margin-top: 14%;" />
                     </engine:GroupBox>
                 </engine:VisualElement>
                 <engine:TextField name="TextField-CharacterName" style="position: absolute; width: 70%; height: 8%; left: 15%; top: 36.5%; font-size: 28px; -unity-font-style: normal;" />
             </engine:VisualElement>
-            <engine:VisualElement name="Container-CharacterPos" style="position: absolute; top: auto; bottom: 39%; left: 48%;" />
         </engine:VisualElement>
     </engine:VisualElement>
     <engine:VisualElement name="Img-DefaultBG" picking-mode="Ignore" style="width: 100%; height: 100%; background-image: resource(&apos;PrevInGame/Imgs/Common/login.img.Common.frame.0.0&apos;);" />

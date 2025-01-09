@@ -1,61 +1,55 @@
 fileFormatVersion: 2
-guid: 5b20b3cacb90d254983ec0c5ca7811ab
+guid: 8cadad81e950f1a41bffd14aa4c01fe9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1051585206949241416
-    second: CharacterSelect-CharacterInfo_0
+      213: -4392956318858354935
+    second: CharSelect.charInfo_0
   - first:
-      213: 8647625719498665264
-    second: CharacterSelect-CharacterInfo_1
+      213: 7470042592827491663
+    second: CharSelect.charInfo_1
   - first:
-      213: 7871922755363084957
-    second: CharacterSelect-CharacterInfo_2
+      213: -486329812192787917
+    second: CharSelect.charInfo_2
   - first:
-      213: 5107731268462009024
-    second: CharacterSelect-CharacterInfo_3
+      213: 3673403423945534555
+    second: CharSelect.charInfo_3
   - first:
-      213: 26027380063069058
-    second: CharacterSelect-CharacterInfo_4
+      213: -4636565263577519829
+    second: CharSelect.charInfo_4
   - first:
-      213: 1628943523600575107
-    second: CharacterSelect-CharacterInfo_5
+      213: 2592835484172165260
+    second: CharSelect.charInfo_5
   - first:
-      213: 2598680295125886284
-    second: CharacterSelect-CharacterInfo_6
+      213: 7155560290782486
+    second: CharSelect.charInfo_6
   - first:
-      213: 3888233855321036416
-    second: CharacterSelect-CharacterInfo_7
+      213: -8164579116504388758
+    second: CharSelect.charInfo_7
   - first:
-      213: 8235871558868440852
-    second: CharacterSelect-CharacterInfo_8
+      213: -3559271471893093884
+    second: CharSelect.charInfo_8
   - first:
-      213: 6931775605146883946
-    second: CharacterSelect-CharacterInfo_9
+      213: 14451720664404047
+    second: CharSelect.charInfo_9
   - first:
-      213: -5160463919255173930
-    second: CharacterSelect-CharacterInfo_10
+      213: -2829252446448936552
+    second: CharSelect.charInfo_10
   - first:
-      213: -4105187387149073575
-    second: CharacterSelect-CharacterInfo_11
+      213: -8942695530030103229
+    second: CharSelect.charInfo_11
   - first:
-      213: 6671758375550261750
-    second: CharacterSelect-CharacterInfo_12
+      213: 9194232105318121545
+    second: CharSelect.charInfo_12
   - first:
-      213: 8363854937990716588
-    second: CharacterSelect-CharacterInfo_13
+      213: 6468040247562789470
+    second: CharSelect.charInfo_13
   - first:
-      213: 3534555564596335390
-    second: CharacterSelect-CharacterInfo_14
+      213: 60136563881003469
+    second: CharSelect.charInfo_14
   - first:
-      213: 7784308909641129016
-    second: CharacterSelect-CharacterInfo_15
-  - first:
-      213: -3994741183450497943
-    second: CharacterSelect-CharacterInfo_16
-  - first:
-      213: 366530985419629775
-    second: CharacterSelect-CharacterInfo_17
+      213: 2475555132273249578
+    second: CharSelect.charInfo_15
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -164,381 +158,337 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CharacterSelect-CharacterInfo_0
+      name: CharSelect.charInfo_0
       rect:
         serializedVersion: 2
         x: 2
-        y: 133
-        width: 36
-        height: 18
+        y: 0
+        width: 181
+        height: 115
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8bd1cb863d40861f0800000000000000
-      internalID: -1051585206949241416
+      spriteID: 90fd3acb0851903c0800000000000000
+      internalID: -4392956318858354935
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterSelect-CharacterInfo_1
+      name: CharSelect.charInfo_1
       rect:
         serializedVersion: 2
         x: 2
-        y: 115
+        y: 79
         width: 36
         height: 19
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 03def3956c9820870800000000000000
-      internalID: 8647625719498665264
+      spriteID: f454582092ceaa760800000000000000
+      internalID: 7470042592827491663
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterSelect-CharacterInfo_2
+      name: CharSelect.charInfo_2
       rect:
         serializedVersion: 2
         x: 37
-        y: 133
+        y: 97
         width: 145
         height: 18
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d9a1bbce900be3d60800000000000000
-      internalID: 7871922755363084957
+      spriteID: 332019ccc953049f0800000000000000
+      internalID: -486329812192787917
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterSelect-CharacterInfo_3
+      name: CharSelect.charInfo_3
       rect:
         serializedVersion: 2
         x: 37
-        y: 115
+        y: 79
         width: 55
         height: 19
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0ca55d8d68e42e640800000000000000
-      internalID: 5107731268462009024
+      spriteID: b5c2af893fc8af230800000000000000
+      internalID: 3673403423945534555
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterSelect-CharacterInfo_4
+      name: CharSelect.charInfo_4
       rect:
         serializedVersion: 2
         x: 91
-        y: 115
+        y: 79
         width: 36
         height: 19
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 283e717a3c77c5000800000000000000
-      internalID: 26027380063069058
+      spriteID: b29eb86557c97afb0800000000000000
+      internalID: -4636565263577519829
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterSelect-CharacterInfo_5
+      name: CharSelect.charInfo_5
       rect:
         serializedVersion: 2
         x: 126
-        y: 115
+        y: 79
         width: 56
         height: 19
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 38aa263118b2b9610800000000000000
-      internalID: 1628943523600575107
+      spriteID: c802c1ba22a9bf320800000000000000
+      internalID: 2592835484172165260
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterSelect-CharacterInfo_6
+      name: CharSelect.charInfo_6
       rect:
         serializedVersion: 2
         x: 2
-        y: 97
+        y: 61
         width: 36
         height: 19
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c4529c3c5fd501420800000000000000
-      internalID: 2598680295125886284
+      spriteID: 61d0d45b1fb691000800000000000000
+      internalID: 7155560290782486
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterSelect-CharacterInfo_7
+      name: CharSelect.charInfo_7
       rect:
         serializedVersion: 2
         x: 2
-        y: 79
+        y: 43
         width: 36
         height: 19
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 086de063718c5f530800000000000000
-      internalID: 3888233855321036416
+      spriteID: a6bee242d8691be80800000000000000
+      internalID: -8164579116504388758
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterSelect-CharacterInfo_8
+      name: CharSelect.charInfo_8
       rect:
         serializedVersion: 2
         x: 37
-        y: 97
+        y: 61
         width: 55
         height: 19
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 417981a1c81bb4270800000000000000
-      internalID: 8235871558868440852
+      spriteID: 40261a2447dea9ec0800000000000000
+      internalID: -3559271471893093884
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterSelect-CharacterInfo_9
+      name: CharSelect.charInfo_9
       rect:
         serializedVersion: 2
         x: 37
-        y: 79
+        y: 43
         width: 55
         height: 19
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a679f7fcf2d923060800000000000000
-      internalID: 6931775605146883946
+      spriteID: f40589c63c7533000800000000000000
+      internalID: 14451720664404047
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterSelect-CharacterInfo_10
+      name: CharSelect.charInfo_10
       rect:
         serializedVersion: 2
         x: 91
-        y: 97
+        y: 61
         width: 36
         height: 19
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6d4439028695268b0800000000000000
-      internalID: -5160463919255173930
+      spriteID: 8999185d3e97cb8d0800000000000000
+      internalID: -2829252446448936552
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterSelect-CharacterInfo_11
+      name: CharSelect.charInfo_11
       rect:
         serializedVersion: 2
         x: 91
-        y: 79
+        y: 43
         width: 36
         height: 19
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 953c09452d17707c0800000000000000
-      internalID: -4105187387149073575
+      spriteID: 345051ebbc925e380800000000000000
+      internalID: -8942695530030103229
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterSelect-CharacterInfo_12
+      name: CharSelect.charInfo_12
       rect:
         serializedVersion: 2
         x: 126
-        y: 97
+        y: 61
         width: 56
         height: 19
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6f919e1e4e8d69c50800000000000000
-      internalID: 6671758375550261750
+      spriteID: 9408afbf269789f70800000000000000
+      internalID: 9194232105318121545
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterSelect-CharacterInfo_13
+      name: CharSelect.charInfo_13
       rect:
         serializedVersion: 2
         x: 126
-        y: 79
+        y: 43
         width: 56
         height: 19
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cac55d3a0c1621470800000000000000
-      internalID: 8363854937990716588
+      spriteID: e52e8e4065813c950800000000000000
+      internalID: 6468040247562789470
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterSelect-CharacterInfo_14
+      name: CharSelect.charInfo_14
       rect:
         serializedVersion: 2
         x: 0
-        y: 53
+        y: 17
         width: 183
         height: 25
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e1315a22f834d0130800000000000000
-      internalID: 3534555564596335390
+      spriteID: dc9c320e2e5a5d000800000000000000
+      internalID: 60136563881003469
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterSelect-CharacterInfo_15
-      rect:
-        serializedVersion: 2
-        x: 3
-        y: 35
-        width: 179
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 83c5115d5bb670c60800000000000000
-      internalID: 7784308909641129016
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CharacterSelect-CharacterInfo_16
-      rect:
-        serializedVersion: 2
-        x: 2
-        y: 17
-        width: 180
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 96c3fc60f04df88c0800000000000000
-      internalID: -3994741183450497943
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CharacterSelect-CharacterInfo_17
+      name: CharSelect.charInfo_15
       rect:
         serializedVersion: 2
         x: 3
@@ -546,15 +496,15 @@ TextureImporter:
         width: 179
         height: 18
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fc46c114dfd261500800000000000000
-      internalID: 366530985419629775
+      spriteID: a2dca09d640fa5220800000000000000
+      internalID: 2475555132273249578
       vertices: []
       indices: 
       edges: []
@@ -563,7 +513,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: dded675d7bac5754c9ee84281a888f12
     internalID: 0
     vertices: []
     indices: 
@@ -572,7 +522,23 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      CharSelect.charInfo_0: -4392956318858354935
+      CharSelect.charInfo_1: 7470042592827491663
+      CharSelect.charInfo_10: -2829252446448936552
+      CharSelect.charInfo_11: -8942695530030103229
+      CharSelect.charInfo_12: 9194232105318121545
+      CharSelect.charInfo_13: 6468040247562789470
+      CharSelect.charInfo_14: 60136563881003469
+      CharSelect.charInfo_15: 2475555132273249578
+      CharSelect.charInfo_2: -486329812192787917
+      CharSelect.charInfo_3: 3673403423945534555
+      CharSelect.charInfo_4: -4636565263577519829
+      CharSelect.charInfo_5: 2592835484172165260
+      CharSelect.charInfo_6: 7155560290782486
+      CharSelect.charInfo_7: -8164579116504388758
+      CharSelect.charInfo_8: -3559271471893093884
+      CharSelect.charInfo_9: 14451720664404047
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

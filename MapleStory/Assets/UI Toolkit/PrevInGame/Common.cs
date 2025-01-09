@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static UINoticeController;
+using System.Reflection;
 
 public partial class UIPrevInGameController : UIBaseController
 {
@@ -52,68 +53,46 @@ public partial class UIPrevInGameController : UIBaseController
         {
             notice = Util.FindChild<UINoticeController>(Manager.Scene.CurScene.UIControllers.transform);
             returnToFirst = Util.FindChild<UIReturnToFirstController>(Manager.Scene.CurScene.UIControllers.transform);
-            returnToFirst.ReturnToBack.RegisterCallback<ClickEvent>((e) =>
+            returnToFirst._returnToFirst.ButtonReturnToBack.RegisterCallback<ClickEvent>((e) =>
             {
                 --BackgroundState;
             });
-            MainBG = _imgs["MainBG"];
+            MainBG = _root.Q("Img-MainBG");
             #region Login
-            {
-                Id = _textFields["Id"];
-                Password = _textFields["Password"];
-            }
-            {
-                _buttons["SignIn"].RegisterCallback<ClickEvent>(ClickSignInBtn);
-                _buttons["SignUp"].RegisterCallback<ClickEvent>(ClickSignUpBtn);
-                _buttons["GameExit"].RegisterCallback<ClickEvent>(ClickGameExitBtn);
-            }
-            #endregion'
+            AssignElements(login);
+            login.ButtonSignIn.RegisterCallback<ClickEvent>(ClickSignInBtn);
+            login.ButtonSignUp.RegisterCallback<ClickEvent>(ClickSignUpBtn);
+            login.ButtonGameExit.RegisterCallback<ClickEvent>(ClickGameExitBtn);
+            #endregion
             #region WorldSelect
-            _worldBoard.Container = _containers["WorldBoard"];
-            _worldBoard.WbScrollView = _scrollViews["WorldBoard"];
-
-            _channelSelect.Container = _containers["ChannelSelect"];
-            _channelSelect.ChannelScroll = _imgs["ChannelScroll"];
-            _channelSelect.ChannelSelectMain = _imgs["ChannelSelectMain"];
-            _channelSelect.ServerTitle = _imgs["ServerTitle"];
-            _channelSelect.EnterSelectedChannel = _buttons["EnterSelectedChannel"];
-            _channelSelect.CsScrollView = _scrollViews["ChannelSelect"];
-            _channelSelect.EnterSelectedChannel.RegisterCallback<ClickEvent>(EnterChannel);
+            AssignElements(worldSelect);
+            worldSelect.channelSelect.ButtonEnterSelectedChannel.RegisterCallback<ClickEvent>(EnterChannel);
             InitializeServer();
             #endregion
             #region CharacterSelect
-            SelectCharacter = _buttons["SelectCharacter"];
-            CreateCharacter = _buttons["CreateCharacter"];
-            DeleteCharacter = _buttons["DeleteCharacter"];
+            AssignElements(characterSelect.navi);
+            characterSelect.characterList.ContainerCharacterList = _root.Q("Container-CharacterList");
+            for (int i = 1; i <= characterCount; i++)
+            {
+                Button button = _root.Q<Button>($"Button-Character{i}");
 
-            SelectCharacter.RegisterCallback<ClickEvent>(HandleSelectChar);
-            CreateCharacter.RegisterCallback<ClickEvent>(HandleCreateChar);
-            DeleteCharacter.RegisterCallback<ClickEvent>(HandleDeleteChar);
+                button.UnregisterCallback<MouseOverEvent>(OnMouseOverPlay);
+                characterButtons.Add(button);
+                characterSelect.characterList.characterPanel[i - 1] = new CharacterStatusPanel();
+                AssignElements(characterSelect.characterList.characterPanel[i - 1], button);
+            }
+
+            characterSelect.navi.ButtonSelectCharacter.RegisterCallback<ClickEvent>(HandleSelectChar);
+            characterSelect.navi.ButtonCreateCharacter.RegisterCallback<ClickEvent>(HandleCreateChar);
+            characterSelect.navi.ButtonDeleteCharacter.RegisterCallback<ClickEvent>(HandleDeleteChar);
             #endregion
             #region CreateCharacter
-            _charStatus.NameCheck = _buttons["NameCheck"];
-            _charStatus.Container = _imgs["CharacterStatus"];
-            _charStatus.CharacterName = _textFields["CharacterName"];
+            AssignElements(createCharacter);
 
-            _charStatus.Main.Container = _containers["Main"];
-            _charStatus.Main.DiceBtn = _buttons["Dice"];
-            _charStatus.Main.DiceImg = _imgs["Dice"];
-            _charStatus.Main.TextAbilityGroup = _groupBoxes["Ability"];
-            _charStatus.Main.STR = _labels["STR"];
-            _charStatus.Main.DEX = _labels["DEX"];
-            _charStatus.Main.INT = _labels["INT"];
-            _charStatus.Main.LUK = _labels["LUK"];
-
-            CharacterImg = _imgs["Character"];
-            CharacterList = _scrollViews["CharacterList"];
-            CharacterInfo = _imgs["CharacterInfo"];
-            CharacterCreate = _buttons["CharacterCreate"];
-            CharacterPos = _containers["CharacterPos"];
-
-            CharacterCreate.RegisterCallback<ClickEvent>(FormCharacter);
-            _charStatus.NameCheck.RegisterCallback<ClickEvent>(CheckName);
-            _charStatus.Main.DiceBtn.RegisterCallback<ClickEvent>(GenerateAbilities);
-            _charStatus.Main.DiceBtn.UnregisterCallback<MouseOverEvent>(OnMouseOverPlay);
+            createCharacter.ButtonCharacterCreate.RegisterCallback<ClickEvent>(FormCharacter);
+            createCharacter.characterAbility.ButtonNameCheck.RegisterCallback<ClickEvent>(CheckName);
+            createCharacter.characterAbility.ButtonDice.RegisterCallback<ClickEvent>(GenerateAbilities);
+            createCharacter.characterAbility.ButtonDice.UnregisterCallback<MouseOverEvent>(OnMouseOverPlay);
 
             GenerateAbilities();
             InitializeCharList();
@@ -164,15 +143,11 @@ public partial class UIPrevInGameController : UIBaseController
             ServerStruct server = _servers[channelInfo.ServerId];
             int channelCount = server.Channels.Length;
 
-            _channelSelect.CsScrollView.Clear();
+            worldSelect.channelSelect.ScrollViewChannelSelect.Clear();
             for (int i = 0; i < channelCount; i++)
             {
                 ChannelInfo channel = (ChannelInfo)channelInfo.Channels(i);
-                //  button(채널)
-                //      guageFrame(채널 혼잡도 바)
-                //          guageContainer(혼잡도 바 핸들러)
-                //              guage(혼잡도 바 이미지)
-                // 혼잡도 바를 guageContainer의 width로 핸들
+
                 Button button = CreateButton(name: $"Channel_{i + 1}");
                 VisualElement guageFrame = new VisualElement();
                 VisualElement guageContainer = new VisualElement();
@@ -191,9 +166,9 @@ public partial class UIPrevInGameController : UIBaseController
                 guage.AddToClassList($"{name}-Guage");
 
                 guageContainer.style.width = 100 * (channel.UserCount / server.max_user_count);
-                _channelSelect.ServerTitle.ClearClassList();
-                _channelSelect.ServerTitle.AddToClassList($"ServerTitle-{server.Name}");
-                _channelSelect.CsScrollView.Add(button);
+                worldSelect.channelSelect.ImgServerTitle.ClearClassList();
+                worldSelect.channelSelect.ImgServerTitle.AddToClassList($"ServerTitle-{server.Name}");
+                worldSelect.channelSelect.ScrollViewChannelSelect.Add(button);
             }
             for (int i = 0; i < totalChannelCount - channelCount; i++)
             {
@@ -201,14 +176,14 @@ public partial class UIPrevInGameController : UIBaseController
                 temp.AddToClassList("Button-Base");
                 temp.AddToClassList($"Channel-Base");
                 temp.AddToClassList($"Channel-Empty");
-                _channelSelect.CsScrollView.Add(temp);
+                worldSelect.channelSelect.ScrollViewChannelSelect.Add(temp);
             }
-            StartImgAnimation(_channelSelect.ChannelScroll, 0, () =>
+            StartImgAnimation(worldSelect.channelSelect.ImgChannelScroll, 0, () =>
             {
                 CurAudioClip = RollDownAudio;
                 Invoke(() =>
                 {
-                    _channelSelect.ChannelSelectMain.RemoveFromClassList("ChannelSelect-Hide");
+                    worldSelect.channelSelect.ImgChannelSelectMain.RemoveFromClassList("ChannelSelect-Hide");
                 }, .5f);
             });
         }
@@ -236,6 +211,19 @@ public partial class UIPrevInGameController : UIBaseController
                 case CreateCharacterError.FULL: // 에셋이 없어서 일단 unknown으로 대체 추후 full은 클라에서 disable 버튼으로 막을거임
                 case CreateCharacterError.UNKNOWN:
                     NoticeState = PopupState.Unknown;
+                    break;
+            }
+        }
+        else if (pkt is SC_CharacterList characterList)
+        {
+            switch (characterList.Ok)
+            {
+                case CharacterListError.SUCCESS:
+                    var scene = Manager.Scene.CurScene as PrevInGameScene;
+                    var pc = scene.prevInGameController;
+                    pc.BackgroundState = UIPrevInGameController.BGState.CharacterSelect;
+                    break;
+                case CharacterListError.UNKNOWN:
                     break;
             }
         }
