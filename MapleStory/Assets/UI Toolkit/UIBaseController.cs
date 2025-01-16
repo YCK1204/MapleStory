@@ -24,11 +24,6 @@ public class UIBaseController : BaseMonobehaviour
     }
     [SerializeField]
     public SpriteCycle[] AnimationSet;
-    [SerializeField]
-    AudioClip DefaultMouseOverAudio;
-    [SerializeField]
-    AudioClip DefaultMouseClickAudio;
-
 
     protected UIDocument document;
     protected VisualElement _root;
@@ -43,7 +38,9 @@ public class UIBaseController : BaseMonobehaviour
     protected Dictionary<string, GroupBox> _groupBoxes = new Dictionary<string, GroupBox>();
 
     protected AudioSource _audioSource;
+    [SerializeField]
     protected AudioClip DefaultOnMouseOverAudio;
+    [SerializeField]
     protected AudioClip DefaultOnMouseClickAudio;
 
     protected virtual AudioClip CurAudioClip
@@ -79,6 +76,16 @@ public class UIBaseController : BaseMonobehaviour
     }
     protected virtual void OnMouseOverPlay(MouseOverEvent e) { CurAudioClip = DefaultOnMouseOverAudio; }
     protected virtual void OnMouseClickPlay(ClickEvent e) { CurAudioClip = DefaultOnMouseClickAudio; }
+    protected Button CreateButton(string name = "")
+    {
+        var button = new Button() { name = name };
+
+        button.AddToClassList("Button-Base");
+        button.RegisterCallback<ClickEvent>(OnMouseClickPlay);
+        button.RegisterCallback<MouseOverEvent>(OnMouseOverPlay);
+        return button;
+    }
+    #region Element ID √ﬂ√‚
     protected int ExtractIdFromElementName(string name, char seperator = '_')
     {
         return int.Parse(name.Substring(name.IndexOf(seperator) + 1));
@@ -91,15 +98,8 @@ public class UIBaseController : BaseMonobehaviour
     {
         return ExtractIdFromElementName(e.currentTarget as VisualElement, seperator);
     }
-    protected Button CreateButton(string name = "")
-    {
-        var button = new Button() { name = name };
-
-        button.AddToClassList("Button-Base");
-        button.RegisterCallback<ClickEvent>(OnMouseClickPlay);
-        button.RegisterCallback<MouseOverEvent>(OnMouseOverPlay);
-        return button;
-    }
+    #endregion
+    #region Animation
     IEnumerator ImgAnimation(VisualElement target, int dataIdx, Action callback)
     {
         SpriteCycle data = AnimationSet[dataIdx];
@@ -136,6 +136,7 @@ public class UIBaseController : BaseMonobehaviour
     {
         StartCoroutine(RepeatCallback(callback, t, interval));
     }
+    #endregion
     string AssignElementsHandler(FieldInfo field)
     {
         foreach (var conventionName in conventionNames)

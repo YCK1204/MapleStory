@@ -5,7 +5,7 @@
 public enum CheckNameError : byte
 {
   SUCCESS = 0,
-  OVERLAPEED = 1,
+  OVERLAPPED = 1,
   UNKNOWN = 2,
 };
 

@@ -38,19 +38,23 @@ enum PacketType : uint8_t {
   PacketType_SD_CharacterList = 16,
   PacketType_D_CharacterList = 17,
   PacketType_SC_CharacterList = 18,
-  PacketType_C_CheckName = 19,
-  PacketType_SD_CheckName = 20,
-  PacketType_D_CheckName = 21,
-  PacketType_SC_CheckName = 22,
-  PacketType_C_CreateCharacter = 23,
-  PacketType_SD_CreateCharacter = 24,
-  PacketType_D_CreateCharacter = 25,
-  PacketType_SC_CreateCharacter = 26,
+  PacketType_C_CharacterDelete = 19,
+  PacketType_SD_CharacterDelete = 20,
+  PacketType_D_CharacterDelete = 21,
+  PacketType_SC_CharacterDelete = 22,
+  PacketType_C_CheckName = 23,
+  PacketType_SD_CheckName = 24,
+  PacketType_D_CheckName = 25,
+  PacketType_SC_CheckName = 26,
+  PacketType_C_CreateCharacter = 27,
+  PacketType_SD_CreateCharacter = 28,
+  PacketType_D_CreateCharacter = 29,
+  PacketType_SC_CreateCharacter = 30,
   PacketType_MIN = PacketType_NONE,
   PacketType_MAX = PacketType_SC_CreateCharacter
 };
 
-inline const PacketType (&EnumValuesPacketType())[27] {
+inline const PacketType (&EnumValuesPacketType())[31] {
   static const PacketType values[] = {
     PacketType_NONE,
     PacketType_C_SignUp,
@@ -71,6 +75,10 @@ inline const PacketType (&EnumValuesPacketType())[27] {
     PacketType_SD_CharacterList,
     PacketType_D_CharacterList,
     PacketType_SC_CharacterList,
+    PacketType_C_CharacterDelete,
+    PacketType_SD_CharacterDelete,
+    PacketType_D_CharacterDelete,
+    PacketType_SC_CharacterDelete,
     PacketType_C_CheckName,
     PacketType_SD_CheckName,
     PacketType_D_CheckName,
@@ -84,7 +92,7 @@ inline const PacketType (&EnumValuesPacketType())[27] {
 }
 
 inline const char * const *EnumNamesPacketType() {
-  static const char * const names[28] = {
+  static const char * const names[32] = {
     "NONE",
     "C_SignUp",
     "SD_SignUp",
@@ -104,6 +112,10 @@ inline const char * const *EnumNamesPacketType() {
     "SD_CharacterList",
     "D_CharacterList",
     "SC_CharacterList",
+    "C_CharacterDelete",
+    "SD_CharacterDelete",
+    "D_CharacterDelete",
+    "SC_CharacterDelete",
     "C_CheckName",
     "SD_CheckName",
     "D_CheckName",
@@ -197,6 +209,22 @@ template<> struct PacketTypeTraits<D_CharacterList> {
 
 template<> struct PacketTypeTraits<SC_CharacterList> {
   static const PacketType enum_value = PacketType_SC_CharacterList;
+};
+
+template<> struct PacketTypeTraits<C_CharacterDelete> {
+  static const PacketType enum_value = PacketType_C_CharacterDelete;
+};
+
+template<> struct PacketTypeTraits<SD_CharacterDelete> {
+  static const PacketType enum_value = PacketType_SD_CharacterDelete;
+};
+
+template<> struct PacketTypeTraits<D_CharacterDelete> {
+  static const PacketType enum_value = PacketType_D_CharacterDelete;
+};
+
+template<> struct PacketTypeTraits<SC_CharacterDelete> {
+  static const PacketType enum_value = PacketType_SC_CharacterDelete;
 };
 
 template<> struct PacketTypeTraits<C_CheckName> {
@@ -309,6 +337,22 @@ inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj,
     }
     case PacketType_SC_CharacterList: {
       auto ptr = reinterpret_cast<const SC_CharacterList *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_C_CharacterDelete: {
+      auto ptr = reinterpret_cast<const C_CharacterDelete *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SD_CharacterDelete: {
+      auto ptr = reinterpret_cast<const SD_CharacterDelete *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_D_CharacterDelete: {
+      auto ptr = reinterpret_cast<const D_CharacterDelete *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_CharacterDelete: {
+      auto ptr = reinterpret_cast<const SC_CharacterDelete *>(obj);
       return verifier.VerifyTable(ptr);
     }
     case PacketType_C_CheckName: {

@@ -64,17 +64,17 @@ void PacketHandler::D_SignUpHandler(PacketSession* session, ByteRef& buffer)
 		auto error = pkt->ok();
 		auto sessionId = pkt->session_id();
 
-		ClientSession* clientSession = Manager::Session.Find(sessionId);
+		ClientRef client = Manager::Session.Find(sessionId);
 		if (error == SignInError_SUCCESS)
 		{
-			clientSession->SetDbId(pkt->db_id());
-			clientSession->Player = shared_ptr<Player>(new Player());
+			client->SetDbId(pkt->db_id());
+			client->Player = shared_ptr<Player>(new Player());
 		}
 		auto data = CreateSC_SignUp(builder, error);
 		auto bytes = Manager::Packet.CreatePacket(data, builder, PacketType_SC_SignUp);
 
-		if (clientSession != nullptr)
-			clientSession->Send(bytes);
+		if (client != nullptr)
+			client->Send(bytes);
 	}
 	catch (exception& e)
 	{
@@ -140,18 +140,18 @@ void PacketHandler::D_SignInHandler(PacketSession* session, ByteRef& buffer)
 	try {
 		auto pkt = GetRoot<D_SignIn>(reinterpret_cast<uint8*>(buffer->operator byte * ()));
 		auto sessionId = pkt->session_id();
-		ClientSession* clientSession = Manager::Session.Find(sessionId);
+		ClientRef client = Manager::Session.Find(sessionId);
 
-		if (clientSession != nullptr)
+		if (client != nullptr)
 		{
 			auto error = pkt->ok();
 
 			if (error == SignInError_SUCCESS)
-				clientSession->Player = shared_ptr<Player>(new Player());
+				client->Player = shared_ptr<Player>(new Player());
 			auto data = CreateSC_SignIn(builder, sessionId, error);
 			auto bytes = Manager::Packet.CreatePacket(data, builder, PacketType_SC_SignIn);
-			clientSession->SetDbId(pkt->db_id());
-			clientSession->Send(bytes);
+			client->SetDbId(pkt->db_id());
+			client->Send(bytes);
 		}
 	}
 	catch (exception& e)
@@ -169,15 +169,15 @@ void PacketHandler::C_SignOutHandler(PacketSession* session, ByteRef& buffer)
 void PacketHandler::C_EnterChannelHandler(PacketSession* session, ByteRef& buffer)
 {
 	FlatBufferBuilder builder;
-	ClientSession* clientSession = reinterpret_cast<ClientSession*>(session);
+	ClientSession* client = reinterpret_cast<ClientSession*>(session);
 
 	EnterChannelError error = EnterChannelError::EnterChannelError_SUCCESS;
 	try {
-		Player* player = clientSession->Player.get();
+		Player* player = client->Player.get();
 		if (player == nullptr || player->State != PlayerState::Lobby)
 			return;
 
-		auto pkt = GetRoot<C_EnterChannel>(reinterpret_cast<uint8*>(buffer->operator std::byte * ()));
+		auto pkt = GetRoot<C_EnterChannel>(buffer->operator std::byte * ());
 		uint8 channelId = pkt->channel_index();
 		uint8 serverId = pkt->server_index();
 
@@ -201,29 +201,29 @@ void PacketHandler::C_EnterChannelHandler(PacketSession* session, ByteRef& buffe
 
 	auto data = CreateSC_EnterChannel(builder, error);
 	auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_EnterChannel);
-	clientSession->Send(packet);
+	client->Send(packet);
 }
 void PacketHandler::C_ChannelInfoHandler(PacketSession* session, ByteRef& buffer)
 {
-	ClientSession* clientSession = reinterpret_cast<ClientSession*>(session);
+	ClientSession* client = reinterpret_cast<ClientSession*>(session);
 	FlatBufferBuilder builder;
 
 	try {
-		Player* player = clientSession->Player.get();
+		Player* player = client->Player.get();
 		if (player == nullptr || player->State != PlayerState::Lobby)
 			return;
 
-		auto pkt = GetRoot<C_ChannelInfo>(reinterpret_cast<uint8*>(buffer->operator std::byte * ()));
+		auto pkt = GetRoot<C_ChannelInfo>(buffer->operator std::byte * ());
 		uint8 serverId = pkt->server_id();
 
 		Server* server = Manager::Server.Find(serverId);
 		if (server == nullptr)
-			clientSession->Disconnect();
+			client->Disconnect();
 		else
 		{
 			auto data = Manager::Server.GetChannelInfo(server, builder);
 			auto packet = Manager::Packet.CreatePacket(data, builder, PacketType::PacketType_SC_ChannelInfo);
-			clientSession->Send(packet);
+			client->Send(packet);
 		}
 	}
 	catch (exception& e)
@@ -236,14 +236,14 @@ void PacketHandler::C_ChannelInfoHandler(PacketSession* session, ByteRef& buffer
 void PacketHandler::C_CharacterListHandler(PacketSession* session, ByteRef& buffer)
 {
 	auto sessionId = session->GetSessionId();
-	ClientSession* clientSession = Manager::Session.Find(sessionId);
-	if (clientSession == nullptr)
+	ClientRef client = Manager::Session.Find(sessionId);
+	if (client == nullptr)
 	{
 		session->Disconnect();
 		return;
 	}
 
-	PlayerRef player = clientSession->Player;
+	PlayerRef player = client->Player;
 	if (player.get() == nullptr || player->ServerId == -1)
 	{
 		session->Disconnect();
@@ -258,51 +258,198 @@ void PacketHandler::C_CharacterListHandler(PacketSession* session, ByteRef& buff
 }
 void PacketHandler::D_CharacterListHandler(PacketSession* session, ByteRef& buffer)
 {
-	auto pkt = GetRoot<D_CharacterList>(reinterpret_cast<uint8*>(buffer->operator std::byte * ()));
+	auto pkt = GetRoot<D_CharacterList>(buffer->operator std::byte * ());
 	FlatBufferBuilder builder;
 
-	ClientSession* clientSession = Manager::Session.Find(pkt->session_id());
-	if (clientSession != nullptr)
+	ClientRef client = Manager::Session.Find(pkt->session_id());
+	if (client == nullptr || client->Player == nullptr)
+		return;
+
+	auto ok = pkt->ok();
+	const ::flatbuffers::Vector<::flatbuffers::Offset<CharacterInfo>>* list = pkt->list();
+
+	vector<Offset<CharacterInfo>> infoList;
+	for (auto it = list->begin(); it != list->end(); it++)
 	{
-		auto ok = pkt->ok();
-		const ::flatbuffers::Vector<::flatbuffers::Offset<CharacterInfo>>* list = pkt->list();
+		auto ability = CreateCharacterAbility(builder,
+			it->ability()->STR(),
+			it->ability()->DEX(),
+			it->ability()->INT(),
+			it->ability()->LUK());
+		infoList.push_back(CreateCharacterInfo(
+			builder,
+			it->char_id(),
+			it->char_type(),
+			it->level(),
+			builder.CreateString(it->name()),
+			ability
+		));
+	}
+	auto vecList = builder.CreateVector(infoList);
+	auto data = CreateSC_CharacterList(builder, ok, vecList);
+	auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CharacterList);
+	client->Send(packet);
+}
 
-		vector<Offset<CharacterInfo>> infoList;
-		for (auto it = list->begin(); it != list->end(); it++)
-		{
-			infoList.push_back(CreateCharacterInfo(
-				builder,
-				it->char_type(),
-				it->level(),
-				builder.CreateString(it->name())
-			));
-		}
+void PacketHandler::C_CharacterDeleteHandler(PacketSession* session, ByteRef& buffer) {
+	try {
+		auto pkt = GetRoot<C_CharacterDelete>(buffer->operator std::byte * ());
+		FlatBufferBuilder builder;
 
-		auto vecList = builder.CreateVector(infoList);
-		auto data = CreateSC_CharacterList(builder, ok, vecList);
-		auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CharacterList);
-		clientSession->Send(pkt);
+		auto sessionId = session->GetSessionId();
+		ClientRef client = Manager::Session.Find(sessionId);
+		if (client == nullptr)
+			return;
+
+		auto data = CreateSD_CharacterDelete(builder, client->GetDbId(), client->GetSessionId(), pkt->char_id());
+		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SD_CharacterDelete);
+		Manager::Session.dbSession->Send(packet);
+	}
+	catch (...)
+	{
+		FlatBufferBuilder builder;
+		auto data = CreateSC_CharacterDelete(builder, CharacterDeleteError_UNKNOWN);
+		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CharacterDelete);
+		session->Send(packet);
 	}
 }
+
+void PacketHandler::D_CharacterDeleteHandler(PacketSession* session, ByteRef& buffer) {
+	auto pkt = GetRoot<D_CharacterDelete>(buffer->operator std::byte * ());
+	FlatBufferBuilder builder;
+
+	ClientRef client = Manager::Session.Find(pkt->session_id());
+	if (client == nullptr)
+		return;
+	auto data = CreateSC_CharacterDelete(builder, pkt->ok());
+	auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CharacterDelete);
+	client->Send(packet);
+}
+
 #pragma endregion
 #pragma region CreateCharacter
 void PacketHandler::C_CheckNameHandler(PacketSession* session, ByteRef& buffer)
 {
+	auto sessionId = session->GetSessionId();
+	ClientRef client = Manager::Session.Find(sessionId);
 
+	if (client == nullptr)
+	{
+		client->Disconnect();
+		return;
+	}
+	FlatBufferBuilder builder;
+
+	try
+	{
+		auto checkName = GetRoot<C_CheckName>(buffer->operator std::byte * ());
+		string name = checkName->name()->str();
+		if (name.empty())
+			throw - 1;
+		auto data = CreateSD_CheckName(builder, sessionId, builder.CreateString(name));
+		auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SD_CheckName);
+		Manager::Session.dbSession->Send(pkt);
+	}
+	catch (...)
+	{
+		FlatBufferBuilder builder;
+		auto data = CreateSC_CheckName(builder, CheckNameError_UNKNOWN);
+		auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CheckName);
+		session->Send(pkt);
+	}
 }
 void PacketHandler::D_CheckNameHandler(PacketSession* session, ByteRef& buffer)
 {
+	auto pkt = GetRoot<D_CheckName>(buffer->operator std::byte * ());
 
+	try {
+		ClientRef client = Manager::Session.Find(pkt->session_id());
+		if (client == nullptr)
+			return;
+		FlatBufferBuilder builder;
+
+		auto data = CreateSC_CheckName(builder, pkt->ok());
+		auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CheckName);
+		client->Send(pkt);
+	}
+	catch (exception& e)
+	{
+	}
 }
 
 void PacketHandler::C_CreateCharacterHandler(PacketSession* session, ByteRef& buffer)
 {
+	auto pkt = GetRoot<C_CreateCharacter>(buffer->operator std::byte * ());
 
+	try {
+		ClientRef client = Manager::Session.Find(session->GetSessionId());
+		if (client == nullptr)
+		{
+			client->Disconnect();
+			return;
+		}
+		PlayerRef player = client->Player;
+		if (player == nullptr)
+		{
+			client->Disconnect();
+			return;
+		}
+
+		auto sessionId = session->GetSessionId();
+		auto dbId = session->GetDbId();
+		auto charType = pkt->char_type();
+		auto name = pkt->name()->str();
+		auto ability = pkt->ability();
+
+
+		FlatBufferBuilder builder;
+
+		auto offsetAbility = CreateCharacterAbility(
+			builder,
+			ability->STR(),
+			ability->DEX(),
+			ability->INT(),
+			ability->LUK());
+
+		auto data = CreateSD_CreateCharacter(
+			builder,
+			builder.CreateString(name),
+			charType,
+			sessionId,
+			dbId,
+			offsetAbility,
+			player->ServerId);
+		auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SD_CreateCharacter);
+		Manager::Session.dbSession->Send(pkt);
+	}
+	catch (exception& e)
+	{
+		FlatBufferBuilder builder;
+		auto data = CreateSC_CreateCharacter(builder, CreateCharacterError_UNKNOWN);
+		auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CreateCharacter);
+		session->Send(pkt);
+	}
 }
 
 void PacketHandler::D_CreateCharacterHandler(PacketSession* session, ByteRef& buffer)
 {
+	auto pkt = GetRoot<D_CreateCharacter>(buffer->operator std::byte * ());
 
+	try {
+		auto sessionId = pkt->session_id();
+
+		ClientRef client = Manager::Session.Find(sessionId);
+		if (client == nullptr)
+			return;
+		FlatBufferBuilder builder;
+		auto data = CreateSC_CreateCharacter(builder, pkt->ok());
+		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CreateCharacter);
+		client->Send(packet);
+	}
+	catch (exception& e)
+	{
+
+	}
 }
 #pragma endregion
 #pragma endregion

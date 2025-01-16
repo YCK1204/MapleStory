@@ -24,19 +24,23 @@ public struct C_CreateCharacter : IFlatbufferObject
 #endif
   public byte[] GetNameArray() { return __p.__vector_as_array<byte>(4); }
   public byte CharType { get { int o = __p.__offset(6); return o != 0 ? __p.bb.Get(o + __p.bb_pos) : (byte)0; } }
+  public CharacterAbility? Ability { get { int o = __p.__offset(8); return o != 0 ? (CharacterAbility?)(new CharacterAbility()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
 
   public static Offset<C_CreateCharacter> CreateC_CreateCharacter(FlatBufferBuilder builder,
       StringOffset nameOffset = default(StringOffset),
-      byte char_type = 0) {
-    builder.StartTable(2);
+      byte char_type = 0,
+      Offset<CharacterAbility> abilityOffset = default(Offset<CharacterAbility>)) {
+    builder.StartTable(3);
+    C_CreateCharacter.AddAbility(builder, abilityOffset);
     C_CreateCharacter.AddName(builder, nameOffset);
     C_CreateCharacter.AddCharType(builder, char_type);
     return C_CreateCharacter.EndC_CreateCharacter(builder);
   }
 
-  public static void StartC_CreateCharacter(FlatBufferBuilder builder) { builder.StartTable(2); }
+  public static void StartC_CreateCharacter(FlatBufferBuilder builder) { builder.StartTable(3); }
   public static void AddName(FlatBufferBuilder builder, StringOffset nameOffset) { builder.AddOffset(0, nameOffset.Value, 0); }
   public static void AddCharType(FlatBufferBuilder builder, byte charType) { builder.AddByte(1, charType, 0); }
+  public static void AddAbility(FlatBufferBuilder builder, Offset<CharacterAbility> abilityOffset) { builder.AddOffset(2, abilityOffset.Value, 0); }
   public static Offset<C_CreateCharacter> EndC_CreateCharacter(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<C_CreateCharacter>(o);
@@ -51,6 +55,7 @@ static public class C_CreateCharacterVerify
     return verifier.VerifyTableStart(tablePos)
       && verifier.VerifyString(tablePos, 4 /*Name*/, false)
       && verifier.VerifyField(tablePos, 6 /*CharType*/, 1 /*byte*/, 1, false)
+      && verifier.VerifyTable(tablePos, 8 /*Ability*/, CharacterAbilityVerify.Verify, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

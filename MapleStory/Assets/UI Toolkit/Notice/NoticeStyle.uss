@@ -90,3 +90,7 @@
 .PopupImg-NoMoreCreateCharacter {
     background-image: resource('PrevInGame/Imgs/Notice/Notice-NoMoreCreateCharacter');
 }
+
+.PopupImg-CheckName {
+    background-image: resource('PrevInGame/Imgs/Notice/Notice-CheckName');
+}

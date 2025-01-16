@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "SessionManager.h"
 #include "SocketUtils.h"
+#include "DbSession.h"
+#include "ClientSession.h"
 
 SessionManager* SessionManager::_instance = nullptr;
 
@@ -20,13 +22,13 @@ void SessionManager::Push(ClientSession* session)
 	WRITE_LOCK
 	{
 		session->SetSessionId(_curId);
-		_sessions[_curId++] = session;
+		_sessions[_curId++] = shared_ptr<ClientSession>(session);
 	}
 }
 
-ClientSession* SessionManager::Find(uint32 id)
+ClientRef SessionManager::Find(uint32 id)
 {
-	ClientSession* session = nullptr;
+	ClientRef session = nullptr;
 	READ_LOCK
 	{
 		auto it = _sessions.find(id);

@@ -26,7 +26,7 @@ void PacketHandler::HandleSignUp(PacketSession* session, const string& id, const
 
 void PacketHandler::SD_SignUpHandler(PacketSession* session, ByteRef& buffer)
 {
-	auto pkt = GetRoot<SD_SignUp>(reinterpret_cast<uint8*>(buffer->operator byte * ()));
+	auto pkt = GetRoot<SD_SignUp>(buffer->operator byte * ());
 	string id = pkt->user_id()->str();
 	string password = pkt->passowrd()->str();
 	uint32 sessionId = pkt->session_id();
@@ -60,7 +60,7 @@ void PacketHandler::SD_SignUpHandler(PacketSession* session, ByteRef& buffer)
 
 void PacketHandler::SD_SignInHandler(PacketSession* session, ByteRef& buffer)
 {
-	auto pkt = GetRoot<SD_SignIn>(reinterpret_cast<uint8*>(buffer->operator byte * ()));
+	auto pkt = GetRoot<SD_SignIn>(buffer->operator byte * ());
 	string id = pkt->user_id()->str();
 	string password = pkt->password()->str();
 	uint32 sessionId = pkt->session_id();
@@ -120,36 +120,58 @@ void PacketHandler::SD_SignInHandler(PacketSession* session, ByteRef& buffer)
 #pragma endregion
 #pragma region CharacterSelect
 void PacketHandler::SD_CharacterListHandler(PacketSession* session, ByteRef& buffer) {
-	auto pkt = GetRoot<SD_CharacterList>(reinterpret_cast<uint8*>(buffer->operator byte * ()));
+	auto pkt = GetRoot<SD_CharacterList>(buffer->operator byte * ());
 	uint64 sessionId = pkt->session_id();
 
 	wstring query = Utils::wformat(
-		"select * from character_info "
-		"where char_id in "
-		"(select char_id from user_character where owner = {0}) "
-		"and "
-		"server_id = {1};"
-		, initializer_list<uint64>{ pkt->db_id(), pkt->server_id() });
+		"with data as "
+		"(select T.char_id from character_info as T "
+		"where server_id = {0} and char_id in "
+		"(select U.char_id from user_character as U where owner = {1})) "
+
+		"select A.char_id, A.name, A.level, A.char_type, B._str, B._dex, B._int, B._luk "
+		"from character_info as A "
+		"inner join "
+		"character_status as B "
+		"on A.char_id = B.char_id "
+		"where A.char_id in (select D.char_id from data as D);"
+		, initializer_list<uint64>{ pkt->server_id(), pkt->db_id()});
 
 	try {
 		Manager::DB.RequestAsync(query, [sessionId](shared_ptr<DbManager::QueryArgs> result) {
 
 			if (result->_ret == SQL_ERROR)
-				throw;
+				throw -1;
 
 			FlatBufferBuilder builder;
 			SQLHSTMT stmt = result->GetStmt();
 			HANDLE handle = result->GetHandle();
 
-			SQLCHAR name[50] = {};
+			SQLINTEGER charId = 0;
+			SQLCHAR name[20] = {};
 			SQLINTEGER level = 0;
 			SQLINTEGER charType = 0;
+			SQLINTEGER _str = 0;
+			SQLINTEGER _dex = 0;
+			SQLINTEGER _int = 0;
+			SQLINTEGER _luk = 0;
+			SQLLEN charIdIndicator;
 			SQLLEN nameIndicator;
 			SQLLEN levelIndicator;
 			SQLLEN charTypeIndicator;
+			SQLLEN strIndicator;
+			SQLLEN dexIndicator;
+			SQLLEN intIndicator;
+			SQLLEN lukIndicator;
+
+			SQLBindCol(stmt, 1, SQL_C_LONG, &charId, sizeof(charId), &charIdIndicator);
 			SQLBindCol(stmt, 2, SQL_C_CHAR, name, sizeof(name), &nameIndicator);
 			SQLBindCol(stmt, 3, SQL_C_LONG, &level, sizeof(level), &levelIndicator);
 			SQLBindCol(stmt, 4, SQL_C_LONG, &charType, sizeof(charType), &charTypeIndicator);
+			SQLBindCol(stmt, 5, SQL_C_LONG, &_str, sizeof(_str), &strIndicator);
+			SQLBindCol(stmt, 6, SQL_C_LONG, &_dex, sizeof(_dex), &dexIndicator);
+			SQLBindCol(stmt, 7, SQL_C_LONG, &_int, sizeof(_int), &intIndicator);
+			SQLBindCol(stmt, 8, SQL_C_LONG, &_luk, sizeof(_luk), &lukIndicator);
 
 			vector<Offset<CharacterInfo>> charInfos;
 			while (true)
@@ -162,11 +184,14 @@ void PacketHandler::SD_CharacterListHandler(PacketSession* session, ByteRef& buf
 				str.reserve(nameIndicator);
 				for (auto i = 0; i < nameIndicator; i++)
 					str.push_back(name[i]);
+				auto ability = CreateCharacterAbility(builder, _str, _dex, _int, _luk);
 				auto info = CreateCharacterInfo(
 					builder,
+					charId,
 					static_cast<uint8>(charType),
 					static_cast<uint16>(level),
-					builder.CreateString(str));
+					builder.CreateString(str),
+					ability);
 				charInfos.push_back(info);
 			}
 
@@ -176,7 +201,7 @@ void PacketHandler::SD_CharacterListHandler(PacketSession* session, ByteRef& buf
 			Manager::session->Send(pkt);
 			});
 	}
-	catch (exception& e)
+	catch (...)
 	{
 		FlatBufferBuilder builder;
 		auto data = CreateD_CharacterList(builder, CharacterListError_UNKNOWN);
@@ -184,14 +209,142 @@ void PacketHandler::SD_CharacterListHandler(PacketSession* session, ByteRef& buf
 		Manager::session->Send(pkt);
 	}
 }
+void PacketHandler::SD_CharacterDeleteHandler(PacketSession* session, ByteRef& buffer)
+{
+	auto pkt = GetRoot< SD_CharacterDelete>(buffer->operator std::byte * ());
+
+	try {
+		auto owner = pkt->db_id();
+		auto charId = pkt->char_id();
+		auto sessionId = pkt->session_id();
+
+		wstring query = Utils::wformat(
+			"call DeleteCharacter({0}, {1});"
+			, initializer_list<uint64>{owner, charId});
+
+		Manager::DB.RequestAsync(query, [sessionId](shared_ptr<DbManager::QueryArgs> result) {
+			if (result->_ret == SQL_ERROR)
+				throw - 1;
+			SQLHSTMT stmt = result->GetStmt();
+
+			SQLINTEGER ret = 0;
+			SQLLEN retIndicator;
+			SQLBindCol(stmt, 1, SQL_C_LONG, &ret, sizeof(ret), &retIndicator);
+			SQLRETURN fetchResult = SQLFetch(stmt);
+			if (fetchResult == SQL_NO_DATA || fetchResult != SQL_SUCCESS || ret == 0)
+				throw - 1;
+			FlatBufferBuilder builder;
+			auto data = CreateD_CharacterDelete(builder, sessionId, CharacterDeleteError_SUCCESS);
+			auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_D_CharacterDelete);
+			Manager::session->Send(pkt);
+			});
+	}
+	catch (...)
+	{
+		FlatBufferBuilder builder;
+		auto data = CreateD_CharacterDelete(builder, pkt->session_id(), CharacterDeleteError_UNKNOWN);
+		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_D_CharacterDelete);
+		Manager::session->Send(packet);
+	}
+}
 #pragma endregion
 #pragma region CreateCharacter
 void PacketHandler::SD_CreateCharacterHandler(PacketSession* session, ByteRef& buffer)
 {
+	auto pkt = GetRoot<SD_CreateCharacter>(buffer->operator std::byte * ());
 
+	string serverId = to_string(pkt->server_id());
+	string name = pkt->name()->str();
+	string sessionId = to_string(pkt->session_id());
+	string dbId = to_string(pkt->db_id());
+	string charType = to_string(pkt->char_type());
+	string _str = to_string(pkt->ability()->STR());
+	string _dex = to_string(pkt->ability()->DEX());
+	string _int = to_string(pkt->ability()->INT());
+	string _luk = to_string(pkt->ability()->LUK());
+
+	wstring query = Utils::wformat(
+		"call CreateCharacter("
+		"{0}, '{1}', {2}, {3}, {4}, {5}, {6}, {7});",
+		{ dbId, name, charType, serverId, _str, _dex, _int, _luk });
+
+	try {
+		Manager::DB.RequestAsync(query, [sessionId](shared_ptr<DbManager::QueryArgs> result) {
+			SQLINTEGER ret = 0;
+			SQLLEN retIndicator;
+			SQLHSTMT stmt = result->GetStmt();
+
+			SQLBindCol(stmt, 1, SQL_INTEGER, &ret, sizeof(ret), &retIndicator);
+			SQLRETURN fetchResult = SQLFetch(stmt);
+			CreateCharacterError error;
+			if (fetchResult == SQL_ERROR)
+			{
+				error = CreateCharacterError_UNKNOWN;
+				Manager::DB.HandleError(SQL_HANDLE_STMT, (SQLHANDLE*)&stmt);
+			}
+			else
+			{
+				if (ret == 1)
+					error = CreateCharacterError_SUCCESS;
+				else
+					error = CreateCharacterError_OVERLAPPED;
+			}
+			FlatBufferBuilder builder;
+			auto data = CreateD_CreateCharacter(builder, ::stoi(sessionId), error);
+			auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_D_CreateCharacter);
+			Manager::session->Send(pkt);
+			});
+	}
+	catch (exception& e)
+	{
+		FlatBufferBuilder builder;
+		auto data = CreateD_CreateCharacter(builder, ::stoi(sessionId), CreateCharacterError_UNKNOWN);
+		auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_D_CreateCharacter);
+		Manager::session->Send(pkt);
+	}
 }
 
 void PacketHandler::SD_CheckNameHandler(PacketSession* session, ByteRef& buffer) {
+	auto pkt = GetRoot<SD_CheckName>(buffer->operator std::byte * ());
 
+	string serverId = to_string(pkt->server_id());
+	string name = pkt->name()->str();
+	auto sessionId = pkt->session_id();
+	wstring query = Utils::wformat(
+		"select count(*) from character_info "
+		"where name='{0}' and server_id={1}",
+		{ name, serverId });
+
+	try {
+		Manager::DB.RequestAsync(query, [sessionId](shared_ptr<DbManager::QueryArgs> result) {
+			SQLINTEGER exist = 0;
+			SQLLEN existIndicator;
+			SQLHSTMT stmt = result->GetStmt();
+
+			SQLBindCol(stmt, 1, SQL_INTEGER, &exist, sizeof(exist), &existIndicator);
+			SQLRETURN fetchResult = SQLFetch(stmt);
+			CheckNameError error;
+			if (fetchResult == SQL_ERROR)
+				error = CheckNameError_UNKNOWN;
+			else
+			{
+				if (exist)
+					error = CheckNameError_OVERLAPPED;
+				else
+					error = CheckNameError_SUCCESS;
+			}
+			FlatBufferBuilder builder;
+			auto data = CreateD_CheckName(builder, sessionId, error);
+			auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_D_CheckName);
+			Manager::session->Send(pkt);
+			});
+	}
+	catch (exception& e)
+	{
+		FlatBufferBuilder builder;
+		auto data = CreateD_CheckName(builder, sessionId, CheckNameError_UNKNOWN);
+		auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_D_CheckName);
+		Manager::session->Send(pkt);
+	}
 }
 #pragma endregion

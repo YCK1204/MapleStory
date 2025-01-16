@@ -1,3 +1,5 @@
+include "CreateCharacter.fbs";
+
 table C_CharacterList {
 }
 
@@ -8,9 +10,11 @@ table SD_CharacterList {
 }
 
 table CharacterInfo {
+	char_id:uint64;
 	char_type:uint8;
 	level:uint16;
 	name:string;
+	ability:CharacterAbility;
 }
 
 enum CharacterListError : uint8 {
@@ -27,4 +31,28 @@ table D_CharacterList {
 table SC_CharacterList {
 	ok:CharacterListError;
 	list:[CharacterInfo];
+}
+
+table C_CharacterDelete {
+	char_id:uint64;
+}
+
+table SD_CharacterDelete {
+	db_id:uint64;
+	session_id:uint64;
+	char_id:uint64;
+}
+
+enum CharacterDeleteError : uint8 {
+	SUCCESS,
+	UNKNOWN,
+}
+
+table D_CharacterDelete {
+	session_id:uint64;
+	ok:CharacterDeleteError;
+}
+
+table SC_CharacterDelete {
+	ok:CharacterDeleteError;
 }

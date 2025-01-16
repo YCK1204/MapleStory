@@ -58,9 +58,21 @@ public class PacketHandler
     #endregion
     public static void SC_CreateCharacterHandler(PacketSession session, ByteBuffer buffer)
     {
+        var pkt = SC_CreateCharacter.GetRootAsSC_CreateCharacter(buffer);
+
+        Manager.Scene.CurScene.OnRecvPacket<SC_CreateCharacter>(pkt);
     }
     public static void SC_CheckNameHandler(PacketSession session, ByteBuffer buffer)
     {
+        var pkt = SC_CheckName.GetRootAsSC_CheckName(buffer);
 
+        Manager.Scene.CurScene.OnRecvPacket<SC_CheckName>(pkt);
+    }
+
+    public static void SC_CharacterDeleteHandler(PacketSession session, ByteBuffer buffer)
+    {
+        var pkt = SC_CharacterDelete.GetRootAsSC_CharacterDelete(buffer);
+
+        Manager.Scene.CurScene.OnRecvPacket<SC_CharacterDelete>(pkt);
     }
 }

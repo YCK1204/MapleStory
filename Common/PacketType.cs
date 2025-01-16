@@ -23,14 +23,18 @@ public enum PacketType : byte
   SD_CharacterList = 16,
   D_CharacterList = 17,
   SC_CharacterList = 18,
-  C_CheckName = 19,
-  SD_CheckName = 20,
-  D_CheckName = 21,
-  SC_CheckName = 22,
-  C_CreateCharacter = 23,
-  SD_CreateCharacter = 24,
-  D_CreateCharacter = 25,
-  SC_CreateCharacter = 26,
+  C_CharacterDelete = 19,
+  SD_CharacterDelete = 20,
+  D_CharacterDelete = 21,
+  SC_CharacterDelete = 22,
+  C_CheckName = 23,
+  SD_CheckName = 24,
+  D_CheckName = 25,
+  SC_CheckName = 26,
+  C_CreateCharacter = 27,
+  SD_CreateCharacter = 28,
+  D_CreateCharacter = 29,
+  SC_CreateCharacter = 30,
 };
 
 
@@ -95,6 +99,18 @@ static public class PacketTypeVerify
         break;
       case PacketType.SC_CharacterList:
         result = SC_CharacterListVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.C_CharacterDelete:
+        result = C_CharacterDeleteVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SD_CharacterDelete:
+        result = SD_CharacterDeleteVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.D_CharacterDelete:
+        result = D_CharacterDeleteVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_CharacterDelete:
+        result = SC_CharacterDeleteVerify.Verify(verifier, tablePos);
         break;
       case PacketType.C_CheckName:
         result = C_CheckNameVerify.Verify(verifier, tablePos);

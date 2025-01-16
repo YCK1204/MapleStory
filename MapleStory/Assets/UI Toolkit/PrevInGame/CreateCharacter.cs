@@ -1,3 +1,4 @@
+using Google.FlatBuffers;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -8,9 +9,7 @@ using Random = UnityEngine.Random;
 
 public partial class UIPrevInGameController : UIBaseController
 {
-    [SerializeField]
-    GameObject[] Characters;
-    class CharacterAbility
+    class CharacterAbilities
     {
         public Button ButtonNameCheck;
         public VisualElement ContainerMain;
@@ -28,7 +27,7 @@ public partial class UIPrevInGameController : UIBaseController
         public VisualElement ImgCharacterInfo;
         public Button ButtonCharacterCreate;
         public ScrollView ScrollViewCharacterList;
-        public CharacterAbility characterAbility = new CharacterAbility();
+        public CharacterAbilities characterAbility = new CharacterAbilities();
     }
     #region CharacterJson
     [SerializeField]
@@ -45,6 +44,8 @@ public partial class UIPrevInGameController : UIBaseController
     #endregion
     CreateCharacter createCharacter = new CreateCharacter();
     List<Button> _characterButtons = new List<Button>();
+    string approvedName = null;
+
     private void InitializeCharList()
     {
         JCharacterInfos characterInfos = JsonConvert.DeserializeObject<JCharacterInfos>(CharacterJson.ToString());
@@ -71,7 +72,7 @@ public partial class UIPrevInGameController : UIBaseController
                     Characters[0].SetActive(false);
                 }
             });
-            //CharacterList.Add(button);
+            createCharacter.ScrollViewCharacterList.Add(button);
             _characterButtons.Add(button);
         }
     }
@@ -132,10 +133,39 @@ public partial class UIPrevInGameController : UIBaseController
     #endregion
     private void CheckName(ClickEvent e)
     {
-        // 서버에게 네임 중복 확인 요청
+        FlatBufferBuilder builder = new FlatBufferBuilder(1024);
+
+        string name = createCharacter.characterAbility.TextFieldCharacterName.text;
+        if (name.isAlNum() == false)
+        {
+            NoticeState = UINoticeController.PopupState.Unknown;
+            approvedName = null;
+            return;
+        }
+        var data = C_CheckName.CreateC_CheckName(builder, builder.CreateString(name));
+        var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_CheckName);
+        Manager.Network.Send(pkt);
     }
     private void FormCharacter(ClickEvent e)
     {
-        // 서버에게 캐릭터 생성 요청
+        string name = createCharacter.characterAbility.TextFieldCharacterName.text;
+
+        if (approvedName == null || approvedName.Equals(name) == false)
+        {
+            NoticeState = UINoticeController.PopupState.CheckName;
+            return;
+        }
+
+        ushort STR = ushort.Parse(createCharacter.characterAbility.LabelAbilitySTR.text);
+        ushort DEX = ushort.Parse(createCharacter.characterAbility.LabelAbilityDEX.text);
+        ushort INT = ushort.Parse(createCharacter.characterAbility.LabelAbilityINT.text);
+        ushort LUK = ushort.Parse(createCharacter.characterAbility.LabelAbilityLUK.text);
+
+        FlatBufferBuilder builder = new FlatBufferBuilder(1024);
+        var ability = CharacterAbility.CreateCharacterAbility(builder, STR, DEX, INT, LUK);
+        // 나중에 캐릭터 애니메이션 배열을 통해 char_type 가져올것
+        var data = C_CreateCharacter.CreateC_CreateCharacter(builder, builder.CreateString(name), 1, ability); 
+        var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_CreateCharacter);
+        Manager.Network.Send(pkt);
     }
 }

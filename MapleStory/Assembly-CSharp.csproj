@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\FlatBuffer\SC_ChannelInfo.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SD_CharacterDelete.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\EnterChannelError.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\Login.cs" />
     <Compile Include="Assets\Scripts\Utils\Extension.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\D_CheckName.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\ChannelInfo.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_CharacterList.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\CharacterDeleteError.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SignUpError.cs" />
     <Compile Include="Assets\Scripts\Managers\NetworkManager.cs" />
     <Compile Include="Assets\Scripts\Utils\BaseMonobehaviour.cs" />
@@ -93,9 +95,12 @@
     <Compile Include="Assets\UI Toolkit\PrevInGame\UIPrevInGameController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_EnterChannel.cs" />
     <Compile Include="Assets\Scripts\Packet\PacketManager.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\CharacterAbility.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_CharacterDelete.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_SignUp.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_SignIn.cs" />
     <Compile Include="Assets\UI Toolkit\ReturnToFirst\UIReturnToFirstController.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\D_CharacterDelete.cs" />
     <Compile Include="Assets\UI Toolkit\UIBaseController.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\CreateCharacter.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterListError.cs" />
@@ -103,6 +108,7 @@
     <Compile Include="Assets\UI Toolkit\PrevInGame\CharacterSelect.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_CheckName.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CreateCharacterError.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_CharacterDelete.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CharacterList.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\ServerInfo.cs" />
     <Compile Include="Assets\Scripts\Packet\PacketHandler.cs" />

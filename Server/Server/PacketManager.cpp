@@ -33,6 +33,8 @@ void PacketManager::Register()
 		_handler[PacketType::PacketType_C_ChannelInfo] = PacketHandler::C_ChannelInfoHandler;
 		_handler[PacketType::PacketType_C_CharacterList] = PacketHandler::C_CharacterListHandler;
 		_handler[PacketType::PacketType_D_CharacterList] = PacketHandler::D_CharacterListHandler;
+		_handler[PacketType::PacketType_C_CharacterDelete] = PacketHandler::C_CharacterDeleteHandler;
+		_handler[PacketType::PacketType_D_CharacterDelete] = PacketHandler::D_CharacterDeleteHandler;
 		_handler[PacketType::PacketType_C_CheckName] = PacketHandler::C_CheckNameHandler;
 		_handler[PacketType::PacketType_D_CheckName] = PacketHandler::D_CheckNameHandler;
 		_handler[PacketType::PacketType_C_CreateCharacter] = PacketHandler::C_CreateCharacterHandler;

@@ -24,19 +24,23 @@ public struct SD_CheckName : IFlatbufferObject
   public ArraySegment<byte>? GetNameBytes() { return __p.__vector_as_arraysegment(6); }
 #endif
   public byte[] GetNameArray() { return __p.__vector_as_array<byte>(6); }
+  public byte ServerId { get { int o = __p.__offset(8); return o != 0 ? __p.bb.Get(o + __p.bb_pos) : (byte)0; } }
 
   public static Offset<SD_CheckName> CreateSD_CheckName(FlatBufferBuilder builder,
       ulong session_id = 0,
-      StringOffset nameOffset = default(StringOffset)) {
-    builder.StartTable(2);
+      StringOffset nameOffset = default(StringOffset),
+      byte server_id = 0) {
+    builder.StartTable(3);
     SD_CheckName.AddSessionId(builder, session_id);
     SD_CheckName.AddName(builder, nameOffset);
+    SD_CheckName.AddServerId(builder, server_id);
     return SD_CheckName.EndSD_CheckName(builder);
   }
 
-  public static void StartSD_CheckName(FlatBufferBuilder builder) { builder.StartTable(2); }
+  public static void StartSD_CheckName(FlatBufferBuilder builder) { builder.StartTable(3); }
   public static void AddSessionId(FlatBufferBuilder builder, ulong sessionId) { builder.AddUlong(0, sessionId, 0); }
   public static void AddName(FlatBufferBuilder builder, StringOffset nameOffset) { builder.AddOffset(1, nameOffset.Value, 0); }
+  public static void AddServerId(FlatBufferBuilder builder, byte serverId) { builder.AddByte(2, serverId, 0); }
   public static Offset<SD_CheckName> EndSD_CheckName(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<SD_CheckName>(o);
@@ -51,6 +55,7 @@ static public class SD_CheckNameVerify
     return verifier.VerifyTableStart(tablePos)
       && verifier.VerifyField(tablePos, 4 /*SessionId*/, 8 /*ulong*/, 8, false)
       && verifier.VerifyString(tablePos, 6 /*Name*/, false)
+      && verifier.VerifyField(tablePos, 8 /*ServerId*/, 1 /*byte*/, 1, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

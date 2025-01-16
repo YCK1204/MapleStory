@@ -16,31 +16,39 @@ public struct CharacterInfo : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public CharacterInfo __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public byte CharType { get { int o = __p.__offset(4); return o != 0 ? __p.bb.Get(o + __p.bb_pos) : (byte)0; } }
-  public ushort Level { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetUshort(o + __p.bb_pos) : (ushort)0; } }
-  public string Name { get { int o = __p.__offset(8); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public ulong CharId { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetUlong(o + __p.bb_pos) : (ulong)0; } }
+  public byte CharType { get { int o = __p.__offset(6); return o != 0 ? __p.bb.Get(o + __p.bb_pos) : (byte)0; } }
+  public ushort Level { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetUshort(o + __p.bb_pos) : (ushort)0; } }
+  public string Name { get { int o = __p.__offset(10); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetNameBytes() { return __p.__vector_as_span<byte>(8, 1); }
+  public Span<byte> GetNameBytes() { return __p.__vector_as_span<byte>(10, 1); }
 #else
-  public ArraySegment<byte>? GetNameBytes() { return __p.__vector_as_arraysegment(8); }
+  public ArraySegment<byte>? GetNameBytes() { return __p.__vector_as_arraysegment(10); }
 #endif
-  public byte[] GetNameArray() { return __p.__vector_as_array<byte>(8); }
+  public byte[] GetNameArray() { return __p.__vector_as_array<byte>(10); }
+  public CharacterAbility? Ability { get { int o = __p.__offset(12); return o != 0 ? (CharacterAbility?)(new CharacterAbility()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
 
   public static Offset<CharacterInfo> CreateCharacterInfo(FlatBufferBuilder builder,
+      ulong char_id = 0,
       byte char_type = 0,
       ushort level = 0,
-      StringOffset nameOffset = default(StringOffset)) {
-    builder.StartTable(3);
+      StringOffset nameOffset = default(StringOffset),
+      Offset<CharacterAbility> abilityOffset = default(Offset<CharacterAbility>)) {
+    builder.StartTable(5);
+    CharacterInfo.AddCharId(builder, char_id);
+    CharacterInfo.AddAbility(builder, abilityOffset);
     CharacterInfo.AddName(builder, nameOffset);
     CharacterInfo.AddLevel(builder, level);
     CharacterInfo.AddCharType(builder, char_type);
     return CharacterInfo.EndCharacterInfo(builder);
   }
 
-  public static void StartCharacterInfo(FlatBufferBuilder builder) { builder.StartTable(3); }
-  public static void AddCharType(FlatBufferBuilder builder, byte charType) { builder.AddByte(0, charType, 0); }
-  public static void AddLevel(FlatBufferBuilder builder, ushort level) { builder.AddUshort(1, level, 0); }
-  public static void AddName(FlatBufferBuilder builder, StringOffset nameOffset) { builder.AddOffset(2, nameOffset.Value, 0); }
+  public static void StartCharacterInfo(FlatBufferBuilder builder) { builder.StartTable(5); }
+  public static void AddCharId(FlatBufferBuilder builder, ulong charId) { builder.AddUlong(0, charId, 0); }
+  public static void AddCharType(FlatBufferBuilder builder, byte charType) { builder.AddByte(1, charType, 0); }
+  public static void AddLevel(FlatBufferBuilder builder, ushort level) { builder.AddUshort(2, level, 0); }
+  public static void AddName(FlatBufferBuilder builder, StringOffset nameOffset) { builder.AddOffset(3, nameOffset.Value, 0); }
+  public static void AddAbility(FlatBufferBuilder builder, Offset<CharacterAbility> abilityOffset) { builder.AddOffset(4, abilityOffset.Value, 0); }
   public static Offset<CharacterInfo> EndCharacterInfo(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<CharacterInfo>(o);
@@ -53,9 +61,11 @@ static public class CharacterInfoVerify
   static public bool Verify(Google.FlatBuffers.Verifier verifier, uint tablePos)
   {
     return verifier.VerifyTableStart(tablePos)
-      && verifier.VerifyField(tablePos, 4 /*CharType*/, 1 /*byte*/, 1, false)
-      && verifier.VerifyField(tablePos, 6 /*Level*/, 2 /*ushort*/, 2, false)
-      && verifier.VerifyString(tablePos, 8 /*Name*/, false)
+      && verifier.VerifyField(tablePos, 4 /*CharId*/, 8 /*ulong*/, 8, false)
+      && verifier.VerifyField(tablePos, 6 /*CharType*/, 1 /*byte*/, 1, false)
+      && verifier.VerifyField(tablePos, 8 /*Level*/, 2 /*ushort*/, 2, false)
+      && verifier.VerifyString(tablePos, 10 /*Name*/, false)
+      && verifier.VerifyTable(tablePos, 12 /*Ability*/, CharacterAbilityVerify.Verify, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

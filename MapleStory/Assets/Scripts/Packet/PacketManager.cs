@@ -19,6 +19,7 @@ public class PacketManager
 		_handler.Add((ushort)PacketType.SC_EnterChannel, PacketHandler.SC_EnterChannelHandler);
 		_handler.Add((ushort)PacketType.SC_ChannelInfo, PacketHandler.SC_ChannelInfoHandler);
 		_handler.Add((ushort)PacketType.SC_CharacterList, PacketHandler.SC_CharacterListHandler);
+		_handler.Add((ushort)PacketType.SC_CharacterDelete, PacketHandler.SC_CharacterDeleteHandler);
 		_handler.Add((ushort)PacketType.SC_CheckName, PacketHandler.SC_CheckNameHandler);
 		_handler.Add((ushort)PacketType.SC_CreateCharacter, PacketHandler.SC_CreateCharacterHandler);
 		

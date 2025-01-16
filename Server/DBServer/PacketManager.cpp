@@ -27,6 +27,7 @@ void PacketManager::Register()
     _handler[PacketType::PacketType_SD_SignUp] = PacketHandler::SD_SignUpHandler;
 		_handler[PacketType::PacketType_SD_SignIn] = PacketHandler::SD_SignInHandler;
 		_handler[PacketType::PacketType_SD_CharacterList] = PacketHandler::SD_CharacterListHandler;
+		_handler[PacketType::PacketType_SD_CharacterDelete] = PacketHandler::SD_CharacterDeleteHandler;
 		_handler[PacketType::PacketType_SD_CheckName] = PacketHandler::SD_CheckNameHandler;
 		_handler[PacketType::PacketType_SD_CreateCharacter] = PacketHandler::SD_CreateCharacterHandler;
 		

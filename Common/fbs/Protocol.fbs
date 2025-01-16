@@ -31,6 +31,10 @@ union PacketType {
 	SD_CharacterList,
 	D_CharacterList,
 	SC_CharacterList,
+	C_CharacterDelete,
+	SD_CharacterDelete,
+	D_CharacterDelete,
+	SC_CharacterDelete,
 // ------------------- CharacterSelect -----------------
 // ------------------- CreateCharacter -----------------
 	C_CheckName,

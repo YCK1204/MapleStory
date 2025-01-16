@@ -4,12 +4,18 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using static UINoticeController;
 using System.Reflection;
+using UnityEditor.Animations;
+using System.Collections.Generic;
 
 public partial class UIPrevInGameController : UIBaseController
 {
     UINoticeController notice;
     UIReturnToFirstController returnToFirst;
     VisualElement MainBG;
+    [SerializeField]
+    GameObject[] Characters;
+    [SerializeField]
+    AnimatorController[] AnimatorControllers;
 
     public enum BGState
     {
@@ -36,6 +42,8 @@ public partial class UIPrevInGameController : UIBaseController
         set
         {
             _bgState = value;
+            StepInitHandler[_bgState].Invoke();
+
             returnToFirst.MoveImgs(value, () =>
             {
                 MainBG.ClearClassList();
@@ -45,6 +53,7 @@ public partial class UIPrevInGameController : UIBaseController
             });
         }
     }
+    Dictionary<BGState, Action> StepInitHandler = new Dictionary<BGState, Action>();
     protected override void Init()
     {
         base.Init();
@@ -63,28 +72,52 @@ public partial class UIPrevInGameController : UIBaseController
             login.ButtonSignIn.RegisterCallback<ClickEvent>(ClickSignInBtn);
             login.ButtonSignUp.RegisterCallback<ClickEvent>(ClickSignUpBtn);
             login.ButtonGameExit.RegisterCallback<ClickEvent>(ClickGameExitBtn);
+            StepInitHandler.Add(BGState.Login, () =>
+            {
+            });
             #endregion
             #region WorldSelect
             AssignElements(worldSelect);
             worldSelect.channelSelect.ButtonEnterSelectedChannel.RegisterCallback<ClickEvent>(EnterChannel);
             InitializeServer();
+            StepInitHandler.Add(BGState.WorldSelect, () =>
+            {
+                worldSelect.channelSelect.ImgChannelSelectMain.AddToClassList("ChannelSelect-Hide");
+                worldSelect.channelSelect.ImgChannelScroll.style.backgroundImage = AnimationSet[0].SpriteInfo[0].Img;
+                StepInitHandler[BGState.CharacterSelect].Invoke();
+            });
             #endregion
             #region CharacterSelect
             AssignElements(characterSelect.navi);
             characterSelect.characterList.ContainerCharacterList = _root.Q("Container-CharacterList");
             for (int i = 1; i <= characterCount; i++)
             {
-                Button button = _root.Q<Button>($"Button-Character{i}");
+                Button button = _root.Q<Button>($"Button-Character_{i}");
 
                 button.UnregisterCallback<MouseOverEvent>(OnMouseOverPlay);
+                button.UnregisterCallback<ClickEvent>(OnMouseClickPlay);
                 characterButtons.Add(button);
                 characterSelect.characterList.characterPanel[i - 1] = new CharacterStatusPanel();
                 AssignElements(characterSelect.characterList.characterPanel[i - 1], button);
+
+                button.RegisterCallback<ClickEvent>(ClickCharacter);
             }
 
             characterSelect.navi.ButtonSelectCharacter.RegisterCallback<ClickEvent>(HandleSelectChar);
             characterSelect.navi.ButtonCreateCharacter.RegisterCallback<ClickEvent>(HandleCreateChar);
             characterSelect.navi.ButtonDeleteCharacter.RegisterCallback<ClickEvent>(HandleDeleteChar);
+            StepInitHandler.Add(BGState.CharacterSelect, () =>
+            {
+                for (int i = 1; i <= characterCount; i++)
+                {
+                    Characters[i].SetActive(false);
+                    var panel = characterSelect.characterList.characterPanel[i - 1];
+                    panel.ImgCharacterSelectEffect.style.backgroundImage = null;
+                    panel.ImgCharacterStatusScroll.style.display = new StyleEnum<DisplayStyle>(DisplayStyle.None);
+                    panel.ImgCharacterStatusMain.AddToClassList("StatusMain-Hide");
+                }
+                StepInitHandler[BGState.CreateCharacter].Invoke();
+            });
             #endregion
             #region CreateCharacter
             AssignElements(createCharacter);
@@ -96,6 +129,10 @@ public partial class UIPrevInGameController : UIBaseController
 
             GenerateAbilities();
             InitializeCharList();
+            StepInitHandler.Add(BGState.CreateCharacter, () =>
+            {
+                Characters[0].SetActive(false); // 임시
+            });
             #endregion
         });
     }
@@ -201,35 +238,76 @@ public partial class UIPrevInGameController : UIBaseController
         }
         #endregion
         #region CharacterSelect
-        else if (pkt is SC_CreateCharacter createChar)
-        {
-            switch (createChar.Ok)
-            {
-                case CreateCharacterError.SUCCESS:
-                    // 성공 시 캐릭터 생성 창으로 이동
-                    break;
-                case CreateCharacterError.FULL: // 에셋이 없어서 일단 unknown으로 대체 추후 full은 클라에서 disable 버튼으로 막을거임
-                case CreateCharacterError.UNKNOWN:
-                    NoticeState = PopupState.Unknown;
-                    break;
-            }
-        }
         else if (pkt is SC_CharacterList characterList)
         {
             switch (characterList.Ok)
             {
                 case CharacterListError.SUCCESS:
-                    var scene = Manager.Scene.CurScene as PrevInGameScene;
-                    var pc = scene.prevInGameController;
-                    pc.BackgroundState = UIPrevInGameController.BGState.CharacterSelect;
+                    BackgroundState = BGState.CharacterSelect;
+                    ShowCharacters(characterList);
                     break;
                 case CharacterListError.UNKNOWN:
+                    NoticeState = PopupState.Unknown;
+                    break;
+            }
+        }
+        else if (pkt is SC_CharacterDelete characterDelete)
+        {
+            switch (characterDelete.Ok)
+            {
+                case CharacterDeleteError.SUCCESS:
+                    FlatBufferBuilder builder = new FlatBufferBuilder(1);
+                    C_CharacterList.StartC_CharacterList(builder);
+                    var data = C_CharacterList.EndC_CharacterList(builder);
+                    var packet = Manager.Packet.CreatePacket(data, builder, PacketType.C_CharacterList);
+                    Manager.Network.Send(packet);
+                    break;
+                case CharacterDeleteError.UNKNOWN:
+                    NoticeState = PopupState.Unknown;
                     break;
             }
         }
         #endregion
         #region CreateCharacter
-
+        else if (pkt is SC_CheckName checkName)
+        {
+            switch (checkName.Ok)
+            {
+                case CheckNameError.SUCCESS:
+                    approvedName = createCharacter.characterAbility.TextFieldCharacterName.text;
+                    NoticeState = PopupState.CanUseName;
+                    break;
+                case CheckNameError.OVERLAPPED:
+                    approvedName = null;
+                    NoticeState = PopupState.BeingUsed;
+                    break;
+                case CheckNameError.UNKNOWN:
+                    approvedName = null;
+                    NoticeState = PopupState.Unknown;
+                    break;
+            }
+        }
+        else if (pkt is SC_CreateCharacter createCharacter)
+        {
+            switch (createCharacter.Ok)
+            {
+                case CreateCharacterError.SUCCESS:
+                    FlatBufferBuilder builder = new FlatBufferBuilder(1);
+                    C_CharacterList.StartC_CharacterList(builder);
+                    var data = C_CharacterList.EndC_CharacterList(builder);
+                    var packet = Manager.Packet.CreatePacket(data, builder, PacketType.C_CharacterList);
+                    Manager.Network.Send(packet);
+                    break;
+                case CreateCharacterError.OVERLAPPED:
+                    approvedName = null;
+                    NoticeState = PopupState.BeingUsed;
+                    break;
+                case CreateCharacterError.UNKNOWN:
+                    approvedName = null;
+                    NoticeState = PopupState.Unknown;
+                    break;
+            }
+        }
         #endregion
     }
 }

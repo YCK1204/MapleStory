@@ -5,8 +5,7 @@
 public enum CreateCharacterError : byte
 {
   SUCCESS = 0,
-  FULL = 1,
-  OVERLAPPED = 2,
-  UNKNOWN = 3,
+  OVERLAPPED = 1,
+  UNKNOWN = 2,
 };
 

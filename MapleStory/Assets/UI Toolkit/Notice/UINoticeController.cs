@@ -1,3 +1,4 @@
+using Google.FlatBuffers;
 using System.Xml;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -43,6 +44,7 @@ public class UINoticeController : UIBaseController
         SelectChannel,              // 채널 선택 해달라
         Unknown,                    // 알 수 없는 에러
         NoMoreCreateCharacter,      // 캐릭터 더 이상 못만듬
+        CheckName,                  // 네임 check해라
         /*------------*/
         /*     Ok     */
         /*------------*/
@@ -74,6 +76,9 @@ public class UINoticeController : UIBaseController
             notice.ImgText.style.display = DisplayStyle.Flex;
         }
     }
+
+    [SerializeField]
+    UIPrevInGameController _pg;
     protected override void Init()
     {
         base.Init();
@@ -92,6 +97,11 @@ public class UINoticeController : UIBaseController
                 break;
             case PopupState.CharacterDelete:
                 // 캐릭터 삭제
+                var charData = _pg.characterStatuses[_pg.CurId - 1];
+                FlatBufferBuilder builder = new FlatBufferBuilder(20);
+                var data = C_CharacterDelete.CreateC_CharacterDelete(builder, charData.charId);
+                var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_CharacterDelete);
+                Manager.Network.Send(pkt);
                 break;
         }
         notice.ImgText.style.display = DisplayStyle.None;

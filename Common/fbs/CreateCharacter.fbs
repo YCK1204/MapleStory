@@ -5,11 +5,12 @@ table C_CheckName {
 table SD_CheckName {
 	session_id:uint64;
 	name:string;
+	server_id:uint8;
 }
 
 enum CheckNameError : uint8 {
 	SUCCESS,
-	OVERLAPEED,
+	OVERLAPPED,
 	UNKNOWN,
 }
 
@@ -22,9 +23,17 @@ table SC_CheckName {
 	ok:CheckNameError;
 }
 
+table CharacterAbility {
+	STR:uint16;
+	DEX:uint16;
+	INT:uint16;
+	LUK:uint16;
+}
+
 table C_CreateCharacter {
 	name:string;
 	char_type:uint8;
+	ability:CharacterAbility;
 }
 
 table SD_CreateCharacter {
@@ -32,11 +41,12 @@ table SD_CreateCharacter {
 	char_type:ushort;
 	session_id:uint64;
 	db_id:uint64;
+	ability:CharacterAbility;
+	server_id:uint8;
 }
 
 enum CreateCharacterError : uint8 {
 	SUCCESS,
-	FULL,
 	OVERLAPPED,
 	UNKNOWN,
 }

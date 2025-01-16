@@ -15,8 +15,6 @@ private:
 
 public:
 	static ServerSession* session;
-
-public:
 	static PacketManager& Packet;
 	static DbManager& DB;
 

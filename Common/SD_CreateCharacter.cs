@@ -26,25 +26,33 @@ public struct SD_CreateCharacter : IFlatbufferObject
   public ushort CharType { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetUshort(o + __p.bb_pos) : (ushort)0; } }
   public ulong SessionId { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetUlong(o + __p.bb_pos) : (ulong)0; } }
   public ulong DbId { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetUlong(o + __p.bb_pos) : (ulong)0; } }
+  public CharacterAbility? Ability { get { int o = __p.__offset(12); return o != 0 ? (CharacterAbility?)(new CharacterAbility()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
+  public byte ServerId { get { int o = __p.__offset(14); return o != 0 ? __p.bb.Get(o + __p.bb_pos) : (byte)0; } }
 
   public static Offset<SD_CreateCharacter> CreateSD_CreateCharacter(FlatBufferBuilder builder,
       StringOffset nameOffset = default(StringOffset),
       ushort char_type = 0,
       ulong session_id = 0,
-      ulong db_id = 0) {
-    builder.StartTable(4);
+      ulong db_id = 0,
+      Offset<CharacterAbility> abilityOffset = default(Offset<CharacterAbility>),
+      byte server_id = 0) {
+    builder.StartTable(6);
     SD_CreateCharacter.AddDbId(builder, db_id);
     SD_CreateCharacter.AddSessionId(builder, session_id);
+    SD_CreateCharacter.AddAbility(builder, abilityOffset);
     SD_CreateCharacter.AddName(builder, nameOffset);
     SD_CreateCharacter.AddCharType(builder, char_type);
+    SD_CreateCharacter.AddServerId(builder, server_id);
     return SD_CreateCharacter.EndSD_CreateCharacter(builder);
   }
 
-  public static void StartSD_CreateCharacter(FlatBufferBuilder builder) { builder.StartTable(4); }
+  public static void StartSD_CreateCharacter(FlatBufferBuilder builder) { builder.StartTable(6); }
   public static void AddName(FlatBufferBuilder builder, StringOffset nameOffset) { builder.AddOffset(0, nameOffset.Value, 0); }
   public static void AddCharType(FlatBufferBuilder builder, ushort charType) { builder.AddUshort(1, charType, 0); }
   public static void AddSessionId(FlatBufferBuilder builder, ulong sessionId) { builder.AddUlong(2, sessionId, 0); }
   public static void AddDbId(FlatBufferBuilder builder, ulong dbId) { builder.AddUlong(3, dbId, 0); }
+  public static void AddAbility(FlatBufferBuilder builder, Offset<CharacterAbility> abilityOffset) { builder.AddOffset(4, abilityOffset.Value, 0); }
+  public static void AddServerId(FlatBufferBuilder builder, byte serverId) { builder.AddByte(5, serverId, 0); }
   public static Offset<SD_CreateCharacter> EndSD_CreateCharacter(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<SD_CreateCharacter>(o);
@@ -61,6 +69,8 @@ static public class SD_CreateCharacterVerify
       && verifier.VerifyField(tablePos, 6 /*CharType*/, 2 /*ushort*/, 2, false)
       && verifier.VerifyField(tablePos, 8 /*SessionId*/, 8 /*ulong*/, 8, false)
       && verifier.VerifyField(tablePos, 10 /*DbId*/, 8 /*ulong*/, 8, false)
+      && verifier.VerifyTable(tablePos, 12 /*Ability*/, CharacterAbilityVerify.Verify, false)
+      && verifier.VerifyField(tablePos, 14 /*ServerId*/, 1 /*byte*/, 1, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

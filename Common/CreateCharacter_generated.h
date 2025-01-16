@@ -25,6 +25,9 @@ struct D_CheckNameBuilder;
 struct SC_CheckName;
 struct SC_CheckNameBuilder;
 
+struct CharacterAbility;
+struct CharacterAbilityBuilder;
+
 struct C_CreateCharacter;
 struct C_CreateCharacterBuilder;
 
@@ -39,7 +42,7 @@ struct SC_CreateCharacterBuilder;
 
 enum CheckNameError : uint8_t {
   CheckNameError_SUCCESS = 0,
-  CheckNameError_OVERLAPEED = 1,
+  CheckNameError_OVERLAPPED = 1,
   CheckNameError_UNKNOWN = 2,
   CheckNameError_MIN = CheckNameError_SUCCESS,
   CheckNameError_MAX = CheckNameError_UNKNOWN
@@ -48,7 +51,7 @@ enum CheckNameError : uint8_t {
 inline const CheckNameError (&EnumValuesCheckNameError())[3] {
   static const CheckNameError values[] = {
     CheckNameError_SUCCESS,
-    CheckNameError_OVERLAPEED,
+    CheckNameError_OVERLAPPED,
     CheckNameError_UNKNOWN
   };
   return values;
@@ -57,7 +60,7 @@ inline const CheckNameError (&EnumValuesCheckNameError())[3] {
 inline const char * const *EnumNamesCheckNameError() {
   static const char * const names[4] = {
     "SUCCESS",
-    "OVERLAPEED",
+    "OVERLAPPED",
     "UNKNOWN",
     nullptr
   };
@@ -72,17 +75,15 @@ inline const char *EnumNameCheckNameError(CheckNameError e) {
 
 enum CreateCharacterError : uint8_t {
   CreateCharacterError_SUCCESS = 0,
-  CreateCharacterError_FULL = 1,
-  CreateCharacterError_OVERLAPPED = 2,
-  CreateCharacterError_UNKNOWN = 3,
+  CreateCharacterError_OVERLAPPED = 1,
+  CreateCharacterError_UNKNOWN = 2,
   CreateCharacterError_MIN = CreateCharacterError_SUCCESS,
   CreateCharacterError_MAX = CreateCharacterError_UNKNOWN
 };
 
-inline const CreateCharacterError (&EnumValuesCreateCharacterError())[4] {
+inline const CreateCharacterError (&EnumValuesCreateCharacterError())[3] {
   static const CreateCharacterError values[] = {
     CreateCharacterError_SUCCESS,
-    CreateCharacterError_FULL,
     CreateCharacterError_OVERLAPPED,
     CreateCharacterError_UNKNOWN
   };
@@ -90,9 +91,8 @@ inline const CreateCharacterError (&EnumValuesCreateCharacterError())[4] {
 }
 
 inline const char * const *EnumNamesCreateCharacterError() {
-  static const char * const names[5] = {
+  static const char * const names[4] = {
     "SUCCESS",
-    "FULL",
     "OVERLAPPED",
     "UNKNOWN",
     nullptr
@@ -161,7 +161,8 @@ struct SD_CheckName FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef SD_CheckNameBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_SESSION_ID = 4,
-    VT_NAME = 6
+    VT_NAME = 6,
+    VT_SERVER_ID = 8
   };
   uint64_t session_id() const {
     return GetField<uint64_t>(VT_SESSION_ID, 0);
@@ -169,11 +170,15 @@ struct SD_CheckName FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const ::flatbuffers::String *name() const {
     return GetPointer<const ::flatbuffers::String *>(VT_NAME);
   }
+  uint8_t server_id() const {
+    return GetField<uint8_t>(VT_SERVER_ID, 0);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint64_t>(verifier, VT_SESSION_ID, 8) &&
            VerifyOffset(verifier, VT_NAME) &&
            verifier.VerifyString(name()) &&
+           VerifyField<uint8_t>(verifier, VT_SERVER_ID, 1) &&
            verifier.EndTable();
   }
 };
@@ -187,6 +192,9 @@ struct SD_CheckNameBuilder {
   }
   void add_name(::flatbuffers::Offset<::flatbuffers::String> name) {
     fbb_.AddOffset(SD_CheckName::VT_NAME, name);
+  }
+  void add_server_id(uint8_t server_id) {
+    fbb_.AddElement<uint8_t>(SD_CheckName::VT_SERVER_ID, server_id, 0);
   }
   explicit SD_CheckNameBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -202,22 +210,26 @@ struct SD_CheckNameBuilder {
 inline ::flatbuffers::Offset<SD_CheckName> CreateSD_CheckName(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     uint64_t session_id = 0,
-    ::flatbuffers::Offset<::flatbuffers::String> name = 0) {
+    ::flatbuffers::Offset<::flatbuffers::String> name = 0,
+    uint8_t server_id = 0) {
   SD_CheckNameBuilder builder_(_fbb);
   builder_.add_session_id(session_id);
   builder_.add_name(name);
+  builder_.add_server_id(server_id);
   return builder_.Finish();
 }
 
 inline ::flatbuffers::Offset<SD_CheckName> CreateSD_CheckNameDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     uint64_t session_id = 0,
-    const char *name = nullptr) {
+    const char *name = nullptr,
+    uint8_t server_id = 0) {
   auto name__ = name ? _fbb.CreateString(name) : 0;
   return CreateSD_CheckName(
       _fbb,
       session_id,
-      name__);
+      name__,
+      server_id);
 }
 
 struct D_CheckName FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
@@ -312,11 +324,83 @@ inline ::flatbuffers::Offset<SC_CheckName> CreateSC_CheckName(
   return builder_.Finish();
 }
 
+struct CharacterAbility FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef CharacterAbilityBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_STR = 4,
+    VT_DEX = 6,
+    VT_INT = 8,
+    VT_LUK = 10
+  };
+  uint16_t STR() const {
+    return GetField<uint16_t>(VT_STR, 0);
+  }
+  uint16_t DEX() const {
+    return GetField<uint16_t>(VT_DEX, 0);
+  }
+  uint16_t INT() const {
+    return GetField<uint16_t>(VT_INT, 0);
+  }
+  uint16_t LUK() const {
+    return GetField<uint16_t>(VT_LUK, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint16_t>(verifier, VT_STR, 2) &&
+           VerifyField<uint16_t>(verifier, VT_DEX, 2) &&
+           VerifyField<uint16_t>(verifier, VT_INT, 2) &&
+           VerifyField<uint16_t>(verifier, VT_LUK, 2) &&
+           verifier.EndTable();
+  }
+};
+
+struct CharacterAbilityBuilder {
+  typedef CharacterAbility Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_STR(uint16_t STR) {
+    fbb_.AddElement<uint16_t>(CharacterAbility::VT_STR, STR, 0);
+  }
+  void add_DEX(uint16_t DEX) {
+    fbb_.AddElement<uint16_t>(CharacterAbility::VT_DEX, DEX, 0);
+  }
+  void add_INT(uint16_t INT) {
+    fbb_.AddElement<uint16_t>(CharacterAbility::VT_INT, INT, 0);
+  }
+  void add_LUK(uint16_t LUK) {
+    fbb_.AddElement<uint16_t>(CharacterAbility::VT_LUK, LUK, 0);
+  }
+  explicit CharacterAbilityBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<CharacterAbility> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<CharacterAbility>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<CharacterAbility> CreateCharacterAbility(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint16_t STR = 0,
+    uint16_t DEX = 0,
+    uint16_t INT = 0,
+    uint16_t LUK = 0) {
+  CharacterAbilityBuilder builder_(_fbb);
+  builder_.add_LUK(LUK);
+  builder_.add_INT(INT);
+  builder_.add_DEX(DEX);
+  builder_.add_STR(STR);
+  return builder_.Finish();
+}
+
 struct C_CreateCharacter FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef C_CreateCharacterBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_NAME = 4,
-    VT_CHAR_TYPE = 6
+    VT_CHAR_TYPE = 6,
+    VT_ABILITY = 8
   };
   const ::flatbuffers::String *name() const {
     return GetPointer<const ::flatbuffers::String *>(VT_NAME);
@@ -324,11 +408,16 @@ struct C_CreateCharacter FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table 
   uint8_t char_type() const {
     return GetField<uint8_t>(VT_CHAR_TYPE, 0);
   }
+  const CharacterAbility *ability() const {
+    return GetPointer<const CharacterAbility *>(VT_ABILITY);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_NAME) &&
            verifier.VerifyString(name()) &&
            VerifyField<uint8_t>(verifier, VT_CHAR_TYPE, 1) &&
+           VerifyOffset(verifier, VT_ABILITY) &&
+           verifier.VerifyTable(ability()) &&
            verifier.EndTable();
   }
 };
@@ -342,6 +431,9 @@ struct C_CreateCharacterBuilder {
   }
   void add_char_type(uint8_t char_type) {
     fbb_.AddElement<uint8_t>(C_CreateCharacter::VT_CHAR_TYPE, char_type, 0);
+  }
+  void add_ability(::flatbuffers::Offset<CharacterAbility> ability) {
+    fbb_.AddOffset(C_CreateCharacter::VT_ABILITY, ability);
   }
   explicit C_CreateCharacterBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -357,8 +449,10 @@ struct C_CreateCharacterBuilder {
 inline ::flatbuffers::Offset<C_CreateCharacter> CreateC_CreateCharacter(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     ::flatbuffers::Offset<::flatbuffers::String> name = 0,
-    uint8_t char_type = 0) {
+    uint8_t char_type = 0,
+    ::flatbuffers::Offset<CharacterAbility> ability = 0) {
   C_CreateCharacterBuilder builder_(_fbb);
+  builder_.add_ability(ability);
   builder_.add_name(name);
   builder_.add_char_type(char_type);
   return builder_.Finish();
@@ -367,12 +461,14 @@ inline ::flatbuffers::Offset<C_CreateCharacter> CreateC_CreateCharacter(
 inline ::flatbuffers::Offset<C_CreateCharacter> CreateC_CreateCharacterDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     const char *name = nullptr,
-    uint8_t char_type = 0) {
+    uint8_t char_type = 0,
+    ::flatbuffers::Offset<CharacterAbility> ability = 0) {
   auto name__ = name ? _fbb.CreateString(name) : 0;
   return CreateC_CreateCharacter(
       _fbb,
       name__,
-      char_type);
+      char_type,
+      ability);
 }
 
 struct SD_CreateCharacter FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
@@ -381,7 +477,9 @@ struct SD_CreateCharacter FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table
     VT_NAME = 4,
     VT_CHAR_TYPE = 6,
     VT_SESSION_ID = 8,
-    VT_DB_ID = 10
+    VT_DB_ID = 10,
+    VT_ABILITY = 12,
+    VT_SERVER_ID = 14
   };
   const ::flatbuffers::String *name() const {
     return GetPointer<const ::flatbuffers::String *>(VT_NAME);
@@ -395,6 +493,12 @@ struct SD_CreateCharacter FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table
   uint64_t db_id() const {
     return GetField<uint64_t>(VT_DB_ID, 0);
   }
+  const CharacterAbility *ability() const {
+    return GetPointer<const CharacterAbility *>(VT_ABILITY);
+  }
+  uint8_t server_id() const {
+    return GetField<uint8_t>(VT_SERVER_ID, 0);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_NAME) &&
@@ -402,6 +506,9 @@ struct SD_CreateCharacter FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table
            VerifyField<uint16_t>(verifier, VT_CHAR_TYPE, 2) &&
            VerifyField<uint64_t>(verifier, VT_SESSION_ID, 8) &&
            VerifyField<uint64_t>(verifier, VT_DB_ID, 8) &&
+           VerifyOffset(verifier, VT_ABILITY) &&
+           verifier.VerifyTable(ability()) &&
+           VerifyField<uint8_t>(verifier, VT_SERVER_ID, 1) &&
            verifier.EndTable();
   }
 };
@@ -422,6 +529,12 @@ struct SD_CreateCharacterBuilder {
   void add_db_id(uint64_t db_id) {
     fbb_.AddElement<uint64_t>(SD_CreateCharacter::VT_DB_ID, db_id, 0);
   }
+  void add_ability(::flatbuffers::Offset<CharacterAbility> ability) {
+    fbb_.AddOffset(SD_CreateCharacter::VT_ABILITY, ability);
+  }
+  void add_server_id(uint8_t server_id) {
+    fbb_.AddElement<uint8_t>(SD_CreateCharacter::VT_SERVER_ID, server_id, 0);
+  }
   explicit SD_CreateCharacterBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -438,12 +551,16 @@ inline ::flatbuffers::Offset<SD_CreateCharacter> CreateSD_CreateCharacter(
     ::flatbuffers::Offset<::flatbuffers::String> name = 0,
     uint16_t char_type = 0,
     uint64_t session_id = 0,
-    uint64_t db_id = 0) {
+    uint64_t db_id = 0,
+    ::flatbuffers::Offset<CharacterAbility> ability = 0,
+    uint8_t server_id = 0) {
   SD_CreateCharacterBuilder builder_(_fbb);
   builder_.add_db_id(db_id);
   builder_.add_session_id(session_id);
+  builder_.add_ability(ability);
   builder_.add_name(name);
   builder_.add_char_type(char_type);
+  builder_.add_server_id(server_id);
   return builder_.Finish();
 }
 
@@ -452,14 +569,18 @@ inline ::flatbuffers::Offset<SD_CreateCharacter> CreateSD_CreateCharacterDirect(
     const char *name = nullptr,
     uint16_t char_type = 0,
     uint64_t session_id = 0,
-    uint64_t db_id = 0) {
+    uint64_t db_id = 0,
+    ::flatbuffers::Offset<CharacterAbility> ability = 0,
+    uint8_t server_id = 0) {
   auto name__ = name ? _fbb.CreateString(name) : 0;
   return CreateSD_CreateCharacter(
       _fbb,
       name__,
       char_type,
       session_id,
-      db_id);
+      db_id,
+      ability,
+      server_id);
 }
 
 struct D_CreateCharacter FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
