@@ -28,17 +28,20 @@ void PacketManager::Register()
 		_handler[PacketType::PacketType_D_SignUp] = PacketHandler::D_SignUpHandler;
 		_handler[PacketType::PacketType_C_SignIn] = PacketHandler::C_SignInHandler;
 		_handler[PacketType::PacketType_D_SignIn] = PacketHandler::D_SignInHandler;
-		_handler[PacketType::PacketType_C_SignOut] = PacketHandler::C_SignOutHandler;
 		_handler[PacketType::PacketType_C_EnterChannel] = PacketHandler::C_EnterChannelHandler;
 		_handler[PacketType::PacketType_C_ChannelInfo] = PacketHandler::C_ChannelInfoHandler;
 		_handler[PacketType::PacketType_C_CharacterList] = PacketHandler::C_CharacterListHandler;
 		_handler[PacketType::PacketType_D_CharacterList] = PacketHandler::D_CharacterListHandler;
 		_handler[PacketType::PacketType_C_CharacterDelete] = PacketHandler::C_CharacterDeleteHandler;
 		_handler[PacketType::PacketType_D_CharacterDelete] = PacketHandler::D_CharacterDeleteHandler;
+		_handler[PacketType::PacketType_C_CharacterSelect] = PacketHandler::C_CharacterSelectHandler;
+		_handler[PacketType::PacketType_D_CharacterSelect] = PacketHandler::D_CharacterSelectHandler;
 		_handler[PacketType::PacketType_C_CheckName] = PacketHandler::C_CheckNameHandler;
 		_handler[PacketType::PacketType_D_CheckName] = PacketHandler::D_CheckNameHandler;
 		_handler[PacketType::PacketType_C_CreateCharacter] = PacketHandler::C_CreateCharacterHandler;
 		_handler[PacketType::PacketType_D_CreateCharacter] = PacketHandler::D_CreateCharacterHandler;
+		_handler[PacketType::PacketType_C_EnterMap] = PacketHandler::C_EnterMapHandler;
+		_handler[PacketType::PacketType_C_Despawn] = PacketHandler::C_DespawnHandler;
 		
 }
 

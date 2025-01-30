@@ -6,6 +6,7 @@ using static UINoticeController;
 using System.Reflection;
 using UnityEditor.Animations;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 public partial class UIPrevInGameController : UIBaseController
 {
@@ -250,6 +251,18 @@ public partial class UIPrevInGameController : UIBaseController
                     NoticeState = PopupState.Unknown;
                     break;
             }
+        }
+        else if (pkt is SC_CharacterSelect characterSelect)
+        {
+            string pos = characterSelect.CharInfo.Value.LastPos;
+            var json = JObject.Parse(pos);
+            byte mapId = json["map"].Value<byte>();
+
+            Debug.Log($"mapId : {mapId}");
+            FlatBufferBuilder builder = new FlatBufferBuilder(50);
+            var data = C_EnterMap.CreateC_EnterMap(builder, mapId);
+            var packet = Manager.Packet.CreatePacket(data, builder, PacketType.C_EnterMap);
+            Manager.Network.Send(packet);
         }
         else if (pkt is SC_CharacterDelete characterDelete)
         {

@@ -13,28 +13,35 @@ public enum PacketType : byte
   SD_SignIn = 6,
   SC_SignIn = 7,
   D_SignIn = 8,
-  SC_SignOut = 9,
-  C_SignOut = 10,
-  C_EnterChannel = 11,
-  SC_EnterChannel = 12,
-  C_ChannelInfo = 13,
-  SC_ChannelInfo = 14,
-  C_CharacterList = 15,
-  SD_CharacterList = 16,
-  D_CharacterList = 17,
-  SC_CharacterList = 18,
-  C_CharacterDelete = 19,
-  SD_CharacterDelete = 20,
-  D_CharacterDelete = 21,
-  SC_CharacterDelete = 22,
-  C_CheckName = 23,
-  SD_CheckName = 24,
-  D_CheckName = 25,
-  SC_CheckName = 26,
-  C_CreateCharacter = 27,
-  SD_CreateCharacter = 28,
-  D_CreateCharacter = 29,
-  SC_CreateCharacter = 30,
+  C_EnterChannel = 9,
+  SC_EnterChannel = 10,
+  C_ChannelInfo = 11,
+  SC_ChannelInfo = 12,
+  C_CharacterList = 13,
+  SD_CharacterList = 14,
+  D_CharacterList = 15,
+  SC_CharacterList = 16,
+  C_CharacterDelete = 17,
+  SD_CharacterDelete = 18,
+  D_CharacterDelete = 19,
+  SC_CharacterDelete = 20,
+  C_CharacterSelect = 21,
+  SD_CharacterSelect = 22,
+  D_CharacterSelect = 23,
+  SC_CharacterSelect = 24,
+  C_CheckName = 25,
+  SD_CheckName = 26,
+  D_CheckName = 27,
+  SC_CheckName = 28,
+  C_CreateCharacter = 29,
+  SD_CreateCharacter = 30,
+  D_CreateCharacter = 31,
+  SC_CreateCharacter = 32,
+  C_EnterMap = 33,
+  SC_EnterMap = 34,
+  SC_Spawn = 35,
+  C_Despawn = 36,
+  SC_Despawn = 37,
 };
 
 
@@ -69,12 +76,6 @@ static public class PacketTypeVerify
         break;
       case PacketType.D_SignIn:
         result = D_SignInVerify.Verify(verifier, tablePos);
-        break;
-      case PacketType.SC_SignOut:
-        result = SC_SignOutVerify.Verify(verifier, tablePos);
-        break;
-      case PacketType.C_SignOut:
-        result = C_SignOutVerify.Verify(verifier, tablePos);
         break;
       case PacketType.C_EnterChannel:
         result = C_EnterChannelVerify.Verify(verifier, tablePos);
@@ -112,6 +113,18 @@ static public class PacketTypeVerify
       case PacketType.SC_CharacterDelete:
         result = SC_CharacterDeleteVerify.Verify(verifier, tablePos);
         break;
+      case PacketType.C_CharacterSelect:
+        result = C_CharacterSelectVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SD_CharacterSelect:
+        result = SD_CharacterSelectVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.D_CharacterSelect:
+        result = D_CharacterSelectVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_CharacterSelect:
+        result = SC_CharacterSelectVerify.Verify(verifier, tablePos);
+        break;
       case PacketType.C_CheckName:
         result = C_CheckNameVerify.Verify(verifier, tablePos);
         break;
@@ -135,6 +148,21 @@ static public class PacketTypeVerify
         break;
       case PacketType.SC_CreateCharacter:
         result = SC_CreateCharacterVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.C_EnterMap:
+        result = C_EnterMapVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_EnterMap:
+        result = SC_EnterMapVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_Spawn:
+        result = SC_SpawnVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.C_Despawn:
+        result = C_DespawnVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_Despawn:
+        result = SC_DespawnVerify.Verify(verifier, tablePos);
         break;
       default: result = true;
         break;

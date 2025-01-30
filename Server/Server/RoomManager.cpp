@@ -16,11 +16,11 @@ void RoomManager::Init()
 	// [Server][Channel][Island][RoomId]
 }
 
-GameRoom* RoomManager::Find(uint32& id)
+GameRoom* RoomManager::Find(uint8& id)
 {
 	GameRoom* room = nullptr;
 
-	auto it = _rooms.find(id);
+	auto it = find_if(_rooms.begin(), _rooms.end(), [id](pair<uint8, GameRoomRef> val) { return (val.second->GetMapId() == id); });
 	if (it != _rooms.end())
 		room = it->second.get();
 	return room;

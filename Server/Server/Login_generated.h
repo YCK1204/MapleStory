@@ -37,12 +37,6 @@ struct SC_SignInBuilder;
 struct D_SignIn;
 struct D_SignInBuilder;
 
-struct SC_SignOut;
-struct SC_SignOutBuilder;
-
-struct C_SignOut;
-struct C_SignOutBuilder;
-
 enum SignUpError : uint16_t {
   SignUpError_SUCCESS = 0,
   SignUpError_OVERLAPPED_USERID = 1,
@@ -607,64 +601,6 @@ inline ::flatbuffers::Offset<D_SignIn> CreateD_SignIn(
   builder_.add_session_id(session_id);
   builder_.add_db_id(db_id);
   builder_.add_ok(ok);
-  return builder_.Finish();
-}
-
-struct SC_SignOut FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef SC_SignOutBuilder Builder;
-  bool Verify(::flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           verifier.EndTable();
-  }
-};
-
-struct SC_SignOutBuilder {
-  typedef SC_SignOut Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  explicit SC_SignOutBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
-        : fbb_(_fbb) {
-    start_ = fbb_.StartTable();
-  }
-  ::flatbuffers::Offset<SC_SignOut> Finish() {
-    const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<SC_SignOut>(end);
-    return o;
-  }
-};
-
-inline ::flatbuffers::Offset<SC_SignOut> CreateSC_SignOut(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
-  SC_SignOutBuilder builder_(_fbb);
-  return builder_.Finish();
-}
-
-struct C_SignOut FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef C_SignOutBuilder Builder;
-  bool Verify(::flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           verifier.EndTable();
-  }
-};
-
-struct C_SignOutBuilder {
-  typedef C_SignOut Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  explicit C_SignOutBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
-        : fbb_(_fbb) {
-    start_ = fbb_.StartTable();
-  }
-  ::flatbuffers::Offset<C_SignOut> Finish() {
-    const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<C_SignOut>(end);
-    return o;
-  }
-};
-
-inline ::flatbuffers::Offset<C_SignOut> CreateC_SignOut(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
-  C_SignOutBuilder builder_(_fbb);
   return builder_.Finish();
 }
 

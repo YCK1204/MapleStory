@@ -15,13 +15,16 @@ public class PacketManager
     {
         _handler.Add((ushort)PacketType.SC_SignUp, PacketHandler.SC_SignUpHandler);
 		_handler.Add((ushort)PacketType.SC_SignIn, PacketHandler.SC_SignInHandler);
-		_handler.Add((ushort)PacketType.SC_SignOut, PacketHandler.SC_SignOutHandler);
 		_handler.Add((ushort)PacketType.SC_EnterChannel, PacketHandler.SC_EnterChannelHandler);
 		_handler.Add((ushort)PacketType.SC_ChannelInfo, PacketHandler.SC_ChannelInfoHandler);
 		_handler.Add((ushort)PacketType.SC_CharacterList, PacketHandler.SC_CharacterListHandler);
 		_handler.Add((ushort)PacketType.SC_CharacterDelete, PacketHandler.SC_CharacterDeleteHandler);
+		_handler.Add((ushort)PacketType.SC_CharacterSelect, PacketHandler.SC_CharacterSelectHandler);
 		_handler.Add((ushort)PacketType.SC_CheckName, PacketHandler.SC_CheckNameHandler);
 		_handler.Add((ushort)PacketType.SC_CreateCharacter, PacketHandler.SC_CreateCharacterHandler);
+		_handler.Add((ushort)PacketType.SC_EnterMap, PacketHandler.SC_EnterMapHandler);
+		_handler.Add((ushort)PacketType.SC_Spawn, PacketHandler.SC_SpawnHandler);
+		_handler.Add((ushort)PacketType.SC_Despawn, PacketHandler.SC_DespawnHandler);
 		
     }
     public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

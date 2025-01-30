@@ -12,4 +12,5 @@ public:
 	static void SD_CheckNameHandler(PacketSession* session, ByteRef& buffer);
 	static void SD_CharacterListHandler(PacketSession* session, ByteRef& buffer);
 	static void SD_CharacterDeleteHandler(PacketSession* session, ByteRef& buffer);
+	static void SD_CharacterSelectHandler(PacketSession* session, ByteRef& buffer);
 };

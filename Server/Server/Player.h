@@ -3,21 +3,22 @@
 #include "Creature.h"
 #include "GameRoom.h"
 
-enum class PlayerState {
-	Lobby,
-	InGame,
-	CashShop,
-};
-
 class Player : public Creature
 {
 public:
-	PlayerState State;
-	int32 Mp;
-public:
-	Player();
-	virtual ~Player();
+	weak_ptr<ClientSession> Session;
+	GameRoomRef Room = nullptr;
 
 public:
+	uint64 CharId;
+	uint8 CharType;
+	uint8 CurMapId = -1;
+public:
+	Player(ClientRef session);
+	virtual ~Player();
 	virtual void TakeDamage(int32& damage);
+
+public:
+	void EnterRoom(uint8& roomId);
+	void LeaveRoom(uint8& roomId);
 };

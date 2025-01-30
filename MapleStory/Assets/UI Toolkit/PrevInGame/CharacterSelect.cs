@@ -1,3 +1,4 @@
+using Google.FlatBuffers;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -58,7 +59,12 @@ public partial class UIPrevInGameController : UIBaseController
     public List<characterStatus> characterStatuses = new List<characterStatus>();
     private void HandleSelectChar(ClickEvent e)
     {
-        // 게임 시작
+        FlatBufferBuilder builder = new FlatBufferBuilder(100);
+
+        UInt64 selectedId = characterStatuses[CurId - 1].charId;
+        var data = C_CharacterSelect.CreateC_CharacterSelect(builder, selectedId);
+        var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_CharacterSelect);
+        Manager.Network.Send(pkt);
     }
     private void HandleCreateChar(ClickEvent e)
     {

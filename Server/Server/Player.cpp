@@ -1,11 +1,10 @@
 #include "pch.h"
 #include "Player.h"
 
-Player::Player()
+Player::Player(ClientRef session)
 {
-	State = PlayerState::Lobby;
+	Session = session;
 	Type = ObjectType::PLAYER;
-	ServerId = -1;
 }
 
 Player::~Player()
@@ -17,4 +16,18 @@ void Player::TakeDamage(int32& damage)
 	Hp -= damage;
 	if (Hp <= 0)
 		Hp = 0;
+}
+
+void Player::EnterRoom(uint8& roomId)
+{
+	GameRoom* room = Manager::Room.Find(roomId);
+	if (room)
+		room->Push(this);
+}
+
+void Player::LeaveRoom(uint8& roomId)
+{
+	GameRoom* room = Manager::Room.Find(roomId);
+	if (room)
+		room->Remove(this->Id);
 }

@@ -39,7 +39,7 @@ ClientRef SessionManager::Find(uint32 id)
 	return session;
 }
 
-void SessionManager::Erase(uint32 id)
+void SessionManager::Remove(uint32 id)
 {
 	WRITE_LOCK
 	{

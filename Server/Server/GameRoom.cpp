@@ -11,8 +11,29 @@ uint64 GameRoom::GenerateId(const ObjectType& type)
 	return id & ((uint64)type << 56);
 }
 
-GameRoom::GameRoom()
+ObjectType GameRoom::ExtractObjType(GameObjectRef& obj)
 {
+	return ObjectType(obj->Id >> 56);
+}
+
+const uint8 GameRoom::GetServerId() const
+{
+	return ((_roomId & SERVER_MASK) >> 24);
+}
+
+const uint8 GameRoom::GetChannelId() const
+{
+	return ((_roomId & CHANNEL_MASK) >> 16);
+}
+
+const uint8 GameRoom::GetMapId() const
+{
+	return ((_roomId & MAP_MASK) >> 16);
+}
+
+GameRoom::GameRoom(uint32 roomId)
+{
+	_roomId = roomId;
 }
 
 GameRoom::~GameRoom()
@@ -47,4 +68,21 @@ void GameRoom::Push(GameObject* go)
 {
 	GameObjectRef ref = shared_ptr<GameObject>(go);
 	Push(ref);
+}
+
+void GameRoom::Broadcast(SendBufferRef pkt)
+{
+	for (auto it = _objects.begin(); it != _objects.end(); it++)
+	{
+		auto type = ExtractObjType(it->second);
+		if (type != ObjectType::PLAYER)
+			continue;
+		Player* player = static_cast<Player*>(it->second.get());
+		if (player == nullptr)
+			continue;
+		ClientRef clientSession = player->Session.lock();
+		if (clientSession == nullptr)
+			continue;
+		clientSession->Send(pkt);
+	}
 }

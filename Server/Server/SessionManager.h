@@ -22,5 +22,5 @@ public:
 public:
 	void Push(ClientSession* session);
 	ClientRef Find(uint32 id);
-	void Erase(uint32 id);
+	void Remove(uint32 id);
 };

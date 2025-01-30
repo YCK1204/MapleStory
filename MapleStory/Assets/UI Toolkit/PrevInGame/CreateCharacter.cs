@@ -24,7 +24,7 @@ public partial class UIPrevInGameController : UIBaseController
     }
     class CreateCharacter
     {
-        public VisualElement ImgCharacterInfo;
+        public VisualElement ImgCharacterPreviewInfo;
         public Button ButtonCharacterCreate;
         public ScrollView ScrollViewCharacterList;
         public CharacterAbilities characterAbility = new CharacterAbilities();
@@ -32,14 +32,14 @@ public partial class UIPrevInGameController : UIBaseController
     #region CharacterJson
     [SerializeField]
     TextAsset CharacterJson;
-    struct JCharacterInfo
+    struct JCharacterPreviewInfo
     {
         public int id { get; set; }
         public string name { get; set; }
     }
-    struct JCharacterInfos
+    struct JCharacterPreviewInfos
     {
-        public JCharacterInfo[] characters;
+        public JCharacterPreviewInfo[] characters;
     }
     #endregion
     CreateCharacter createCharacter = new CreateCharacter();
@@ -48,11 +48,11 @@ public partial class UIPrevInGameController : UIBaseController
 
     private void InitializeCharList()
     {
-        JCharacterInfos characterInfos = JsonConvert.DeserializeObject<JCharacterInfos>(CharacterJson.ToString());
+        JCharacterPreviewInfos CharacterPreviewInfos = JsonConvert.DeserializeObject<JCharacterPreviewInfos>(CharacterJson.ToString());
 
-        for (int i = 0; i < characterInfos.characters.Length; i++)
+        for (int i = 0; i < CharacterPreviewInfos.characters.Length; i++)
         {
-            JCharacterInfo character = characterInfos.characters[i];
+            JCharacterPreviewInfo character = CharacterPreviewInfos.characters[i];
 
             Button button = CreateButton(character.name);
             button.name = character.name;
@@ -60,8 +60,8 @@ public partial class UIPrevInGameController : UIBaseController
             button.AddToClassList($"Button-{character.name}");
 
             button.RegisterCallback<ClickEvent>((e) => {
-                createCharacter.ImgCharacterInfo.ClearClassList();
-                createCharacter.ImgCharacterInfo.AddToClassList($"CharacterInfo-{character.name}");
+                createCharacter.ImgCharacterPreviewInfo.ClearClassList();
+                createCharacter.ImgCharacterPreviewInfo.AddToClassList($"CharacterPreviewInfo-{character.name}");
                 // 나중에 중앙에 서 있는 캐릭터 이미지도 바꿔야함
                 if (character.name == "Tanjiro") // 일단 탄지로만
                 {

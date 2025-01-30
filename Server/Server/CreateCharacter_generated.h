@@ -13,6 +13,8 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 24 &&
               FLATBUFFERS_VERSION_REVISION == 25,
              "Non-compatible flatbuffers version included");
 
+#include "Character_generated.h"
+
 struct C_CheckName;
 struct C_CheckNameBuilder;
 
@@ -24,9 +26,6 @@ struct D_CheckNameBuilder;
 
 struct SC_CheckName;
 struct SC_CheckNameBuilder;
-
-struct CharacterAbility;
-struct CharacterAbilityBuilder;
 
 struct C_CreateCharacter;
 struct C_CreateCharacterBuilder;
@@ -321,77 +320,6 @@ inline ::flatbuffers::Offset<SC_CheckName> CreateSC_CheckName(
     CheckNameError ok = CheckNameError_SUCCESS) {
   SC_CheckNameBuilder builder_(_fbb);
   builder_.add_ok(ok);
-  return builder_.Finish();
-}
-
-struct CharacterAbility FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef CharacterAbilityBuilder Builder;
-  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_STR = 4,
-    VT_DEX = 6,
-    VT_INT = 8,
-    VT_LUK = 10
-  };
-  uint16_t STR() const {
-    return GetField<uint16_t>(VT_STR, 0);
-  }
-  uint16_t DEX() const {
-    return GetField<uint16_t>(VT_DEX, 0);
-  }
-  uint16_t INT() const {
-    return GetField<uint16_t>(VT_INT, 0);
-  }
-  uint16_t LUK() const {
-    return GetField<uint16_t>(VT_LUK, 0);
-  }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           VerifyField<uint16_t>(verifier, VT_STR, 2) &&
-           VerifyField<uint16_t>(verifier, VT_DEX, 2) &&
-           VerifyField<uint16_t>(verifier, VT_INT, 2) &&
-           VerifyField<uint16_t>(verifier, VT_LUK, 2) &&
-           verifier.EndTable();
-  }
-};
-
-struct CharacterAbilityBuilder {
-  typedef CharacterAbility Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  void add_STR(uint16_t STR) {
-    fbb_.AddElement<uint16_t>(CharacterAbility::VT_STR, STR, 0);
-  }
-  void add_DEX(uint16_t DEX) {
-    fbb_.AddElement<uint16_t>(CharacterAbility::VT_DEX, DEX, 0);
-  }
-  void add_INT(uint16_t INT) {
-    fbb_.AddElement<uint16_t>(CharacterAbility::VT_INT, INT, 0);
-  }
-  void add_LUK(uint16_t LUK) {
-    fbb_.AddElement<uint16_t>(CharacterAbility::VT_LUK, LUK, 0);
-  }
-  explicit CharacterAbilityBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
-        : fbb_(_fbb) {
-    start_ = fbb_.StartTable();
-  }
-  ::flatbuffers::Offset<CharacterAbility> Finish() {
-    const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<CharacterAbility>(end);
-    return o;
-  }
-};
-
-inline ::flatbuffers::Offset<CharacterAbility> CreateCharacterAbility(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
-    uint16_t STR = 0,
-    uint16_t DEX = 0,
-    uint16_t INT = 0,
-    uint16_t LUK = 0) {
-  CharacterAbilityBuilder builder_(_fbb);
-  builder_.add_LUK(LUK);
-  builder_.add_INT(INT);
-  builder_.add_DEX(DEX);
-  builder_.add_STR(STR);
   return builder_.Finish();
 }
 

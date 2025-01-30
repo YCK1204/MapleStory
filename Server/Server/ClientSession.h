@@ -6,6 +6,8 @@ class ClientSession : public PacketSession
 {
 public:
 	PlayerRef Player = nullptr;
+	uint8 ServerId;
+	uint8 ChannelId;
 private:
 	void OnConnect() override;
 	void OnDisconnect() override;

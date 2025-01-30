@@ -13,7 +13,7 @@ void ClientSession::OnConnect()
 void ClientSession::OnDisconnect()
 {
 	GPoolManager->Push<ClientSession>(this);
-	Manager::Session.Erase(this->_sessionId);
+	Manager::Session.Remove(this->_sessionId);
 	cout << "disconnected!\n";
 }
 

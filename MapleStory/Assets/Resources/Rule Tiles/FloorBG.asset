@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
+  m_Name: FloorBG
+  m_EditorClassIdentifier: 
+  m_DefaultSprite: {fileID: 0}
+  m_DefaultGameObject: {fileID: 0}
+  m_DefaultColliderType: 1
+  m_TilingRules:
+  - m_Id: 0
+    m_Sprites:
+    - {fileID: 345388831942646905, guid: 77c77be6c96be174b87a3f51db122ae0, type: 3}
+    - {fileID: 2605931709383362510, guid: efe0f1081c5b0cb41b76cc35ebdbdc07, type: 3}
+    - {fileID: 5834209488003977440, guid: 4210e6f4c9e8efc41b1bb8302381be93, type: 3}
+    - {fileID: -1361509387198532480, guid: 64ba3dd4487dc7d48a508ef7a9507634, type: 3}
+    - {fileID: 8299462232000190224, guid: a77bf02e3fb5e6e4d8d19f6c925d13e0, type: 3}
+    m_GameObject: {fileID: 0}
+    m_MinAnimationSpeed: 1
+    m_MaxAnimationSpeed: 1
+    m_PerlinScale: 0.5
+    m_Output: 1
+    m_ColliderType: 1
+    m_RandomTransform: 0
+    m_Neighbors: 
+    m_NeighborPositions: []
+    m_RuleTransform: 0
