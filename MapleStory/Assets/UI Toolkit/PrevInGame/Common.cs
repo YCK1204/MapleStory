@@ -258,7 +258,6 @@ public partial class UIPrevInGameController : UIBaseController
             var json = JObject.Parse(pos);
             byte mapId = json["map"].Value<byte>();
 
-            Debug.Log($"mapId : {mapId}");
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
             var data = C_EnterMap.CreateC_EnterMap(builder, mapId);
             var packet = Manager.Packet.CreatePacket(data, builder, PacketType.C_EnterMap);

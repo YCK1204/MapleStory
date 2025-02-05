@@ -151,16 +151,9 @@ public partial class UIPrevInGameController : UIBaseController
 
         string serverName = GetServerNameFromServerTitle();
 
-        try
-        {
-            var server = _servers.First((s) => s.Value.Name == serverName);
-            var data = C_EnterChannel.CreateC_EnterChannel(builder, server.Value.Id, channelIdx);
-            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_EnterChannel);
-            Manager.Network.Send(pkt);
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError(ex);
-        }
+        var server = _servers.First((s) => s.Value.Name == serverName);
+        var data = C_EnterChannel.CreateC_EnterChannel(builder, server.Value.Id, channelIdx);
+        var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_EnterChannel);
+        Manager.Network.Send(pkt);
     }
 }
