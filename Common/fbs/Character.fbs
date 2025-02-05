@@ -1,0 +1,22 @@
+table CharacterAbility {
+	STR:uint16;
+	DEX:uint16;
+	INT:uint16;
+	LUK:uint16;
+}
+
+table CharacterPreviewInfo {
+	char_id:uint64;
+	char_type:uint8;
+	level:uint16;
+	name:string;
+	ability:CharacterAbility;
+}
+
+table CharacterTotalInfo {
+	prev_info:CharacterPreviewInfo;
+	last_pos:string;
+	hp:int32;
+	mp:int32;
+	exp:int32;
+}

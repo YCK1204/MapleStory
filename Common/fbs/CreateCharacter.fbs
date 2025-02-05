@@ -1,3 +1,5 @@
+include "Character.fbs";
+
 table C_CheckName {
 	name:string;
 }
@@ -21,13 +23,6 @@ table D_CheckName {
 
 table SC_CheckName {
 	ok:CheckNameError;
-}
-
-table CharacterAbility {
-	STR:uint16;
-	DEX:uint16;
-	INT:uint16;
-	LUK:uint16;
 }
 
 table C_CreateCharacter {

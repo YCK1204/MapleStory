@@ -4,6 +4,8 @@ include "WorldSelect.fbs";
 include "CharacterSelect.fbs";
 include "CreateCharacter.fbs";
 // ------------------- PrevInGame -----------------
+include "Spawn.fbs";
+
 
 union PacketType {
 // ------------------- Sign -----------------
@@ -16,9 +18,6 @@ union PacketType {
 	SD_SignIn,
 	SC_SignIn,
 	D_SignIn,
-
-	SC_SignOut,
-	C_SignOut,
 // ------------------- Sign -----------------
 // ------------------- WorldSelect -----------------
 	C_EnterChannel,
@@ -35,6 +34,10 @@ union PacketType {
 	SD_CharacterDelete,
 	D_CharacterDelete,
 	SC_CharacterDelete,
+	C_CharacterSelect,
+	SD_CharacterSelect,
+	D_CharacterSelect,
+	SC_CharacterSelect,
 // ------------------- CharacterSelect -----------------
 // ------------------- CreateCharacter -----------------
 	C_CheckName,
@@ -46,4 +49,12 @@ union PacketType {
 	D_CreateCharacter,
 	SC_CreateCharacter,
 // ------------------- CreateCharacter -----------------
+// ------------------- Spawn -----------------
+	C_EnterMap,
+	SC_EnterMap,
+	SC_Spawn,
+	C_Despawn,
+	SC_Despawn,
+// ------------------- Spawn -----------------
+
 }

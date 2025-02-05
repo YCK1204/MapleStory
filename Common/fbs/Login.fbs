@@ -53,9 +53,3 @@ table D_SignIn {
 	session_id:uint32;
 	ok:SignInError;
 }
-
-table SC_SignOut {
-}
-
-table C_SignOut {
-}
