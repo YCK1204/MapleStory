@@ -199,11 +199,17 @@ void DbManager::RequestAsync(wstring cmd, wstring table, wstring condition, wstr
 
 void DbManager::HandleError(SQLSMALLINT htype, SQLHANDLE* dbc)
 {
-	SQLWCHAR sql_state[6] = {}, message[1024] = {};
+	SQLTCHAR sql_state[6] = {}, message[1024] = {};
 	SQLSMALLINT msg_len = 0;
 	SQLINTEGER native_error = 0;
-	auto ret = SQLGetDiagRec(htype, *dbc, 1, sql_state, &native_error, message, sizeof(message) / sizeof(wchar_t), &msg_len);
-	wcout << "state : " << sql_state << ", message : " << message << endl;
+
+	auto ret = SQLGetDiagRec(htype, *dbc, 1, sql_state, &native_error, message, sizeof(message), &msg_len);
+	if (SQL_SUCCEEDED(ret))
+	{
+		cout << "SQL Error - State: " << (SQLCHAR*)sql_state
+			<< ", Native Error: " << native_error
+			<< ", Message: " << (SQLCHAR*)message << endl;
+	}
 }
 
 DbManager::QueryArgs::QueryArgs(STMT_REF stmt, HANDLE_REF hEvent, SQLHDBC* hdbc, function<void(QUERY_REF)> callback)
