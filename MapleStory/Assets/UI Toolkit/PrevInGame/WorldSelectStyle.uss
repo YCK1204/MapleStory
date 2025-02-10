@@ -1,13 +1,13 @@
 .Button-EnterSelectedChannel {
-    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect.BtGoworld.normal.0');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/Button/WorldSelect.BtGoworld.normal.0');
 }
 
 .Button-EnterSelectedChannel:hover {
-    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect.BtGoworld.mouseOver.0');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/Button/WorldSelect.BtGoworld.mouseOver.0');
 }
 
 .Button-EnterSelectedChannel:active {
-    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect.BtGoworld.pressed.0');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/Button/WorldSelect.BtGoworld.pressed.0');
 }
 
 .ChannelSelect-Hide {
@@ -23,40 +23,40 @@
 }
 
 .Button-Scania {
-    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect-ScaniaNormal');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/Button/WorldSelect-ScaniaOver');
 }
 
 .Button-Scania:hover {
-    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect-ScaniaOver');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/Button/WorldSelect-ScaniaNormal');
 }
 
 .Button-Scania:active {
-    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect-ScaniaPressed');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/Button/WorldSelect-ScaniaPressed');
 }
 
 .Button-Bera {
-    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect-BeraNormal');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/Button/WorldSelect-BeraNormal');
 }
 
 .Button-Bera:hover {
-    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect-BeraOver');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/Button/WorldSelect-BeraNormal');
 }
 
 .Button-Bera:active {
-    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect-BeraPressed');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/Button/WorldSelect-BeraPressed');
 }
 
 .Button-EmptyWorld {
-    background-image: resource('PrevInGame/Imgs/WorldSelect/Button/WorldSelect-EmptyServer');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/Button/WorldSelect-EmptyServer');
 }
 
 .ServerTitle-Bera {
-    background-image: resource('PrevInGame/Imgs/WorldSelect/WorldSelect-Bera');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/WorldSelect-Bera');
     width: 25%;
 }
 
 .ServerTitle-Scania {
-    background-image: resource('PrevInGame/Imgs/WorldSelect/WorldSelect-Scania');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/WorldSelect-Scania');
     width: 30%;
 }
 
@@ -69,15 +69,15 @@
 }
 
 .Channel-1 {
-    background-image: resource('PrevInGame/Imgs/WorldSelect/WorldSelect-Channel1');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/WorldSelect-Channel1');
 }
 
 .Channel-2 {
-    background-image: resource('PrevInGame/Imgs/WorldSelect/WorldSelect-Channel2');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/WorldSelect-Channel2');
 }
 
 .Channel-Empty {
-    background-image: resource('PrevInGame/Imgs/WorldSelect/WorldSelect-ChannelEmpty');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/WorldSelect-ChannelEmpty');
 }
 
 .Channel-Sign {
@@ -103,7 +103,7 @@
 }
 
 .ChannelGuage-Guage {
-    background-image: resource('PrevInGame/Imgs/WorldSelect/ChannelGuage');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/ChannelGuage');
     width: 160px;
     height: 100%;
 }

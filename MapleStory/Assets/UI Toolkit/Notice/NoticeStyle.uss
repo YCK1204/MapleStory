@@ -20,77 +20,73 @@
 }
 
 .Button-Ok {
-    background-image: resource('PrevInGame/Imgs/Common/Button/BtOk.normal.0');
+    background-image: resource('Imgs/PrevInGame/Common/Button/BtOk.normal.0');
 }
 
 .Button-Ok:hover {
-    background-image: resource('PrevInGame/Imgs/Common/Button/BtOk.mouseOver.0');
+    background-image: resource('Imgs/PrevInGame/Common/Button/BtOk.mouseOver.0');
 }
 
 .Button-Ok:active {
-    background-image: resource('PrevInGame/Imgs/Common/Button/BtOk.mouseOver.0');
+    background-image: resource('Imgs/PrevInGame/Common/Button/BtOk.mouseOver.0');
 }
 
 .Button-Cancel {
-    background-image: resource('PrevInGame/Imgs/Common/Button/BtCancel.normal.0');
+    background-image: resource('Imgs/PrevInGame/Common/Button/BtCancel.normal.0');
 }
 
 .Button-Cancel:hover {
-    background-image: resource('PrevInGame/Imgs/Common/Button/BtCancel.mouseOver.0');
+    background-image: resource('Imgs/PrevInGame/Common/Button/BtCancel.mouseOver.0');
 }
 
 .Button-Cancel:active {
-    background-image: resource('PrevInGame/Imgs/Common/Button/BtCancel.mouseOver.0');
+    background-image: resource('Imgs/PrevInGame/Common/Button/BtCancel.mouseOver.0');
 }
 
 .PopupImg-BeingUsed {
-    background-image: resource('PrevInGame/Imgs/Notice/Notice-AlreadyExistName');
+    background-image: resource('Imgs/PrevInGame/Notice/Notice-AlreadyExistName');
 }
 
 .PopupImg-CanUseName {
-    background-image: resource('PrevInGame/Imgs/Notice/Notice-CanUseName');
+    background-image: resource('Imgs/PrevInGame/Notice/Notice-CanUseName');
 }
 
 .PopupImg-CharacterDelete {
-    background-image: resource('PrevInGame/Imgs/Notice/Notice-CharacterDelete');
+    background-image: resource('Imgs/PrevInGame/Notice/Notice-CharacterDelete');
 }
 
 .PopupImg-InvalidId {
-    background-image: resource('PrevInGame/Imgs/Notice/Notice-InvalidId');
+    background-image: resource('Imgs/PrevInGame/Notice/Notice-InvalidId');
 }
 
 .PopupImg-InvalidPassword {
-    background-image: resource('PrevInGame/Imgs/Notice/Notice-InvalidPassword');
-}
-
-.PopupImg-CannotCreateCharacter {
-    background-image: resource('PrevInGame/Imgs/Notice/Notice-NoMoreCreateCharacter');
+    background-image: resource('Imgs/PrevInGame/Notice/Notice-InvalidPassword');
 }
 
 .PopupImg-NotRegisteredId {
-    background-image: resource('PrevInGame/Imgs/Notice/Notice-NotRegisteredId');
+    background-image: resource('Imgs/PrevInGame/Notice/Notice-NotRegisteredId');
 }
 
 .PopupImg-ReturnToFirst {
-    background-image: resource('PrevInGame/Imgs/Notice/Notice-ReturnToFirst');
+    background-image: resource('Imgs/PrevInGame/Notice/Notice-ReturnToFirst');
 }
 
 .PopupImg-SelectChannel {
-    background-image: resource('PrevInGame/Imgs/Notice/Notice-SelectChannel');
+    background-image: resource('Imgs/PrevInGame/Notice/Notice-SelectChannel');
 }
 
 .PopupImg-LoggedIn {
-    background-image: resource('PrevInGame/Imgs/Notice/Notice-AlreadyLoggedIn');
+    background-image: resource('Imgs/PrevInGame/Notice/Notice-AlreadyLoggedIn');
 }
 
 .PopupImg-Unknown {
-    background-image: resource('PrevInGame/Imgs/Notice/Notice-UnknownError');
+    background-image: resource('Imgs/PrevInGame/Notice/Notice-UnknownError');
 }
 
 .PopupImg-NoMoreCreateCharacter {
-    background-image: resource('PrevInGame/Imgs/Notice/Notice-NoMoreCreateCharacter');
+    background-image: resource('Imgs/PrevInGame/Notice/Notice-NoMoreCreateCharacter');
 }
 
 .PopupImg-CheckName {
-    background-image: resource('PrevInGame/Imgs/Notice/Notice-CheckName');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/Check버튼을 눌러서 닉네임 사용 가능 여부를 파악해주십시오');
 }

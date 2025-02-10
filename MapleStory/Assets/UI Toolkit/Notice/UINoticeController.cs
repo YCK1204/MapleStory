@@ -40,7 +40,6 @@ public class UINoticeController : UIBaseController
         /*-------------*/
         BeingUsed,                  // 닉네임 사용 중
         CanUseName,                 // 닉네임 사용 가능
-        CannotCreateCharacter,      // 캐릭터 더 이상 생성 불가
         SelectChannel,              // 채널 선택 해달라
         Unknown,                    // 알 수 없는 에러
         NoMoreCreateCharacter,      // 캐릭터 더 이상 못만듬

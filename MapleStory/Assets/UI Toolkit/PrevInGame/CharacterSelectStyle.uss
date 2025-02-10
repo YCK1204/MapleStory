@@ -1,41 +1,41 @@
 .Button-SelectChacracter {
-    background-image: resource('PrevInGame/Imgs/CharacterSelect/Button/CharacterSelect-SelectNormal');
+    background-image: resource('Imgs/PrevInGame/CharacterSelect/Button/CharacterSelect-SelectNormal');
 }
 
 .Button-SelectChacracter:hover {
-    background-image: resource('PrevInGame/Imgs/CharacterSelect/Button/CharacterSelect-SelectOver');
+    background-image: resource('Imgs/PrevInGame/CharacterSelect/Button/CharacterSelect-SelectOver');
 }
 
 .Button-SelectChacracter:active {
-    background-image: resource('PrevInGame/Imgs/CharacterSelect/Button/CharacterSelect-SelectPressed');
+    background-image: resource('Imgs/PrevInGame/CharacterSelect/Button/CharacterSelect-SelectPressed');
 }
 
 .Button-CreateCharacter {
-    background-image: resource('PrevInGame/Imgs/CharacterSelect/Button/CharacterSelect-CreateNormal');
+    background-image: resource('Imgs/PrevInGame/CharacterSelect/Button/CharacterSelect-CreateNormal');
 }
 
 .Button-CreateCharacter:hover {
-    background-image: resource('PrevInGame/Imgs/CharacterSelect/Button/CharacterSelect-CreateOver');
+    background-image: resource('Imgs/PrevInGame/CharacterSelect/Button/CharacterSelect-CreateOver');
 }
 
 .Button-CreateCharacter:active {
-    background-image: resource('PrevInGame/Imgs/CharacterSelect/Button/CharacterSelect-CreatePressed');
+    background-image: resource('Imgs/PrevInGame/CharacterSelect/Button/CharacterSelect-CreatePressed');
 }
 
 .Button-DeleteChacracter {
-    background-image: resource('PrevInGame/Imgs/CharacterSelect/Button/CharacterSelect-DeleteNormal');
+    background-image: resource('Imgs/PrevInGame/CharacterSelect/Button/CharacterSelect-DeleteNormal');
 }
 
 .Button-DeleteChacracter:hover {
-    background-image: resource('PrevInGame/Imgs/CharacterSelect/Button/CharacterSelect-DeleteOver');
+    background-image: resource('Imgs/PrevInGame/CharacterSelect/Button/CharacterSelect-DeleteOver');
 }
 
 .Button-DeleteChacracter:active {
-    background-image: resource('PrevInGame/Imgs/CharacterSelect/Button/CharacterSelect-DeletePressed');
+    background-image: resource('Imgs/PrevInGame/CharacterSelect/Button/CharacterSelect-DeletePressed');
 }
 
 .StatusMain-Show {
-    background-image: resource('PrevInGame/Imgs/CharacterSelect/CharSelect.charInfo');
+    background-image: resource('Imgs/PrevInGame/CharacterSelect/CharSelect.charInfo');
     width: 80%;
     left: 11%;
     height: 75%;
@@ -47,7 +47,7 @@
 }
 
 .StatusMain-Hide {
-    background-image: resource('PrevInGame/Imgs/CharacterSelect/CharSelect.charInfo');
+    background-image: resource('Imgs/PrevInGame/CharacterSelect/CharSelect.charInfo');
     width: 80%;
     left: 11%;
     height: 75%;

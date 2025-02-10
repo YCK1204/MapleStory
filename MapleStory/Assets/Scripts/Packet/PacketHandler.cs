@@ -23,19 +23,7 @@ public class PacketHandler
     {
         var pkt = SC_EnterChannel.GetRootAsSC_EnterChannel(buffer);
 
-        if (pkt.Ok == EnterChannelError.SUCCESS)
-        {
-            FlatBufferBuilder builder = new FlatBufferBuilder(1);
-
-            C_CharacterList.StartC_CharacterList(builder);
-            var data = C_CharacterList.EndC_CharacterList(builder);
-            var packet = Manager.Packet.CreatePacket(data, builder, PacketType.C_CharacterList);
-            Manager.Network.Send(packet);
-        }
-        else
-        {
-            Manager.Scene.CurScene.OnRecvPacket<SC_EnterChannel>(pkt);
-        }
+        Manager.Scene.CurScene.OnRecvPacket<SC_EnterChannel>(pkt);
     }
     public static void SC_ChannelInfoHandler(PacketSession session, ByteBuffer buffer)
     {

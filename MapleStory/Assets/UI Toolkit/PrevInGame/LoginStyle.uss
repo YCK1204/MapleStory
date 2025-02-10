@@ -1,36 +1,35 @@
 .Button-SignIn {
-    background-image: resource('PrevInGame/Imgs/Login/Button/Title.BtLogin.normal.0');
+    background-image: resource('Imgs/PrevInGame/Login/Button/Title.BtLogin.normal.0');
 }
 
 .Button-SignIn:hover {
-    background-image: resource('PrevInGame/Imgs/Login/Button/Title.BtLogin.mouseOver.0');
+    background-image: resource('Imgs/PrevInGame/Login/Button/Title.BtLogin.mouseOver.0');
 }
 
 .Button-SignIn:active {
-    background-image: resource('PrevInGame/Imgs/Login/Button/Title.BtLogin.pressed.0');
+    background-image: resource('Imgs/PrevInGame/Login/Button/Title.BtLogin.pressed.0');
 }
 
 .Button-SignUp {
-    background-image: resource('PrevInGame/Imgs/Login/Button/Title.BtNew.normal.0');
+    background-image: resource('Imgs/PrevInGame/Login/Button/Title.BtNew.normal.0');
 }
 
 .Button-SignUp:hover {
-    background-image: resource('PrevInGame/Imgs/Login/Button/Title.BtNew.mouseOver.0');
+    background-image: resource('Imgs/PrevInGame/Login/Button/Title.BtNew.mouseOver.0');
 }
 
 .Button-SignUp:active {
-    background-image: resource('PrevInGame/Imgs/Login/Button/Title.BtNew.pressed.0');
+    background-image: resource('Imgs/PrevInGame/Login/Button/Title.BtNew.pressed.0');
 }
 
 .Button-GameExit {
-    background-image: resource('PrevInGame/Imgs/Login/Button/Title.BtQuit.normal.0');
+    background-image: resource('Imgs/PrevInGame/Login/Button/Title.BtQuit.normal.0');
 }
 
 .Button-GameExit:hover {
-    background-image: resource('PrevInGame/Imgs/Login/Button/Title.BtQuit.mouseOver.0');
+    background-image: resource('Imgs/PrevInGame/Login/Button/Title.BtQuit.mouseOver.0');
 }
 
 .Button-GameExit:active {
-    background-image: resource('PrevInGame/Imgs/Login/Button/Title.BtQuit.pressed.0');
+    background-image: resource('Imgs/PrevInGame/Login/Button/Title.BtQuit.pressed.0');
 }
-

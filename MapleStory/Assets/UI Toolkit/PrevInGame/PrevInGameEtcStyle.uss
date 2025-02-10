@@ -27,10 +27,10 @@
 }
 
 .MainBG-Base {
-    background-image: resource('Imgs/MainBG1');
     width: 95%;
     height: 450%;
     position: absolute;
+    background-image: resource('Imgs/PrevInGame/MainBG1');
 }
 
 .MainBG-Login {

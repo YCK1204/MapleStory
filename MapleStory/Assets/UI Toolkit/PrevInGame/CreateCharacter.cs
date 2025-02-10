@@ -24,7 +24,7 @@ public partial class UIPrevInGameController : UIBaseController
     }
     class CreateCharacter
     {
-        public VisualElement ImgCharacterPreviewInfo;
+        public VisualElement ImgCharacterInfo;
         public Button ButtonCharacterCreate;
         public ScrollView ScrollViewCharacterList;
         public CharacterAbilities characterAbility = new CharacterAbilities();
@@ -60,8 +60,8 @@ public partial class UIPrevInGameController : UIBaseController
             button.AddToClassList($"Button-{character.name}");
 
             button.RegisterCallback<ClickEvent>((e) => {
-                createCharacter.ImgCharacterPreviewInfo.ClearClassList();
-                createCharacter.ImgCharacterPreviewInfo.AddToClassList($"CharacterPreviewInfo-{character.name}");
+                createCharacter.ImgCharacterInfo.ClearClassList();
+                createCharacter.ImgCharacterInfo.AddToClassList($"CharacterInfo-{character.name}");
                 // 나중에 중앙에 서 있는 캐릭터 이미지도 바꿔야함
                 if (character.name == "Tanjiro") // 일단 탄지로만
                 {

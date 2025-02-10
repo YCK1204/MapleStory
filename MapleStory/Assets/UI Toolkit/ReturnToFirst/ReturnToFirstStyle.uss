@@ -17,27 +17,27 @@
 }
 
 .Button-ReturnToBack {
-    background-image: resource('PrevInGame/Imgs/Common/Button/Common.BtStart.normal.0');
+    background-image: resource('Imgs/PrevInGame/Common/Button/Common.BtStart.normal.0');
 }
 
 .Button-ReturnToBack:hover {
-    background-image: resource('PrevInGame/Imgs/Common/Button/Common.BtStart.mouseOver.0');
+    background-image: resource('Imgs/PrevInGame/Common/Button/Common.BtStart.mouseOver.0');
 }
 
 .Button-ReturnToBack:active {
-    background-image: resource('PrevInGame/Imgs/Common/Button/Common.BtStart.pressed.0');
+    background-image: resource('Imgs/PrevInGame/Common/Button/Common.BtStart.pressed.0');
 }
 
 .Button-ReturnToFirst {
-    background-image: resource('PrevInGame/Imgs/Common/Button/Common.BtStart2.normal.0');
+    background-image: resource('Imgs/PrevInGame/Common/Button/Common.BtStart2.normal.0');
 }
 
 .Button-ReturnToFirst:hover {
-    background-image: resource('PrevInGame/Imgs/Common/Button/Common.BtStart2.mouseOver.0');
+    background-image: resource('Imgs/PrevInGame/Common/Button/Common.BtStart2.mouseOver.0');
 }
 
 .Button-ReturnToFirst:active {
-    background-image: resource('PrevInGame/Imgs/Common/Button/Common.BtStart2.pressed.0');
+    background-image: resource('Imgs/PrevInGame/Common/Button/Common.BtStart2.pressed.0');
 }
 
 .Show {
@@ -66,17 +66,17 @@
 }
 
 .Step-CharacterSelect {
-    background-image: resource('PrevInGame/Imgs/Common/Common.step.2');
+    background-image: resource('Imgs/PrevInGame/Common/Common.step.2');
 }
 
 .Step-CreateCharacter {
-    background-image: resource('PrevInGame/Imgs/Common/Common.step.3');
+    background-image: resource('Imgs/PrevInGame/Common/Common.step.3');
 }
 
 .Step-Login {
-    background-image: resource('PrevInGame/Imgs/Common/Common.step.5');
+    background-image: resource('Imgs/PrevInGame/Common/Common.step.5');
 }
 
 .Step-WorldSelect {
-    background-image: resource('PrevInGame/Imgs/Common/Common.step.1');
+    background-image: resource('Imgs/PrevInGame/Common/Common.step.1');
 }

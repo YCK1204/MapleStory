@@ -109,7 +109,7 @@ public partial class UIPrevInGameController : UIBaseController
             characterSelect.navi.ButtonDeleteCharacter.RegisterCallback<ClickEvent>(HandleDeleteChar);
             StepInitHandler.Add(BGState.CharacterSelect, () =>
             {
-                for (int i = 1; i <= characterCount; i++)
+                for (int i = 1 + characterStatuses.Count; i <= characterCount; i++)
                 {
                     Characters[i].SetActive(false);
                     var panel = characterSelect.characterList.characterPanel[i - 1];
@@ -229,6 +229,14 @@ public partial class UIPrevInGameController : UIBaseController
         {
             switch (enterChannel.Ok)
             {
+                case EnterChannelError.SUCCESS:
+                    FlatBufferBuilder builder = new FlatBufferBuilder(1);
+
+                    C_CharacterList.StartC_CharacterList(builder);
+                    var data = C_CharacterList.EndC_CharacterList(builder);
+                    var packet = Manager.Packet.CreatePacket(data, builder, PacketType.C_CharacterList);
+                    Manager.Network.Send(packet);
+                    break;
                 case EnterChannelError.FULL:
                     NoticeState = PopupState.Unknown;
                     break;
