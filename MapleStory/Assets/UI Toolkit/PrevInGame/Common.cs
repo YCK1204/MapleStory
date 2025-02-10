@@ -262,9 +262,7 @@ public partial class UIPrevInGameController : UIBaseController
         }
         else if (pkt is SC_CharacterSelect characterSelect)
         {
-            string pos = characterSelect.CharInfo.Value.LastPos;
-            var json = JObject.Parse(pos);
-            byte mapId = json["map"].Value<byte>();
+            byte mapId = (byte)characterSelect.CharInfo.Value.LastPos;
 
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
             var data = C_EnterMap.CreateC_EnterMap(builder, mapId);

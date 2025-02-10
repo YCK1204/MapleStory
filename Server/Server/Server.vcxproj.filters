@@ -25,6 +25,12 @@
     <Filter Include="GameServer\Server">
       <UniqueIdentifier>{46eaf1c9-4d53-4247-955b-566bb47cacb2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Packet\PrevInGame">
+      <UniqueIdentifier>{88c597c6-4d6e-4309-ab15-62f74d8a9872}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet\Spawn">
+      <UniqueIdentifier>{e9b22974-eb1f-4aba-bbe6-abb57c782e04}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -34,9 +40,6 @@
     </ClCompile>
     <ClCompile Include="ClientSession.cpp">
       <Filter>Session</Filter>
-    </ClCompile>
-    <ClCompile Include="PacketHandler.cpp">
-      <Filter>Packet</Filter>
     </ClCompile>
     <ClCompile Include="DbSession.cpp">
       <Filter>Session</Filter>
@@ -71,6 +74,21 @@
     <ClCompile Include="ServerManager.cpp">
       <Filter>GameServer</Filter>
     </ClCompile>
+    <ClCompile Include="Login.cpp">
+      <Filter>Packet\PrevInGame</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldSelect.cpp">
+      <Filter>Packet\PrevInGame</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterSelect.cpp">
+      <Filter>Packet\PrevInGame</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateCharacter.cpp">
+      <Filter>Packet\PrevInGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Spawn.cpp">
+      <Filter>Packet\Spawn</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -81,9 +99,6 @@
       <Filter>Packet</Filter>
     </ClInclude>
     <ClInclude Include="PacketManager.h">
-      <Filter>Packet</Filter>
-    </ClInclude>
-    <ClInclude Include="Protocol_generated.h">
       <Filter>Packet</Filter>
     </ClInclude>
     <ClInclude Include="DbSession.h">

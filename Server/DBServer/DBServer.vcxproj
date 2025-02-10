@@ -138,11 +138,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CharacterSelect.cpp" />
+    <ClCompile Include="CreateCharacter.cpp" />
     <ClCompile Include="DataModel.cpp" />
     <ClCompile Include="DbManager.cpp" />
+    <ClCompile Include="Login.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Manager.cpp" />
-    <ClCompile Include="PacketHandler.cpp" />
     <ClCompile Include="PacketManager.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="ServerSession.cpp" />

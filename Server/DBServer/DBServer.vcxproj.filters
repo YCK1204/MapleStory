@@ -6,9 +6,6 @@
     <ClCompile Include="PacketManager.cpp">
       <Filter>Packet</Filter>
     </ClCompile>
-    <ClCompile Include="PacketHandler.cpp">
-      <Filter>Packet</Filter>
-    </ClCompile>
     <ClCompile Include="ServerSession.cpp">
       <Filter>Session</Filter>
     </ClCompile>
@@ -20,6 +17,15 @@
     </ClCompile>
     <ClCompile Include="DbManager.cpp">
       <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Login.cpp">
+      <Filter>Packet\PrevInGame</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterSelect.cpp">
+      <Filter>Packet\PrevInGame</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateCharacter.cpp">
+      <Filter>Packet\PrevInGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +67,9 @@
     </Filter>
     <Filter Include="Managers">
       <UniqueIdentifier>{8728f74b-dcb8-482d-b70d-0ef57d01f6e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet\PrevInGame">
+      <UniqueIdentifier>{a1ca535e-f8c0-464e-84ac-f67472754f58}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
