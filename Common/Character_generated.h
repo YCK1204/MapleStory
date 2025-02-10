@@ -205,8 +205,8 @@ struct CharacterTotalInfo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table
   const CharacterPreviewInfo *prev_info() const {
     return GetPointer<const CharacterPreviewInfo *>(VT_PREV_INFO);
   }
-  const ::flatbuffers::String *last_pos() const {
-    return GetPointer<const ::flatbuffers::String *>(VT_LAST_POS);
+  int32_t last_pos() const {
+    return GetField<int32_t>(VT_LAST_POS, 0);
   }
   int32_t hp() const {
     return GetField<int32_t>(VT_HP, 0);
@@ -221,8 +221,7 @@ struct CharacterTotalInfo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_PREV_INFO) &&
            verifier.VerifyTable(prev_info()) &&
-           VerifyOffset(verifier, VT_LAST_POS) &&
-           verifier.VerifyString(last_pos()) &&
+           VerifyField<int32_t>(verifier, VT_LAST_POS, 4) &&
            VerifyField<int32_t>(verifier, VT_HP, 4) &&
            VerifyField<int32_t>(verifier, VT_MP, 4) &&
            VerifyField<int32_t>(verifier, VT_EXP, 4) &&
@@ -237,8 +236,8 @@ struct CharacterTotalInfoBuilder {
   void add_prev_info(::flatbuffers::Offset<CharacterPreviewInfo> prev_info) {
     fbb_.AddOffset(CharacterTotalInfo::VT_PREV_INFO, prev_info);
   }
-  void add_last_pos(::flatbuffers::Offset<::flatbuffers::String> last_pos) {
-    fbb_.AddOffset(CharacterTotalInfo::VT_LAST_POS, last_pos);
+  void add_last_pos(int32_t last_pos) {
+    fbb_.AddElement<int32_t>(CharacterTotalInfo::VT_LAST_POS, last_pos, 0);
   }
   void add_hp(int32_t hp) {
     fbb_.AddElement<int32_t>(CharacterTotalInfo::VT_HP, hp, 0);
@@ -263,7 +262,7 @@ struct CharacterTotalInfoBuilder {
 inline ::flatbuffers::Offset<CharacterTotalInfo> CreateCharacterTotalInfo(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     ::flatbuffers::Offset<CharacterPreviewInfo> prev_info = 0,
-    ::flatbuffers::Offset<::flatbuffers::String> last_pos = 0,
+    int32_t last_pos = 0,
     int32_t hp = 0,
     int32_t mp = 0,
     int32_t exp = 0) {
@@ -274,23 +273,6 @@ inline ::flatbuffers::Offset<CharacterTotalInfo> CreateCharacterTotalInfo(
   builder_.add_last_pos(last_pos);
   builder_.add_prev_info(prev_info);
   return builder_.Finish();
-}
-
-inline ::flatbuffers::Offset<CharacterTotalInfo> CreateCharacterTotalInfoDirect(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
-    ::flatbuffers::Offset<CharacterPreviewInfo> prev_info = 0,
-    const char *last_pos = nullptr,
-    int32_t hp = 0,
-    int32_t mp = 0,
-    int32_t exp = 0) {
-  auto last_pos__ = last_pos ? _fbb.CreateString(last_pos) : 0;
-  return CreateCharacterTotalInfo(
-      _fbb,
-      prev_info,
-      last_pos__,
-      hp,
-      mp,
-      exp);
 }
 
 #endif  // FLATBUFFERS_GENERATED_CHARACTER_H_

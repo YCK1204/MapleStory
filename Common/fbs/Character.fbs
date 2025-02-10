@@ -15,7 +15,7 @@ table CharacterPreviewInfo {
 
 table CharacterTotalInfo {
 	prev_info:CharacterPreviewInfo;
-	last_pos:string;
+	last_pos:int32;
 	hp:int32;
 	mp:int32;
 	exp:int32;

@@ -273,7 +273,7 @@ void PacketHandler::SD_CharacterSelectHandler(PacketSession* session, ByteRef& b
 			SQLINTEGER exp;
 			SQLINTEGER hp;
 			SQLINTEGER mp;
-			SQLCHAR lastPos[50] = {};
+			SQLINTEGER lastPos;
 			SQLINTEGER _str;
 			SQLINTEGER _dex;
 			SQLINTEGER _int;
@@ -301,7 +301,7 @@ void PacketHandler::SD_CharacterSelectHandler(PacketSession* session, ByteRef& b
 			SQLBindCol(stmt, 2, SQL_INTEGER, &exp, sizeof(exp), &expIndicator);
 			SQLBindCol(stmt, 3, SQL_INTEGER, &hp, sizeof(hp), &hpIndicator);
 			SQLBindCol(stmt, 4, SQL_INTEGER, &mp, sizeof(mp), &mpIndicator);
-			SQLBindCol(stmt, 5, SQL_CHAR, lastPos, sizeof(lastPos), &lastPosIndicator);
+			SQLBindCol(stmt, 5, SQL_INTEGER, &lastPos, sizeof(lastPos), &lastPosIndicator);
 			SQLBindCol(stmt, 6, SQL_INTEGER, &_str, sizeof(_str), &_strIndicator);
 			SQLBindCol(stmt, 7, SQL_INTEGER, &_dex, sizeof(_dex), &_dexIndicator);
 			SQLBindCol(stmt, 8, SQL_INTEGER, &_int, sizeof(_int), &_intIndicator);
@@ -312,19 +312,15 @@ void PacketHandler::SD_CharacterSelectHandler(PacketSession* session, ByteRef& b
 			if (fetchResult != SQL_SUCCESS || fetchResult == SQL_NO_DATA)
 				throw - 1;
 
-			string pos;
-			for (SQLLEN i = 0; i < lastPosIndicator; i++)
-				pos += lastPos[i];
 			string n;
 			for (SQLLEN i = 0; i < nameIndicator; i++)
 				n += name[i];
 
-			auto posStr = builder.CreateString(pos);
 			auto nameStr = builder.CreateString(n);
 
 			auto ability = CreateCharacterAbility(builder, _str, _dex, _int, _luk);
 			auto prevInfo = CreateCharacterPreviewInfo(builder, charId, charType, level, nameStr, ability);
-			auto totalInfo = CreateCharacterTotalInfo(builder, prevInfo, posStr, hp, mp, exp);
+			auto totalInfo = CreateCharacterTotalInfo(builder, prevInfo, lastPos, hp, mp, exp);
 			auto data = CreateD_CharacterSelect(builder, CharacterSelectError_SUCCESS, sessionId, totalInfo);
 			auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_D_CharacterSelect);
 			Manager::session->Send(pkt);
