@@ -110,10 +110,7 @@ void PacketHandler::C_CharacterSelectHandler(PacketSession* session, ByteRef& bu
 	}
 	catch (exception& e)
 	{
-		FlatBufferBuilder builder;
-		auto data = CreateSC_CharacterSelect(builder, CharacterSelectError::CharacterSelectError_UNKNOWN);
-		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CharacterSelect);
-		session->Send(packet);
+		// 사실 에러날게 없지만 UNKNOWN 핸들링 필요
 	}
 }
 
@@ -126,15 +123,24 @@ void PacketHandler::D_CharacterSelectHandler(PacketSession* session, ByteRef& bu
 	ClientRef client = Manager::Session.Find(pkt->session_id());
 	if (client == nullptr)
 		return;
-	client->Player = shared_ptr<Player>(new Player(client));
-	FlatBufferBuilder builder;
 
 	auto info = pkt->char_info();
 	auto prevInfo = info->prev_info();
 	auto ability = prevInfo->ability();
 	auto lastPos = info->last_pos();
 
-	client->Player->CurMapId = lastPos;
+	auto player = shared_ptr<Player>(new Player(client));
+	{
+		client->Player = player;
+		player->SetAbility(ability);
+		player->SetLevel(prevInfo->level());
+		player->SetName(prevInfo->name()->str());
+		player->SetCharId(prevInfo->char_id());
+		player->SetCharType(prevInfo->char_type());
+		player->CurMapId = lastPos;
+	}
+
+	FlatBufferBuilder builder;
 
 	auto newAbility = CreateCharacterAbility(builder, ability->STR(), ability->DEX(), ability->INT(), ability->LUK());
 	auto newPrevInfo = CreateCharacterPreviewInfoDirect(builder, prevInfo->char_id(), prevInfo->char_type(), prevInfo->level(), prevInfo->name()->c_str());

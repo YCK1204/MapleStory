@@ -18,6 +18,7 @@ public class Manager : BaseMonobehaviour
     NetworkManager _network = new NetworkManager();
     ResourceManager _resource = new ResourceManager();
     PacketManager _packet = new PacketManager();
+    ObjectManager _object = new ObjectManager();
     public static Manager Instance
     {
         get
@@ -35,6 +36,7 @@ public class Manager : BaseMonobehaviour
     public static ResourceManager Resource { get { return Instance._resource; } }
     public static NetworkManager Network { get { return Instance._network; } }
     public static PacketManager Packet { get { return Instance._packet; } }
+    public static ObjectManager Object { get { return Instance._object; } }
     #endregion
     void Init()
     {

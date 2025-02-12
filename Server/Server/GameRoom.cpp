@@ -11,11 +11,6 @@ uint64 GameRoom::GenerateId(const ObjectType& type)
 	return id & ((uint64)type << 56);
 }
 
-ObjectType GameRoom::ExtractObjType(GameObjectRef& obj)
-{
-	return ObjectType(obj->Id >> 56);
-}
-
 const uint8 GameRoom::GetServerId() const
 {
 	return ((_roomId & SERVER_MASK) >> 24);
@@ -29,6 +24,25 @@ const uint8 GameRoom::GetChannelId() const
 const uint8 GameRoom::GetMapId() const
 {
 	return ((_roomId & MAP_MASK) >> 16);
+}
+
+// todo
+// Character 관련 구조체 Set Get 유틸 전역 함수 추가 필요
+Offset<Vector<Offset<CharacterPreviewInfo>>> GameRoom::GetPlayerInfos(FlatBufferBuilder& builder)
+{
+	vector<Offset<CharacterPreviewInfo>> infos;
+
+	WRITE_LOCK;
+	for (auto it = _objects.begin(); it != _objects.end(); it++)
+	{
+		if (it->second->Type != ObjectType::PLAYER)
+			continue;
+		Player* player = static_cast<Player*>(it->second.get());
+		auto prevInfo = player->GenerateCharPreviewInfo(builder);
+		infos.push_back(prevInfo);
+	}
+
+	return builder.CreateVector<Offset<CharacterPreviewInfo>>(infos);
 }
 
 GameRoom::GameRoom(uint32 roomId)
@@ -70,17 +84,21 @@ void GameRoom::Push(GameObject* go)
 	Push(ref);
 }
 
+void GameRoom::Push(PlayerRef& player)
+{
+	uint64 id = GenerateId(player->Type);
+	WRITE_LOCK;
+	_players[id] = player;
+}
+
 void GameRoom::Broadcast(SendBufferRef pkt)
 {
 	for (auto it = _objects.begin(); it != _objects.end(); it++)
 	{
-		auto type = ExtractObjType(it->second);
+		auto type = it->second->Type;
 		if (type != ObjectType::PLAYER)
 			continue;
-		Player* player = static_cast<Player*>(it->second.get());
-		if (player == nullptr)
-			continue;
-		ClientRef clientSession = player->Session.lock();
+		ClientRef clientSession = static_cast<Player*>(it->second.get())->Session.lock();
 		if (clientSession == nullptr)
 			continue;
 		clientSession->Send(pkt);
