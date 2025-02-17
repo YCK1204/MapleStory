@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 public class ResourceManager : IManager
 {
     public void Clear()
@@ -11,7 +10,7 @@ public class ResourceManager : IManager
     }
     public GameObject Instantiate(GameObject go)
     {
-        return Instantiate(go);
+        return Object.Instantiate(go);
     }
     public GameObject Instantiate(string path)
     {

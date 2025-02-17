@@ -41,6 +41,7 @@ void PacketManager::Register()
 		_handler[PacketType::PacketType_C_CreateCharacter] = PacketHandler::C_CreateCharacterHandler;
 		_handler[PacketType::PacketType_D_CreateCharacter] = PacketHandler::D_CreateCharacterHandler;
 		_handler[PacketType::PacketType_C_EnterMap] = PacketHandler::C_EnterMapHandler;
+		_handler[PacketType::PacketType_C_EnterGame] = PacketHandler::C_EnterGameHandler;
 		_handler[PacketType::PacketType_C_Despawn] = PacketHandler::C_DespawnHandler;
 		
 }

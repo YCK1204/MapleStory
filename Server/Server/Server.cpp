@@ -16,6 +16,7 @@ void Server::Init(json& j)
 		ASSERT_CRASH((j.find("name") != j.end()));
 		ASSERT_CRASH((j.find("id") != j.end()));
 		ASSERT_CRASH((j.find("max_user_count") != j.end()));
+		ASSERT_CRASH((j.find("channel_count") != j.end()));
 
 		_name = j["name"];
 		_maxUserCount = j["max_user_count"];
@@ -23,15 +24,12 @@ void Server::Init(json& j)
 	}
 
 	// 채널들 초기화
-	for (auto c : j["channels"])
+	int32 channelCount = j["channel_count"];
+	for (auto i = 0; i < channelCount; i++)
 	{
-		uint8 channelId = c["id"];
-
-		ASSERT_CRASH((_channels.find(channelId) == _channels.end()));
-
 		ChannelRef channel = shared_ptr<Channel>(new Channel());
-		_channels[channelId] = channel;
-		channel->Init(c);
+		_channels[i] = channel;
+		channel->Init(i);
 	}
 }
 

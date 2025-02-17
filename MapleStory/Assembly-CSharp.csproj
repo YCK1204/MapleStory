@@ -71,9 +71,11 @@
     <Compile Include="Assets\Scripts\FlatBuffer\SC_SignUp.cs" />
     <Compile Include="Assets\Scripts\Scene\BaseScene.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_EnterMap.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_EnterGame.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_EnterChannel.cs" />
     <Compile Include="Assets\Scripts\Utils\Util.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_CharacterList.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_PSpawn.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\WorldSelect.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SignInError.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_CheckName.cs" />
@@ -87,9 +89,12 @@
     <Compile Include="Assets\Scripts\Packet\PrevInGame\WorldSelect.cs" />
     <Compile Include="Assets\Scripts\Managers\NetworkManager.cs" />
     <Compile Include="Assets\Scripts\Utils\BaseMonobehaviour.cs" />
+    <Compile Include="Assets\Scripts\ScriptableObject\Creature\CreatureData.cs" />
+    <Compile Include="Assets\Scripts\ScriptableObject\Creature\CreatureSpawner.cs" />
     <Compile Include="Assets\Scripts\Controllers\CreatureController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_SignIn.cs" />
     <Compile Include="Assets\Scripts\Scene\SceneManager.cs" />
+    <Compile Include="Assets\Scripts\Controllers\MonsterController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_SignIn.cs" />
     <Compile Include="Assets\UI Toolkit\notice\UINoticeController.cs" />
     <Compile Include="Assets\Scripts\Packet\Spawn.cs" />
@@ -98,6 +103,7 @@
     <Compile Include="Assets\Scripts\Controllers\MyPlayerContoller.cs" />
     <Compile Include="Assets\Scripts\Scene\IntroScene.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterTotalInfo.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\MonsterInfo.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CreateCharacter.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_CreateCharacter.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_CharacterSelect.cs" />
@@ -109,6 +115,7 @@
     <Compile Include="Assets\Scripts\Packet\PrevInGame\CharacterSelect.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_CharacterDelete.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_SignUp.cs" />
+    <Compile Include="Assets\Scripts\Managers\SpawnManager.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_EnterMap.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_SignIn.cs" />
     <Compile Include="Assets\UI Toolkit\ReturnToFirst\UIReturnToFirstController.cs" />
@@ -116,16 +123,17 @@
     <Compile Include="Assets\Scripts\FlatBuffer\D_CharacterDelete.cs" />
     <Compile Include="Assets\UI Toolkit\UIBaseController.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\CreateCharacter.cs" />
-    <Compile Include="Assets\Scripts\FlatBuffer\SC_Spawn.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterListError.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\PacketType.cs" />
     <Compile Include="Assets\Scripts\Packet\PrevInGame\CreateCharacter.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\CharacterSelect.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_CheckName.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CreateCharacterError.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_MSpawn.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_CharacterDelete.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CharacterList.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\ServerInfo.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\Position.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CheckName.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_ChannelInfo.cs" />
     <Compile Include="Assets\Scripts\Packet\PrevInGame\Login.cs" />
@@ -136,6 +144,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\C_SignIn.cs" />
     <Compile Include="Assets\Scripts\Managers\ResourceManager.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_CheckName.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\PlayerInfo.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterSelectError.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\Common.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_SignUp.cs" />

@@ -10,10 +10,9 @@ Channel::~Channel()
 {
 }
 
-void Channel::Init(json& j)
+void Channel::Init(uint8 id)
 {
-	ASSERT_CRASH((j.find("id") != j.end()));
-	_id = j["id"];
+	_id = id;
 }
 
 const uint16& Channel::GetUserCount() const

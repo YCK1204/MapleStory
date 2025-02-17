@@ -115,9 +115,13 @@ public partial class UIPrevInGameController : UIBaseController
                 //anim.runtimeAnimatorController = AnimatorControllers[characterStatuses[i].charType];
                 anim.runtimeAnimatorController = AnimatorControllers[0];
             }
+            CharacterSelectClear();
             for (int i = characterStatuses.Count; i < characterCount; i++)
             {
-                characterSelect.characterList.characterPanel[i].ImgCharacter.style.display = new StyleEnum<DisplayStyle>(DisplayStyle.Flex);
+                var panel = characterSelect.characterList.characterPanel[i];
+
+                panel.ImgCharacter.style.display = new StyleEnum<DisplayStyle>(DisplayStyle.Flex);
+                Characters[i + 1].gameObject.SetActive(false);
             }
         }, .01f);
     }
@@ -128,15 +132,11 @@ public partial class UIPrevInGameController : UIBaseController
         if (CurId == id || id > characterStatuses.Count)
             return;
 
+        CharacterSelectClear();
         if (CurId > 0)
         {
             Animator anim = Characters[CurId].GetComponent<Animator>();
             anim.Play("Stand01");
-
-            var panel = characterSelect.characterList.characterPanel[CurId - 1];
-            panel.ImgCharacterStatusScroll.style.display = new StyleEnum<DisplayStyle>(DisplayStyle.None);
-            panel.ImgCharacterStatusMain.AddToClassList("StatusMain-Hide");
-            panel.ImgCharacterSelectEffect.style.backgroundImage = null;
         }
 
         {
@@ -161,6 +161,24 @@ public partial class UIPrevInGameController : UIBaseController
             });
 
             StartImgAnimation(panel.ImgCharacterSelectEffect, 4);
+        }
+    }
+    private void CharacterSelectClear(bool all = false)
+    {
+        foreach (var panel in characterSelect.characterList.characterPanel)
+        {
+            panel.ImgCharacterStatusScroll.style.display = new StyleEnum<DisplayStyle>(DisplayStyle.None);
+            panel.ImgCharacterStatusMain.AddToClassList("StatusMain-Hide");
+            panel.ImgCharacterSelectEffect.style.backgroundImage = null;
+        }
+
+        for (int i = 0; i < characterCount; i++)
+        {
+            if (all == true)
+                Characters[i + 1].gameObject.SetActive(false);
+            Animator anim = Characters[i + 1].GetComponent<Animator>();
+            anim.Play("Stand01");
+            CurId = 0;
         }
     }
 }

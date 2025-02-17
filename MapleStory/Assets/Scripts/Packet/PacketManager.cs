@@ -23,7 +23,8 @@ public class PacketManager
 		_handler.Add((ushort)PacketType.SC_CheckName, PacketHandler.SC_CheckNameHandler);
 		_handler.Add((ushort)PacketType.SC_CreateCharacter, PacketHandler.SC_CreateCharacterHandler);
 		_handler.Add((ushort)PacketType.SC_EnterMap, PacketHandler.SC_EnterMapHandler);
-		_handler.Add((ushort)PacketType.SC_Spawn, PacketHandler.SC_SpawnHandler);
+		_handler.Add((ushort)PacketType.SC_PSpawn, PacketHandler.SC_PSpawnHandler);
+		_handler.Add((ushort)PacketType.SC_MSpawn, PacketHandler.SC_MSpawnHandler);
 		_handler.Add((ushort)PacketType.SC_Despawn, PacketHandler.SC_DespawnHandler);
 		
     }

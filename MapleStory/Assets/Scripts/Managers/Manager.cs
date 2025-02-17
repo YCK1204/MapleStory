@@ -19,6 +19,7 @@ public class Manager : BaseMonobehaviour
     ResourceManager _resource = new ResourceManager();
     PacketManager _packet = new PacketManager();
     ObjectManager _object = new ObjectManager();
+    SpawnManager _spawn = new SpawnManager();
     public static Manager Instance
     {
         get
@@ -37,11 +38,13 @@ public class Manager : BaseMonobehaviour
     public static NetworkManager Network { get { return Instance._network; } }
     public static PacketManager Packet { get { return Instance._packet; } }
     public static ObjectManager Object { get { return Instance._object; } }
+    public static SpawnManager Spawn { get { return Instance._spawn; } }
     #endregion
     void Init()
     {
         DontDestroyOnLoad(_instance.gameObject);
         Network.Init();
+        Spawn.Init();
     }
     void Update()
     {

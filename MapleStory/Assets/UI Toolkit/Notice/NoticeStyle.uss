@@ -88,5 +88,5 @@
 }
 
 .PopupImg-CheckName {
-    background-image: resource('Imgs/PrevInGame/WorldSelect/Check버튼을 눌러서 닉네임 사용 가능 여부를 파악해주십시오');
+    background-image: resource('Imgs/PrevInGame/Notice/Notice-CheckName');
 }

@@ -39,9 +39,11 @@ public enum PacketType : byte
   SC_CreateCharacter = 32,
   C_EnterMap = 33,
   SC_EnterMap = 34,
-  SC_Spawn = 35,
-  C_Despawn = 36,
-  SC_Despawn = 37,
+  C_EnterGame = 35,
+  SC_PSpawn = 36,
+  SC_MSpawn = 37,
+  C_Despawn = 38,
+  SC_Despawn = 39,
 };
 
 
@@ -155,8 +157,14 @@ static public class PacketTypeVerify
       case PacketType.SC_EnterMap:
         result = SC_EnterMapVerify.Verify(verifier, tablePos);
         break;
-      case PacketType.SC_Spawn:
-        result = SC_SpawnVerify.Verify(verifier, tablePos);
+      case PacketType.C_EnterGame:
+        result = C_EnterGameVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_PSpawn:
+        result = SC_PSpawnVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_MSpawn:
+        result = SC_MSpawnVerify.Verify(verifier, tablePos);
         break;
       case PacketType.C_Despawn:
         result = C_DespawnVerify.Verify(verifier, tablePos);

@@ -1,7 +1,10 @@
+using System;
+using UnityEditor.Animations;
 using UnityEngine;
 
-public class CreatureController : BaseController
+public abstract class CreatureController : BaseController
 {
+    public UInt64 ID { get; set; }
     protected override void Init()
     {
         base.Init();
@@ -10,4 +13,5 @@ public class CreatureController : BaseController
     {
         base.UpdateController();
     }
+    public abstract void Destroy();
 }

@@ -16,17 +16,29 @@ public struct SC_Despawn : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public SC_Despawn __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public ulong CharId { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetUlong(o + __p.bb_pos) : (ulong)0; } }
+  public ulong Id(int j) { int o = __p.__offset(4); return o != 0 ? __p.bb.GetUlong(__p.__vector(o) + j * 8) : (ulong)0; }
+  public int IdLength { get { int o = __p.__offset(4); return o != 0 ? __p.__vector_len(o) : 0; } }
+#if ENABLE_SPAN_T
+  public Span<ulong> GetIdBytes() { return __p.__vector_as_span<ulong>(4, 8); }
+#else
+  public ArraySegment<byte>? GetIdBytes() { return __p.__vector_as_arraysegment(4); }
+#endif
+  public ulong[] GetIdArray() { return __p.__vector_as_array<ulong>(4); }
 
   public static Offset<SC_Despawn> CreateSC_Despawn(FlatBufferBuilder builder,
-      ulong char_id = 0) {
+      VectorOffset idOffset = default(VectorOffset)) {
     builder.StartTable(1);
-    SC_Despawn.AddCharId(builder, char_id);
+    SC_Despawn.AddId(builder, idOffset);
     return SC_Despawn.EndSC_Despawn(builder);
   }
 
   public static void StartSC_Despawn(FlatBufferBuilder builder) { builder.StartTable(1); }
-  public static void AddCharId(FlatBufferBuilder builder, ulong charId) { builder.AddUlong(0, charId, 0); }
+  public static void AddId(FlatBufferBuilder builder, VectorOffset idOffset) { builder.AddOffset(0, idOffset.Value, 0); }
+  public static VectorOffset CreateIdVector(FlatBufferBuilder builder, ulong[] data) { builder.StartVector(8, data.Length, 8); for (int i = data.Length - 1; i >= 0; i--) builder.AddUlong(data[i]); return builder.EndVector(); }
+  public static VectorOffset CreateIdVectorBlock(FlatBufferBuilder builder, ulong[] data) { builder.StartVector(8, data.Length, 8); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateIdVectorBlock(FlatBufferBuilder builder, ArraySegment<ulong> data) { builder.StartVector(8, data.Count, 8); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateIdVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<ulong>(dataPtr, sizeInBytes); return builder.EndVector(); }
+  public static void StartIdVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(8, numElems, 8); }
   public static Offset<SC_Despawn> EndSC_Despawn(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<SC_Despawn>(o);
@@ -39,7 +51,7 @@ static public class SC_DespawnVerify
   static public bool Verify(Google.FlatBuffers.Verifier verifier, uint tablePos)
   {
     return verifier.VerifyTableStart(tablePos)
-      && verifier.VerifyField(tablePos, 4 /*CharId*/, 8 /*ulong*/, 8, false)
+      && verifier.VerifyVectorOfData(tablePos, 4 /*Id*/, 8 /*ulong*/, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

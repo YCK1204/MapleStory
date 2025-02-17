@@ -15,6 +15,10 @@ typedef struct {
 	uint64 CharId;
 	uint8 CharType;
 	string Name;
+	int32 Hp;
+	int32 Mp;
+	int32 Exp;
+	uint8 MapId;
 } BasePlayerInfo;
 
 class Player : public Creature
@@ -32,20 +36,32 @@ public:
 	Player(ClientRef session);
 	virtual ~Player();
 	virtual void TakeDamage(int32& damage);
-	Offset<CharacterPreviewInfo> GenerateCharPreviewInfo(FlatBufferBuilder& builder);
+	Offset<PlayerInfo> GeneratePlayerInfo(FlatBufferBuilder& builder);
+	Offset<CharacterTotalInfo> GenerateTotalInfo(FlatBufferBuilder& builder);
+	Offset<CharacterPreviewInfo> GeneratePreviewInfo(FlatBufferBuilder& builder);
 public:
-	void EnterRoom(uint8& roomId);
-	void LeaveRoom(uint8& roomId);
+	void EnterRoom(uint32& roomId);
+	void LeaveRoom(uint32& roomId);
 public:
 	const shared_ptr<Ability> GetAbility() const;
 	const string& GetName() const;
 	const int32& GetLevel() const;
 	const uint64& GetCharId() const;
 	const uint8& GetCharType() const;
+	const int32& GetHp() const;
+	const int32& GetMp() const;
+	const uint8& GetMapId() const;
+	const int32& GetExp() const;
 public:
 	void SetAbility(const struct CharacterAbility* ability);
 	void SetName(const string& name);
 	void SetLevel(const int32& level);
 	void SetCharId(const uint64& charId);
 	void SetCharType(const uint8& charType);
+	void SetHp(const int32& hp);
+	void SetMp(const int32& mp);
+	void SetMapId(const uint8& mapId);
+	void SetExp(const int32& exp);
+protected:
+	virtual const bool IsAlive() const;
 };

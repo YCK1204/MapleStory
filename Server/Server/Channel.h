@@ -9,6 +9,6 @@ public:
 	Channel();
 	~Channel();
 public:
-	void Init(json& j);
+	void Init(uint8 id);
 	const uint16& GetUserCount() const;
 };

@@ -55,14 +55,16 @@ enum PacketType : uint8_t {
   PacketType_SC_CreateCharacter = 32,
   PacketType_C_EnterMap = 33,
   PacketType_SC_EnterMap = 34,
-  PacketType_SC_Spawn = 35,
-  PacketType_C_Despawn = 36,
-  PacketType_SC_Despawn = 37,
+  PacketType_C_EnterGame = 35,
+  PacketType_SC_PSpawn = 36,
+  PacketType_SC_MSpawn = 37,
+  PacketType_C_Despawn = 38,
+  PacketType_SC_Despawn = 39,
   PacketType_MIN = PacketType_NONE,
   PacketType_MAX = PacketType_SC_Despawn
 };
 
-inline const PacketType (&EnumValuesPacketType())[38] {
+inline const PacketType (&EnumValuesPacketType())[40] {
   static const PacketType values[] = {
     PacketType_NONE,
     PacketType_C_SignUp,
@@ -99,7 +101,9 @@ inline const PacketType (&EnumValuesPacketType())[38] {
     PacketType_SC_CreateCharacter,
     PacketType_C_EnterMap,
     PacketType_SC_EnterMap,
-    PacketType_SC_Spawn,
+    PacketType_C_EnterGame,
+    PacketType_SC_PSpawn,
+    PacketType_SC_MSpawn,
     PacketType_C_Despawn,
     PacketType_SC_Despawn
   };
@@ -107,7 +111,7 @@ inline const PacketType (&EnumValuesPacketType())[38] {
 }
 
 inline const char * const *EnumNamesPacketType() {
-  static const char * const names[39] = {
+  static const char * const names[41] = {
     "NONE",
     "C_SignUp",
     "SD_SignUp",
@@ -143,7 +147,9 @@ inline const char * const *EnumNamesPacketType() {
     "SC_CreateCharacter",
     "C_EnterMap",
     "SC_EnterMap",
-    "SC_Spawn",
+    "C_EnterGame",
+    "SC_PSpawn",
+    "SC_MSpawn",
     "C_Despawn",
     "SC_Despawn",
     nullptr
@@ -297,8 +303,16 @@ template<> struct PacketTypeTraits<SC_EnterMap> {
   static const PacketType enum_value = PacketType_SC_EnterMap;
 };
 
-template<> struct PacketTypeTraits<SC_Spawn> {
-  static const PacketType enum_value = PacketType_SC_Spawn;
+template<> struct PacketTypeTraits<C_EnterGame> {
+  static const PacketType enum_value = PacketType_C_EnterGame;
+};
+
+template<> struct PacketTypeTraits<SC_PSpawn> {
+  static const PacketType enum_value = PacketType_SC_PSpawn;
+};
+
+template<> struct PacketTypeTraits<SC_MSpawn> {
+  static const PacketType enum_value = PacketType_SC_MSpawn;
 };
 
 template<> struct PacketTypeTraits<C_Despawn> {
@@ -453,8 +467,16 @@ inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj,
       auto ptr = reinterpret_cast<const SC_EnterMap *>(obj);
       return verifier.VerifyTable(ptr);
     }
-    case PacketType_SC_Spawn: {
-      auto ptr = reinterpret_cast<const SC_Spawn *>(obj);
+    case PacketType_C_EnterGame: {
+      auto ptr = reinterpret_cast<const C_EnterGame *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_PSpawn: {
+      auto ptr = reinterpret_cast<const SC_PSpawn *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_MSpawn: {
+      auto ptr = reinterpret_cast<const SC_MSpawn *>(obj);
       return verifier.VerifyTable(ptr);
     }
     case PacketType_C_Despawn: {

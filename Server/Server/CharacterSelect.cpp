@@ -128,6 +128,8 @@ void PacketHandler::D_CharacterSelectHandler(PacketSession* session, ByteRef& bu
 	auto prevInfo = info->prev_info();
 	auto ability = prevInfo->ability();
 	auto lastPos = info->last_pos();
+	if (lastPos == 0)
+		lastPos = 1;
 
 	auto player = shared_ptr<Player>(new Player(client));
 	{
@@ -138,6 +140,7 @@ void PacketHandler::D_CharacterSelectHandler(PacketSession* session, ByteRef& bu
 		player->SetCharId(prevInfo->char_id());
 		player->SetCharType(prevInfo->char_type());
 		player->CurMapId = lastPos;
+		player->Id = client->GetDbId();
 	}
 
 	FlatBufferBuilder builder;

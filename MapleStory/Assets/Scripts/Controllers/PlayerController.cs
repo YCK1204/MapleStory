@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class PlayerController : CreatureController
 {
+    public PlayerCharacterType CharacterType { get; set; }
+    public ushort Level { get; set; }
+    public string Name { get; set; }
+
     [SerializeField]
     float Speed = 3f;
     [SerializeField]
@@ -44,5 +48,8 @@ public class PlayerController : CreatureController
             return;
         rb.AddForce(Vector3.up * JumpForce, (ForceMode2D)ForceMode.Impulse);
         isJump = true;
+    }
+    public override void Destroy()
+    {
     }
 }

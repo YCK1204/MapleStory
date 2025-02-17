@@ -38,22 +38,22 @@ void Session::SetAddress(sockaddr_in& addr)
 	_addr = addr;
 }
 
-void Session::SetSessionId(uint32 id)
+void Session::SetSessionId(uint64 id)
 {
 	_sessionId = id;
 }
 
-const int Session::GetSessionId() const
+const uint64 Session::GetSessionId() const
 {
 	return _sessionId;
 }
 
-void Session::SetDbId(uint32 id)
+void Session::SetDbId(uint64 id)
 {
 	_dbId = id;
 }
 
-const int Session::GetDbId() const
+const uint64 Session::GetDbId() const
 {
 	return _dbId;
 }

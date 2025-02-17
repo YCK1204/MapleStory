@@ -12,9 +12,8 @@ class Creature : public GameObject
 {
 public:
 	PosInfo Pos;
-	int32 Hp;
 protected:
-	const bool IsAlive() const;
+	virtual const bool IsAlive() const = 0;
 public:
 	virtual ~Creature();
 	

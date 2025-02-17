@@ -22,13 +22,14 @@ public:
 	const uint8 GetServerId() const;
 	const uint8 GetChannelId() const;
 	const uint8 GetMapId() const;
-	Offset<Vector<Offset<CharacterPreviewInfo>>> GetPlayerInfos(FlatBufferBuilder& builder);
+	Offset<Vector<Offset<PlayerInfo>>> GetPlayerInfos(FlatBufferBuilder& builder);
 public:
 	GameRoom() = delete;
 	GameRoom(uint32 roomId);
 	~GameRoom();
 	GameObject* Find(uint64& id);
 	void Remove(uint64& id);
+	void Remove(PlayerRef& player);
 	void Push(GameObjectRef& go);
 	void Push(GameObject* go);
 	void Push(PlayerRef& player);

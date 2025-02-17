@@ -1,0 +1,17 @@
+include "Character.fbs";
+
+table Position {
+	x:float;
+	y:float;
+}
+
+table MonsterInfo {
+	type:uint8;
+	id:uint64;
+	position:Position;
+}
+
+table PlayerInfo {
+	char_info:CharacterPreviewInfo;
+	position:Position;
+}

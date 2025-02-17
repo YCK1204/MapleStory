@@ -67,12 +67,6 @@ void PacketHandler::C_CreateCharacterHandler(PacketSession* session, ByteRef& bu
 			session->Disconnect();
 			return;
 		}
-		PlayerRef player = client->Player;
-		if (player == nullptr)
-		{
-			client->Disconnect();
-			return;
-		}
 
 		auto sessionId = session->GetSessionId();
 		auto dbId = session->GetDbId();

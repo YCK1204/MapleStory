@@ -23,11 +23,11 @@
 }
 
 .Button-Scania {
-    background-image: resource('Imgs/PrevInGame/WorldSelect/Button/WorldSelect-ScaniaOver');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/Button/WorldSelect-ScaniaNormal');
 }
 
 .Button-Scania:hover {
-    background-image: resource('Imgs/PrevInGame/WorldSelect/Button/WorldSelect-ScaniaNormal');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/Button/WorldSelect-ScaniaOver');
 }
 
 .Button-Scania:active {
@@ -39,7 +39,7 @@
 }
 
 .Button-Bera:hover {
-    background-image: resource('Imgs/PrevInGame/WorldSelect/Button/WorldSelect-BeraNormal');
+    background-image: resource('Imgs/PrevInGame/WorldSelect/Button/WorldSelect-BeraOver');
 }
 
 .Button-Bera:active {

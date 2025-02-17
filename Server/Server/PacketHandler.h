@@ -22,4 +22,5 @@ public:
 	static void D_CharacterSelectHandler(PacketSession* session, ByteRef& buffer);
 	static void C_DespawnHandler(PacketSession* session, ByteRef& buffer);
 	static void C_EnterMapHandler(PacketSession* session, ByteRef& buffer);
+	static void C_EnterGameHandler(PacketSession* session, ByteRef& buffer);
 };

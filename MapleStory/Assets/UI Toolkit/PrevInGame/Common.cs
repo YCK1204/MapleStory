@@ -83,6 +83,7 @@ public partial class UIPrevInGameController : UIBaseController
             InitializeServer();
             StepInitHandler.Add(BGState.WorldSelect, () =>
             {
+                CharacterSelectClear();
                 worldSelect.channelSelect.ImgChannelSelectMain.AddToClassList("ChannelSelect-Hide");
                 worldSelect.channelSelect.ImgChannelScroll.style.backgroundImage = AnimationSet[0].SpriteInfo[0].Img;
                 StepInitHandler[BGState.CharacterSelect].Invoke();
@@ -132,6 +133,7 @@ public partial class UIPrevInGameController : UIBaseController
             InitializeCharList();
             StepInitHandler.Add(BGState.CreateCharacter, () =>
             {
+                CharacterSelectClear();
                 Characters[0].SetActive(false); // юс╫ц
             });
             #endregion
@@ -265,8 +267,8 @@ public partial class UIPrevInGameController : UIBaseController
             byte mapId = (byte)characterSelect.CharInfo.Value.LastPos;
 
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
-            var data = C_EnterMap.CreateC_EnterMap(builder, mapId);
-            var packet = Manager.Packet.CreatePacket(data, builder, PacketType.C_EnterMap);
+            var data = C_EnterGame.CreateC_EnterGame(builder, mapId);
+            var packet = Manager.Packet.CreatePacket(data, builder, PacketType.C_EnterGame);
             Manager.Network.Send(packet);
         }
         else if (pkt is SC_CharacterDelete characterDelete)

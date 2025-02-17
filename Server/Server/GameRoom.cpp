@@ -28,9 +28,9 @@ const uint8 GameRoom::GetMapId() const
 
 // todo
 // Character 관련 구조체 Set Get 유틸 전역 함수 추가 필요
-Offset<Vector<Offset<CharacterPreviewInfo>>> GameRoom::GetPlayerInfos(FlatBufferBuilder& builder)
+Offset<Vector<Offset<PlayerInfo>>> GameRoom::GetPlayerInfos(FlatBufferBuilder& builder)
 {
-	vector<Offset<CharacterPreviewInfo>> infos;
+	vector<Offset<PlayerInfo>> infos;
 
 	WRITE_LOCK;
 	for (auto it = _objects.begin(); it != _objects.end(); it++)
@@ -38,11 +38,11 @@ Offset<Vector<Offset<CharacterPreviewInfo>>> GameRoom::GetPlayerInfos(FlatBuffer
 		if (it->second->Type != ObjectType::PLAYER)
 			continue;
 		Player* player = static_cast<Player*>(it->second.get());
-		auto prevInfo = player->GenerateCharPreviewInfo(builder);
+		auto prevInfo = player->GeneratePlayerInfo(builder);
 		infos.push_back(prevInfo);
 	}
 
-	return builder.CreateVector<Offset<CharacterPreviewInfo>>(infos);
+	return builder.CreateVector(infos);
 }
 
 GameRoom::GameRoom(uint32 roomId)
@@ -69,6 +69,14 @@ void GameRoom::Remove(uint64& id)
 	WRITE_LOCK;
 
 	_objects.erase(id);
+}
+
+void GameRoom::Remove(PlayerRef& player)
+{
+	WRITE_LOCK;
+
+	auto id = player->Id;
+	_players.erase(player->Id);
 }
 
 void GameRoom::Push(GameObjectRef& go)

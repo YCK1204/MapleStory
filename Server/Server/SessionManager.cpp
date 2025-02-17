@@ -26,7 +26,7 @@ void SessionManager::Push(ClientSession* session)
 	}
 }
 
-ClientRef SessionManager::Find(uint32 id)
+ClientRef SessionManager::Find(uint64 id)
 {
 	ClientRef session = nullptr;
 	READ_LOCK
@@ -39,7 +39,7 @@ ClientRef SessionManager::Find(uint32 id)
 	return session;
 }
 
-void SessionManager::Remove(uint32 id)
+void SessionManager::Remove(uint64 id)
 {
 	WRITE_LOCK
 	{

@@ -16,23 +16,41 @@ public struct SC_EnterMap : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public SC_EnterMap __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public CharacterPreviewInfo? Characters(int j) { int o = __p.__offset(4); return o != 0 ? (CharacterPreviewInfo?)(new CharacterPreviewInfo()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
-  public int CharactersLength { get { int o = __p.__offset(4); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public byte MapId { get { int o = __p.__offset(4); return o != 0 ? __p.bb.Get(o + __p.bb_pos) : (byte)0; } }
+  public PlayerInfo? Players(int j) { int o = __p.__offset(6); return o != 0 ? (PlayerInfo?)(new PlayerInfo()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
+  public int PlayersLength { get { int o = __p.__offset(6); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public MonsterInfo? Monsters(int j) { int o = __p.__offset(8); return o != 0 ? (MonsterInfo?)(new MonsterInfo()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
+  public int MonstersLength { get { int o = __p.__offset(8); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public CharacterTotalInfo? MyPlayerInfo { get { int o = __p.__offset(10); return o != 0 ? (CharacterTotalInfo?)(new CharacterTotalInfo()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
 
   public static Offset<SC_EnterMap> CreateSC_EnterMap(FlatBufferBuilder builder,
-      VectorOffset charactersOffset = default(VectorOffset)) {
-    builder.StartTable(1);
-    SC_EnterMap.AddCharacters(builder, charactersOffset);
+      byte map_id = 0,
+      VectorOffset playersOffset = default(VectorOffset),
+      VectorOffset monstersOffset = default(VectorOffset),
+      Offset<CharacterTotalInfo> my_player_infoOffset = default(Offset<CharacterTotalInfo>)) {
+    builder.StartTable(4);
+    SC_EnterMap.AddMyPlayerInfo(builder, my_player_infoOffset);
+    SC_EnterMap.AddMonsters(builder, monstersOffset);
+    SC_EnterMap.AddPlayers(builder, playersOffset);
+    SC_EnterMap.AddMapId(builder, map_id);
     return SC_EnterMap.EndSC_EnterMap(builder);
   }
 
-  public static void StartSC_EnterMap(FlatBufferBuilder builder) { builder.StartTable(1); }
-  public static void AddCharacters(FlatBufferBuilder builder, VectorOffset charactersOffset) { builder.AddOffset(0, charactersOffset.Value, 0); }
-  public static VectorOffset CreateCharactersVector(FlatBufferBuilder builder, Offset<CharacterPreviewInfo>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
-  public static VectorOffset CreateCharactersVectorBlock(FlatBufferBuilder builder, Offset<CharacterPreviewInfo>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
-  public static VectorOffset CreateCharactersVectorBlock(FlatBufferBuilder builder, ArraySegment<Offset<CharacterPreviewInfo>> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
-  public static VectorOffset CreateCharactersVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<Offset<CharacterPreviewInfo>>(dataPtr, sizeInBytes); return builder.EndVector(); }
-  public static void StartCharactersVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
+  public static void StartSC_EnterMap(FlatBufferBuilder builder) { builder.StartTable(4); }
+  public static void AddMapId(FlatBufferBuilder builder, byte mapId) { builder.AddByte(0, mapId, 0); }
+  public static void AddPlayers(FlatBufferBuilder builder, VectorOffset playersOffset) { builder.AddOffset(1, playersOffset.Value, 0); }
+  public static VectorOffset CreatePlayersVector(FlatBufferBuilder builder, Offset<PlayerInfo>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
+  public static VectorOffset CreatePlayersVectorBlock(FlatBufferBuilder builder, Offset<PlayerInfo>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreatePlayersVectorBlock(FlatBufferBuilder builder, ArraySegment<Offset<PlayerInfo>> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreatePlayersVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<Offset<PlayerInfo>>(dataPtr, sizeInBytes); return builder.EndVector(); }
+  public static void StartPlayersVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
+  public static void AddMonsters(FlatBufferBuilder builder, VectorOffset monstersOffset) { builder.AddOffset(2, monstersOffset.Value, 0); }
+  public static VectorOffset CreateMonstersVector(FlatBufferBuilder builder, Offset<MonsterInfo>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
+  public static VectorOffset CreateMonstersVectorBlock(FlatBufferBuilder builder, Offset<MonsterInfo>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateMonstersVectorBlock(FlatBufferBuilder builder, ArraySegment<Offset<MonsterInfo>> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateMonstersVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<Offset<MonsterInfo>>(dataPtr, sizeInBytes); return builder.EndVector(); }
+  public static void StartMonstersVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
+  public static void AddMyPlayerInfo(FlatBufferBuilder builder, Offset<CharacterTotalInfo> myPlayerInfoOffset) { builder.AddOffset(3, myPlayerInfoOffset.Value, 0); }
   public static Offset<SC_EnterMap> EndSC_EnterMap(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<SC_EnterMap>(o);
@@ -45,7 +63,10 @@ static public class SC_EnterMapVerify
   static public bool Verify(Google.FlatBuffers.Verifier verifier, uint tablePos)
   {
     return verifier.VerifyTableStart(tablePos)
-      && verifier.VerifyVectorOfTables(tablePos, 4 /*Characters*/, CharacterPreviewInfoVerify.Verify, false)
+      && verifier.VerifyField(tablePos, 4 /*MapId*/, 1 /*byte*/, 1, false)
+      && verifier.VerifyVectorOfTables(tablePos, 6 /*Players*/, PlayerInfoVerify.Verify, false)
+      && verifier.VerifyVectorOfTables(tablePos, 8 /*Monsters*/, MonsterInfoVerify.Verify, false)
+      && verifier.VerifyTable(tablePos, 10 /*MyPlayerInfo*/, CharacterTotalInfoVerify.Verify, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

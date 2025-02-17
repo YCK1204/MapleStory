@@ -13,12 +13,37 @@ Player::~Player()
 
 void Player::TakeDamage(int32& damage)
 {
-	Hp -= damage;
-	if (Hp <= 0)
-		Hp = 0;
+	_baseInfo->Hp -= damage;
+	if (_baseInfo->Hp <= 0)
+		_baseInfo->Hp = 0;
+	// todo Destory
 }
 
-Offset<CharacterPreviewInfo> Player::GenerateCharPreviewInfo(FlatBufferBuilder& builder)
+Offset<PlayerInfo> Player::GeneratePlayerInfo(FlatBufferBuilder& builder)
+{
+	auto info = GeneratePreviewInfo(builder);
+	auto position = CreatePosition(builder, Pos.X, Pos.Y);
+	auto playerInfo = CreatePlayerInfo(builder, info, position);
+
+	return playerInfo;
+}
+
+Offset<CharacterTotalInfo> Player::GenerateTotalInfo(FlatBufferBuilder& builder)
+{
+	auto info = GeneratePreviewInfo(builder);
+
+	auto totalInfo = CreateCharacterTotalInfo(
+		builder,
+		info,
+		_baseInfo->MapId,
+		_baseInfo->Hp,
+		_baseInfo->Mp,
+		_baseInfo->Exp);
+
+	return totalInfo;
+}
+
+Offset<CharacterPreviewInfo> Player::GeneratePreviewInfo(FlatBufferBuilder& builder)
 {
 	auto ability = CreateCharacterAbility(
 		builder,
@@ -38,16 +63,17 @@ Offset<CharacterPreviewInfo> Player::GenerateCharPreviewInfo(FlatBufferBuilder& 
 	return info;
 }
 
-void Player::EnterRoom(uint8& roomId)
+
+void Player::EnterRoom(uint32& roomId)
 {
-	GameRoom* room = Manager::Room.Find(roomId);
+	auto room = Manager::Room.Find(roomId);
 	if (room)
 		room->Push(this);
 }
 
-void Player::LeaveRoom(uint8& roomId)
+void Player::LeaveRoom(uint32& roomId)
 {
-	GameRoom* room = Manager::Room.Find(roomId);
+	auto room = Manager::Room.Find(roomId);
 	if (room)
 		room->Remove(this->Id);
 }
@@ -77,6 +103,26 @@ const uint8& Player::GetCharType() const
 	return _baseInfo->CharType;
 }
 
+const int32& Player::GetHp() const
+{
+	return _baseInfo->Hp;
+}
+
+const int32& Player::GetMp() const
+{
+	return _baseInfo->Mp;
+}
+
+const uint8& Player::GetMapId() const
+{
+	return _baseInfo->MapId;
+}
+
+const int32& Player::GetExp() const
+{
+	return _baseInfo->Exp;
+}
+
 void Player::SetAbility(const CharacterAbility* ability)
 {
 	_ability->STR = ability->STR();
@@ -103,4 +149,29 @@ void Player::SetCharId(const uint64& charId)
 void Player::SetCharType(const uint8& charType)
 {
 	_baseInfo->CharType = charType;
+}
+
+void Player::SetHp(const int32& hp)
+{
+	_baseInfo->Hp = hp;
+}
+
+void Player::SetMp(const int32& mp)
+{
+	_baseInfo->Mp = mp;
+}
+
+void Player::SetMapId(const uint8& mapId)
+{
+	_baseInfo->MapId = mapId;
+}
+
+void Player::SetExp(const int32& exp)
+{
+	_baseInfo->Exp = exp;
+}
+
+const bool Player::IsAlive() const
+{
+	return (_baseInfo->Hp < 0);
 }

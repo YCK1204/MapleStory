@@ -12,7 +12,7 @@ void PacketHandler::SD_CharacterListHandler(PacketSession* session, ByteRef& buf
 		"where server_id = {0} and char_id in "
 		"(select U.char_id from user_character as U where owner = {1})) "
 
-		"select A.char_id, A.name, A.level, A.char_type, B._str, B._dex, B._int, B._luk "
+		"select A.char_id, A.name, B.level, A.char_type, B._str, B._dex, B._int, B._luk "
 		"from character_info as A "
 		"inner join "
 		"character_status as B "
@@ -156,7 +156,7 @@ void PacketHandler::SD_CharacterSelectHandler(PacketSession* session, ByteRef& b
 			SQLINTEGER exp;
 			SQLINTEGER hp;
 			SQLINTEGER mp;
-			SQLINTEGER lastPos;
+			SQLINTEGER lastPos = 0;
 			SQLINTEGER _str;
 			SQLINTEGER _dex;
 			SQLINTEGER _int;

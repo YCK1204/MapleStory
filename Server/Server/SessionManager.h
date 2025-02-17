@@ -7,8 +7,8 @@ class SessionManager
 {
 private:
 	static SessionManager* _instance;
-	map<uint32, ClientRef> _sessions;
-	uint32 _curId = 0;
+	map<uint64, ClientRef> _sessions;
+	uint64 _curId = 0;
 	USE_LOCK;
 
 private:
@@ -21,6 +21,6 @@ public:
 	~SessionManager();
 public:
 	void Push(ClientSession* session);
-	ClientRef Find(uint32 id);
-	void Remove(uint32 id);
+	ClientRef Find(uint64 id);
+	void Remove(uint64 id);
 };

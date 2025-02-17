@@ -43,14 +43,16 @@ void Manager::Init() {
 	}
 #pragma endregion
 
-#pragma region Server
+#pragma region Server And Room
 	{
 		string serverJsonPath = COMMON_JSON_PATH + (string)"server.json";
 		ifstream serverJson(serverJsonPath);
 
 		ASSERT_CRASH(serverJson.is_open());
 		json j = json::parse(serverJson);
+
 		Server.Init(j);
+		Room.Init(j, 1); // юс╫ц╥н 1
 		serverJson.close();
 	}
 #pragma endregion
