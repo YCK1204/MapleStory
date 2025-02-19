@@ -60,11 +60,13 @@ enum PacketType : uint8_t {
   PacketType_SC_MSpawn = 37,
   PacketType_C_Despawn = 38,
   PacketType_SC_Despawn = 39,
+  PacketType_C_CreatureInfos = 40,
+  PacketType_SC_CreatureInfos = 41,
   PacketType_MIN = PacketType_NONE,
-  PacketType_MAX = PacketType_SC_Despawn
+  PacketType_MAX = PacketType_SC_CreatureInfos
 };
 
-inline const PacketType (&EnumValuesPacketType())[40] {
+inline const PacketType (&EnumValuesPacketType())[42] {
   static const PacketType values[] = {
     PacketType_NONE,
     PacketType_C_SignUp,
@@ -105,13 +107,15 @@ inline const PacketType (&EnumValuesPacketType())[40] {
     PacketType_SC_PSpawn,
     PacketType_SC_MSpawn,
     PacketType_C_Despawn,
-    PacketType_SC_Despawn
+    PacketType_SC_Despawn,
+    PacketType_C_CreatureInfos,
+    PacketType_SC_CreatureInfos
   };
   return values;
 }
 
 inline const char * const *EnumNamesPacketType() {
-  static const char * const names[41] = {
+  static const char * const names[43] = {
     "NONE",
     "C_SignUp",
     "SD_SignUp",
@@ -152,13 +156,15 @@ inline const char * const *EnumNamesPacketType() {
     "SC_MSpawn",
     "C_Despawn",
     "SC_Despawn",
+    "C_CreatureInfos",
+    "SC_CreatureInfos",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNamePacketType(PacketType e) {
-  if (::flatbuffers::IsOutRange(e, PacketType_NONE, PacketType_SC_Despawn)) return "";
+  if (::flatbuffers::IsOutRange(e, PacketType_NONE, PacketType_SC_CreatureInfos)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesPacketType()[index];
 }
@@ -323,6 +329,14 @@ template<> struct PacketTypeTraits<SC_Despawn> {
   static const PacketType enum_value = PacketType_SC_Despawn;
 };
 
+template<> struct PacketTypeTraits<C_CreatureInfos> {
+  static const PacketType enum_value = PacketType_C_CreatureInfos;
+};
+
+template<> struct PacketTypeTraits<SC_CreatureInfos> {
+  static const PacketType enum_value = PacketType_SC_CreatureInfos;
+};
+
 bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj, PacketType type);
 bool VerifyPacketTypeVector(::flatbuffers::Verifier &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types);
 
@@ -485,6 +499,14 @@ inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj,
     }
     case PacketType_SC_Despawn: {
       auto ptr = reinterpret_cast<const SC_Despawn *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_C_CreatureInfos: {
+      auto ptr = reinterpret_cast<const C_CreatureInfos *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_CreatureInfos: {
+      auto ptr = reinterpret_cast<const SC_CreatureInfos *>(obj);
       return verifier.VerifyTable(ptr);
     }
     default: return true;

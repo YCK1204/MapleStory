@@ -4,27 +4,13 @@
 			"id":0,
 			"name":"Scania",
 			"max_user_count":100,
-			"channels":[
-				{
-					"id":1
-				},
-				{
-					"id":2
-				}
-			]
+			"channel_count":2
 		},
 		{
 			"id":1,
 			"name":"Bera",
 			"max_user_count":10,
-			"channels":[
-				{
-					"id":1
-				},
-				{
-					"id":2
-				}
-			]
+			"channel_count":2
 		}
 	]
 }

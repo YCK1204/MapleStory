@@ -68,11 +68,10 @@ void PacketHandler::C_EnterMapHandler(PacketSession* session, ByteRef& buffer)
 		// 입장하려는 유저에게 룸에있는 유저들의 정보를 알림
 		{
 			FlatBufferBuilder builder;
-			auto playerInfos = room->GetPlayerInfos(builder);
 			auto myPlayerInfo = player->GenerateTotalInfo(builder);
-			auto data = CreateSC_EnterMap(builder, player->CurMapId, playerInfos, 0, myPlayerInfo);
-			auto playerInfosPkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_EnterMap);
-			client->Send(playerInfosPkt);
+			auto data = CreateSC_EnterMap(builder, player->GetMapId(), myPlayerInfo);
+			auto pacekt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_EnterMap);
+			client->Send(pacekt);
 		}
 		room->Push(player);
 		player->Room = room;
@@ -96,7 +95,7 @@ void PacketHandler::C_EnterGameHandler(PacketSession* session, ByteRef& buffer)
 		}
 		PlayerRef player = client->Player;
 		auto mapId = pkt->map_id();
-		if (player == nullptr || player->CurMapId == -1 || player->CurMapId != mapId || player->Room != nullptr)
+		if (player == nullptr || player->GetMapId() == -1 || player->GetMapId() != mapId || player->Room != nullptr)
 		{
 			client->Disconnect();
 			return;
@@ -109,6 +108,45 @@ void PacketHandler::C_EnterGameHandler(PacketSession* session, ByteRef& buffer)
 			return;
 		}
 
+		// 입장하려는 유저에게 자신의 캐릭터 정보를 알림
+		{
+			FlatBufferBuilder builder;
+			auto myPlayerInfo = player->GenerateTotalInfo(builder);
+			auto data = CreateSC_EnterMap(builder, player->GetMapId(), myPlayerInfo);
+			auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_EnterMap);
+			client->Send(packet);
+		}
+	}
+	catch (...)
+	{
+
+	}
+}
+
+void PacketHandler::C_CreatureInfosHandler(PacketSession* session, ByteRef& buffer)
+{
+	try {
+		ClientRef client = Manager::Session.Find(session->GetSessionId());
+		if (client == nullptr)
+		{
+			session->Disconnect();
+			return;
+		}
+		PlayerRef player = client->Player;
+		if (player == nullptr)
+		{
+			client->Disconnect();
+			return;
+		}
+		auto roomId = Manager::Room.GenerateRoomId(client->ServerId, client->ChannelId, player->GetMapId());
+		GameRoomRef room = Manager::Room.Find(roomId);
+		if (room == nullptr)
+		{
+			client->Disconnect();
+			return;
+		}
+		//auto monsterInfos = room->GetMonsterInfos(builder);
+
 		// 룸 유저들에게 다른 유저의 입장을 알림
 		{
 			FlatBufferBuilder builder;
@@ -119,14 +157,12 @@ void PacketHandler::C_EnterGameHandler(PacketSession* session, ByteRef& buffer)
 			room->Broadcast(playerDataPkt);
 		}
 
-		// 입장하려는 유저에게 룸에있는 유저들의 정보를 알림
 		{
 			FlatBufferBuilder builder;
 			auto playerInfos = room->GetPlayerInfos(builder);
-			auto myPlayerInfo = player->GenerateTotalInfo(builder);
-			auto data = CreateSC_EnterMap(builder, player->CurMapId, playerInfos, 0, myPlayerInfo);
-			auto playerInfosPkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_EnterMap);
-			client->Send(playerInfosPkt);
+			auto data = CreateSC_CreatureInfos(builder, playerInfos);
+			auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CreatureInfos);
+			client->Send(pkt);
 		}
 		room->Push(player);
 		player->Room = room;

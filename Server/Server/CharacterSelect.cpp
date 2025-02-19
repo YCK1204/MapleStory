@@ -139,7 +139,7 @@ void PacketHandler::D_CharacterSelectHandler(PacketSession* session, ByteRef& bu
 		player->SetName(prevInfo->name()->str());
 		player->SetCharId(prevInfo->char_id());
 		player->SetCharType(prevInfo->char_type());
-		player->CurMapId = lastPos;
+		player->SetMapId(lastPos);
 		player->Id = client->GetDbId();
 	}
 

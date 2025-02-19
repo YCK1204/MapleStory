@@ -4,36 +4,43 @@ using UnityEngine;
 
 public class ObjectManager : IManager
 {
-    Dictionary<UInt64, CreatureController> _objects = new Dictionary<UInt64, CreatureController>();
-    GameObject Player;
-    GameObject Monster;
+    Dictionary<UInt64, MonsterController> _monsters = new Dictionary<UInt64, MonsterController>();
+    Dictionary<UInt64, PlayerController> _players = new Dictionary<UInt64, PlayerController>();
     public void Init()
     {
 
     }
     public void Clear()
     {
-        _objects.Clear();
+        _monsters.Clear();
+        _players.Clear();
     }
-    public void Remove(UInt64 id)
+    public void RemoveMonster(UInt64 id)
     {
-        CreatureController cc = null;
-        if (_objects.TryGetValue(id, out cc) == false)
+        MonsterController mc = null;
+        if (_monsters.TryGetValue(id, out mc) == false)
             return;
-        cc.Destroy();
-        _objects.Remove(id);
+        mc.Destroy();
+        _monsters.Remove(id);
     }
-    public void Push(CreatureController cc)
+    public void RemovePlayer(UInt64 id)
     {
-        if (_objects.ContainsKey(cc.ID) == true)
+        PlayerController pc = null;
+        if (_players.TryGetValue(id, out pc) == false)
             return;
-        _objects.Add(cc.ID, cc);
+        pc.Destroy();
+        _players.Remove(id);
     }
-    public PlayerController GeneratePlayer(CharacterPreviewInfo info)
+    public void Push(MonsterController mc)
     {
-        GameObject go = Manager.Resource.Instantiate(Player);
-        var pc = go.GetComponent<PlayerController>();
-
-        return pc;
+        if (_monsters.ContainsKey(mc.ID) == true)
+            return;
+        _monsters.Add(mc.ID, mc);
+    }
+    public void Push(PlayerController pc)
+    {
+        if (_players.ContainsKey(pc.ID) == true)
+            return;
+        _players.Add(pc.ID, pc);
     }
 }

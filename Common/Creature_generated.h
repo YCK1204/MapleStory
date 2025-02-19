@@ -24,6 +24,9 @@ struct MonsterInfoBuilder;
 struct PlayerInfo;
 struct PlayerInfoBuilder;
 
+struct PlayerTotalInfo;
+struct PlayerTotalInfoBuilder;
+
 struct Position FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef PositionBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
@@ -185,6 +188,59 @@ inline ::flatbuffers::Offset<PlayerInfo> CreatePlayerInfo(
     ::flatbuffers::Offset<CharacterPreviewInfo> char_info = 0,
     ::flatbuffers::Offset<Position> position = 0) {
   PlayerInfoBuilder builder_(_fbb);
+  builder_.add_position(position);
+  builder_.add_char_info(char_info);
+  return builder_.Finish();
+}
+
+struct PlayerTotalInfo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef PlayerTotalInfoBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_CHAR_INFO = 4,
+    VT_POSITION = 6
+  };
+  const CharacterTotalInfo *char_info() const {
+    return GetPointer<const CharacterTotalInfo *>(VT_CHAR_INFO);
+  }
+  const Position *position() const {
+    return GetPointer<const Position *>(VT_POSITION);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_CHAR_INFO) &&
+           verifier.VerifyTable(char_info()) &&
+           VerifyOffset(verifier, VT_POSITION) &&
+           verifier.VerifyTable(position()) &&
+           verifier.EndTable();
+  }
+};
+
+struct PlayerTotalInfoBuilder {
+  typedef PlayerTotalInfo Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_char_info(::flatbuffers::Offset<CharacterTotalInfo> char_info) {
+    fbb_.AddOffset(PlayerTotalInfo::VT_CHAR_INFO, char_info);
+  }
+  void add_position(::flatbuffers::Offset<Position> position) {
+    fbb_.AddOffset(PlayerTotalInfo::VT_POSITION, position);
+  }
+  explicit PlayerTotalInfoBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<PlayerTotalInfo> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<PlayerTotalInfo>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<PlayerTotalInfo> CreatePlayerTotalInfo(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<CharacterTotalInfo> char_info = 0,
+    ::flatbuffers::Offset<Position> position = 0) {
+  PlayerTotalInfoBuilder builder_(_fbb);
   builder_.add_position(position);
   builder_.add_char_info(char_info);
   return builder_.Finish();

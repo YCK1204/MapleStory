@@ -18,7 +18,7 @@ public class CreatureSpawner : MonoBehaviour
         var go = Instantiate(PlayerCharacter);
         var cc = go.AddComponent<T>();
 
-        Animator animator = go.AddComponent<Animator>();
+        Animator animator = go.GetComponent<Animator>();
         animator.runtimeAnimatorController = PlayerCharacterData[(int)type].AnimatorController;
 
         return cc;

@@ -24,6 +24,12 @@ struct C_EnterGameBuilder;
 struct SC_EnterMap;
 struct SC_EnterMapBuilder;
 
+struct C_CreatureInfos;
+struct C_CreatureInfosBuilder;
+
+struct SC_CreatureInfos;
+struct SC_CreatureInfosBuilder;
+
 struct SC_PSpawn;
 struct SC_PSpawnBuilder;
 
@@ -122,18 +128,10 @@ struct SC_EnterMap FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef SC_EnterMapBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_MAP_ID = 4,
-    VT_PLAYERS = 6,
-    VT_MONSTERS = 8,
-    VT_MY_PLAYER_INFO = 10
+    VT_MY_PLAYER_INFO = 6
   };
   uint8_t map_id() const {
     return GetField<uint8_t>(VT_MAP_ID, 0);
-  }
-  const ::flatbuffers::Vector<::flatbuffers::Offset<PlayerInfo>> *players() const {
-    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<PlayerInfo>> *>(VT_PLAYERS);
-  }
-  const ::flatbuffers::Vector<::flatbuffers::Offset<MonsterInfo>> *monsters() const {
-    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<MonsterInfo>> *>(VT_MONSTERS);
   }
   const CharacterTotalInfo *my_player_info() const {
     return GetPointer<const CharacterTotalInfo *>(VT_MY_PLAYER_INFO);
@@ -141,12 +139,6 @@ struct SC_EnterMap FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint8_t>(verifier, VT_MAP_ID, 1) &&
-           VerifyOffset(verifier, VT_PLAYERS) &&
-           verifier.VerifyVector(players()) &&
-           verifier.VerifyVectorOfTables(players()) &&
-           VerifyOffset(verifier, VT_MONSTERS) &&
-           verifier.VerifyVector(monsters()) &&
-           verifier.VerifyVectorOfTables(monsters()) &&
            VerifyOffset(verifier, VT_MY_PLAYER_INFO) &&
            verifier.VerifyTable(my_player_info()) &&
            verifier.EndTable();
@@ -159,12 +151,6 @@ struct SC_EnterMapBuilder {
   ::flatbuffers::uoffset_t start_;
   void add_map_id(uint8_t map_id) {
     fbb_.AddElement<uint8_t>(SC_EnterMap::VT_MAP_ID, map_id, 0);
-  }
-  void add_players(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<PlayerInfo>>> players) {
-    fbb_.AddOffset(SC_EnterMap::VT_PLAYERS, players);
-  }
-  void add_monsters(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<MonsterInfo>>> monsters) {
-    fbb_.AddOffset(SC_EnterMap::VT_MONSTERS, monsters);
   }
   void add_my_player_info(::flatbuffers::Offset<CharacterTotalInfo> my_player_info) {
     fbb_.AddOffset(SC_EnterMap::VT_MY_PLAYER_INFO, my_player_info);
@@ -183,31 +169,107 @@ struct SC_EnterMapBuilder {
 inline ::flatbuffers::Offset<SC_EnterMap> CreateSC_EnterMap(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     uint8_t map_id = 0,
-    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<PlayerInfo>>> players = 0,
-    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<MonsterInfo>>> monsters = 0,
     ::flatbuffers::Offset<CharacterTotalInfo> my_player_info = 0) {
   SC_EnterMapBuilder builder_(_fbb);
   builder_.add_my_player_info(my_player_info);
-  builder_.add_monsters(monsters);
-  builder_.add_players(players);
   builder_.add_map_id(map_id);
   return builder_.Finish();
 }
 
-inline ::flatbuffers::Offset<SC_EnterMap> CreateSC_EnterMapDirect(
+struct C_CreatureInfos FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef C_CreatureInfosBuilder Builder;
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           verifier.EndTable();
+  }
+};
+
+struct C_CreatureInfosBuilder {
+  typedef C_CreatureInfos Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  explicit C_CreatureInfosBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<C_CreatureInfos> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<C_CreatureInfos>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<C_CreatureInfos> CreateC_CreatureInfos(
+    ::flatbuffers::FlatBufferBuilder &_fbb) {
+  C_CreatureInfosBuilder builder_(_fbb);
+  return builder_.Finish();
+}
+
+struct SC_CreatureInfos FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SC_CreatureInfosBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_PLAYERS = 4,
+    VT_MONSTERS = 6
+  };
+  const ::flatbuffers::Vector<::flatbuffers::Offset<PlayerInfo>> *players() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<PlayerInfo>> *>(VT_PLAYERS);
+  }
+  const ::flatbuffers::Vector<::flatbuffers::Offset<MonsterInfo>> *monsters() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<MonsterInfo>> *>(VT_MONSTERS);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_PLAYERS) &&
+           verifier.VerifyVector(players()) &&
+           verifier.VerifyVectorOfTables(players()) &&
+           VerifyOffset(verifier, VT_MONSTERS) &&
+           verifier.VerifyVector(monsters()) &&
+           verifier.VerifyVectorOfTables(monsters()) &&
+           verifier.EndTable();
+  }
+};
+
+struct SC_CreatureInfosBuilder {
+  typedef SC_CreatureInfos Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_players(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<PlayerInfo>>> players) {
+    fbb_.AddOffset(SC_CreatureInfos::VT_PLAYERS, players);
+  }
+  void add_monsters(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<MonsterInfo>>> monsters) {
+    fbb_.AddOffset(SC_CreatureInfos::VT_MONSTERS, monsters);
+  }
+  explicit SC_CreatureInfosBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SC_CreatureInfos> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SC_CreatureInfos>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SC_CreatureInfos> CreateSC_CreatureInfos(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    uint8_t map_id = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<PlayerInfo>>> players = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<MonsterInfo>>> monsters = 0) {
+  SC_CreatureInfosBuilder builder_(_fbb);
+  builder_.add_monsters(monsters);
+  builder_.add_players(players);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<SC_CreatureInfos> CreateSC_CreatureInfosDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
     const std::vector<::flatbuffers::Offset<PlayerInfo>> *players = nullptr,
-    const std::vector<::flatbuffers::Offset<MonsterInfo>> *monsters = nullptr,
-    ::flatbuffers::Offset<CharacterTotalInfo> my_player_info = 0) {
+    const std::vector<::flatbuffers::Offset<MonsterInfo>> *monsters = nullptr) {
   auto players__ = players ? _fbb.CreateVector<::flatbuffers::Offset<PlayerInfo>>(*players) : 0;
   auto monsters__ = monsters ? _fbb.CreateVector<::flatbuffers::Offset<MonsterInfo>>(*monsters) : 0;
-  return CreateSC_EnterMap(
+  return CreateSC_CreatureInfos(
       _fbb,
-      map_id,
       players__,
-      monsters__,
-      my_player_info);
+      monsters__);
 }
 
 struct SC_PSpawn FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {

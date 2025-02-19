@@ -33,15 +33,25 @@ Offset<Vector<Offset<PlayerInfo>>> GameRoom::GetPlayerInfos(FlatBufferBuilder& b
 	vector<Offset<PlayerInfo>> infos;
 
 	WRITE_LOCK;
-	for (auto it = _objects.begin(); it != _objects.end(); it++)
+	for (auto it = _players.begin(); it != _players.end(); it++)
 	{
-		if (it->second->Type != ObjectType::PLAYER)
-			continue;
-		Player* player = static_cast<Player*>(it->second.get());
+		PlayerRef player = it->second;
 		auto prevInfo = player->GeneratePlayerInfo(builder);
 		infos.push_back(prevInfo);
 	}
 
+	return builder.CreateVector(infos);
+}
+
+Offset<Vector<Offset<MonsterInfo>>> GameRoom::GetMonsterInfos(FlatBufferBuilder& builder)
+{
+	vector<Offset<MonsterInfo>> infos;
+
+	WRITE_LOCK;
+	for (auto it = _objects.begin(); it != _objects.end(); it++)
+	{
+
+	}
 	return builder.CreateVector(infos);
 }
 
@@ -99,12 +109,11 @@ void GameRoom::Push(PlayerRef& player)
 	_players[id] = player;
 }
 
-void GameRoom::Broadcast(SendBufferRef pkt)
+void GameRoom::Broadcast(SendBufferRef pkt, PlayerRef exception)
 {
-	for (auto it = _objects.begin(); it != _objects.end(); it++)
+	for (auto it = _players.begin(); it != _players.end(); it++)
 	{
-		auto type = it->second->Type;
-		if (type != ObjectType::PLAYER)
+		if (exception.get() == it->second.get())
 			continue;
 		ClientRef clientSession = static_cast<Player*>(it->second.get())->Session.lock();
 		if (clientSession == nullptr)

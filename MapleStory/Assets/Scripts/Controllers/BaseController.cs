@@ -1,17 +1,11 @@
 using UnityEngine;
 
-public class BaseController : MonoBehaviour
+public abstract class BaseController : MonoBehaviour
 {
     void Start()
     {
         Init();
     }
-    protected virtual void Init()
-    {
-
-    }
-    protected virtual void UpdateController()
-    {
-
-    }
+    protected abstract void Init();
+    protected abstract void UpdateController();
 }

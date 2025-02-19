@@ -3,20 +3,17 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static UINoticeController;
-using System.Reflection;
-using UnityEditor.Animations;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
 
 public partial class UIPrevInGameController : UIBaseController
 {
+    [SerializeField]
+    RuntimeAnimatorController[] AnimatorControllers;
     UINoticeController notice;
     UIReturnToFirstController returnToFirst;
     VisualElement MainBG;
     [SerializeField]
     GameObject[] Characters;
-    [SerializeField]
-    AnimatorController[] AnimatorControllers;
 
     public enum BGState
     {
@@ -181,7 +178,7 @@ public partial class UIPrevInGameController : UIBaseController
         {
             const int totalChannelCount = 20;
             ServerStruct server = _servers[channelInfo.ServerId];
-            int channelCount = server.Channels.Length;
+            int channelCount = server.channel_count;
 
             worldSelect.channelSelect.ScrollViewChannelSelect.Clear();
             for (int i = 0; i < channelCount; i++)

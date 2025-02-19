@@ -26,7 +26,7 @@ public partial class UIPrevInGameController : UIBaseController
         public byte Id { get; set; }
         public string Name { get; set; }
         public ushort max_user_count { get; set; }
-        public ChannelStruct[] Channels { get; set; }
+        public byte channel_count { get; set; }
     }
     struct ServerList
     {

@@ -15,3 +15,8 @@ table PlayerInfo {
 	char_info:CharacterPreviewInfo;
 	position:Position;
 }
+
+table PlayerTotalInfo {
+	char_info:CharacterTotalInfo;
+	position:Position;
+}

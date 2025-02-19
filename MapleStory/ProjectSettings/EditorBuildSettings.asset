@@ -11,9 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PrevInGame.unity
     guid: 18dd3a001774364439789dca28b85699
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/WorldSelect.unity
     guid: 2f12dac5479095540a43bcdac3415bff
+  - enabled: 1
+    path: Assets/Scenes/Map_001.unity
+    guid: d8cf3c1ab384ccd4c88d668c00d320dd
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -57,5 +57,7 @@ union PacketType {
 	SC_MSpawn,
 	C_Despawn,
 	SC_Despawn,
+	C_CreatureInfos,
+	SC_CreatureInfos,
 // ------------------- Spawn -----------------
 }

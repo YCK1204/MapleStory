@@ -8,9 +8,9 @@ uint32 RoomManager::GenerateRoomId(uint8 serverId, uint8 channelId, uint8 roomId
 {
 	uint32 id = 0;
 
-	id &= (serverId << 24);
-	id &= (channelId << 16);
-	id &= (roomId);
+	id |= (serverId << 24);
+	id |= (channelId << 16);
+	id |= (roomId);
 
 	return id;
 }
@@ -31,7 +31,7 @@ void RoomManager::Init(json& j, uint8 maxMapId)
 		uint8 channelCnt = 0;
 		int32 channelCount = serverInfo["channel_count"];
 
-		for (auto channelCnt = 0; channelCnt < channelCount; channelCnt++)
+		for (auto channelCnt = 1; channelCnt <= channelCount; channelCnt++)
 		{
 			for (auto mapId = 1; mapId <= maxMapId; mapId++)
 			{
@@ -49,7 +49,7 @@ GameRoomRef RoomManager::Find(uint32& id)
 {
 	GameRoomRef room = nullptr;
 
-	auto it = find_if(_rooms.begin(), _rooms.end(), [id](pair<uint32, GameRoomRef> val) { return (val.second->GetMapId() == id); });
+	auto it = _rooms.find(id);
 	if (it != _rooms.end())
 		room = it->second;
 	return room;

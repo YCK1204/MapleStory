@@ -43,6 +43,7 @@ void PacketManager::Register()
 		_handler[PacketType::PacketType_C_EnterMap] = PacketHandler::C_EnterMapHandler;
 		_handler[PacketType::PacketType_C_EnterGame] = PacketHandler::C_EnterGameHandler;
 		_handler[PacketType::PacketType_C_Despawn] = PacketHandler::C_DespawnHandler;
+		_handler[PacketType::PacketType_C_CreatureInfos] = PacketHandler::C_CreatureInfosHandler;
 		
 }
 

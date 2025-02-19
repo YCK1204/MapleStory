@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\SC_SignUp.cs" />
     <Compile Include="Assets\Scripts\Scene\BaseScene.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_EnterMap.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_CreatureInfos.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_EnterGame.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_EnterChannel.cs" />
     <Compile Include="Assets\Scripts\Utils\Util.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Assets\Scripts\Utils\BaseMonobehaviour.cs" />
     <Compile Include="Assets\Scripts\ScriptableObject\Creature\CreatureData.cs" />
     <Compile Include="Assets\Scripts\ScriptableObject\Creature\CreatureSpawner.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\PlayerTotalInfo.cs" />
     <Compile Include="Assets\Scripts\Controllers\CreatureController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_SignIn.cs" />
     <Compile Include="Assets\Scripts\Scene\SceneManager.cs" />
@@ -122,6 +124,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\C_Despawn.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_CharacterDelete.cs" />
     <Compile Include="Assets\UI Toolkit\UIBaseController.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_CreatureInfos.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\CreateCharacter.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterListError.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\PacketType.cs" />
@@ -145,6 +148,7 @@
     <Compile Include="Assets\Scripts\Managers\ResourceManager.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_CheckName.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\PlayerInfo.cs" />
+    <Compile Include="Assets\Scripts\Controllers\CameraController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterSelectError.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\Common.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_SignUp.cs" />

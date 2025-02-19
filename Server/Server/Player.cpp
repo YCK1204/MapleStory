@@ -5,6 +5,7 @@ Player::Player(ClientRef session)
 {
 	Session = session;
 	Type = ObjectType::PLAYER;
+	_baseInfo->MapId = -1;
 }
 
 Player::~Player()
@@ -22,7 +23,7 @@ void Player::TakeDamage(int32& damage)
 Offset<PlayerInfo> Player::GeneratePlayerInfo(FlatBufferBuilder& builder)
 {
 	auto info = GeneratePreviewInfo(builder);
-	auto position = CreatePosition(builder, Pos.X, Pos.Y);
+	auto position = CreatePosition(builder, Pos->X, Pos->Y);
 	auto playerInfo = CreatePlayerInfo(builder, info, position);
 
 	return playerInfo;

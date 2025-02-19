@@ -31,8 +31,6 @@ public:
 	GameRoomRef Room = nullptr;
 
 public:
-	uint8 CurMapId = -1;
-public:
 	Player(ClientRef session);
 	virtual ~Player();
 	virtual void TakeDamage(int32& damage);

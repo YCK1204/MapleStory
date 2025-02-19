@@ -48,5 +48,5 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 11400000, guid: fbcfa5f863863bc4880e004188392079, type: 2}
   MonsterData: []
-  PlayerCharacter: {fileID: 0}
+  PlayerCharacter: {fileID: 5531208059914971459, guid: 8e6a138d2db03714facb723c0adc0611, type: 3}
   MonsterController: {fileID: 0}

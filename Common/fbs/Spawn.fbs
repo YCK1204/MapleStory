@@ -10,9 +10,15 @@ table C_EnterGame {
 
 table SC_EnterMap {
 	map_id:uint8;
+	my_player_info:CharacterTotalInfo;
+}
+
+table C_CreatureInfos {
+}
+
+table SC_CreatureInfos {
 	players:[PlayerInfo];
 	monsters:[MonsterInfo];
-	my_player_info:CharacterTotalInfo;
 }
 
 table SC_PSpawn {

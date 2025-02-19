@@ -482,7 +482,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1203977746}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 0ba87e67a2cb31040b841ba39b113356, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 10a941038df1473449dc4d1304373a5e, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -538,7 +538,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIControllers: {fileID: 0}
-  NextScene: {fileID: 102900000, guid: 18dd3a001774364439789dca28b85699, type: 3}
+  NextScene: PrevInGame
   img: {fileID: 1908228835}
   rawImage: {fileID: 1017249438}
 --- !u!1 &1711708316

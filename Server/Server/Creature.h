@@ -4,17 +4,18 @@
 #include "GameRoom.h"
 
 typedef struct {
-	int16 X;
-	int16 Y;
+	float X ;
+	float Y;
 } PosInfo;
 
 class Creature : public GameObject
 {
 public:
-	PosInfo Pos;
+	shared_ptr<PosInfo> Pos = make_shared<PosInfo>();
 protected:
 	virtual const bool IsAlive() const = 0;
 public:
+	Creature();
 	virtual ~Creature();
 	
 

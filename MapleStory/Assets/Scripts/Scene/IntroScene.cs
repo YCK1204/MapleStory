@@ -52,7 +52,7 @@ public class IntroScene : BaseScene
 
         a = 0;
         img.color = new Color(1, 1, 1, a);
-        Manager.Scene.LoadScene(NextScene.name);
+        Manager.Scene.LoadScene(NextScene);
         StopCoroutine(CoStartIntro());
     }
 
