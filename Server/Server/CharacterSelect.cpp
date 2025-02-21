@@ -140,7 +140,6 @@ void PacketHandler::D_CharacterSelectHandler(PacketSession* session, ByteRef& bu
 		player->SetCharId(prevInfo->char_id());
 		player->SetCharType(prevInfo->char_type());
 		player->SetMapId(lastPos);
-		player->Id = client->GetDbId();
 	}
 
 	FlatBufferBuilder builder;

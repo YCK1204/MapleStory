@@ -27,6 +27,8 @@ public class PacketManager
 		_handler.Add((ushort)PacketType.SC_MSpawn, PacketHandler.SC_MSpawnHandler);
 		_handler.Add((ushort)PacketType.SC_Despawn, PacketHandler.SC_DespawnHandler);
 		_handler.Add((ushort)PacketType.SC_CreatureInfos, PacketHandler.SC_CreatureInfosHandler);
+		_handler.Add((ushort)PacketType.SC_MoveStart, PacketHandler.SC_MoveStartHandler);
+		_handler.Add((ushort)PacketType.SC_MoveEnd, PacketHandler.SC_MoveEndHandler);
 		
     }
     public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

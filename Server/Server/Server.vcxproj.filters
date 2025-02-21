@@ -28,8 +28,8 @@
     <Filter Include="Packet\PrevInGame">
       <UniqueIdentifier>{88c597c6-4d6e-4309-ab15-62f74d8a9872}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Packet\Spawn">
-      <UniqueIdentifier>{e9b22974-eb1f-4aba-bbe6-abb57c782e04}</UniqueIdentifier>
+    <Filter Include="Packet\Contents">
+      <UniqueIdentifier>{15878ba1-2e62-4feb-b5ce-1fdf556dcb09}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -87,7 +87,10 @@
       <Filter>Packet\PrevInGame</Filter>
     </ClCompile>
     <ClCompile Include="Spawn.cpp">
-      <Filter>Packet\Spawn</Filter>
+      <Filter>Packet\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="Move.cpp">
+      <Filter>Packet\Contents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

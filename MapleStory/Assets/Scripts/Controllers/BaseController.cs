@@ -8,4 +8,5 @@ public abstract class BaseController : MonoBehaviour
     }
     protected abstract void Init();
     protected abstract void UpdateController();
+    protected abstract void UpdateAnimation();
 }

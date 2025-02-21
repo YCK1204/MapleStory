@@ -55,7 +55,7 @@ Offset<CharacterPreviewInfo> Player::GeneratePreviewInfo(FlatBufferBuilder& buil
 
 	auto info = CreateCharacterPreviewInfoDirect(
 		builder,
-		_baseInfo->CharId,
+		Id,
 		_baseInfo->CharType,
 		_baseInfo->Level,
 		_baseInfo->Name.c_str(),

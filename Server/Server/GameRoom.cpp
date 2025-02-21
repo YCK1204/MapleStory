@@ -6,9 +6,9 @@ uint64 GameRoom::GenerateId(const ObjectType& type)
 	uint64 id;
 	{
 		WRITE_LOCK;
-		id = _curId++;
+		id = ++_curId;
 	}
-	return id & ((uint64)type << 56);
+	return id | ((uint64)type << 56);
 }
 
 const uint8 GameRoom::GetServerId() const
@@ -92,8 +92,11 @@ void GameRoom::Remove(PlayerRef& player)
 void GameRoom::Push(GameObjectRef& go)
 {
 	uint64 id = GenerateId(go->Type);
-	WRITE_LOCK;
-	_objects[id] = go;
+	{
+		WRITE_LOCK;
+		_objects[id] = go;
+	}
+	go->Id = id;
 }
 
 void GameRoom::Push(GameObject* go)
@@ -105,8 +108,11 @@ void GameRoom::Push(GameObject* go)
 void GameRoom::Push(PlayerRef& player)
 {
 	uint64 id = GenerateId(player->Type);
-	WRITE_LOCK;
-	_players[id] = player;
+	{
+		WRITE_LOCK;
+		_players[id] = player;
+	}
+	player->Id = id;
 }
 
 void GameRoom::Broadcast(SendBufferRef pkt, PlayerRef exception)

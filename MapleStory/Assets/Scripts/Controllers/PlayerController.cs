@@ -1,55 +1,79 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : CreatureController
 {
+    Vector2 MoveDir = Vector2.zero;
+    MoveDirection _dir { get; set; } = MoveDirection.NONE;
+    public MoveDirection Dir
+    {
+        get { return _dir; }
+        set
+        {
+            _dir = value;
+            switch (value)
+            {
+                case MoveDirection.NONE:
+                    MoveDir = Vector2.zero;
+                    State = CreatureState.IDLE;
+                    return;
+                case MoveDirection.LEFT:
+                    MoveDir = Vector2.left;
+                    break;
+                case MoveDirection.RIGHT:
+                    MoveDir = Vector2.right;
+                    break;
+            }
+            State = CreatureState.MOVE;
+        }
+    }
     public PlayerCharacterType CharacterType { get; set; }
     public ushort Level { get; set; }
     public string Name { get; set; }
 
     [SerializeField]
-    float Speed = 3f;
+    protected float Speed = 3f;
     [SerializeField]
-    float JumpForce = 3f;
-    Rigidbody2D rb;
+    protected float JumpForce = 3f;
+    protected Rigidbody2D rb;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKey(KeyCode.LeftArrow))
-            Move(Vector3.left);
-        if (Input.GetKey(KeyCode.RightArrow))
-            Move(Vector3.right);
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-
-        }
-        if (Input.GetKey(KeyCode.UpArrow))
-            Jump();
-    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        isJump = false;
+        State = CreatureState.IDLE;
         rb.angularVelocity = 0;
     }
-    void Move(Vector3 dir)
+    protected void Move()
     {
-        transform.position += Speed * Time.deltaTime * dir;
+        transform.position += Speed * Time.deltaTime * (Vector3)MoveDir;
     }
-    bool isJump = false;
-    void Jump()
+    protected void Jump()
     {
-        if (isJump == true || rb.linearVelocity.magnitude > .01f)
+        if (State == CreatureState.JUMP || rb.linearVelocity.magnitude > .01f)
             return;
         rb.AddForce(Vector3.up * JumpForce, (ForceMode2D)ForceMode.Impulse);
-        isJump = true;
+        State = CreatureState.JUMP;
     }
     public override void Destroy()
     {
+    }
+    protected override void UpdateController()
+    {
+        if (Dir != MoveDirection.NONE)
+            Move();
+    }
+    protected override void Init()
+    {
+    }
+    protected override void UpdateAnimation()
+    {
+    }
+    private void Update()
+    {
+        UpdateController();
     }
 }

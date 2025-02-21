@@ -54,6 +54,8 @@ void PacketHandler::C_EnterMapHandler(PacketSession* session, ByteRef& buffer)
 			return;
 		}
 		player->Room->Remove(player);
+		room->Push(player);
+		player->Room = room;
 
 		// 룸 유저들에게 다른 유저의 입장을 알림
 		{
@@ -73,8 +75,6 @@ void PacketHandler::C_EnterMapHandler(PacketSession* session, ByteRef& buffer)
 			auto pacekt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_EnterMap);
 			client->Send(pacekt);
 		}
-		room->Push(player);
-		player->Room = room;
 	}
 	catch (...)
 	{
@@ -108,6 +108,8 @@ void PacketHandler::C_EnterGameHandler(PacketSession* session, ByteRef& buffer)
 			return;
 		}
 
+		room->Push(player);
+		player->Room = room;
 		// 입장하려는 유저에게 자신의 캐릭터 정보를 알림
 		{
 			FlatBufferBuilder builder;
@@ -138,8 +140,7 @@ void PacketHandler::C_CreatureInfosHandler(PacketSession* session, ByteRef& buff
 			client->Disconnect();
 			return;
 		}
-		auto roomId = Manager::Room.GenerateRoomId(client->ServerId, client->ChannelId, player->GetMapId());
-		GameRoomRef room = Manager::Room.Find(roomId);
+		GameRoomRef room = player->Room;
 		if (room == nullptr)
 		{
 			client->Disconnect();
@@ -147,6 +148,7 @@ void PacketHandler::C_CreatureInfosHandler(PacketSession* session, ByteRef& buff
 		}
 		//auto monsterInfos = room->GetMonsterInfos(builder);
 
+		
 		// 룸 유저들에게 다른 유저의 입장을 알림
 		{
 			FlatBufferBuilder builder;
@@ -164,8 +166,6 @@ void PacketHandler::C_CreatureInfosHandler(PacketSession* session, ByteRef& buff
 			auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CreatureInfos);
 			client->Send(pkt);
 		}
-		room->Push(player);
-		player->Room = room;
 	}
 	catch (...)
 	{

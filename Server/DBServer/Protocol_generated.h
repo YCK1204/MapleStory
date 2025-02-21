@@ -16,6 +16,7 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 24 &&
 #include "CharacterSelect_generated.h"
 #include "CreateCharacter_generated.h"
 #include "Login_generated.h"
+#include "Move_generated.h"
 #include "Spawn_generated.h"
 #include "WorldSelect_generated.h"
 
@@ -62,11 +63,15 @@ enum PacketType : uint8_t {
   PacketType_SC_Despawn = 39,
   PacketType_C_CreatureInfos = 40,
   PacketType_SC_CreatureInfos = 41,
+  PacketType_C_MoveStart = 42,
+  PacketType_SC_MoveStart = 43,
+  PacketType_C_MoveEnd = 44,
+  PacketType_SC_MoveEnd = 45,
   PacketType_MIN = PacketType_NONE,
-  PacketType_MAX = PacketType_SC_CreatureInfos
+  PacketType_MAX = PacketType_SC_MoveEnd
 };
 
-inline const PacketType (&EnumValuesPacketType())[42] {
+inline const PacketType (&EnumValuesPacketType())[46] {
   static const PacketType values[] = {
     PacketType_NONE,
     PacketType_C_SignUp,
@@ -109,13 +114,17 @@ inline const PacketType (&EnumValuesPacketType())[42] {
     PacketType_C_Despawn,
     PacketType_SC_Despawn,
     PacketType_C_CreatureInfos,
-    PacketType_SC_CreatureInfos
+    PacketType_SC_CreatureInfos,
+    PacketType_C_MoveStart,
+    PacketType_SC_MoveStart,
+    PacketType_C_MoveEnd,
+    PacketType_SC_MoveEnd
   };
   return values;
 }
 
 inline const char * const *EnumNamesPacketType() {
-  static const char * const names[43] = {
+  static const char * const names[47] = {
     "NONE",
     "C_SignUp",
     "SD_SignUp",
@@ -158,13 +167,17 @@ inline const char * const *EnumNamesPacketType() {
     "SC_Despawn",
     "C_CreatureInfos",
     "SC_CreatureInfos",
+    "C_MoveStart",
+    "SC_MoveStart",
+    "C_MoveEnd",
+    "SC_MoveEnd",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNamePacketType(PacketType e) {
-  if (::flatbuffers::IsOutRange(e, PacketType_NONE, PacketType_SC_CreatureInfos)) return "";
+  if (::flatbuffers::IsOutRange(e, PacketType_NONE, PacketType_SC_MoveEnd)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesPacketType()[index];
 }
@@ -337,6 +350,22 @@ template<> struct PacketTypeTraits<SC_CreatureInfos> {
   static const PacketType enum_value = PacketType_SC_CreatureInfos;
 };
 
+template<> struct PacketTypeTraits<C_MoveStart> {
+  static const PacketType enum_value = PacketType_C_MoveStart;
+};
+
+template<> struct PacketTypeTraits<SC_MoveStart> {
+  static const PacketType enum_value = PacketType_SC_MoveStart;
+};
+
+template<> struct PacketTypeTraits<C_MoveEnd> {
+  static const PacketType enum_value = PacketType_C_MoveEnd;
+};
+
+template<> struct PacketTypeTraits<SC_MoveEnd> {
+  static const PacketType enum_value = PacketType_SC_MoveEnd;
+};
+
 bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj, PacketType type);
 bool VerifyPacketTypeVector(::flatbuffers::Verifier &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types);
 
@@ -507,6 +536,22 @@ inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj,
     }
     case PacketType_SC_CreatureInfos: {
       auto ptr = reinterpret_cast<const SC_CreatureInfos *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_C_MoveStart: {
+      auto ptr = reinterpret_cast<const C_MoveStart *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_MoveStart: {
+      auto ptr = reinterpret_cast<const SC_MoveStart *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_C_MoveEnd: {
+      auto ptr = reinterpret_cast<const C_MoveEnd *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_MoveEnd: {
+      auto ptr = reinterpret_cast<const SC_MoveEnd *>(obj);
       return verifier.VerifyTable(ptr);
     }
     default: return true;

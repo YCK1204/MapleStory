@@ -8,10 +8,13 @@ public class MonsterController : CreatureController
 
     protected override void Init()
     {
-        base.Init();
     }
+
+    protected override void UpdateAnimation()
+    {
+    }
+
     protected override void UpdateController()
     {
-        base.UpdateController();
     }
 }

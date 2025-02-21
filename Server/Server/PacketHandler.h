@@ -24,4 +24,6 @@ public:
 	static void C_EnterMapHandler(PacketSession* session, ByteRef& buffer);
 	static void C_EnterGameHandler(PacketSession* session, ByteRef& buffer);
 	static void C_CreatureInfosHandler(PacketSession* session, ByteRef& buffer);
+	static void C_MoveStartHandler(PacketSession* session, ByteRef& buffer);
+	static void C_MoveEndHandler(PacketSession* session, ByteRef& buffer);
 };

@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\Utils\Extension.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_SignUp.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_SignUp.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_MoveEnd.cs" />
     <Compile Include="Assets\Scripts\Scene\BaseScene.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_EnterMap.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_CreatureInfos.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\MonsterInfo.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CreateCharacter.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_CreateCharacter.cs" />
+    <Compile Include="Assets\Scripts\Packet\Move.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_CharacterSelect.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\UIPrevInGameController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_EnterChannel.cs" />
@@ -135,6 +137,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\SC_MSpawn.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_CharacterDelete.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CharacterList.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_MoveStart.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\ServerInfo.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\Position.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CheckName.cs" />
@@ -146,6 +149,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\C_CreateCharacter.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_SignIn.cs" />
     <Compile Include="Assets\Scripts\Managers\ResourceManager.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_MoveStart.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_CheckName.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\PlayerInfo.cs" />
     <Compile Include="Assets\Scripts\Controllers\CameraController.cs" />
@@ -153,7 +157,9 @@
     <Compile Include="Assets\UI Toolkit\PrevInGame\Common.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_SignUp.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_CharacterSelect.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\MoveDirection.cs" />
     <Compile Include="Assets\Scripts\Managers\Manager.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_MoveEnd.cs" />
     <Compile Include="Assets\Scripts\Session\ServerSession.cs" />
     <Compile Include="Assets\Scripts\Scene\PrevInGameScene.cs" />
   </ItemGroup>

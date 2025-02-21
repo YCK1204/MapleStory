@@ -5,6 +5,7 @@ include "CharacterSelect.fbs";
 include "CreateCharacter.fbs";
 // ------------------- PrevInGame -----------------
 include "Spawn.fbs";
+include "Move.fbs";
 
 
 union PacketType {
@@ -60,4 +61,10 @@ union PacketType {
 	C_CreatureInfos,
 	SC_CreatureInfos,
 // ------------------- Spawn -----------------
+// ------------------- Move -----------------
+	C_MoveStart,
+	SC_MoveStart,
+	C_MoveEnd,
+	SC_MoveEnd,
+// ------------------- Move -----------------
 }

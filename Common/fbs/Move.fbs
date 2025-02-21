@@ -1,0 +1,29 @@
+enum MoveDirection : uint8 {
+	NONE,
+	LEFT,
+	RIGHT
+}
+
+table C_MoveStart {
+	dir:MoveDirection;
+	x:float;
+	y:float;
+}
+
+table SC_MoveStart {
+	id:uint64;
+	dir:MoveDirection;
+	x:float;
+	y:float;
+}
+
+table C_MoveEnd {
+	x:float;
+	y:float;
+}
+
+table SC_MoveEnd {
+	id:uint64;
+	x:float;
+	y:float;
+}

@@ -29,7 +29,7 @@ public partial class PacketHandler
                 pc.MP = myPlayerInfo.Mp;
                 pc.EXP = myPlayerInfo.Exp;
             }
-
+            Manager.Object.MyPlayer = pc;
             var cc = Camera.main.gameObject.AddComponent<CameraController>();
             cc.AddComponent<CinemachineBrain>();
             cc.cinemachineCamera = Manager.Resource.Instantiate("Prefabs/FollowCamera").GetComponent<CinemachineCamera>();
@@ -43,10 +43,12 @@ public partial class PacketHandler
             var packet = Manager.Packet.CreatePacket(data, builder, PacketType.C_CreatureInfos);
             Manager.Network.Send(packet);
         });
-
     }
     public static void SC_DespawnHandler(PacketSession session, ByteBuffer buffer)
     {
+        var pkt = SC_Despawn.GetRootAsSC_Despawn(buffer);
+
+         //Manager.Object.FindPlayer(pkt.Id);
     }
     public static void SC_MSpawnHandler(PacketSession session, ByteBuffer buffer)
     {
@@ -71,6 +73,9 @@ public partial class PacketHandler
         var previewInfo = playerInfo.CharInfo.Value;
         var position = playerInfo.Position.Value;
 
+        if (previewInfo.CharId == Manager.Object.MyPlayer.ID)
+            return;
+
         var pc = HandlePSpawn<PlayerController>(previewInfo);
         pc.transform.position = new Vector3(position.X, position.Y);
     }
@@ -84,6 +89,8 @@ public partial class PacketHandler
             var playerInfo = pkt.Players(i).Value;
             var charInfo = playerInfo.CharInfo.Value;
             var position = playerInfo.Position.Value;
+            if (charInfo.CharId == Manager.Object.MyPlayer.ID)
+                continue;
 
             var pc = HandlePSpawn<PlayerController>(charInfo);
             pc.transform.position = new Vector3(position.X, position.Y);

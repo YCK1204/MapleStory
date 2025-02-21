@@ -42,6 +42,9 @@ public class Manager : BaseMonobehaviour
     #endregion
     void Init()
     {
+        Screen.SetResolution(1920, 1080, false);
+        Application.runInBackground = true;
+
         DontDestroyOnLoad(_instance.gameObject);
         Network.Init();
         Spawn.Init();
