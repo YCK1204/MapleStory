@@ -25,7 +25,7 @@ void Server::Init(json& j)
 
 	// 채널들 초기화
 	int32 channelCount = j["channel_count"];
-	for (auto i = 0; i < channelCount; i++)
+	for (auto i = 1; i <= channelCount; i++)
 	{
 		ChannelRef channel = shared_ptr<Channel>(new Channel());
 		_channels[i] = channel;
