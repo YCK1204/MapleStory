@@ -1,4 +1,5 @@
 using Google.FlatBuffers;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MyPlayerContoller : PlayerController
@@ -21,9 +22,9 @@ public class MyPlayerContoller : PlayerController
     protected override void Init()
     {
         base.Init();
-        var cc = Camera.main.gameObject.GetComponent<CameraController>();
-        cc.Target = gameObject;
-        cc.Init();
+        //var cc = Camera.main.gameObject.GetComponent<CameraController>();
+        //cc.Target = gameObject;
+        //cc.Init();
     }
     protected override void UpdateController()
     {
@@ -47,21 +48,30 @@ public class MyPlayerContoller : PlayerController
                 Dir = MoveDirection.LEFT;
             else if (Input.GetKeyDown(KeyCode.RightArrow))
                 Dir = MoveDirection.RIGHT;
+            else if (Input.GetKeyDown(KeyCode.Space))
+                Jump();
+            else if (Input.GetKeyDown(KeyCode.DownArrow) && State == PlayerState.Stand01)
+                State = PlayerState.ProneStab;
             else
                 return;
-            builder.Clear();
-            var data = C_MoveStart.CreateC_MoveStart(builder, Dir, x, y);
-            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveStart);
-            Manager.Network.Send(pkt);
         }
         if ((up |= Input.GetKeyUp(KeyCode.LeftArrow)) || (up |= Input.GetKeyUp(KeyCode.RightArrow)))
             Dir = MoveDirection.NONE;
-        if (up)
-        {
-            builder.Clear();
-            var data = C_MoveEnd.CreateC_MoveEnd(builder, x, y);
-            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveEnd);
-            Manager.Network.Send(pkt);
-        }
+        if ((up |= Input.GetKeyUp(KeyCode.DownArrow)) && State == PlayerState.ProneStab)
+            State = PlayerState.Stand01;
+        //    var data = C_MoveStart.CreateC_MoveStart(builder, Dir, x, y);
+        //    builder.Clear();
+        //    var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveStart);
+        //    Manager.Network.Send(pkt);
+        //}
+        //if ((up |= Input.GetKeyUp(KeyCode.LeftArrow)) || (up |= Input.GetKeyUp(KeyCode.RightArrow)))
+        //    Dir = MoveDirection.NONE;
+        //if (up)
+        //{
+        //    builder.Clear();
+        //    var data = C_MoveEnd.CreateC_MoveEnd(builder, x, y);
+        //    var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveEnd);
+        //    Manager.Network.Send(pkt);
+        //}
     }
 }

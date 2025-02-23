@@ -1,9 +1,35 @@
 using System;
+using System.Collections;
 using Unity.VisualScripting;
+using UnityEditor.Animations;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class PlayerController : CreatureController
 {
+    protected enum PlayerState : byte
+    {
+        Jump,
+        Ladder,
+        ProneStab,
+        ProneStabAttack,
+        rope,
+        Stand01,
+        SwingT2,
+        SwingT3,
+        Walk01,
+    }
+    PlayerState _state { get; set; } = PlayerState.Stand01;
+    BoxCollider2D boxCollider;
+    protected virtual PlayerState State
+    {
+        get { return _state; }
+        set
+        {
+            _state = value;
+            UpdateAnimation();
+        }
+    }
     Vector2 MoveDir = Vector2.zero;
     MoveDirection _dir { get; set; } = MoveDirection.NONE;
     public MoveDirection Dir
@@ -16,16 +42,19 @@ public class PlayerController : CreatureController
             {
                 case MoveDirection.NONE:
                     MoveDir = Vector2.zero;
-                    State = CreatureState.IDLE;
-                    return;
+                    break;
                 case MoveDirection.LEFT:
                     MoveDir = Vector2.left;
+                    transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
                     break;
                 case MoveDirection.RIGHT:
                     MoveDir = Vector2.right;
+                    transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
                     break;
             }
-            State = CreatureState.MOVE;
+            if (State == PlayerState.Jump)
+                return;
+            State = MoveDir == Vector2.zero ? PlayerState.Stand01 : PlayerState.Walk01;
         }
     }
     public PlayerCharacterType CharacterType { get; set; }
@@ -37,26 +66,66 @@ public class PlayerController : CreatureController
     [SerializeField]
     protected float JumpForce = 3f;
     protected Rigidbody2D rb;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
+    Animator anim;
+    Vector2 bottomOffset = new Vector2(0, -.5f);
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        State = CreatureState.IDLE;
+        //bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, "");
+        int target = LayerMask.GetMask("Floor", "FloorBase");
+        var hit = Physics2D.Raycast((Vector2)transform.position + bottomOffset, Vector2.down, .2f, target);
+
+        if (hit.collider == null || hit.collider.gameObject == null)
+            return;
+        if (hit.collider.gameObject != collision.gameObject)
+            return;
+
         rb.angularVelocity = 0;
+        //if (rb.linearVelocityY >= 0)
+        //    return;
+        if (Dir != MoveDirection.NONE)
+        {
+            State = PlayerState.Walk01;
+        }
+        else
+        {
+            State = PlayerState.Stand01;
+        }
     }
     protected void Move()
     {
         transform.position += Speed * Time.deltaTime * (Vector3)MoveDir;
     }
+    private IEnumerator JumpDown()
+    {
+        State = PlayerState.Stand01;
+        float jumpForceOriginal = JumpForce;
+        JumpForce = .1f;
+        boxCollider.enabled = false;
+        Jump();
+        yield return new WaitForSeconds(.2f);
+        boxCollider.enabled = true;
+        JumpForce = jumpForceOriginal;
+        StopCoroutine(JumpDown());
+    }
     protected void Jump()
     {
-        if (State == CreatureState.JUMP || rb.linearVelocity.magnitude > .01f)
+        if (State == PlayerState.ProneStab)
+        {
+            int target = LayerMask.GetMask("Floor");
+            var hit = Physics2D.Raycast((Vector2)transform.position + bottomOffset, Vector2.down, .2f, target);
+
+            if (hit.collider == null)
+                return;
+            StartCoroutine(JumpDown());
+        }
+        if (State == PlayerState.Jump || rb.linearVelocity.magnitude > .01f)
             return;
-        rb.AddForce(Vector3.up * JumpForce, (ForceMode2D)ForceMode.Impulse);
-        State = CreatureState.JUMP;
+
+        if (State == PlayerState.Stand01 || State == PlayerState.Walk01)
+        {
+            rb.AddForce(Vector3.up * JumpForce, (ForceMode2D)ForceMode.Impulse);
+            State = PlayerState.Jump;
+        }
     }
     public override void Destroy()
     {
@@ -68,9 +137,15 @@ public class PlayerController : CreatureController
     }
     protected override void Init()
     {
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        boxCollider = GetComponent<BoxCollider2D>();
     }
     protected override void UpdateAnimation()
     {
+        string animationStr = State.ToString();
+
+        anim.Play(animationStr);
     }
     private void Update()
     {
