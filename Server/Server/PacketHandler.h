@@ -26,4 +26,7 @@ public:
 	static void C_CreatureInfosHandler(PacketSession* session, ByteRef& buffer);
 	static void C_MoveStartHandler(PacketSession* session, ByteRef& buffer);
 	static void C_MoveEndHandler(PacketSession* session, ByteRef& buffer);
+	static void C_JumpHandler(PacketSession* session, ByteRef& buffer);
+	static void C_ProneStabStartHandler(PacketSession* session, ByteRef& buffer);
+	static void C_ProneStabEndHandler(PacketSession* session, ByteRef& buffer);
 };

@@ -27,3 +27,24 @@ table SC_MoveEnd {
 	x:float;
 	y:float;
 }
+
+table C_Jump {
+}
+
+table SC_Jump {
+	id:uint64;
+}
+
+table C_ProneStabStart {
+}
+
+table SC_ProneStabStart {
+	id:uint64;
+}
+
+table C_ProneStabEnd {
+}
+
+table SC_ProneStabEnd {
+	id:uint64;
+}

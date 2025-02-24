@@ -67,11 +67,17 @@ enum PacketType : uint8_t {
   PacketType_SC_MoveStart = 43,
   PacketType_C_MoveEnd = 44,
   PacketType_SC_MoveEnd = 45,
+  PacketType_C_Jump = 46,
+  PacketType_SC_Jump = 47,
+  PacketType_C_ProneStabStart = 48,
+  PacketType_SC_ProneStabStart = 49,
+  PacketType_C_ProneStabEnd = 50,
+  PacketType_SC_ProneStabEnd = 51,
   PacketType_MIN = PacketType_NONE,
-  PacketType_MAX = PacketType_SC_MoveEnd
+  PacketType_MAX = PacketType_SC_ProneStabEnd
 };
 
-inline const PacketType (&EnumValuesPacketType())[46] {
+inline const PacketType (&EnumValuesPacketType())[52] {
   static const PacketType values[] = {
     PacketType_NONE,
     PacketType_C_SignUp,
@@ -118,13 +124,19 @@ inline const PacketType (&EnumValuesPacketType())[46] {
     PacketType_C_MoveStart,
     PacketType_SC_MoveStart,
     PacketType_C_MoveEnd,
-    PacketType_SC_MoveEnd
+    PacketType_SC_MoveEnd,
+    PacketType_C_Jump,
+    PacketType_SC_Jump,
+    PacketType_C_ProneStabStart,
+    PacketType_SC_ProneStabStart,
+    PacketType_C_ProneStabEnd,
+    PacketType_SC_ProneStabEnd
   };
   return values;
 }
 
 inline const char * const *EnumNamesPacketType() {
-  static const char * const names[47] = {
+  static const char * const names[53] = {
     "NONE",
     "C_SignUp",
     "SD_SignUp",
@@ -171,13 +183,19 @@ inline const char * const *EnumNamesPacketType() {
     "SC_MoveStart",
     "C_MoveEnd",
     "SC_MoveEnd",
+    "C_Jump",
+    "SC_Jump",
+    "C_ProneStabStart",
+    "SC_ProneStabStart",
+    "C_ProneStabEnd",
+    "SC_ProneStabEnd",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNamePacketType(PacketType e) {
-  if (::flatbuffers::IsOutRange(e, PacketType_NONE, PacketType_SC_MoveEnd)) return "";
+  if (::flatbuffers::IsOutRange(e, PacketType_NONE, PacketType_SC_ProneStabEnd)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesPacketType()[index];
 }
@@ -366,6 +384,30 @@ template<> struct PacketTypeTraits<SC_MoveEnd> {
   static const PacketType enum_value = PacketType_SC_MoveEnd;
 };
 
+template<> struct PacketTypeTraits<C_Jump> {
+  static const PacketType enum_value = PacketType_C_Jump;
+};
+
+template<> struct PacketTypeTraits<SC_Jump> {
+  static const PacketType enum_value = PacketType_SC_Jump;
+};
+
+template<> struct PacketTypeTraits<C_ProneStabStart> {
+  static const PacketType enum_value = PacketType_C_ProneStabStart;
+};
+
+template<> struct PacketTypeTraits<SC_ProneStabStart> {
+  static const PacketType enum_value = PacketType_SC_ProneStabStart;
+};
+
+template<> struct PacketTypeTraits<C_ProneStabEnd> {
+  static const PacketType enum_value = PacketType_C_ProneStabEnd;
+};
+
+template<> struct PacketTypeTraits<SC_ProneStabEnd> {
+  static const PacketType enum_value = PacketType_SC_ProneStabEnd;
+};
+
 bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj, PacketType type);
 bool VerifyPacketTypeVector(::flatbuffers::Verifier &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types);
 
@@ -552,6 +594,30 @@ inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj,
     }
     case PacketType_SC_MoveEnd: {
       auto ptr = reinterpret_cast<const SC_MoveEnd *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_C_Jump: {
+      auto ptr = reinterpret_cast<const C_Jump *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_Jump: {
+      auto ptr = reinterpret_cast<const SC_Jump *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_C_ProneStabStart: {
+      auto ptr = reinterpret_cast<const C_ProneStabStart *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_ProneStabStart: {
+      auto ptr = reinterpret_cast<const SC_ProneStabStart *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_C_ProneStabEnd: {
+      auto ptr = reinterpret_cast<const C_ProneStabEnd *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_ProneStabEnd: {
+      auto ptr = reinterpret_cast<const SC_ProneStabEnd *>(obj);
       return verifier.VerifyTable(ptr);
     }
     default: return true;

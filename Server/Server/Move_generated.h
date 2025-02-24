@@ -25,6 +25,24 @@ struct C_MoveEndBuilder;
 struct SC_MoveEnd;
 struct SC_MoveEndBuilder;
 
+struct C_Jump;
+struct C_JumpBuilder;
+
+struct SC_Jump;
+struct SC_JumpBuilder;
+
+struct C_ProneStabStart;
+struct C_ProneStabStartBuilder;
+
+struct SC_ProneStabStart;
+struct SC_ProneStabStartBuilder;
+
+struct C_ProneStabEnd;
+struct C_ProneStabEndBuilder;
+
+struct SC_ProneStabEnd;
+struct SC_ProneStabEndBuilder;
+
 enum MoveDirection : uint8_t {
   MoveDirection_NONE = 0,
   MoveDirection_LEFT = 1,
@@ -299,6 +317,216 @@ inline ::flatbuffers::Offset<SC_MoveEnd> CreateSC_MoveEnd(
   builder_.add_id(id);
   builder_.add_y(y);
   builder_.add_x(x);
+  return builder_.Finish();
+}
+
+struct C_Jump FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef C_JumpBuilder Builder;
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           verifier.EndTable();
+  }
+};
+
+struct C_JumpBuilder {
+  typedef C_Jump Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  explicit C_JumpBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<C_Jump> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<C_Jump>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<C_Jump> CreateC_Jump(
+    ::flatbuffers::FlatBufferBuilder &_fbb) {
+  C_JumpBuilder builder_(_fbb);
+  return builder_.Finish();
+}
+
+struct SC_Jump FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SC_JumpBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_ID = 4
+  };
+  uint64_t id() const {
+    return GetField<uint64_t>(VT_ID, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_ID, 8) &&
+           verifier.EndTable();
+  }
+};
+
+struct SC_JumpBuilder {
+  typedef SC_Jump Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_id(uint64_t id) {
+    fbb_.AddElement<uint64_t>(SC_Jump::VT_ID, id, 0);
+  }
+  explicit SC_JumpBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SC_Jump> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SC_Jump>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SC_Jump> CreateSC_Jump(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t id = 0) {
+  SC_JumpBuilder builder_(_fbb);
+  builder_.add_id(id);
+  return builder_.Finish();
+}
+
+struct C_ProneStabStart FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef C_ProneStabStartBuilder Builder;
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           verifier.EndTable();
+  }
+};
+
+struct C_ProneStabStartBuilder {
+  typedef C_ProneStabStart Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  explicit C_ProneStabStartBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<C_ProneStabStart> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<C_ProneStabStart>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<C_ProneStabStart> CreateC_ProneStabStart(
+    ::flatbuffers::FlatBufferBuilder &_fbb) {
+  C_ProneStabStartBuilder builder_(_fbb);
+  return builder_.Finish();
+}
+
+struct SC_ProneStabStart FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SC_ProneStabStartBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_ID = 4
+  };
+  uint64_t id() const {
+    return GetField<uint64_t>(VT_ID, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_ID, 8) &&
+           verifier.EndTable();
+  }
+};
+
+struct SC_ProneStabStartBuilder {
+  typedef SC_ProneStabStart Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_id(uint64_t id) {
+    fbb_.AddElement<uint64_t>(SC_ProneStabStart::VT_ID, id, 0);
+  }
+  explicit SC_ProneStabStartBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SC_ProneStabStart> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SC_ProneStabStart>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SC_ProneStabStart> CreateSC_ProneStabStart(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t id = 0) {
+  SC_ProneStabStartBuilder builder_(_fbb);
+  builder_.add_id(id);
+  return builder_.Finish();
+}
+
+struct C_ProneStabEnd FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef C_ProneStabEndBuilder Builder;
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           verifier.EndTable();
+  }
+};
+
+struct C_ProneStabEndBuilder {
+  typedef C_ProneStabEnd Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  explicit C_ProneStabEndBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<C_ProneStabEnd> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<C_ProneStabEnd>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<C_ProneStabEnd> CreateC_ProneStabEnd(
+    ::flatbuffers::FlatBufferBuilder &_fbb) {
+  C_ProneStabEndBuilder builder_(_fbb);
+  return builder_.Finish();
+}
+
+struct SC_ProneStabEnd FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SC_ProneStabEndBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_ID = 4
+  };
+  uint64_t id() const {
+    return GetField<uint64_t>(VT_ID, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_ID, 8) &&
+           verifier.EndTable();
+  }
+};
+
+struct SC_ProneStabEndBuilder {
+  typedef SC_ProneStabEnd Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_id(uint64_t id) {
+    fbb_.AddElement<uint64_t>(SC_ProneStabEnd::VT_ID, id, 0);
+  }
+  explicit SC_ProneStabEndBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SC_ProneStabEnd> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SC_ProneStabEnd>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SC_ProneStabEnd> CreateSC_ProneStabEnd(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t id = 0) {
+  SC_ProneStabEndBuilder builder_(_fbb);
+  builder_.add_id(id);
   return builder_.Finish();
 }
 

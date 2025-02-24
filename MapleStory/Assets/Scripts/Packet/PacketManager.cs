@@ -29,6 +29,9 @@ public class PacketManager
 		_handler.Add((ushort)PacketType.SC_CreatureInfos, PacketHandler.SC_CreatureInfosHandler);
 		_handler.Add((ushort)PacketType.SC_MoveStart, PacketHandler.SC_MoveStartHandler);
 		_handler.Add((ushort)PacketType.SC_MoveEnd, PacketHandler.SC_MoveEndHandler);
+		_handler.Add((ushort)PacketType.SC_Jump, PacketHandler.SC_JumpHandler);
+		_handler.Add((ushort)PacketType.SC_ProneStabStart, PacketHandler.SC_ProneStabStartHandler);
+		_handler.Add((ushort)PacketType.SC_ProneStabEnd, PacketHandler.SC_ProneStabEndHandler);
 		
     }
     public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

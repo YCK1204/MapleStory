@@ -50,6 +50,12 @@ public enum PacketType : byte
   SC_MoveStart = 43,
   C_MoveEnd = 44,
   SC_MoveEnd = 45,
+  C_Jump = 46,
+  SC_Jump = 47,
+  C_ProneStabStart = 48,
+  SC_ProneStabStart = 49,
+  C_ProneStabEnd = 50,
+  SC_ProneStabEnd = 51,
 };
 
 
@@ -195,6 +201,24 @@ static public class PacketTypeVerify
         break;
       case PacketType.SC_MoveEnd:
         result = SC_MoveEndVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.C_Jump:
+        result = C_JumpVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_Jump:
+        result = SC_JumpVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.C_ProneStabStart:
+        result = C_ProneStabStartVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_ProneStabStart:
+        result = SC_ProneStabStartVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.C_ProneStabEnd:
+        result = C_ProneStabEndVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_ProneStabEnd:
+        result = SC_ProneStabEndVerify.Verify(verifier, tablePos);
         break;
       default: result = true;
         break;

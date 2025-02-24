@@ -137,5 +137,6 @@
     <ClInclude Include="ServerManager.h">
       <Filter>GameServer</Filter>
     </ClInclude>
+    <ClInclude Include="Job.h" />
   </ItemGroup>
 </Project>

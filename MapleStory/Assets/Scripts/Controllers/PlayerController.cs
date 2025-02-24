@@ -1,13 +1,10 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor.Animations;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class PlayerController : CreatureController
 {
-    protected enum PlayerState : byte
+    public enum PlayerState : byte
     {
         Jump,
         Ladder,
@@ -21,7 +18,7 @@ public class PlayerController : CreatureController
     }
     PlayerState _state { get; set; } = PlayerState.Stand01;
     BoxCollider2D boxCollider;
-    protected virtual PlayerState State
+    public PlayerState State
     {
         get { return _state; }
         set
@@ -107,7 +104,7 @@ public class PlayerController : CreatureController
         JumpForce = jumpForceOriginal;
         StopCoroutine(JumpDown());
     }
-    protected void Jump()
+    protected bool CanJump()
     {
         if (State == PlayerState.ProneStab)
         {
@@ -115,16 +112,28 @@ public class PlayerController : CreatureController
             var hit = Physics2D.Raycast((Vector2)transform.position + bottomOffset, Vector2.down, .2f, target);
 
             if (hit.collider == null)
-                return;
-            StartCoroutine(JumpDown());
+                return false;
+            return true;
         }
         if (State == PlayerState.Jump || rb.linearVelocity.magnitude > .01f)
-            return;
-
+            return false;
         if (State == PlayerState.Stand01 || State == PlayerState.Walk01)
+            return true;
+        return false;
+    }
+    public void Jump()
+    {
+        if (CanJump())
         {
-            rb.AddForce(Vector3.up * JumpForce, (ForceMode2D)ForceMode.Impulse);
-            State = PlayerState.Jump;
+            if (State == PlayerState.ProneStab)
+            {
+                StartCoroutine(JumpDown());
+            }
+            else
+            {
+                rb.AddForce(Vector3.up * JumpForce, (ForceMode2D)ForceMode.Impulse);
+                State = PlayerState.Jump;
+            }
         }
     }
     public override void Destroy()

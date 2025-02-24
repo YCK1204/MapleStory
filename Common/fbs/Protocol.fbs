@@ -66,5 +66,11 @@ union PacketType {
 	SC_MoveStart,
 	C_MoveEnd,
 	SC_MoveEnd,
+	C_Jump,
+	SC_Jump,
+	C_ProneStabStart,
+	SC_ProneStabStart,
+	C_ProneStabEnd,
+	SC_ProneStabEnd,
 // ------------------- Move -----------------
 }

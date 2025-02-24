@@ -67,7 +67,9 @@
     <Compile Include="Assets\Scripts\FlatBuffer\EnterChannelError.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\Login.cs" />
     <Compile Include="Assets\Scripts\Utils\Extension.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_ProneStabEnd.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_SignUp.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_ProneStabStart.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_SignUp.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_MoveEnd.cs" />
     <Compile Include="Assets\Scripts\Scene\BaseScene.cs" />
@@ -80,11 +82,13 @@
     <Compile Include="Assets\Scripts\FlatBuffer\SC_PSpawn.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\WorldSelect.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SignInError.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_Jump.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_CheckName.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterPreviewInfo.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\ChannelInfo.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_CharacterList.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterDeleteError.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_Jump.cs" />
     <Compile Include="Assets\Scripts\Managers\ObjectManager.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SignUpError.cs" />
     <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
@@ -102,6 +106,7 @@
     <Compile Include="Assets\UI Toolkit\notice\UINoticeController.cs" />
     <Compile Include="Assets\Scripts\Packet\Spawn.cs" />
     <Compile Include="Assets\Scripts\Controllers\BaseController.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_ProneStabStart.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_CreateCharacter.cs" />
     <Compile Include="Assets\Scripts\Controllers\MyPlayerContoller.cs" />
     <Compile Include="Assets\Scripts\Scene\IntroScene.cs" />
@@ -156,6 +161,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterSelectError.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\Common.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_SignUp.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_ProneStabEnd.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_CharacterSelect.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\MoveDirection.cs" />
     <Compile Include="Assets\Scripts\Managers\Manager.cs" />

@@ -1,9 +1,23 @@
 using Google.FlatBuffers;
+using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MyPlayerContoller : PlayerController
 {
+    enum PlayerKeyInput
+    {
+        None,
+        LeftArrow,
+        RightArrow,
+        DownArrow,
+        Space
+    }
+    Dictionary<PlayerKeyInput, Action> _keyDownHandler = new Dictionary<PlayerKeyInput, Action>();
+    Dictionary<PlayerKeyInput, Action> _keyUpHandler = new Dictionary<PlayerKeyInput, Action>();
+
     class Ability
     {
         public int STR;
@@ -22,6 +36,87 @@ public class MyPlayerContoller : PlayerController
     protected override void Init()
     {
         base.Init();
+        #region KeyDownBinding
+        _keyDownHandler.Add(PlayerKeyInput.LeftArrow, () =>
+        {
+            if (Dir == MoveDirection.LEFT)
+                return;
+            Dir = MoveDirection.LEFT;
+            FlatBufferBuilder builder = new FlatBufferBuilder(50);
+            var data = C_MoveStart.CreateC_MoveStart(builder, Dir, transform.position.x, transform.position.y);
+            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveStart);
+            Manager.Network.Send(pkt);
+        });
+        _keyDownHandler.Add(PlayerKeyInput.RightArrow, () =>
+        {
+            if (Dir == MoveDirection.RIGHT)
+                return;
+            Dir = MoveDirection.RIGHT;
+            FlatBufferBuilder builder = new FlatBufferBuilder(50);
+            var data = C_MoveStart.CreateC_MoveStart(builder, Dir, transform.position.x, transform.position.y);
+            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveStart);
+            Manager.Network.Send(pkt);
+        });
+        _keyDownHandler.Add(PlayerKeyInput.Space, () =>
+        {
+            if (CanJump())
+            {
+                Jump();
+                FlatBufferBuilder builder = new FlatBufferBuilder(50);
+                C_Jump.StartC_Jump(builder);
+                var data = C_Jump.EndC_Jump(builder);
+                var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_Jump);
+                Manager.Network.Send(pkt);
+            }
+        });
+        _keyDownHandler.Add(PlayerKeyInput.DownArrow, () =>
+        {
+            if (State == PlayerState.Stand01)
+            {
+                State = PlayerState.ProneStab;
+                FlatBufferBuilder builder = new FlatBufferBuilder(50);
+
+                C_ProneStabStart.StartC_ProneStabStart(builder);
+                var data = C_ProneStabStart.EndC_ProneStabStart(builder);
+                var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_ProneStabStart);
+                Manager.Network.Send(pkt);
+            }
+        });
+        #endregion
+        #region KeyUpBinding
+        _keyUpHandler.Add(PlayerKeyInput.LeftArrow, () =>
+        {
+            if (State == PlayerState.Stand01)
+                return;
+            Dir = MoveDirection.NONE;
+            FlatBufferBuilder builder = new FlatBufferBuilder(50);
+            var data = C_MoveEnd.CreateC_MoveEnd(builder, transform.position.x, transform.position.y);
+            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveEnd);
+            Manager.Network.Send(pkt);
+        });
+        _keyUpHandler.Add(PlayerKeyInput.RightArrow, () =>
+        {
+            if (State == PlayerState.Stand01)
+                return;
+            Dir = MoveDirection.NONE;
+            FlatBufferBuilder builder = new FlatBufferBuilder(50);
+            var data = C_MoveEnd.CreateC_MoveEnd(builder, transform.position.x, transform.position.y);
+            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveEnd);
+            Manager.Network.Send(pkt);
+        });
+        _keyUpHandler.Add(PlayerKeyInput.DownArrow, () =>
+        {
+            if (State == PlayerState.ProneStab)
+            {
+                State = PlayerState.Stand01;
+                FlatBufferBuilder builder = new FlatBufferBuilder(50);
+                C_ProneStabEnd.StartC_ProneStabEnd(builder);
+                var data = C_ProneStabEnd.EndC_ProneStabEnd(builder);
+                var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_ProneStabEnd);
+                Manager.Network.Send(pkt);
+            }
+        });
+        #endregion
         //var cc = Camera.main.gameObject.GetComponent<CameraController>();
         //cc.Target = gameObject;
         //cc.Init();
@@ -35,43 +130,36 @@ public class MyPlayerContoller : PlayerController
         HandleInput();
         UpdateController();
     }
-    FlatBufferBuilder builder = new FlatBufferBuilder(50);
     private void HandleInput()
     {
-        bool up = false;
-        float x = transform.position.x;
-        float y = transform.position.y;
+        Action keyDownAction = null;
+        Action keyUpAction = null;
 
         if (Input.anyKeyDown)
         {
             if (Input.GetKeyDown(KeyCode.LeftArrow))
-                Dir = MoveDirection.LEFT;
+                keyDownAction = _keyDownHandler[PlayerKeyInput.LeftArrow];
             else if (Input.GetKeyDown(KeyCode.RightArrow))
-                Dir = MoveDirection.RIGHT;
+                keyDownAction = _keyDownHandler[PlayerKeyInput.RightArrow];
             else if (Input.GetKeyDown(KeyCode.Space))
-                Jump();
-            else if (Input.GetKeyDown(KeyCode.DownArrow) && State == PlayerState.Stand01)
-                State = PlayerState.ProneStab;
-            else
-                return;
+                keyDownAction = _keyDownHandler[PlayerKeyInput.Space];
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+                keyDownAction = _keyDownHandler[PlayerKeyInput.DownArrow];
         }
-        if ((up |= Input.GetKeyUp(KeyCode.LeftArrow)) || (up |= Input.GetKeyUp(KeyCode.RightArrow)))
-            Dir = MoveDirection.NONE;
-        if ((up |= Input.GetKeyUp(KeyCode.DownArrow)) && State == PlayerState.ProneStab)
-            State = PlayerState.Stand01;
-        //    var data = C_MoveStart.CreateC_MoveStart(builder, Dir, x, y);
-        //    builder.Clear();
-        //    var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveStart);
-        //    Manager.Network.Send(pkt);
-        //}
-        //if ((up |= Input.GetKeyUp(KeyCode.LeftArrow)) || (up |= Input.GetKeyUp(KeyCode.RightArrow)))
-        //    Dir = MoveDirection.NONE;
-        //if (up)
-        //{
-        //    builder.Clear();
-        //    var data = C_MoveEnd.CreateC_MoveEnd(builder, x, y);
-        //    var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveEnd);
-        //    Manager.Network.Send(pkt);
-        //}
+
+        // AnyKeyUp
+        {
+            if (Input.GetKeyUp(KeyCode.LeftArrow))
+                keyUpAction = _keyUpHandler[PlayerKeyInput.LeftArrow];
+            else if (Input.GetKeyUp(KeyCode.RightArrow))
+                keyUpAction = _keyUpHandler[PlayerKeyInput.RightArrow];
+            else if (Input.GetKeyUp(KeyCode.DownArrow))
+                keyUpAction = _keyUpHandler[PlayerKeyInput.DownArrow];
+        }
+
+        if (keyDownAction != null)
+            keyDownAction.Invoke();
+        if (keyUpAction != null)
+            keyUpAction.Invoke();
     }
 }

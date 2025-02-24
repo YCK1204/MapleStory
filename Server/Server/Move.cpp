@@ -80,3 +80,108 @@ void PacketHandler::C_MoveEndHandler(PacketSession* session, ByteRef& buffer)
 
 	}
 }
+
+void PacketHandler::C_JumpHandler(PacketSession* session, ByteRef& buffer)
+{
+	try {
+		auto client = Manager::Session.Find(session->GetSessionId());
+
+		if (client == nullptr)
+		{
+			session->Disconnect();
+			return;
+		}
+		auto player = client->Player;
+		if (player == nullptr)
+		{
+			client->Disconnect();
+			return;
+		}
+		auto room = player->Room;
+		if (room == nullptr)
+		{
+			client->Disconnect();
+			return;
+		}
+		auto pos = player->Pos;
+
+		FlatBufferBuilder builder;
+		auto data = CreateSC_Jump(builder, player->Id);
+		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_Jump);
+		room->Broadcast(packet);
+	}
+	catch (...)
+	{
+
+	}
+}
+
+void PacketHandler::C_ProneStabStartHandler(PacketSession* session, ByteRef& buffer)
+{
+	try {
+		auto client = Manager::Session.Find(session->GetSessionId());
+
+		if (client == nullptr)
+		{
+			session->Disconnect();
+			return;
+		}
+		auto player = client->Player;
+		if (player == nullptr)
+		{
+			client->Disconnect();
+			return;
+		}
+		auto room = player->Room;
+		if (room == nullptr)
+		{
+			client->Disconnect();
+			return;
+		}
+		auto pos = player->Pos;
+
+		FlatBufferBuilder builder;
+		auto data = CreateSC_ProneStabStart(builder, player->Id);
+		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_ProneStabStart);
+		room->Broadcast(packet);
+	}
+	catch (...)
+	{
+
+	}
+}
+
+void PacketHandler::C_ProneStabEndHandler(PacketSession* session, ByteRef& buffer)
+{
+	try {
+		auto client = Manager::Session.Find(session->GetSessionId());
+
+		if (client == nullptr)
+		{
+			session->Disconnect();
+			return;
+		}
+		auto player = client->Player;
+		if (player == nullptr)
+		{
+			client->Disconnect();
+			return;
+		}
+		auto room = player->Room;
+		if (room == nullptr)
+		{
+			client->Disconnect();
+			return;
+		}
+		auto pos = player->Pos;
+
+		FlatBufferBuilder builder;
+		auto data = CreateSC_ProneStabEnd(builder, player->Id);
+		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_ProneStabEnd);
+		room->Broadcast(packet);
+	}
+	catch (...)
+	{
+
+	}
+}
