@@ -5,7 +5,7 @@ public class SpawnManager : IManager
     CreatureSpawner _spawner;
     public void Init()
     {
-        _spawner = Manager.Resource.Instantiate("Prefabs/CreatureSpawner").GetComponent<CreatureSpawner>();
+        _spawner = Manager.Resource.Instantiate("Prefabs/PlayUtil/CreatureSpawner").GetComponent<CreatureSpawner>();
         GameObject.DontDestroyOnLoad(_spawner);
     }
     public void Clear()

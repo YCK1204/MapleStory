@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class MonsterController : CreatureController
 {
+    [HideInInspector]
     public AudioClip AttackSound;
+    [HideInInspector]
     public AudioClip DieSound;
+    [HideInInspector]
     public AudioClip HitSound;
     public override void Destroy()
     {

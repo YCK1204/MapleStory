@@ -96,7 +96,6 @@
     <Compile Include="Assets\Scripts\Packet\PrevInGame\WorldSelect.cs" />
     <Compile Include="Assets\Scripts\Managers\NetworkManager.cs" />
     <Compile Include="Assets\Scripts\Utils\BaseMonobehaviour.cs" />
-    <Compile Include="Assets\Scripts\ScriptableObject\Creature\CreatureData.cs" />
     <Compile Include="Assets\Scripts\ScriptableObject\Creature\CreatureSpawner.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\PlayerTotalInfo.cs" />
     <Compile Include="Assets\Scripts\Controllers\CreatureController.cs" />
@@ -148,6 +147,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\ServerInfo.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\Position.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CheckName.cs" />
+    <Compile Include="Assets\Scripts\ScriptableObject\Creature\MonsterData.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_ChannelInfo.cs" />
     <Compile Include="Assets\Scripts\Packet\PrevInGame\Login.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CharacterSelect.cs" />
@@ -169,6 +169,7 @@
     <Compile Include="Assets\Scripts\Managers\Manager.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_MoveEnd.cs" />
     <Compile Include="Assets\Scripts\Session\ServerSession.cs" />
+    <Compile Include="Assets\Scripts\ScriptableObject\Creature\PlayerData.cs" />
     <Compile Include="Assets\Scripts\Scene\PrevInGameScene.cs" />
   </ItemGroup>
   <ItemGroup>

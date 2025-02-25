@@ -6,9 +6,9 @@ public enum MonsterType { }
 public class CreatureSpawner : MonoBehaviour
 {
     [SerializeField]
-    CreatureData[] PlayerCharacterData;
+    PlayerData[] PlayerCharacterData;
     [SerializeField]
-    CreatureData[] MonsterData;
+    MonsterData[] MonsterData;
     [SerializeField]
     GameObject PlayerCharacter;
     [SerializeField]

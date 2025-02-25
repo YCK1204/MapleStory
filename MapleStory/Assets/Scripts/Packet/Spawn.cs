@@ -32,7 +32,7 @@ public partial class PacketHandler
             Manager.Object.MyPlayer = pc;
             var cc = Camera.main.gameObject.AddComponent<CameraController>();
             cc.AddComponent<CinemachineBrain>();
-            cc.cinemachineCamera = Manager.Resource.Instantiate("Prefabs/FollowCamera").GetComponent<CinemachineCamera>();
+            cc.cinemachineCamera = Manager.Resource.Instantiate("Prefabs/PlayUtil/FollowCamera").GetComponent<CinemachineCamera>();
             var border = GameObject.Find("Border").GetComponent<Collider2D>();
             cc.Border = border;
             cc.Target = pc.gameObject;
