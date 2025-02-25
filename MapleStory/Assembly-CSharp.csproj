@@ -90,6 +90,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterDeleteError.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_Jump.cs" />
     <Compile Include="Assets\Scripts\Managers\ObjectManager.cs" />
+    <Compile Include="Assets\Scripts\Controllers\OneShotPlayController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SignUpError.cs" />
     <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Packet\PrevInGame\WorldSelect.cs" />

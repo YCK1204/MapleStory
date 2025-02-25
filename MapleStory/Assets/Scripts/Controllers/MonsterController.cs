@@ -2,10 +2,13 @@ using UnityEngine;
 
 public class MonsterController : CreatureController
 {
+    public AudioClip AttackSound;
+    public AudioClip DieSound;
+    public AudioClip HitSound;
     public override void Destroy()
     {
+        GameObject.Destroy(this);
     }
-
     protected override void Init()
     {
     }
@@ -16,5 +19,25 @@ public class MonsterController : CreatureController
 
     protected override void UpdateController()
     {
+    }
+    void PlaySound(AudioClip audioClip)
+    {
+        var go = Manager.Resource.Instantiate("prefabs/OneShotPlay");
+        var ospc = go.GetComponent<OneShotPlayController>();
+
+        ospc.audioClip = audioClip;
+        ospc.Play();
+    }
+    public virtual void PlayHitSound()
+    {
+        PlaySound(HitSound);
+    }
+    public virtual void PlayDieSound()
+    {
+        PlaySound(DieSound);
+    }
+    public virtual void PlayAttackSound()
+    {
+        PlaySound(AttackSound);
     }
 }
