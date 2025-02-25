@@ -33,6 +33,8 @@ public partial class PacketHandler
             var cc = Camera.main.gameObject.AddComponent<CameraController>();
             cc.AddComponent<CinemachineBrain>();
             cc.cinemachineCamera = Manager.Resource.Instantiate("Prefabs/FollowCamera").GetComponent<CinemachineCamera>();
+            var border = GameObject.Find("Border").GetComponent<Collider2D>();
+            cc.Border = border;
             cc.Target = pc.gameObject;
             cc.Init();
 

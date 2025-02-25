@@ -115,6 +115,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CreateCharacter.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_CreateCharacter.cs" />
     <Compile Include="Assets\Scripts\Packet\Move.cs" />
+    <Compile Include="Assets\Scripts\Controllers\BackObjectController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_CharacterSelect.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\UIPrevInGameController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_EnterChannel.cs" />
