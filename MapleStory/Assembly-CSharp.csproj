@@ -111,6 +111,7 @@
     <Compile Include="Assets\Scripts\Controllers\MyPlayerContoller.cs" />
     <Compile Include="Assets\Scripts\Scene\IntroScene.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterTotalInfo.cs" />
+    <Compile Include="Assets\MapData\MapEditor.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\MonsterInfo.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CreateCharacter.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_CreateCharacter.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\C_CharacterSelect.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\MoveDirection.cs" />
     <Compile Include="Assets\Scripts\Managers\Manager.cs" />
+    <Compile Include="Assets\Scripts\Build\BuildAndRun.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_MoveEnd.cs" />
     <Compile Include="Assets\Scripts\Session\ServerSession.cs" />
     <Compile Include="Assets\Scripts\ScriptableObject\Creature\PlayerData.cs" />
@@ -177,6 +179,7 @@
     <None Include="Assets\UI Toolkit\PrevInGame\WorldSelectStyle.uss" />
     <None Include="Assets\DLL\Newtonsoft.Json.dll" />
     <None Include="Assets\UI Toolkit\PrevInGame\LoginStyle.uss" />
+    <None Include="Assets\MapData\Data\Map_001.txt" />
     <None Include="Assets\DLL\Google.FlatBuffers.dll" />
     <None Include="Assets\UI Toolkit\notice\NoticeStyle.uss" />
     <None Include="Assets\DLL\ServerCore.dll" />
