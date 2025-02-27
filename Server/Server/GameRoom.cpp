@@ -3,12 +3,7 @@
 
 uint64 GameRoom::GenerateId(const ObjectType& type)
 {
-	uint64 id;
-	{
-		WRITE_LOCK;
-		id = ++_curId;
-	}
-	return id | ((uint64)type << 56);
+	return ++_curId | ((uint64)type << 56);
 }
 
 const uint8 GameRoom::GetServerId() const
@@ -23,7 +18,7 @@ const uint8 GameRoom::GetChannelId() const
 
 const uint8 GameRoom::GetMapId() const
 {
-	return ((_roomId & MAP_MASK) >> 16);
+	return ((_roomId & MAP_MASK));
 }
 
 // todo
@@ -32,7 +27,6 @@ Offset<Vector<Offset<PlayerInfo>>> GameRoom::GetPlayerInfos(FlatBufferBuilder& b
 {
 	vector<Offset<PlayerInfo>> infos;
 
-	WRITE_LOCK;
 	for (auto it = _players.begin(); it != _players.end(); it++)
 	{
 		PlayerRef player = it->second;
@@ -47,7 +41,6 @@ Offset<Vector<Offset<MonsterInfo>>> GameRoom::GetMonsterInfos(FlatBufferBuilder&
 {
 	vector<Offset<MonsterInfo>> infos;
 
-	WRITE_LOCK;
 	for (auto it = _objects.begin(); it != _objects.end(); it++)
 	{
 
@@ -67,7 +60,6 @@ GameRoom::~GameRoom()
 GameObject* GameRoom::Find(uint64& id)
 {
 	GameObject* go = nullptr;
-	READ_LOCK;
 	auto it = _objects.find(id);
 	if (it != _objects.end())
 		go = it->second.get();
@@ -76,15 +68,11 @@ GameObject* GameRoom::Find(uint64& id)
 
 void GameRoom::Remove(uint64& id)
 {
-	WRITE_LOCK;
-
 	_objects.erase(id);
 }
 
-void GameRoom::Remove(PlayerRef& player)
+void GameRoom::Remove(PlayerRef player)
 {
-	WRITE_LOCK;
-
 	auto id = player->Id;
 	_players.erase(player->Id);
 }
@@ -92,10 +80,7 @@ void GameRoom::Remove(PlayerRef& player)
 void GameRoom::Push(GameObjectRef& go)
 {
 	uint64 id = GenerateId(go->Type);
-	{
-		WRITE_LOCK;
-		_objects[id] = go;
-	}
+	_objects[id] = go;
 	go->Id = id;
 }
 
@@ -105,14 +90,14 @@ void GameRoom::Push(GameObject* go)
 	Push(ref);
 }
 
-void GameRoom::Push(PlayerRef& player)
+void GameRoom::Push(PlayerRef player)
 {
-	uint64 id = GenerateId(player->Type);
+	if (_players.find(player->Id) == _players.end())
 	{
-		WRITE_LOCK;
+		uint64 id = GenerateId(player->Type);
 		_players[id] = player;
+		player->Id = id;
 	}
-	player->Id = id;
 }
 
 void GameRoom::Broadcast(SendBufferRef pkt, PlayerRef exception)
@@ -125,5 +110,22 @@ void GameRoom::Broadcast(SendBufferRef pkt, PlayerRef exception)
 		if (clientSession == nullptr)
 			continue;
 		clientSession->Send(pkt);
+	}
+}
+
+void GameRoom::PushJob(JobRef job) {
+	WRITE_LOCK;
+	_jobQueue.push(job);
+}
+
+void GameRoom::Update() {
+	{
+		WRITE_LOCK;
+		while (_jobQueue.size() > 0)
+		{
+			auto job = _jobQueue.front();
+			_jobQueue.pop();
+			job->Execute();
+		}
 	}
 }

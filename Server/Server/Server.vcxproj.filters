@@ -62,9 +62,6 @@
     <ClCompile Include="GameRoom.cpp">
       <Filter>GameServer\Room</Filter>
     </ClCompile>
-    <ClCompile Include="RoomManager.cpp">
-      <Filter>GameServer\Room</Filter>
-    </ClCompile>
     <ClCompile Include="Channel.cpp">
       <Filter>GameServer\Channel</Filter>
     </ClCompile>
@@ -123,9 +120,6 @@
       <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="GameRoom.h">
-      <Filter>GameServer\Room</Filter>
-    </ClInclude>
-    <ClInclude Include="RoomManager.h">
       <Filter>GameServer\Room</Filter>
     </ClInclude>
     <ClInclude Include="Channel.h">

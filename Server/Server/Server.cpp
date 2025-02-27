@@ -9,6 +9,16 @@ Server::~Server()
 {
 }
 
+map<uint8, ChannelRef>::iterator Server::begin()
+{
+	return _channels.begin();
+}
+
+map<uint8, ChannelRef>::iterator Server::end()
+{
+	return _channels.end();
+}
+
 void Server::Init(json& j)
 {
 	// 서버의 정보 초기화
@@ -29,7 +39,7 @@ void Server::Init(json& j)
 	{
 		ChannelRef channel = shared_ptr<Channel>(new Channel());
 		_channels[i] = channel;
-		channel->Init(i);
+		channel->Init(_id, i, 1);
 	}
 }
 
@@ -67,6 +77,20 @@ const vector<ChannelInfo> Server::GetChannelInfos() const
 	return channelInfos;
 }
 
+const Offset<SC_ChannelInfo> Server::GetChannelInfo(FlatBufferBuilder& bb) const
+{
+	auto channelInfoVec = GetChannelInfos();
+	auto channelInfos = bb.CreateVectorOfStructs(channelInfoVec);
+
+	return CreateSC_ChannelInfo(bb, _id, channelInfos);
+}
+
 const uint16 Server::GetMaxUserCount() const {
 	return _maxUserCount;
+}
+
+void Server::Update()
+{
+	for (auto it = begin(); it != end(); it++)
+		it->second->Update();
 }

@@ -35,7 +35,9 @@ void PacketHandler::C_MoveStartHandler(PacketSession* session, ByteRef& buffer)
 		FlatBufferBuilder builder;
 		auto data = CreateSC_MoveStart(builder, player->Id, dir, pos->X, pos->Y);
 		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_MoveStart);
-		room->Broadcast(packet);
+
+		auto b = std::bind(static_cast<void(GameRoom::*)(SendBufferRef, PlayerRef)>(&GameRoom::Broadcast), room, std::placeholders::_1, std::placeholders::_2);
+		room->PushJob<SendBufferRef, PlayerRef>(b, packet, player);
 	}
 	catch (...)
 	{
@@ -73,7 +75,8 @@ void PacketHandler::C_MoveEndHandler(PacketSession* session, ByteRef& buffer)
 		FlatBufferBuilder builder;
 		auto data = CreateSC_MoveEnd(builder, player->Id, pos->X, pos->Y);
 		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_MoveEnd);
-		room->Broadcast(packet);
+		auto b = std::bind(static_cast<void(GameRoom::*)(SendBufferRef, PlayerRef)>(&GameRoom::Broadcast), room, std::placeholders::_1, std::placeholders::_2);
+		room->PushJob<SendBufferRef, PlayerRef>(b, packet, player);
 	}
 	catch (...)
 	{
@@ -108,7 +111,8 @@ void PacketHandler::C_JumpHandler(PacketSession* session, ByteRef& buffer)
 		FlatBufferBuilder builder;
 		auto data = CreateSC_Jump(builder, player->Id);
 		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_Jump);
-		room->Broadcast(packet);
+		auto b = std::bind(static_cast<void(GameRoom::*)(SendBufferRef, PlayerRef)>(&GameRoom::Broadcast), room, std::placeholders::_1, std::placeholders::_2);
+		room->PushJob<SendBufferRef, PlayerRef>(b, packet, player);
 	}
 	catch (...)
 	{
@@ -143,7 +147,8 @@ void PacketHandler::C_ProneStabStartHandler(PacketSession* session, ByteRef& buf
 		FlatBufferBuilder builder;
 		auto data = CreateSC_ProneStabStart(builder, player->Id);
 		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_ProneStabStart);
-		room->Broadcast(packet);
+		auto b = std::bind(static_cast<void(GameRoom::*)(SendBufferRef, PlayerRef)>(&GameRoom::Broadcast), room, std::placeholders::_1, std::placeholders::_2);
+		room->PushJob<SendBufferRef, PlayerRef>(b, packet, player);
 	}
 	catch (...)
 	{
@@ -178,7 +183,8 @@ void PacketHandler::C_ProneStabEndHandler(PacketSession* session, ByteRef& buffe
 		FlatBufferBuilder builder;
 		auto data = CreateSC_ProneStabEnd(builder, player->Id);
 		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_ProneStabEnd);
-		room->Broadcast(packet);
+		auto b = std::bind(static_cast<void(GameRoom::*)(SendBufferRef, PlayerRef)>(&GameRoom::Broadcast), room, std::placeholders::_1, std::placeholders::_2);
+		room->PushJob<SendBufferRef, PlayerRef>(b, packet, player);
 	}
 	catch (...)
 	{

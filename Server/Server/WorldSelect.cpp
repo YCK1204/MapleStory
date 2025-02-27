@@ -14,7 +14,7 @@ void PacketHandler::C_EnterChannelHandler(PacketSession* session, ByteRef& buffe
 		uint8 channelId = pkt->channel_index();
 		uint8 serverId = pkt->server_index();
 
-		Server* server = Manager::Server.Find(serverId);
+		auto server = Manager::Server.Find(serverId);
 		if (server == nullptr)
 		{
 			session->Disconnect();
@@ -60,12 +60,12 @@ void PacketHandler::C_ChannelInfoHandler(PacketSession* session, ByteRef& buffer
 		auto pkt = GetRoot<C_ChannelInfo>(buffer->operator std::byte * ());
 		uint8 serverId = pkt->server_id();
 
-		Server* server = Manager::Server.Find(serverId);
+		auto server = Manager::Server.Find(serverId);
 		if (server == nullptr)
 			client->Disconnect();
 		else
 		{
-			auto data = Manager::Server.GetChannelInfo(server, builder);
+			auto data = server->GetChannelInfo(builder);
 			auto packet = Manager::Packet.CreatePacket(data, builder, PacketType::PacketType_SC_ChannelInfo);
 			client->Send(packet);
 		}

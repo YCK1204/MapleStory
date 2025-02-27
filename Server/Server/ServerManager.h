@@ -15,7 +15,8 @@ public:
 	~ServerManager();
 
 public:
+	map<uint8, ServerRef>::iterator begin();
+	map<uint8, ServerRef>::iterator end();
 	void Init(json& j);
-	Server* Find(uint8& id);
-	Offset<SC_ChannelInfo> GetChannelInfo(Server* server, FlatBufferBuilder& bb);
+	ServerRef Find(uint8& id);
 };

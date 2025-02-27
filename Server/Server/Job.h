@@ -24,7 +24,7 @@ private:
 	_Ty1 _t1;
 	function<void(_Ty1)> _func;
 public:
-	Job(function<void(_Ty1)> func, _Ty1 t1) : _func(func), _t1(t1) {  }
+	Job1(function<void(_Ty1)> func, _Ty1 t1) : _func(func), _t1(t1) {  }
 	virtual void Execute() { _func(_t1); }
 };
 
@@ -35,7 +35,7 @@ private:
 	_Ty2 _t2;
 	function<void(_Ty1, _Ty2)> _func;
 public:
-	Job(function<void(_Ty1, _Ty2)> func, _Ty1 t1, _Ty2 t2) : _func(func), _t1(t1), _t2(t2) {}
+	Job2(function<void(_Ty1, _Ty2)> func, _Ty1 t1, _Ty2 t2) : _func(func), _t1(t1), _t2(t2) {}
 	virtual void Execute() { _func(_t1, _t2); }
 };
 
@@ -47,6 +47,6 @@ private:
 	_Ty3 _t3;
 	function<void(_Ty1, _Ty2, _Ty3)> _func;
 public:
-	Job(function<void(_Ty1, _Ty2)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3) : _func(func), _t1(t1), _t2(t2), _t3(t3) {}
+	Job3(function<void(_Ty1, _Ty2, _Ty3)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3) : _func(func), _t1(t1), _t2(t2), _t3(t3) {}
 	virtual void Execute() { _func(_t1, _t2, _t3); }
 };

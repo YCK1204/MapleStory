@@ -38,9 +38,6 @@ public:
 	Offset<CharacterTotalInfo> GenerateTotalInfo(FlatBufferBuilder& builder);
 	Offset<CharacterPreviewInfo> GeneratePreviewInfo(FlatBufferBuilder& builder);
 public:
-	void EnterRoom(uint32& roomId);
-	void LeaveRoom(uint32& roomId);
-public:
 	const shared_ptr<Ability> GetAbility() const;
 	const string& GetName() const;
 	const int32& GetLevel() const;

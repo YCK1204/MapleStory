@@ -64,21 +64,6 @@ Offset<CharacterPreviewInfo> Player::GeneratePreviewInfo(FlatBufferBuilder& buil
 	return info;
 }
 
-
-void Player::EnterRoom(uint32& roomId)
-{
-	auto room = Manager::Room.Find(roomId);
-	if (room)
-		room->Push(this);
-}
-
-void Player::LeaveRoom(uint32& roomId)
-{
-	auto room = Manager::Room.Find(roomId);
-	if (room)
-		room->Remove(this->Id);
-}
-
 const shared_ptr<Ability> Player::GetAbility() const
 {
 	return _ability;

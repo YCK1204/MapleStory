@@ -5,7 +5,9 @@ int main()
 	Manager::Init();
 
 	while (true)
-		this_thread::sleep_for(0.1s);
+	{
+		Manager::Update();
+	}
 
 	return 0;
 }

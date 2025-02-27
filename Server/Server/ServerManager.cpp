@@ -15,6 +15,16 @@ ServerManager::~ServerManager()
 	delete _instance;
 }
 
+map<uint8, ServerRef>::iterator ServerManager::begin()
+{
+	return _servers.begin();
+}
+
+map<uint8, ServerRef>::iterator ServerManager::end()
+{
+	return _servers.end();
+}
+
 void ServerManager::Init(json& j)
 {
 	// 서버들 초기화
@@ -33,22 +43,12 @@ void ServerManager::Init(json& j)
 	}
 }
 
-Server* ServerManager::Find(uint8& id)
+ServerRef ServerManager::Find(uint8& id)
 {
-	Server* server = nullptr;
+	ServerRef server = nullptr;
 
 	auto it = _servers.find(id);
 	if (it != _servers.end())
-		server = it->second.get();
+		server = it->second;
 	return server;
-}
-
-Offset<SC_ChannelInfo> ServerManager::GetChannelInfo(Server* server, FlatBufferBuilder& bb)
-{
-	uint8 serverId = server->GetId();
-
-	auto channelInfoVec = server->GetChannelInfos();
-	auto channelInfos = bb.CreateVectorOfStructs(channelInfoVec);
-
-	return CreateSC_ChannelInfo(bb, serverId, channelInfos);
 }

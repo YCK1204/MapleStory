@@ -5,7 +5,6 @@
 
 PacketManager& Manager::Packet = PacketManager::Instance();
 SessionManager& Manager::Session = SessionManager::Instance();
-RoomManager& Manager::Room = RoomManager::Instance();
 ServerManager& Manager::Server = ServerManager::Instance();
 
 void Manager::Init() {
@@ -52,8 +51,13 @@ void Manager::Init() {
 		json j = json::parse(serverJson);
 
 		Server.Init(j);
-		Room.Init(j, 1); // юс╫ц╥н 1
 		serverJson.close();
 	}
 #pragma endregion
+}
+
+void Manager::Update()
+{
+	for (auto it = Server.begin(); it != Server.end(); it++)
+		it->second->Update();
 }

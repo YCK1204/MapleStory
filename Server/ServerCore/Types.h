@@ -31,6 +31,7 @@ using UInt16Ref = shared_ptr<BaseRef<uint16>>;
 using UInt32Ref = shared_ptr<BaseRef<uint32>>;
 using UInt64Ref = shared_ptr<BaseRef<uint64>>;
 using ByteRef = shared_ptr<BaseRef<std::byte>>;
+using JobRef = shared_ptr<class IJob>;
 
 using GameObjectRef = shared_ptr<class GameObject>;
 using GameRoomRef = shared_ptr<class GameRoom>;
