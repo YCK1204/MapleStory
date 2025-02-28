@@ -15,20 +15,18 @@ void PacketHandler::C_MoveStartHandler(PacketSession* session, ByteRef& buffer)
 
 	auto pkt = GetRoot<C_MoveStart>(buffer->operator std::byte * ());
 	try {
-		auto dir = pkt->dir();
 		auto room = player->Room;
 
-		player->AddState(PlayerState::MOVE);
-		auto pos = player->Pos;
-		pos->X = pkt->x();
-		pos->Y = pkt->y();
+		room->PushJob<PlayerRef, MoveDirection, float, float>([player](PlayerRef, MoveDirection dir, float x, float y) {
+			player->AddState(PlayerState::MOVE);
+			player->Pos->X = x;
+			player->Pos->Y = y;
 
-		FlatBufferBuilder builder;
-		auto data = CreateSC_MoveStart(builder, player->Id, dir, pos->X, pos->Y);
-		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_MoveStart);
-
-		auto b = std::bind(static_cast<void(GameRoom::*)(SendBufferRef, PlayerRef)>(&GameRoom::Broadcast), room, std::placeholders::_1, std::placeholders::_2);
-		room->PushJob<SendBufferRef, PlayerRef>(b, packet, player);
+			FlatBufferBuilder builder;
+			auto data = CreateSC_MoveStart(builder, player->Id, dir, player->Pos->X, player->Pos->Y);
+			auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_MoveStart);
+			player->Room->Broadcast(packet, player);
+			}, player, pkt->dir(), pkt->x(), pkt->y());
 	}
 	catch (...)
 	{
@@ -45,24 +43,23 @@ void PacketHandler::C_MoveEndHandler(PacketSession* session, ByteRef& buffer)
 	}
 	auto player = client->Player;
 	if (player->IsInState(PlayerState::MOVE) == false)
-	{
-		client->Disconnect();
 		return;
-	}
 
-	player->RemoveState(PlayerState::MOVE);
 	auto pkt = GetRoot<C_MoveEnd>(buffer->operator std::byte * ());
 	try {
 		auto room = player->Room;
-		auto pos = player->Pos;
-		pos->X = pkt->x();
-		pos->Y = pkt->y();
 
-		FlatBufferBuilder builder;
-		auto data = CreateSC_MoveEnd(builder, player->Id, pos->X, pos->Y);
-		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_MoveEnd);
-		auto b = std::bind(static_cast<void(GameRoom::*)(SendBufferRef, PlayerRef)>(&GameRoom::Broadcast), room, std::placeholders::_1, std::placeholders::_2);
-		room->PushJob<SendBufferRef, PlayerRef>(b, packet, player);
+		room->PushJob<PlayerRef, float, float>([player](PlayerRef, float x, float y) {
+			player->RemoveState(PlayerState::MOVE);
+
+			player->Pos->X = x;
+			player->Pos->Y = y;
+			FlatBufferBuilder builder;
+			auto data = CreateSC_MoveEnd(builder, player->Id, player->Pos->X, player->Pos->Y);
+			auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_MoveEnd);
+			player->Room->Broadcast(packet, player);
+			}, player, pkt->x(), pkt->y());
+
 	}
 	catch (...)
 	{
@@ -84,7 +81,6 @@ void PacketHandler::C_JumpHandler(PacketSession* session, ByteRef& buffer)
 
 	try {
 		auto room = player->Room;
-		auto pos = player->Pos;
 
 		FlatBufferBuilder builder;
 		auto data = CreateSC_Jump(builder, player->Id);
@@ -110,16 +106,17 @@ void PacketHandler::C_ProneStabStartHandler(PacketSession* session, ByteRef& buf
 		auto player = client->Player;
 		if (player->IsInState(PlayerState::PRONE_STAB))
 			return;
-		player->AddState(PlayerState::PRONE_STAB);
 
 		auto room = player->Room;
-		auto pos = player->Pos;
+		room->PushJob<PlayerRef>([player](PlayerRef) {
+			player->AddState(PlayerState::PRONE_STAB);
 
-		FlatBufferBuilder builder;
-		auto data = CreateSC_ProneStabStart(builder, player->Id);
-		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_ProneStabStart);
-		auto b = std::bind(static_cast<void(GameRoom::*)(SendBufferRef, PlayerRef)>(&GameRoom::Broadcast), room, std::placeholders::_1, std::placeholders::_2);
-		room->PushJob<SendBufferRef, PlayerRef>(b, packet, player);
+			FlatBufferBuilder builder;
+			auto data = CreateSC_ProneStabStart(builder, player->Id);
+			auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_ProneStabStart);
+			auto room = player->Room;
+			room->Broadcast(packet, player);
+			}, player);
 	}
 	catch (...)
 	{
@@ -138,20 +135,17 @@ void PacketHandler::C_ProneStabEndHandler(PacketSession* session, ByteRef& buffe
 		}
 		auto player = client->Player;
 		if (player->IsInState(PlayerState::PRONE_STAB) == false)
-		{
-			client->Disconnect();
 			return;
-		}
-		player->RemoveState(PlayerState::PRONE_STAB);
 
 		auto room = player->Room;
-		auto pos = player->Pos;
+		room->PushJob<PlayerRef>([player](PlayerRef) {
+			player->RemoveState(PlayerState::PRONE_STAB);
 
-		FlatBufferBuilder builder;
-		auto data = CreateSC_ProneStabEnd(builder, player->Id);
-		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_ProneStabEnd);
-		auto b = std::bind(static_cast<void(GameRoom::*)(SendBufferRef, PlayerRef)>(&GameRoom::Broadcast), room, std::placeholders::_1, std::placeholders::_2);
-		room->PushJob<SendBufferRef, PlayerRef>(b, packet, player);
+			FlatBufferBuilder builder;
+			auto data = CreateSC_ProneStabEnd(builder, player->Id);
+			auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_ProneStabEnd);
+			player->Room->Broadcast(packet, player);
+			}, player);
 	}
 	catch (...)
 	{

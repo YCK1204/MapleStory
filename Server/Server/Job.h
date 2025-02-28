@@ -50,3 +50,30 @@ public:
 	Job3(function<void(_Ty1, _Ty2, _Ty3)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3) : _func(func), _t1(t1), _t2(t2), _t3(t3) {}
 	virtual void Execute() { _func(_t1, _t2, _t3); }
 };
+
+template <typename _Ty1, typename _Ty2, typename _Ty3, typename _Ty4>
+class Job4 : public IJob {
+private:
+	_Ty1 _t1;
+	_Ty2 _t2;
+	_Ty3 _t3;
+	_Ty4 _t4;
+	function<void(_Ty1, _Ty2, _Ty3, _Ty4)> _func;
+public:
+	Job4(function<void(_Ty1, _Ty2, _Ty3, _Ty4)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3, _Ty4 t4) : _func(func), _t1(t1), _t2(t2), _t3(t3), _t4(t4) {}
+	virtual void Execute() { _func(_t1, _t2, _t3, _t4); }
+};
+
+template <typename _Ty1, typename _Ty2, typename _Ty3, typename _Ty4, typename _Ty5>
+class Job5 : public IJob {
+private:
+	_Ty1 _t1;
+	_Ty2 _t2;
+	_Ty3 _t3;
+	_Ty4 _t4;
+	_Ty5 _t5;
+	function<void(_Ty1, _Ty2, _Ty3, _Ty4, _Ty5)> _func;
+public:
+	Job5(function<void(_Ty1, _Ty2, _Ty3, _Ty4, _Ty5)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3, _Ty4 t4, _Ty5 t5) : _func(func), _t1(t1), _t2(t2), _t3(t3), _t4(t4), _t5(t5) {}
+	virtual void Execute() { _func(_t1, _t2, _t3, _t4, _t5); }
+};

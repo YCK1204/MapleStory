@@ -44,6 +44,10 @@ public:
 	void PushJob(function<void(_Ty1, _Ty2)> func, _Ty1 t1, _Ty2 t2);
 	template <typename _Ty1, typename _Ty2, typename _Ty3>
 	void PushJob(function<void(_Ty1, _Ty2, _Ty3)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3);
+	template <typename _Ty1, typename _Ty2, typename _Ty3, typename _Ty4>
+	void PushJob(function<void(_Ty1, _Ty2, _Ty3, _Ty4)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3, _Ty4 t4);
+	template <typename _Ty1, typename _Ty2, typename _Ty3, typename _Ty4, typename _Ty5>
+	void PushJob(function<void(_Ty1, _Ty2, _Ty3, _Ty4, _Ty5)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3, _Ty4 t4, _Ty5 t5);
 	void Update();
 };
 
@@ -65,5 +69,19 @@ template <typename _Ty1, typename _Ty2, typename _Ty3>
 inline void GameRoom::PushJob(function<void(_Ty1, _Ty2, _Ty3)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3)
 {
 	auto jobRef = static_cast<JobRef>(make_shared<Job3<_Ty1, _Ty2, _Ty3>>(func, t1, t2, t3));
+	PushJob(jobRef);
+}
+
+template<typename _Ty1, typename _Ty2, typename _Ty3, typename _Ty4>
+inline void GameRoom::PushJob(function<void(_Ty1, _Ty2, _Ty3, _Ty4)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3, _Ty4 t4)
+{
+	auto jobRef = static_cast<JobRef>(make_shared<Job4<_Ty1, _Ty2, _Ty3, _Ty4>>(func, t1, t2, t3, t4));
+	PushJob(jobRef);
+}
+
+template<typename _Ty1, typename _Ty2, typename _Ty3, typename _Ty4, typename _Ty5>
+inline void GameRoom::PushJob(function<void(_Ty1, _Ty2, _Ty3, _Ty4, _Ty5)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3, _Ty4 t4, _Ty5 t5)
+{
+	auto jobRef = static_cast<JobRef>(make_shared<Job5<_Ty1, _Ty2, _Ty3, _Ty4, _Ty5>>(func, t1, t2, t3, t4, t5));
 	PushJob(jobRef);
 }
