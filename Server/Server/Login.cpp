@@ -5,14 +5,14 @@
 
 void PacketHandler::C_SignUpHandler(PacketSession* session, ByteRef& buffer)
 {
-	ClientRef client = Manager::Session.Find(session->GetSessionId());
-	if (client == nullptr)
+	ClientSession* client = reinterpret_cast<ClientSession*>(session);
+
+	if (client->State != ClientState::LOGIN)
 	{
 		session->Disconnect();
 		return;
 	}
 
-	FlatBufferBuilder builder;
 	const int32 lengthRangeStart = 4;
 	const int32 lengthRangeEnd = 20;
 
@@ -41,6 +41,7 @@ void PacketHandler::C_SignUpHandler(PacketSession* session, ByteRef& buffer)
 		}
 		// db 서버에 SignUp 요청
 		{
+			FlatBufferBuilder builder;
 			auto fId = builder.CreateString(id);
 			auto fPassword = builder.CreateString(password);
 			auto sessionId = session->GetSessionId();
@@ -53,7 +54,7 @@ void PacketHandler::C_SignUpHandler(PacketSession* session, ByteRef& buffer)
 	catch (exception& e)
 	{
 		// 패킷 처리 중 예외 발생 시 즉시 UNknown 반환
-		cerr << e.what() << endl;
+		FlatBufferBuilder builder;
 		auto data = CreateSC_SignUp(builder, SignUpError_UNKNOWN);
 		auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_SignUp);
 		Manager::Session.dbSession->Send(pkt);
@@ -73,7 +74,10 @@ void PacketHandler::D_SignUpHandler(PacketSession* session, ByteRef& buffer)
 		if (client == nullptr)
 			return;
 		if (error == SignInError_SUCCESS)
+		{
 			client->SetDbId(pkt->db_id());
+			client->State = ClientState::WORLD_SELECT;
+		}
 
 		auto data = CreateSC_SignUp(builder, error);
 		auto bytes = Manager::Packet.CreatePacket(data, builder, PacketType_SC_SignUp);
@@ -88,13 +92,12 @@ void PacketHandler::D_SignUpHandler(PacketSession* session, ByteRef& buffer)
 
 void PacketHandler::C_SignInHandler(PacketSession* session, ByteRef& buffer)
 {
-	ClientRef client = Manager::Session.Find(session->GetSessionId());
-	if (client == nullptr)
+	ClientSession* client = reinterpret_cast<ClientSession*>(session);
+	if (client->State != ClientState::LOGIN)
 	{
 		session->Disconnect();
 		return;
 	}
-	FlatBufferBuilder builder;
 	const int32 lengthRangeStart = 4;
 	const int32 lengthRangeEnd = 20;
 
@@ -123,6 +126,7 @@ void PacketHandler::C_SignInHandler(PacketSession* session, ByteRef& buffer)
 		}
 		// db 서버에 SignIn 요청
 		{
+			FlatBufferBuilder builder;
 			auto fId = builder.CreateString(id);
 			auto fPassword = builder.CreateString(password);
 			auto sessionId = session->GetSessionId();
@@ -135,6 +139,7 @@ void PacketHandler::C_SignInHandler(PacketSession* session, ByteRef& buffer)
 	catch (exception& e)
 	{
 		// 패킷 처리 중 예외 발생 시 즉시 UNknown 반환
+		FlatBufferBuilder builder;
 		cerr << e.what() << endl;
 		auto data = CreateSC_SignIn(builder, SignUpError_UNKNOWN);
 		auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SD_SignIn);
@@ -144,7 +149,6 @@ void PacketHandler::C_SignInHandler(PacketSession* session, ByteRef& buffer)
 
 void PacketHandler::D_SignInHandler(PacketSession* session, ByteRef& buffer)
 {
-	FlatBufferBuilder builder;
 
 	try {
 		auto pkt = GetRoot<D_SignIn>(reinterpret_cast<uint8*>(buffer->operator byte * ()));
@@ -153,7 +157,10 @@ void PacketHandler::D_SignInHandler(PacketSession* session, ByteRef& buffer)
 
 		if (client != nullptr)
 		{
+			FlatBufferBuilder builder;
 			auto error = pkt->ok();
+			if (error == SignInError_SUCCESS)
+				client->State = ClientState::WORLD_SELECT;
 			auto data = CreateSC_SignIn(builder, sessionId, error);
 			auto bytes = Manager::Packet.CreatePacket(data, builder, PacketType_SC_SignIn);
 

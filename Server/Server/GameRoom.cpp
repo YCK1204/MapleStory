@@ -73,8 +73,10 @@ void GameRoom::Remove(uint64& id)
 
 void GameRoom::Remove(PlayerRef player)
 {
-	auto id = player->Id;
+	if (_players.find(player->Id) == _players.end())
+		return;
 	_players.erase(player->Id);
+	// Despawn broadcast 코드 추가 필요
 }
 
 void GameRoom::Push(GameObjectRef& go)
@@ -82,12 +84,14 @@ void GameRoom::Push(GameObjectRef& go)
 	uint64 id = GenerateId(go->Type);
 	_objects[id] = go;
 	go->Id = id;
+	// broadcast
 }
 
 void GameRoom::Push(GameObject* go)
 {
 	GameObjectRef ref = shared_ptr<GameObject>(go);
 	Push(ref);
+	// broadcast
 }
 
 void GameRoom::Push(PlayerRef player)
@@ -97,6 +101,12 @@ void GameRoom::Push(PlayerRef player)
 		uint64 id = GenerateId(player->Type);
 		_players[id] = player;
 		player->Id = id;
+		FlatBufferBuilder builder;
+		auto playerInfo = player->GeneratePlayerInfo(builder);
+
+		auto data = CreateSC_PSpawn(builder, playerInfo);
+		auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_PSpawn);
+		Broadcast(pkt, player);
 	}
 }
 

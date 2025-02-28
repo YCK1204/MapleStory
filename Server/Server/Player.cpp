@@ -1,9 +1,8 @@
 #include "pch.h"
 #include "Player.h"
 
-Player::Player(ClientRef session)
+Player::Player()
 {
-	Session = session;
 	Type = ObjectType::PLAYER;
 	_baseInfo->MapId = -1;
 }
@@ -18,6 +17,11 @@ void Player::TakeDamage(int32& damage)
 	if (_baseInfo->Hp <= 0)
 		_baseInfo->Hp = 0;
 	// todo Destory
+}
+
+const bool Player::IsInState(PlayerState state)
+{
+	return (State & (1 << (uint32)state));
 }
 
 Offset<PlayerInfo> Player::GeneratePlayerInfo(FlatBufferBuilder& builder)
@@ -155,6 +159,21 @@ void Player::SetMapId(const uint8& mapId)
 void Player::SetExp(const int32& exp)
 {
 	_baseInfo->Exp = exp;
+}
+
+void Player::RemoveState(const PlayerState state)
+{
+	State &= ~(1 << (uint32)state);
+}
+
+void Player::AddState(const PlayerState state)
+{
+	State |= (1 << (uint32)state);
+}
+
+void Player::ClearState()
+{
+	State = 0;
 }
 
 const bool Player::IsAlive() const

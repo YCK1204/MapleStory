@@ -4,6 +4,9 @@
 
 void ClientSession::OnConnect()
 {
+	State = ClientState::LOGIN;
+	//Player->State = PlayerState::LOGIN;
+	Player->ClearState();
 	Init();
 	cout << "connected!" << endl;
 	RegisterRecv();
@@ -12,8 +15,10 @@ void ClientSession::OnConnect()
 
 void ClientSession::OnDisconnect()
 {
+	// todo
 	if (Player != nullptr && Player->Room != nullptr)
 		Player->Room->Remove(Player);
+
 	Player = nullptr;
 	GPoolManager->Push<ClientSession>(this);
 	Manager::Session.Remove(this->_sessionId);

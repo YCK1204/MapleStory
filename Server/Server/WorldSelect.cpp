@@ -5,10 +5,16 @@
 
 void PacketHandler::C_EnterChannelHandler(PacketSession* session, ByteRef& buffer)
 {
-	FlatBufferBuilder builder;
 	ClientSession* client = reinterpret_cast<ClientSession*>(session);
-
 	EnterChannelError error = EnterChannelError::EnterChannelError_SUCCESS;
+
+	ClientState& state = client->State;
+	if (state != ClientState::WORLD_SELECT && state != ClientState::CHARACTER_SELECT)
+	{
+		client->Disconnect();
+		return;
+	}
+
 	try {
 		auto pkt = GetRoot<C_EnterChannel>(buffer->operator std::byte * ());
 		uint8 channelId = pkt->channel_index();
@@ -33,6 +39,7 @@ void PacketHandler::C_EnterChannelHandler(PacketSession* session, ByteRef& buffe
 		{
 			client->ServerId = serverId;
 			client->ChannelId = channelId;
+			state = ClientState::CHARACTER_SELECT;
 		}
 	}
 	catch (exception& e)
@@ -41,6 +48,7 @@ void PacketHandler::C_EnterChannelHandler(PacketSession* session, ByteRef& buffe
 		error = EnterChannelError::EnterChannelError_UNKNOWN;
 	}
 
+	FlatBufferBuilder builder;
 	auto data = CreateSC_EnterChannel(builder, error);
 	auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_EnterChannel);
 	client->Send(packet);
@@ -48,13 +56,14 @@ void PacketHandler::C_EnterChannelHandler(PacketSession* session, ByteRef& buffe
 
 void PacketHandler::C_ChannelInfoHandler(PacketSession* session, ByteRef& buffer)
 {
-	ClientRef client = Manager::Session.Find(session->GetSessionId());
-	if (client == nullptr)
+	ClientSession* client = reinterpret_cast<ClientSession*>(session);
+
+	ClientState& state = client->State;
+	if (state != ClientState::WORLD_SELECT && state != ClientState::CHARACTER_SELECT)
 	{
-		session->Disconnect();
+		client->Disconnect();
 		return;
 	}
-	FlatBufferBuilder builder;
 
 	try {
 		auto pkt = GetRoot<C_ChannelInfo>(buffer->operator std::byte * ());
@@ -65,6 +74,7 @@ void PacketHandler::C_ChannelInfoHandler(PacketSession* session, ByteRef& buffer
 			client->Disconnect();
 		else
 		{
+			FlatBufferBuilder builder;
 			auto data = server->GetChannelInfo(builder);
 			auto packet = Manager::Packet.CreatePacket(data, builder, PacketType::PacketType_SC_ChannelInfo);
 			client->Send(packet);

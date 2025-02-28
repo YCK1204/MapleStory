@@ -5,17 +5,21 @@
 
 void PacketHandler::C_CharacterListHandler(PacketSession* session, ByteRef& buffer)
 {
-	auto sessionId = session->GetSessionId();
-	ClientRef client = Manager::Session.Find(sessionId);
-	if (client == nullptr)
+	ClientSession* client = reinterpret_cast<ClientSession*>(session);
+
+	if (client->State != ClientState::CHARACTER_SELECT)
 	{
-		session->Disconnect();
+		client->Disconnect();
 		return;
 	}
 
 	FlatBufferBuilder builder;
-	auto dbId = session->GetDbId();
-	auto data = CreateSD_CharacterList(builder, sessionId, dbId, client->ServerId);
+	auto data = CreateSD_CharacterList(
+		builder,
+		session->GetSessionId(),
+		session->GetDbId(),
+		client->ServerId);
+
 	auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SD_CharacterList);
 	Manager::Session.dbSession->Send(pkt);
 }
@@ -23,12 +27,12 @@ void PacketHandler::C_CharacterListHandler(PacketSession* session, ByteRef& buff
 void PacketHandler::D_CharacterListHandler(PacketSession* session, ByteRef& buffer)
 {
 	auto pkt = GetRoot<D_CharacterList>(buffer->operator std::byte * ());
-	FlatBufferBuilder builder;
 
 	ClientRef client = Manager::Session.Find(pkt->session_id());
 	if (client == nullptr)
 		return;
 
+	FlatBufferBuilder builder;
 	auto ok = pkt->ok();
 	auto list = pkt->list();
 	vector<Offset<CharacterPreviewInfo>> infoList;
@@ -55,22 +59,30 @@ void PacketHandler::D_CharacterListHandler(PacketSession* session, ByteRef& buff
 }
 
 void PacketHandler::C_CharacterDeleteHandler(PacketSession* session, ByteRef& buffer) {
+
+	ClientSession* client = reinterpret_cast<ClientSession*>(session);
+
+	if (client->State != ClientState::CHARACTER_SELECT)
+	{
+		client->Disconnect();
+		return;
+	}
+
+	FlatBufferBuilder builder;
+
 	try {
 		auto pkt = GetRoot<C_CharacterDelete>(buffer->operator std::byte * ());
-		FlatBufferBuilder builder;
 
-		auto sessionId = session->GetSessionId();
-		ClientRef client = Manager::Session.Find(sessionId);
-		if (client == nullptr)
-			return;
-
-		auto data = CreateSD_CharacterDelete(builder, client->GetDbId(), client->GetSessionId(), pkt->char_id());
+		auto data = CreateSD_CharacterDelete(
+			builder,
+			client->GetDbId(),
+			client->GetSessionId(),
+			pkt->char_id());
 		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SD_CharacterDelete);
 		Manager::Session.dbSession->Send(packet);
 	}
 	catch (...)
 	{
-		FlatBufferBuilder builder;
 		auto data = CreateSC_CharacterDelete(builder, CharacterDeleteError_UNKNOWN);
 		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CharacterDelete);
 		session->Send(packet);
@@ -79,11 +91,12 @@ void PacketHandler::C_CharacterDeleteHandler(PacketSession* session, ByteRef& bu
 
 void PacketHandler::D_CharacterDeleteHandler(PacketSession* session, ByteRef& buffer) {
 	auto pkt = GetRoot<D_CharacterDelete>(buffer->operator std::byte * ());
-	FlatBufferBuilder builder;
 
 	ClientRef client = Manager::Session.Find(pkt->session_id());
 	if (client == nullptr)
 		return;
+
+	FlatBufferBuilder builder;
 	auto data = CreateSC_CharacterDelete(builder, pkt->ok());
 	auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CharacterDelete);
 	client->Send(packet);
@@ -91,20 +104,23 @@ void PacketHandler::D_CharacterDeleteHandler(PacketSession* session, ByteRef& bu
 
 void PacketHandler::C_CharacterSelectHandler(PacketSession* session, ByteRef& buffer)
 {
+	ClientSession* client = reinterpret_cast<ClientSession*>(session);
+
+	if (client->State != ClientState::CHARACTER_SELECT)
+	{
+		client->Disconnect();
+		return;
+	}
+
 	try {
 		auto pkt = GetRoot<C_CharacterSelect>(buffer->operator std::byte * ());
-		ClientRef client = Manager::Session.Find(session->GetSessionId());
-		if (client == nullptr)
-		{
-			session->Disconnect();
-			return;
-		}
-		auto charId = pkt->char_id();
-		auto sessionId = session->GetSessionId();
-		auto dbId = session->GetDbId();
-
+		
 		FlatBufferBuilder builder;
-		auto data = CreateSD_CharacterSelect(builder, sessionId, dbId, charId);
+		auto data = CreateSD_CharacterSelect(
+			builder,
+			session->GetSessionId(),
+			session->GetDbId(),
+			pkt->char_id());
 		auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SD_CharacterSelect);
 		Manager::Session.dbSession->Send(packet);
 	}
@@ -131,15 +147,15 @@ void PacketHandler::D_CharacterSelectHandler(PacketSession* session, ByteRef& bu
 	if (lastPos == 0)
 		lastPos = 1;
 
-	auto player = shared_ptr<Player>(new Player(client));
+	auto& player = client->Player;
 	{
-		client->Player = player;
 		player->SetAbility(ability);
 		player->SetLevel(prevInfo->level());
 		player->SetName(prevInfo->name()->str());
 		player->SetCharId(prevInfo->char_id());
 		player->SetCharType(prevInfo->char_type());
 		player->SetMapId(lastPos);
+		client->State = ClientState::INGAME;
 	}
 
 	FlatBufferBuilder builder;

@@ -6,14 +6,12 @@
 void PacketHandler::C_CheckNameHandler(PacketSession* session, ByteRef& buffer)
 {
 	auto sessionId = session->GetSessionId();
-	ClientRef client = Manager::Session.Find(sessionId);
-
-	if (client == nullptr)
+	ClientSession* client = reinterpret_cast<ClientSession*>(session);
+	if (client->State != ClientState::CHARACTER_SELECT)
 	{
-		session->Disconnect();
+		client->Disconnect();
 		return;
 	}
-	FlatBufferBuilder builder;
 
 	try
 	{
@@ -24,6 +22,7 @@ void PacketHandler::C_CheckNameHandler(PacketSession* session, ByteRef& buffer)
 			client->Disconnect();
 			return;
 		}
+		FlatBufferBuilder builder;
 		auto data = CreateSD_CheckName(builder, sessionId, builder.CreateString(name));
 		auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SD_CheckName);
 		Manager::Session.dbSession->Send(pkt);
@@ -61,22 +60,15 @@ void PacketHandler::C_CreateCharacterHandler(PacketSession* session, ByteRef& bu
 	auto pkt = GetRoot<C_CreateCharacter>(buffer->operator std::byte * ());
 
 	try {
-		ClientRef client = Manager::Session.Find(session->GetSessionId());
-		if (client == nullptr)
+		ClientSession* client = reinterpret_cast<ClientSession*>(session);
+		if (client->State != ClientState::CHARACTER_SELECT)
 		{
-			session->Disconnect();
+			client->Disconnect();
 			return;
 		}
 
-		auto sessionId = session->GetSessionId();
-		auto dbId = session->GetDbId();
-		auto charType = pkt->char_type();
-		auto name = pkt->name()->str();
-		auto ability = pkt->ability();
-
-
 		FlatBufferBuilder builder;
-
+		auto ability = pkt->ability();
 		auto offsetAbility = CreateCharacterAbility(
 			builder,
 			ability->STR(),
@@ -84,12 +76,12 @@ void PacketHandler::C_CreateCharacterHandler(PacketSession* session, ByteRef& bu
 			ability->INT(),
 			ability->LUK());
 
-		auto data = CreateSD_CreateCharacter(
+		auto data = CreateSD_CreateCharacterDirect(
 			builder,
-			builder.CreateString(name),
-			charType,
-			sessionId,
-			dbId,
+			pkt->name()->c_str(),
+			pkt->char_type(),
+			session->GetSessionId(),
+			session->GetDbId(),
 			offsetAbility,
 			client->ServerId);
 		auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SD_CreateCharacter);

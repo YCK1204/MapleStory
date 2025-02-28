@@ -7,6 +7,7 @@ int main()
 	while (true)
 	{
 		Manager::Update();
+		this_thread::yield();
 	}
 
 	return 0;

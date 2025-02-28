@@ -3,31 +3,22 @@
 
 void PacketHandler::C_MoveStartHandler(PacketSession* session, ByteRef& buffer)
 {
-	auto pkt = GetRoot<C_MoveStart>(buffer->operator std::byte * ());
+	auto client = Manager::Session.Find(session->GetSessionId());
+	if (client->State != ClientState::INGAME)
+	{
+		client->Disconnect();
+		return;
+	}
+	auto player = client->Player;
+	if (player->IsInState(PlayerState::MOVE))
+		return;
 
+	auto pkt = GetRoot<C_MoveStart>(buffer->operator std::byte * ());
 	try {
 		auto dir = pkt->dir();
-
-		auto client = Manager::Session.Find(session->GetSessionId());
-
-		if (client == nullptr)
-		{
-			session->Disconnect();
-			return;
-		}
-		auto player = client->Player;
-		if (player == nullptr)
-		{
-			client->Disconnect();
-			return;
-		}
 		auto room = player->Room;
-		if (room == nullptr)
-		{
-			client->Disconnect();
-			return;
-		}
 
+		player->AddState(PlayerState::MOVE);
 		auto pos = player->Pos;
 		pos->X = pkt->x();
 		pos->Y = pkt->y();
@@ -46,28 +37,23 @@ void PacketHandler::C_MoveStartHandler(PacketSession* session, ByteRef& buffer)
 
 void PacketHandler::C_MoveEndHandler(PacketSession* session, ByteRef& buffer)
 {
-	auto pkt = GetRoot<C_MoveEnd>(buffer->operator std::byte * ()); 
+	auto client = Manager::Session.Find(session->GetSessionId());
+	if (client->State != ClientState::INGAME)
+	{
+		client->Disconnect();
+		return;
+	}
+	auto player = client->Player;
+	if (player->IsInState(PlayerState::MOVE) == false)
+	{
+		client->Disconnect();
+		return;
+	}
 
+	player->RemoveState(PlayerState::MOVE);
+	auto pkt = GetRoot<C_MoveEnd>(buffer->operator std::byte * ());
 	try {
-		auto client = Manager::Session.Find(session->GetSessionId());
-
-		if (client == nullptr)
-		{
-			session->Disconnect();
-			return;
-		}
-		auto player = client->Player;
-		if (player == nullptr)
-		{
-			client->Disconnect();
-			return;
-		}
 		auto room = player->Room;
-		if (room == nullptr)
-		{
-			client->Disconnect();
-			return;
-		}
 		auto pos = player->Pos;
 		pos->X = pkt->x();
 		pos->Y = pkt->y();
@@ -86,26 +72,18 @@ void PacketHandler::C_MoveEndHandler(PacketSession* session, ByteRef& buffer)
 
 void PacketHandler::C_JumpHandler(PacketSession* session, ByteRef& buffer)
 {
-	try {
-		auto client = Manager::Session.Find(session->GetSessionId());
+	auto client = Manager::Session.Find(session->GetSessionId());
+	if (client->State != ClientState::INGAME)
+	{
+		client->Disconnect();
+		return;
+	}
+	auto player = client->Player;
+	/*if (player->IsInState(PlayerState::JUMP))
+		return;*/
 
-		if (client == nullptr)
-		{
-			session->Disconnect();
-			return;
-		}
-		auto player = client->Player;
-		if (player == nullptr)
-		{
-			client->Disconnect();
-			return;
-		}
+	try {
 		auto room = player->Room;
-		if (room == nullptr)
-		{
-			client->Disconnect();
-			return;
-		}
 		auto pos = player->Pos;
 
 		FlatBufferBuilder builder;
@@ -124,24 +102,17 @@ void PacketHandler::C_ProneStabStartHandler(PacketSession* session, ByteRef& buf
 {
 	try {
 		auto client = Manager::Session.Find(session->GetSessionId());
-
-		if (client == nullptr)
+		if (client->State != ClientState::INGAME)
 		{
-			session->Disconnect();
+			client->Disconnect();
 			return;
 		}
 		auto player = client->Player;
-		if (player == nullptr)
-		{
-			client->Disconnect();
+		if (player->IsInState(PlayerState::PRONE_STAB))
 			return;
-		}
+		player->AddState(PlayerState::PRONE_STAB);
+
 		auto room = player->Room;
-		if (room == nullptr)
-		{
-			client->Disconnect();
-			return;
-		}
 		auto pos = player->Pos;
 
 		FlatBufferBuilder builder;
@@ -160,24 +131,20 @@ void PacketHandler::C_ProneStabEndHandler(PacketSession* session, ByteRef& buffe
 {
 	try {
 		auto client = Manager::Session.Find(session->GetSessionId());
-
-		if (client == nullptr)
+		if (client->State != ClientState::INGAME)
 		{
-			session->Disconnect();
+			client->Disconnect();
 			return;
 		}
 		auto player = client->Player;
-		if (player == nullptr)
+		if (player->IsInState(PlayerState::PRONE_STAB) == false)
 		{
 			client->Disconnect();
 			return;
 		}
+		player->RemoveState(PlayerState::PRONE_STAB);
+
 		auto room = player->Room;
-		if (room == nullptr)
-		{
-			client->Disconnect();
-			return;
-		}
 		auto pos = player->Pos;
 
 		FlatBufferBuilder builder;

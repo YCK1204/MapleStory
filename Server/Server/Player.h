@@ -21,19 +21,33 @@ typedef struct {
 	uint8 MapId;
 } BasePlayerInfo;
 
+enum class PlayerState : uint8
+{	
+	NONE,
+	STAND,
+	MOVE,
+	JUMP,
+	PRONE_STAB,
+	PRONE_ATTACK,
+	ATTACK,
+};
+
 class Player : public Creature
 {
 private:
 	shared_ptr<Ability> _ability = make_shared<Ability>();
 	shared_ptr<BasePlayerInfo> _baseInfo = make_shared<BasePlayerInfo>();
+	uint32 State;
+
 public:
 	weak_ptr<ClientSession> Session;
 	GameRoomRef Room = nullptr;
 
 public:
-	Player(ClientRef session);
+	Player();
 	virtual ~Player();
 	virtual void TakeDamage(int32& damage);
+	const bool IsInState(PlayerState state);
 	Offset<PlayerInfo> GeneratePlayerInfo(FlatBufferBuilder& builder);
 	Offset<CharacterTotalInfo> GenerateTotalInfo(FlatBufferBuilder& builder);
 	Offset<CharacterPreviewInfo> GeneratePreviewInfo(FlatBufferBuilder& builder);
@@ -47,6 +61,7 @@ public:
 	const int32& GetMp() const;
 	const uint8& GetMapId() const;
 	const int32& GetExp() const;
+
 public:
 	void SetAbility(const struct CharacterAbility* ability);
 	void SetName(const string& name);
@@ -57,6 +72,9 @@ public:
 	void SetMp(const int32& mp);
 	void SetMapId(const uint8& mapId);
 	void SetExp(const int32& exp);
+	void RemoveState(const PlayerState state);
+	void AddState(const PlayerState state);
+	void ClearState();
 protected:
 	virtual const bool IsAlive() const;
 };

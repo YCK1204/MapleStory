@@ -19,10 +19,12 @@ SessionManager::~SessionManager()
 
 void SessionManager::Push(ClientSession* session)
 {
-	WRITE_LOCK
+	WRITE_LOCK;
 	{
 		session->SetSessionId(_curId);
-		_sessions[_curId++] = shared_ptr<ClientSession>(session);
+		auto client = shared_ptr<ClientSession>(session);
+		session->Player->Session = client;
+		_sessions[_curId++] = client;
 	}
 }
 
