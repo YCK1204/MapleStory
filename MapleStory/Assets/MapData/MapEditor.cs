@@ -19,7 +19,11 @@ public class MapEditor
             {
                 Tilemap tmBase = Util.FindChild<Tilemap>(go.transform, true, "BG");
                 Tilemap tm = Util.FindChild<Tilemap>(go.transform, true, "Collision");
-
+                if (tmBase == null || tm == null)
+                {
+                    Debug.Log($"{go.name} has not BG or Collision");
+                    continue;
+                }
                 using (var writer = File.CreateText($"Assets/MapData/Data/{go.name}.txt"))
                 {
                     writer.WriteLine(tmBase.cellBounds.xMin);
