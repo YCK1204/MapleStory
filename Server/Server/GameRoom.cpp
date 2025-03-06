@@ -1,9 +1,43 @@
 #include "pch.h"
 #include "GameRoom.h"
+#include "RandomNumberGenerator.h"
 
 uint64 GameRoom::GenerateId(const ObjectType& type)
 {
 	return ++_curId | ((uint64)type << 56);
+}
+
+void GameRoom::GenMonster()
+{
+	FlatBufferBuilder builder;
+	vector<Offset<MonsterInfo>> monsterInfos;
+
+	for (auto spawnInfo : _spawnInfo)
+	{
+		auto key = spawnInfo.first;
+		auto value = spawnInfo.second;
+
+		if (value.size() >= key->spawnCount)
+			continue;
+		auto typeRange = key->monsterType.size() - 1;
+		for (auto i = value.size(); i < key->spawnCount; i++)
+		{
+			auto ranInt = RandomNumberGenerator::getRandomInt(0, typeRange);
+			auto typeId = key->monsterType[ranInt];
+			auto clone = Manager::Monster.Clone(typeId);
+
+			clone->Pos->X = RandomNumberGenerator::getRandomInt(key->RangeX[0], key->RangeX[1]);
+			clone->Pos->Y = key->Y;
+			auto pos = CreatePosition(builder, clone->Pos->X, clone->Pos->Y);
+			auto monsterInfo = CreateMonsterInfo(builder, clone->MonsterId, clone->Id, pos);
+			monsterInfos.push_back(monsterInfo);
+			value.insert(clone);
+		}
+	}
+	auto infos = builder.CreateVector(monsterInfos);
+	auto data = CreateSC_MSpawn(builder, infos);
+	auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_MSpawn);
+	Broadcast(pkt);
 }
 
 const uint8 GameRoom::GetServerId() const
@@ -112,20 +146,28 @@ void GameRoom::Push(PlayerRef player)
 
 void GameRoom::Broadcast(SendBufferRef pkt, PlayerRef exception)
 {
-	for (auto it = _players.begin(); it != _players.end(); it++)
+	for (auto pair : _players)
 	{
-		if (exception.get() == it->second.get())
-			continue;
-		ClientRef clientSession = static_cast<Player*>(it->second.get())->Session.lock();
-		if (clientSession == nullptr)
-			continue;
-		clientSession->Send(pkt);
+		auto player = pair.second;
+		if (player.get() != exception.get())
+		{
+			auto session = player->Session.lock();
+			if (session != nullptr)
+				session->Send(pkt);
+		}
 	}
 }
 
 void GameRoom::PushJob(JobRef job) {
 	WRITE_LOCK;
 	_jobQueue.push(job);
+}
+
+void GameRoom::PushJob(function<void()> job)
+{
+	WRITE_LOCK;
+	auto j = make_shared<Job>(job);
+	_jobQueue.push(j);
 }
 
 void GameRoom::Update() {
@@ -137,5 +179,37 @@ void GameRoom::Update() {
 			_jobQueue.pop();
 			job->Execute();
 		}
+		if (_players.size() == 0)
+			return;
+
+		auto b = bind(static_cast<void(GameRoom::*)()>(&GameRoom::GenMonster), this);
+		PushJob(b);
+	}
+}
+
+void GameRoom::Init(json& room)
+{
+	minX = room["min_x"];
+	minY = room["min_y"];
+	maxX = room["max_x"];
+	maxY = room["min_y"];
+	if (room.find("spawn_info") == room.end())
+		return;
+	auto sp = room["spawn_info"];
+
+	for (auto i : sp)
+	{
+		auto info = make_shared<SpawnInfo>();
+		ASSERT_CRASH((i.find("range_x") != i.end()));
+		ASSERT_CRASH((i.find("y") != i.end()));
+		ASSERT_CRASH((i.find("spawn_count") != i.end()));
+		info->RangeX[0] = i["range_x"][0];
+		info->RangeX[1] = i["range_x"][1];
+		info->Y = i["y"];
+		info->spawnCount = i["spawn_count"];
+		auto types = i["monster_types"];
+		info->monsterType.reserve(types.size());
+		for (auto type : types) { info->monsterType.push_back(type); }
+		_spawnInfo[info];
 	}
 }

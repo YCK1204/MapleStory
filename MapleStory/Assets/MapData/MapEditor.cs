@@ -24,22 +24,36 @@ public class MapEditor
                     Debug.Log($"{go.name} has not BG or Collision");
                     continue;
                 }
+
+                int minX = int.MaxValue, minY = int.MaxValue;
+                int maxX = int.MinValue, maxY = int.MinValue;
+
+                BoundsInt bounds = tmBase.cellBounds;
+
+                foreach (var pos in bounds.allPositionsWithin)
+                {
+                    if (tmBase.GetTile(pos) != null) // 실제 타일이 있는 경우만 체크
+                    {
+                        if (pos.x < minX) minX = pos.x;
+                        if (pos.y < minY) minY = pos.y;
+                        if (pos.x > maxX) maxX = pos.x;
+                        if (pos.y > maxY) maxY = pos.y;
+                    }
+                }
+
                 using (var writer = File.CreateText($"Assets/MapData/Data/{go.name}.txt"))
                 {
-                    writer.WriteLine(tmBase.cellBounds.xMin);
-                    writer.WriteLine(tmBase.cellBounds.xMax);
-                    writer.WriteLine(tmBase.cellBounds.yMin);
-                    writer.WriteLine(tmBase.cellBounds.yMax);
+                    writer.WriteLine(minX);
+                    writer.WriteLine(maxX);
+                    writer.WriteLine(minY);
+                    writer.WriteLine(maxY);
 
-                    for (int y = tmBase.cellBounds.yMax - 1; y >= tmBase.cellBounds.yMin; y--)
+                    for (int y = maxY; y >= minY; y--)
                     {
-                        for (int x = tmBase.cellBounds.xMin; x < tmBase.cellBounds.xMax; x++)
+                        for (int x = minX; x <= maxX; x++)
                         {
                             TileBase tile = tm.GetTile(new Vector3Int(x, y, 0));
-                            if (tile != null)
-                                writer.Write("1");
-                            else
-                                writer.Write("0");
+                            writer.Write(tile != null ? "1" : "0");
                         }
                         writer.WriteLine();
                     }

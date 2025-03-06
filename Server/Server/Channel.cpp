@@ -10,15 +10,18 @@ Channel::~Channel()
 {
 }
 
-void Channel::Init(uint8 serverId, uint8 channelId, uint8 roomCount)
+void Channel::Init(uint8 serverId, uint8 channelId, json& rooms)
 {
+	auto roomCount = rooms.size();
 	_id = channelId;
 
-	for (auto i = 1; i <= roomCount; i++)
+	for (auto room : rooms)
 	{
-		auto roomId = (serverId << 24) | (channelId << 16) | i;
-		auto room = make_shared<GameRoom>(roomId);
-		_rooms[roomId] = room;
+		uint8 id = room["id"];
+		auto roomId = (serverId << 24) | (channelId << 16) | id;
+		auto roomRef = make_shared<GameRoom>(roomId);
+		_rooms[roomId] = roomRef;
+		roomRef->Init(room);
 	}
 }
 

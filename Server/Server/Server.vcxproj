@@ -154,6 +154,8 @@
     <ClCompile Include="ClientSession.cpp" />
     <ClCompile Include="CreateCharacter.cpp" />
     <ClCompile Include="Creature.cpp" />
+    <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="MonsterManager.cpp" />
     <ClCompile Include="DbSession.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameRoom.cpp" />
@@ -166,6 +168,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="RandomNumberGenerator.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerManager.cpp" />
     <ClCompile Include="SessionManager.cpp" />
@@ -176,6 +179,8 @@
     <ClInclude Include="Channel.h" />
     <ClInclude Include="ClientSession.h" />
     <ClInclude Include="Creature.h" />
+    <ClInclude Include="Monster.h" />
+    <ClInclude Include="MonsterManager.h" />
     <ClInclude Include="DbSession.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameRoom.h" />
@@ -185,6 +190,7 @@
     <ClInclude Include="PacketManager.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="RandomNumberGenerator.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="ServerManager.h" />
     <ClInclude Include="SessionManager.h" />

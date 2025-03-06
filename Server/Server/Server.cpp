@@ -9,6 +9,48 @@ Server::~Server()
 {
 }
 
+void Server::Init(json& servJ, json& roomInfo)
+{
+	// 서버 정보 유효성 검사 및 초기화
+	{
+		ASSERT_CRASH((servJ.find("name") != servJ.end()));
+		ASSERT_CRASH((servJ.find("id") != servJ.end()));
+		ASSERT_CRASH((servJ.find("max_user_count") != servJ.end()));
+		ASSERT_CRASH((servJ.find("channel_count") != servJ.end()));
+
+		_name = servJ["name"];
+		_maxUserCount = servJ["max_user_count"];
+		_id = servJ["id"];
+	}
+	// 스폰 데이터 정보 유효성 검사
+	{
+		ASSERT_CRASH((roomInfo.find("rooms") != roomInfo.end()));
+		json rooms = roomInfo["rooms"];
+		for (auto room : rooms)
+		{
+			ASSERT_CRASH((room.find("id") != room.end()));
+			ASSERT_CRASH((room.find("min_x") != room.end()));
+			ASSERT_CRASH((room.find("max_x") != room.end()));
+			ASSERT_CRASH((room.find("min_y") != room.end()));
+			ASSERT_CRASH((room.find("max_y") != room.end()));
+			/*ASSERT_CRASH((room.find("spawn_pos") != room.end()));
+			json spawnPos = room["spawn_pos"];
+			ASSERT_CRASH((spawnPos.find("range_x") != spawnPos.end()));
+			ASSERT_CRASH((spawnPos.find("y") != spawnPos.end()));*/
+		}
+	}
+
+	// 채널들 초기화
+	int32 channelCount = servJ["channel_count"];
+	json rooms = roomInfo["rooms"];
+	for (auto i = 1; i <= channelCount; i++)
+	{
+		ChannelRef channel = shared_ptr<Channel>(new Channel());
+		_channels[i] = channel;
+		channel->Init(_id, i, rooms);
+	}
+}
+
 map<uint8, ChannelRef>::iterator Server::begin()
 {
 	return _channels.begin();
@@ -17,30 +59,6 @@ map<uint8, ChannelRef>::iterator Server::begin()
 map<uint8, ChannelRef>::iterator Server::end()
 {
 	return _channels.end();
-}
-
-void Server::Init(json& j)
-{
-	// 서버의 정보 초기화
-	{
-		ASSERT_CRASH((j.find("name") != j.end()));
-		ASSERT_CRASH((j.find("id") != j.end()));
-		ASSERT_CRASH((j.find("max_user_count") != j.end()));
-		ASSERT_CRASH((j.find("channel_count") != j.end()));
-
-		_name = j["name"];
-		_maxUserCount = j["max_user_count"];
-		_id = j["id"];
-	}
-
-	// 채널들 초기화
-	int32 channelCount = j["channel_count"];
-	for (auto i = 1; i <= channelCount; i++)
-	{
-		ChannelRef channel = shared_ptr<Channel>(new Channel());
-		_channels[i] = channel;
-		channel->Init(_id, i, 1);
-	}
 }
 
 Channel* Server::FindChannel(uint8& id)

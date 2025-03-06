@@ -1,7 +1,9 @@
 #include "pch.h"
+#include "RandomNumberGenerator.h"
 
 int main()
 {
+	RandomNumberGenerator::Init();
 	Manager::Init();
 
 	while (true)

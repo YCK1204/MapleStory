@@ -31,6 +31,12 @@ void ServerManager::Init(json& j)
 
 	ASSERT_CRASH((j.find("servers") != j.end()));
 
+	string roomInfoPath = COMMON_JSON_PATH + (string)"RoomInfo.json";
+
+	ifstream roomInfo(roomInfoPath);
+	ASSERT_CRASH(roomInfo.is_open());
+
+	json roomInfoData = json::parse(roomInfo);
 	json servers = j["servers"];
 	for (auto s : servers)
 	{
@@ -39,7 +45,7 @@ void ServerManager::Init(json& j)
 		ASSERT_CRASH((_servers.find(serverId) == _servers.end()));
 		ServerRef server = shared_ptr<Server>(new Server());;
 		_servers[serverId] = server;
-		server->Init(s);
+		server->Init(s, roomInfoData);
 	}
 }
 

@@ -12,7 +12,7 @@ public:
 	Channel();
 	~Channel();
 public:
-	void Init(uint8 serverId, uint8 channelId, uint8 roomCount);
+	void Init(uint8 serverId, uint8 channelId, json& rooms);
 	const uint16& GetUserCount() const;
 	GameRoomRef FindRoom(uint8 roomId);
 	map<uint8, GameRoomRef>::iterator begin();

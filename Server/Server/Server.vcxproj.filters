@@ -31,6 +31,9 @@
     <Filter Include="Packet\Contents">
       <UniqueIdentifier>{15878ba1-2e62-4feb-b5ce-1fdf556dcb09}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{e50fb7a2-263b-4076-8fb3-ca4f58992eb6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -89,6 +92,15 @@
     <ClCompile Include="Move.cpp">
       <Filter>Packet\Contents</Filter>
     </ClCompile>
+    <ClCompile Include="MonsterManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomNumberGenerator.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -131,6 +143,17 @@
     <ClInclude Include="ServerManager.h">
       <Filter>GameServer</Filter>
     </ClInclude>
-    <ClInclude Include="Job.h" />
+    <ClInclude Include="MonsterManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Job.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomNumberGenerator.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

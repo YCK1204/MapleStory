@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 #include "Job.h"
+#include "Monster.h"
 
 class GameRoom
 {
@@ -9,27 +10,53 @@ private:
 	static const uint32 SERVER_MASK = 0xFFFF'0000'0000'0000;
 	static const uint32 CHANNEL_MASK = 0x0000'FFFF'0000'0000;
 	static const uint32 MAP_MASK = 0x0000'0000'FFFF'FFFF;
-	
+	typedef struct {
+		int32 RangeX[2];
+		int32 Y;
+		uint8 spawnCount;
+		vector<uint8> monsterType;
+	} SpawnInfo;
+	typedef shared_ptr<SpawnInfo> SpawnInfoRef;
+	typedef shared_ptr<Monster> MonsterRef;
 private:
 	USE_LOCK;
 	map<uint64, GameObjectRef> _objects;
 	map<uint64, PlayerRef> _players;
-	uint32 _roomId;
 	uint64 _curId = 0;
 	queue<JobRef> _jobQueue;
+
+#pragma region MapInfo
+private:
+	uint32 _roomId;
+	int32 minX;
+	int32 maxX;
+	int32 minY;
+	int32 maxY;
+	map<SpawnInfoRef, unordered_set<MonsterRef>> _spawnInfo;
 private:
 	uint64 GenerateId(const ObjectType& type);
+	void GenMonster();
+#pragma endregion
 
+#pragma region Getter
 public:
 	const uint8 GetServerId() const;
 	const uint8 GetChannelId() const;
 	const uint8 GetMapId() const;
 	Offset<Vector<Offset<PlayerInfo>>> GetPlayerInfos(FlatBufferBuilder& builder);
 	Offset<Vector<Offset<MonsterInfo>>> GetMonsterInfos(FlatBufferBuilder& builder);
+#pragma endregion
+
+#pragma region default constructor, default destructor, Init
 public:
+	void Init(json& room);
 	GameRoom() = delete;
 	GameRoom(uint32 roomId);
 	~GameRoom();
+#pragma endregion
+
+#pragma region Main Function
+public:
 	GameObject* Find(uint64& id);
 	void Remove(uint64& id);
 	void Remove(PlayerRef player);
@@ -37,7 +64,12 @@ public:
 	void Push(GameObject* go);
 	void Push(PlayerRef player);
 	void Broadcast(SendBufferRef pkt, PlayerRef exception = nullptr);
+#pragma endregion
+
+#pragma region Message Queue Util Functions
+public:
 	void PushJob(JobRef job);
+	void PushJob(function<void()> job);
 	template <typename _Ty1>
 	void PushJob(function<void(_Ty1)> func, _Ty1 t1);
 	template <typename _Ty1, typename _Ty2>
@@ -49,8 +81,10 @@ public:
 	template <typename _Ty1, typename _Ty2, typename _Ty3, typename _Ty4, typename _Ty5>
 	void PushJob(function<void(_Ty1, _Ty2, _Ty3, _Ty4, _Ty5)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3, _Ty4 t4, _Ty5 t5);
 	void Update();
+#pragma endregion
 };
 
+#pragma region PushJob Definition
 template<typename _Ty1>
 inline void GameRoom::PushJob(function<void(_Ty1)> func, _Ty1 t1)
 {
@@ -85,3 +119,4 @@ inline void GameRoom::PushJob(function<void(_Ty1, _Ty2, _Ty3, _Ty4, _Ty5)> func,
 	auto jobRef = static_cast<JobRef>(make_shared<Job5<_Ty1, _Ty2, _Ty3, _Ty4, _Ty5>>(func, t1, t2, t3, t4, t5));
 	PushJob(jobRef);
 }
+#pragma endregion

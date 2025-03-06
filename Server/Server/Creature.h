@@ -1,7 +1,6 @@
 #pragma once
 
 #include "GameObject.h"
-#include "GameRoom.h"
 
 typedef struct {
 	float X ;
@@ -12,13 +11,11 @@ class Creature : public GameObject
 {
 public:
 	shared_ptr<PosInfo> Pos = make_shared<PosInfo>();
-protected:
-	virtual const bool IsAlive() const = 0;
 public:
 	Creature();
 	virtual ~Creature();
-	
 
 public:
+	virtual const bool IsAlive() const = 0;
 	virtual void TakeDamage(int32& damage) = 0;
 };

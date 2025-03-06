@@ -2,10 +2,12 @@
 #include "Manager.h"
 #include "Listener.h"
 #include "ThreadPool.h"
+#include <random>
 
 PacketManager& Manager::Packet = PacketManager::Instance();
 SessionManager& Manager::Session = SessionManager::Instance();
 ServerManager& Manager::Server = ServerManager::Instance();
+MonsterManager& Manager::Monster = MonsterManager::Instance();
 
 void Manager::Init() {
 #pragma region DB 연결
@@ -44,6 +46,10 @@ void Manager::Init() {
 
 #pragma region Server And Room
 	{
+		// 난수 생성 엔진 초기화
+		std::random_device rd;
+		std::mt19937 gen(rd());
+
 		string serverJsonPath = COMMON_JSON_PATH + (string)"server.json";
 		ifstream serverJson(serverJsonPath);
 
@@ -52,6 +58,17 @@ void Manager::Init() {
 
 		Server.Init(j);
 		serverJson.close();
+	}
+#pragma endregion
+
+#pragma region Monster
+	{
+		string monsterJsonPath = COMMON_JSON_PATH + (string)"Monster.json";
+		ifstream monsterJsonData(monsterJsonPath);
+
+		json j = json::parse(monsterJsonData);
+		Monster.Init(j);
+		monsterJsonData.close();
 	}
 #pragma endregion
 }
