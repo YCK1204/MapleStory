@@ -32,16 +32,10 @@ const uint16& Channel::GetUserCount() const
 
 GameRoomRef Channel::FindRoom(uint8 roomId)
 {
-	GameRoomRef room = nullptr;
-	for (auto it = _rooms.begin(); it != _rooms.end(); it++)
-	{
-		if (it->second->GetMapId() == roomId)
-		{
-			room = it->second;
-			break;
-		}
-	}
-	return room;
+	auto room = find_if(_rooms.begin(), _rooms.end(), [roomId](pair<uint8, GameRoomRef>& elem) { return elem.second->GetMapId() == roomId; });
+	if (room == _rooms.end())
+		return nullptr;
+	return room->second;
 }
 
 map<uint8, GameRoomRef>::iterator Channel::begin()
