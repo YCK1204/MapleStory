@@ -5,7 +5,7 @@ class DataManager
 public:
 	typedef struct {
 		uint8 TargetId;
-		string SceneId;
+		uint8 SceneId;
 		float X;
 		float Y;
 	} Portal;

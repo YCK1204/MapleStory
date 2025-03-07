@@ -51,9 +51,10 @@ union PacketType {
 	SC_CreateCharacter,
 // ------------------- CreateCharacter -----------------
 // ------------------- Spawn -----------------
-	C_EnterMap,
-	SC_EnterMap,
+	C_Portal,
+	SC_Portal,
 	C_EnterGame,
+	SC_EnterGame,
 	SC_PSpawn,
 	SC_MSpawn,
 	C_Despawn,

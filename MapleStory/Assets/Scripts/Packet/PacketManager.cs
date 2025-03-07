@@ -22,7 +22,8 @@ public class PacketManager
 		_handler.Add((ushort)PacketType.SC_CharacterSelect, PacketHandler.SC_CharacterSelectHandler);
 		_handler.Add((ushort)PacketType.SC_CheckName, PacketHandler.SC_CheckNameHandler);
 		_handler.Add((ushort)PacketType.SC_CreateCharacter, PacketHandler.SC_CreateCharacterHandler);
-		_handler.Add((ushort)PacketType.SC_EnterMap, PacketHandler.SC_EnterMapHandler);
+		_handler.Add((ushort)PacketType.SC_Portal, PacketHandler.SC_PortalHandler);
+		_handler.Add((ushort)PacketType.SC_EnterGame, PacketHandler.SC_EnterGameHandler);
 		_handler.Add((ushort)PacketType.SC_PSpawn, PacketHandler.SC_PSpawnHandler);
 		_handler.Add((ushort)PacketType.SC_MSpawn, PacketHandler.SC_MSpawnHandler);
 		_handler.Add((ushort)PacketType.SC_Despawn, PacketHandler.SC_DespawnHandler);

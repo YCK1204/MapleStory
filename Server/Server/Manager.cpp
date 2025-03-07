@@ -7,7 +7,7 @@
 PacketManager& Manager::Packet = PacketManager::Instance();
 SessionManager& Manager::Session = SessionManager::Instance();
 ServerManager& Manager::Server = ServerManager::Instance();
-MonsterManager& Manager::Monster = MonsterManager::Instance();
+DataManager& Manager::Data = DataManager::Instance();
 
 void Manager::Init() {
 #pragma region DB ¿¬°á
@@ -61,14 +61,14 @@ void Manager::Init() {
 	}
 #pragma endregion
 
-#pragma region Monster
+#pragma region Data
 	{
-		string monsterJsonPath = COMMON_JSON_PATH + (string)"Monster.json";
-		ifstream monsterJsonData(monsterJsonPath);
+		string dataJsonPath = COMMON_JSON_PATH + (string)"Data.json";
+		ifstream dataJson(dataJsonPath);
 
-		json j = json::parse(monsterJsonData);
-		Monster.Init(j);
-		monsterJsonData.close();
+		json j = json::parse(dataJson);
+		Data.Init(j);
+		dataJson.close();
 	}
 #pragma endregion
 }

@@ -54,30 +54,31 @@ enum PacketType : uint8_t {
   PacketType_SD_CreateCharacter = 30,
   PacketType_D_CreateCharacter = 31,
   PacketType_SC_CreateCharacter = 32,
-  PacketType_C_EnterMap = 33,
-  PacketType_SC_EnterMap = 34,
+  PacketType_C_Portal = 33,
+  PacketType_SC_Portal = 34,
   PacketType_C_EnterGame = 35,
-  PacketType_SC_PSpawn = 36,
-  PacketType_SC_MSpawn = 37,
-  PacketType_C_Despawn = 38,
-  PacketType_SC_Despawn = 39,
-  PacketType_C_CreatureInfos = 40,
-  PacketType_SC_CreatureInfos = 41,
-  PacketType_C_MoveStart = 42,
-  PacketType_SC_MoveStart = 43,
-  PacketType_C_MoveEnd = 44,
-  PacketType_SC_MoveEnd = 45,
-  PacketType_C_Jump = 46,
-  PacketType_SC_Jump = 47,
-  PacketType_C_ProneStabStart = 48,
-  PacketType_SC_ProneStabStart = 49,
-  PacketType_C_ProneStabEnd = 50,
-  PacketType_SC_ProneStabEnd = 51,
+  PacketType_SC_EnterGame = 36,
+  PacketType_SC_PSpawn = 37,
+  PacketType_SC_MSpawn = 38,
+  PacketType_C_Despawn = 39,
+  PacketType_SC_Despawn = 40,
+  PacketType_C_CreatureInfos = 41,
+  PacketType_SC_CreatureInfos = 42,
+  PacketType_C_MoveStart = 43,
+  PacketType_SC_MoveStart = 44,
+  PacketType_C_MoveEnd = 45,
+  PacketType_SC_MoveEnd = 46,
+  PacketType_C_Jump = 47,
+  PacketType_SC_Jump = 48,
+  PacketType_C_ProneStabStart = 49,
+  PacketType_SC_ProneStabStart = 50,
+  PacketType_C_ProneStabEnd = 51,
+  PacketType_SC_ProneStabEnd = 52,
   PacketType_MIN = PacketType_NONE,
   PacketType_MAX = PacketType_SC_ProneStabEnd
 };
 
-inline const PacketType (&EnumValuesPacketType())[52] {
+inline const PacketType (&EnumValuesPacketType())[53] {
   static const PacketType values[] = {
     PacketType_NONE,
     PacketType_C_SignUp,
@@ -112,9 +113,10 @@ inline const PacketType (&EnumValuesPacketType())[52] {
     PacketType_SD_CreateCharacter,
     PacketType_D_CreateCharacter,
     PacketType_SC_CreateCharacter,
-    PacketType_C_EnterMap,
-    PacketType_SC_EnterMap,
+    PacketType_C_Portal,
+    PacketType_SC_Portal,
     PacketType_C_EnterGame,
+    PacketType_SC_EnterGame,
     PacketType_SC_PSpawn,
     PacketType_SC_MSpawn,
     PacketType_C_Despawn,
@@ -136,7 +138,7 @@ inline const PacketType (&EnumValuesPacketType())[52] {
 }
 
 inline const char * const *EnumNamesPacketType() {
-  static const char * const names[53] = {
+  static const char * const names[54] = {
     "NONE",
     "C_SignUp",
     "SD_SignUp",
@@ -170,9 +172,10 @@ inline const char * const *EnumNamesPacketType() {
     "SD_CreateCharacter",
     "D_CreateCharacter",
     "SC_CreateCharacter",
-    "C_EnterMap",
-    "SC_EnterMap",
+    "C_Portal",
+    "SC_Portal",
     "C_EnterGame",
+    "SC_EnterGame",
     "SC_PSpawn",
     "SC_MSpawn",
     "C_Despawn",
@@ -332,16 +335,20 @@ template<> struct PacketTypeTraits<SC_CreateCharacter> {
   static const PacketType enum_value = PacketType_SC_CreateCharacter;
 };
 
-template<> struct PacketTypeTraits<C_EnterMap> {
-  static const PacketType enum_value = PacketType_C_EnterMap;
+template<> struct PacketTypeTraits<C_Portal> {
+  static const PacketType enum_value = PacketType_C_Portal;
 };
 
-template<> struct PacketTypeTraits<SC_EnterMap> {
-  static const PacketType enum_value = PacketType_SC_EnterMap;
+template<> struct PacketTypeTraits<SC_Portal> {
+  static const PacketType enum_value = PacketType_SC_Portal;
 };
 
 template<> struct PacketTypeTraits<C_EnterGame> {
   static const PacketType enum_value = PacketType_C_EnterGame;
+};
+
+template<> struct PacketTypeTraits<SC_EnterGame> {
+  static const PacketType enum_value = PacketType_SC_EnterGame;
 };
 
 template<> struct PacketTypeTraits<SC_PSpawn> {
@@ -544,16 +551,20 @@ inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj,
       auto ptr = reinterpret_cast<const SC_CreateCharacter *>(obj);
       return verifier.VerifyTable(ptr);
     }
-    case PacketType_C_EnterMap: {
-      auto ptr = reinterpret_cast<const C_EnterMap *>(obj);
+    case PacketType_C_Portal: {
+      auto ptr = reinterpret_cast<const C_Portal *>(obj);
       return verifier.VerifyTable(ptr);
     }
-    case PacketType_SC_EnterMap: {
-      auto ptr = reinterpret_cast<const SC_EnterMap *>(obj);
+    case PacketType_SC_Portal: {
+      auto ptr = reinterpret_cast<const SC_Portal *>(obj);
       return verifier.VerifyTable(ptr);
     }
     case PacketType_C_EnterGame: {
       auto ptr = reinterpret_cast<const C_EnterGame *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_EnterGame: {
+      auto ptr = reinterpret_cast<const SC_EnterGame *>(obj);
       return verifier.VerifyTable(ptr);
     }
     case PacketType_SC_PSpawn: {

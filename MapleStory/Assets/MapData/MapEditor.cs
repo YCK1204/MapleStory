@@ -25,6 +25,8 @@ public class MapEditor
                     continue;
                 }
 
+                PortalController[] portals = go.GetComponentsInChildren<PortalController>();
+
                 int minX = int.MaxValue, minY = int.MaxValue;
                 int maxX = int.MinValue, maxY = int.MinValue;
 
@@ -47,6 +49,9 @@ public class MapEditor
                     writer.WriteLine(maxX);
                     writer.WriteLine(minY);
                     writer.WriteLine(maxY);
+
+                    foreach (var portal in portals)
+                        writer.WriteLine($"{portal.PortalId}, ({portal.transform.position.x}, {portal.transform.position.y})");
 
                     for (int y = maxY; y >= minY; y--)
                     {

@@ -26,7 +26,7 @@ void PacketHandler::C_DespawnHandler(PacketSession* session, ByteRef& buffer)
 	room->Broadcast(packet);
 }
 
-void PacketHandler::C_EnterMapHandler(PacketSession* session, ByteRef& buffer)
+void PacketHandler::C_PortalHandler(PacketSession* session, ByteRef& buffer)
 {
 	ClientSession* client = reinterpret_cast<ClientSession*>(session);
 
@@ -36,38 +36,49 @@ void PacketHandler::C_EnterMapHandler(PacketSession* session, ByteRef& buffer)
 		return;
 	}
 
-	auto pkt = GetRoot<C_EnterMap>(buffer->operator std::byte * ());
+	auto pkt = GetRoot<C_Portal>(buffer->operator std::byte * ());
 
 	try {
 		PlayerRef player = client->Player;
-		auto mapId = pkt->map_id();
+		auto portalId = pkt->portal_id();
 
-		// 룸끼리 이동 가능 유효성 검사 필요
-		auto server = Manager::Server.Find(client->ServerId);
-		auto channel = server->FindChannel(client->ChannelId);
-		auto room = channel->FindRoom(mapId);
-		if (room == nullptr)
+		if (player->Room->CanPort(portalId) == false)
 		{
 			client->Disconnect();
 			return;
 		}
 
+		auto portal = Manager::Data.FindPortal(portalId);
+		if (portal == nullptr)
+		{
+			client->Disconnect();
+			return;
+		}
+
+		auto targetPortal = Manager::Data.FindPortal(portal->TargetId);
+		auto server = Manager::Server.Find(client->ServerId);
+		auto channel = server->FindChannel(client->ChannelId);
+		auto room = channel->FindRoom(targetPortal->SceneId);
+
 		// 이전 룸에서 자신을 제거
 		{
 			auto b = std::bind(static_cast<void(GameRoom::*)(PlayerRef)>(&GameRoom::Remove), player->Room, std::placeholders::_1);
-			player->Room->PushJob<PlayerRef&>(b, player);
+			player->Room->PushJob<PlayerRef>(b, player);
 		}
-		{
-			auto b = std::bind(static_cast<void(GameRoom::*)(PlayerRef)>(&GameRoom::Push), room, std::placeholders::_1);
-			room->PushJob<PlayerRef>(b, player);
-		}
-		player->Room = room;
 
-		FlatBufferBuilder builder;
-		auto myPlayerInfo = player->GenerateTotalInfo(builder);
-		auto data = CreateSC_EnterMap(builder, player->GetMapId(), myPlayerInfo);
-		auto pacekt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_EnterMap);
-		client->Send(pacekt);
+		room->PushJob([room, client, targetPortal]() {
+			auto player = client->Player;
+			player->Room = room;
+			player->Pos->X = targetPortal->X;
+			player->Pos->Y = targetPortal->Y;
+			room->Push(player);
+			FlatBufferBuilder builder;
+			auto myPlayerInfo = player->GenerateTotalInfo(builder);
+			auto position = player->GeneratePosition(builder);
+			auto data = CreateSC_Portal(builder, targetPortal->SceneId, myPlayerInfo, position);
+			auto pacekt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_Portal);
+			client->Send(pacekt);
+			});
 	}
 	catch (...)
 	{
@@ -98,15 +109,18 @@ void PacketHandler::C_EnterGameHandler(PacketSession* session, ByteRef& buffer)
 		auto channel = server->FindChannel(client->ChannelId);
 		auto room = channel->FindRoom(mapId);
 
-		player->Room = room;
 		room->PushJob<GameRoomRef, PlayerRef, ClientRef>([room, player, client](GameRoomRef, PlayerRef, ClientRef) {
+			player->Room = room;
 			room->Push(player);
 
+			player->Pos->X = room->InitPos[0];
+			player->Pos->Y = room->InitPos[1];
 			// 입장하려는 유저에게 자신의 캐릭터 정보를 알림
 			FlatBufferBuilder builder;
 			auto myPlayerInfo = player->GenerateTotalInfo(builder);
-			auto data = CreateSC_EnterMap(builder, player->GetMapId(), myPlayerInfo);
-			auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_EnterMap);
+			auto position = player->GeneratePosition(builder);
+			auto data = CreateSC_EnterGame(builder, player->GetMapId(), myPlayerInfo, position);
+			auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_EnterGame);
 			client->Send(packet);
 			}, room, player, client);
 	}

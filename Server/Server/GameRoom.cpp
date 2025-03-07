@@ -24,7 +24,7 @@ void GameRoom::GenMonster()
 		{
 			auto ranInt = RandomNumberGenerator::getRandomInt(0, typeRange);
 			auto typeId = key->monsterType[ranInt];
-			auto clone = Manager::Monster.Clone(typeId);
+			auto clone = Manager::Data.MonsterClone(typeId);
 
 			clone->Pos->X = RandomNumberGenerator::getRandomInt(key->RangeX[0], key->RangeX[1]);
 			clone->Pos->Y = key->Y;
@@ -89,6 +89,12 @@ GameRoom::GameRoom(uint32 roomId)
 
 GameRoom::~GameRoom()
 {
+}
+
+const bool GameRoom::CanPort(uint8 id) const
+{
+	auto portal = find_if(portals.begin(), portals.end(), [id](uint8 portalId) { return portalId == id; });
+	return portal != portals.end();
 }
 
 GameObject* GameRoom::Find(uint64& id)
@@ -165,26 +171,23 @@ void GameRoom::PushJob(JobRef job) {
 
 void GameRoom::PushJob(function<void()> job)
 {
-	WRITE_LOCK;
 	auto j = make_shared<Job>(job);
-	_jobQueue.push(j);
+	PushJob(j);
 }
 
 void GameRoom::Update() {
+	WRITE_LOCK;
+	while (_jobQueue.size() > 0)
 	{
-		WRITE_LOCK;
-		while (_jobQueue.size() > 0)
-		{
-			auto job = _jobQueue.front();
-			_jobQueue.pop();
-			job->Execute();
-		}
-		if (_players.size() == 0)
-			return;
-
-		auto b = bind(static_cast<void(GameRoom::*)()>(&GameRoom::GenMonster), this);
-		PushJob(b);
+		auto job = _jobQueue.front();
+		_jobQueue.pop();
+		job->Execute();
 	}
+	/*if (_players.size() == 0)
+		return;
+
+	auto b = bind(static_cast<void(GameRoom::*)()>(&GameRoom::GenMonster), this);
+	PushJob(b);*/
 }
 
 void GameRoom::Init(json& room)
@@ -193,6 +196,13 @@ void GameRoom::Init(json& room)
 	minY = room["min_y"];
 	maxX = room["max_x"];
 	maxY = room["min_y"];
+	InitPos[0] = room["init_pos"][0];
+	InitPos[1] = room["init_pos"][1];
+	if (room.find("portals") != room.end())
+	{
+		for (auto portal : room["portals"])
+			portals.push_back(portal);
+	}
 	if (room.find("spawn_info") == room.end())
 		return;
 	auto sp = room["spawn_info"];

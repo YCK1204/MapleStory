@@ -32,7 +32,7 @@ const uint16& Channel::GetUserCount() const
 
 GameRoomRef Channel::FindRoom(uint8 roomId)
 {
-	auto room = find_if(_rooms.begin(), _rooms.end(), [roomId](pair<uint8, GameRoomRef>& elem) { return elem.second->GetMapId() == roomId; });
+	auto room = find_if(_rooms.begin(), _rooms.end(), [roomId](const pair<uint8, GameRoomRef>& elem) { return elem.second->GetMapId() == roomId; });
 	if (room == _rooms.end())
 		return nullptr;
 	return room->second;

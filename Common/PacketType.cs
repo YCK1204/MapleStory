@@ -37,25 +37,26 @@ public enum PacketType : byte
   SD_CreateCharacter = 30,
   D_CreateCharacter = 31,
   SC_CreateCharacter = 32,
-  C_EnterMap = 33,
-  SC_EnterMap = 34,
+  C_Portal = 33,
+  SC_Portal = 34,
   C_EnterGame = 35,
-  SC_PSpawn = 36,
-  SC_MSpawn = 37,
-  C_Despawn = 38,
-  SC_Despawn = 39,
-  C_CreatureInfos = 40,
-  SC_CreatureInfos = 41,
-  C_MoveStart = 42,
-  SC_MoveStart = 43,
-  C_MoveEnd = 44,
-  SC_MoveEnd = 45,
-  C_Jump = 46,
-  SC_Jump = 47,
-  C_ProneStabStart = 48,
-  SC_ProneStabStart = 49,
-  C_ProneStabEnd = 50,
-  SC_ProneStabEnd = 51,
+  SC_EnterGame = 36,
+  SC_PSpawn = 37,
+  SC_MSpawn = 38,
+  C_Despawn = 39,
+  SC_Despawn = 40,
+  C_CreatureInfos = 41,
+  SC_CreatureInfos = 42,
+  C_MoveStart = 43,
+  SC_MoveStart = 44,
+  C_MoveEnd = 45,
+  SC_MoveEnd = 46,
+  C_Jump = 47,
+  SC_Jump = 48,
+  C_ProneStabStart = 49,
+  SC_ProneStabStart = 50,
+  C_ProneStabEnd = 51,
+  SC_ProneStabEnd = 52,
 };
 
 
@@ -163,14 +164,17 @@ static public class PacketTypeVerify
       case PacketType.SC_CreateCharacter:
         result = SC_CreateCharacterVerify.Verify(verifier, tablePos);
         break;
-      case PacketType.C_EnterMap:
-        result = C_EnterMapVerify.Verify(verifier, tablePos);
+      case PacketType.C_Portal:
+        result = C_PortalVerify.Verify(verifier, tablePos);
         break;
-      case PacketType.SC_EnterMap:
-        result = SC_EnterMapVerify.Verify(verifier, tablePos);
+      case PacketType.SC_Portal:
+        result = SC_PortalVerify.Verify(verifier, tablePos);
         break;
       case PacketType.C_EnterGame:
         result = C_EnterGameVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_EnterGame:
+        result = SC_EnterGameVerify.Verify(verifier, tablePos);
         break;
       case PacketType.SC_PSpawn:
         result = SC_PSpawnVerify.Verify(verifier, tablePos);

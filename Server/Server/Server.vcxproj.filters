@@ -92,14 +92,14 @@
     <ClCompile Include="Move.cpp">
       <Filter>Packet\Contents</Filter>
     </ClCompile>
-    <ClCompile Include="MonsterManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
     <ClCompile Include="Monster.cpp">
       <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="RandomNumberGenerator.cpp">
       <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -143,9 +143,6 @@
     <ClInclude Include="ServerManager.h">
       <Filter>GameServer</Filter>
     </ClInclude>
-    <ClInclude Include="MonsterManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
     <ClInclude Include="Job.h">
       <Filter>Util</Filter>
     </ClInclude>
@@ -154,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="RandomNumberGenerator.h">
       <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

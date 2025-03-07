@@ -32,7 +32,10 @@ private:
 	int32 maxX;
 	int32 minY;
 	int32 maxY;
+	vector<uint8> portals;
 	map<SpawnInfoRef, unordered_set<MonsterRef>> _spawnInfo;
+public:
+	float InitPos[2];
 private:
 	uint64 GenerateId(const ObjectType& type);
 	void GenMonster();
@@ -47,13 +50,18 @@ public:
 	Offset<Vector<Offset<MonsterInfo>>> GetMonsterInfos(FlatBufferBuilder& builder);
 #pragma endregion
 
-#pragma region default constructor, default destructor, Init
+#pragma region default constructor, destructor, Init
 public:
 	void Init(json& room);
 	GameRoom() = delete;
 	GameRoom(uint32 roomId);
 	~GameRoom();
 #pragma endregion
+
+#pragma region Packet Handler
+	const bool CanPort(uint8 id) const;
+#pragma endregion
+
 
 #pragma region Main Function
 public:

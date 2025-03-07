@@ -15,14 +15,17 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 24 &&
 
 #include "Creature_generated.h"
 
-struct C_EnterMap;
-struct C_EnterMapBuilder;
+struct C_Portal;
+struct C_PortalBuilder;
+
+struct SC_Portal;
+struct SC_PortalBuilder;
 
 struct C_EnterGame;
 struct C_EnterGameBuilder;
 
-struct SC_EnterMap;
-struct SC_EnterMapBuilder;
+struct SC_EnterGame;
+struct SC_EnterGameBuilder;
 
 struct C_CreatureInfos;
 struct C_CreatureInfosBuilder;
@@ -42,43 +45,106 @@ struct C_DespawnBuilder;
 struct SC_Despawn;
 struct SC_DespawnBuilder;
 
-struct C_EnterMap FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef C_EnterMapBuilder Builder;
+struct C_Portal FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef C_PortalBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_MAP_ID = 4
+    VT_PORTAL_ID = 4
   };
-  uint8_t map_id() const {
-    return GetField<uint8_t>(VT_MAP_ID, 0);
+  uint8_t portal_id() const {
+    return GetField<uint8_t>(VT_PORTAL_ID, 0);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<uint8_t>(verifier, VT_MAP_ID, 1) &&
+           VerifyField<uint8_t>(verifier, VT_PORTAL_ID, 1) &&
            verifier.EndTable();
   }
 };
 
-struct C_EnterMapBuilder {
-  typedef C_EnterMap Table;
+struct C_PortalBuilder {
+  typedef C_Portal Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
-  void add_map_id(uint8_t map_id) {
-    fbb_.AddElement<uint8_t>(C_EnterMap::VT_MAP_ID, map_id, 0);
+  void add_portal_id(uint8_t portal_id) {
+    fbb_.AddElement<uint8_t>(C_Portal::VT_PORTAL_ID, portal_id, 0);
   }
-  explicit C_EnterMapBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit C_PortalBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<C_EnterMap> Finish() {
+  ::flatbuffers::Offset<C_Portal> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<C_EnterMap>(end);
+    auto o = ::flatbuffers::Offset<C_Portal>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<C_EnterMap> CreateC_EnterMap(
+inline ::flatbuffers::Offset<C_Portal> CreateC_Portal(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    uint8_t map_id = 0) {
-  C_EnterMapBuilder builder_(_fbb);
+    uint8_t portal_id = 0) {
+  C_PortalBuilder builder_(_fbb);
+  builder_.add_portal_id(portal_id);
+  return builder_.Finish();
+}
+
+struct SC_Portal FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SC_PortalBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_MAP_ID = 4,
+    VT_MY_PLAYER_INFO = 6,
+    VT_POSITION = 8
+  };
+  uint8_t map_id() const {
+    return GetField<uint8_t>(VT_MAP_ID, 0);
+  }
+  const CharacterTotalInfo *my_player_info() const {
+    return GetPointer<const CharacterTotalInfo *>(VT_MY_PLAYER_INFO);
+  }
+  const Position *position() const {
+    return GetPointer<const Position *>(VT_POSITION);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint8_t>(verifier, VT_MAP_ID, 1) &&
+           VerifyOffset(verifier, VT_MY_PLAYER_INFO) &&
+           verifier.VerifyTable(my_player_info()) &&
+           VerifyOffset(verifier, VT_POSITION) &&
+           verifier.VerifyTable(position()) &&
+           verifier.EndTable();
+  }
+};
+
+struct SC_PortalBuilder {
+  typedef SC_Portal Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_map_id(uint8_t map_id) {
+    fbb_.AddElement<uint8_t>(SC_Portal::VT_MAP_ID, map_id, 0);
+  }
+  void add_my_player_info(::flatbuffers::Offset<CharacterTotalInfo> my_player_info) {
+    fbb_.AddOffset(SC_Portal::VT_MY_PLAYER_INFO, my_player_info);
+  }
+  void add_position(::flatbuffers::Offset<Position> position) {
+    fbb_.AddOffset(SC_Portal::VT_POSITION, position);
+  }
+  explicit SC_PortalBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SC_Portal> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SC_Portal>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SC_Portal> CreateSC_Portal(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint8_t map_id = 0,
+    ::flatbuffers::Offset<CharacterTotalInfo> my_player_info = 0,
+    ::flatbuffers::Offset<Position> position = 0) {
+  SC_PortalBuilder builder_(_fbb);
+  builder_.add_position(position);
+  builder_.add_my_player_info(my_player_info);
   builder_.add_map_id(map_id);
   return builder_.Finish();
 }
@@ -124,11 +190,12 @@ inline ::flatbuffers::Offset<C_EnterGame> CreateC_EnterGame(
   return builder_.Finish();
 }
 
-struct SC_EnterMap FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef SC_EnterMapBuilder Builder;
+struct SC_EnterGame FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SC_EnterGameBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_MAP_ID = 4,
-    VT_MY_PLAYER_INFO = 6
+    VT_MY_PLAYER_INFO = 6,
+    VT_POSITION = 8
   };
   uint8_t map_id() const {
     return GetField<uint8_t>(VT_MAP_ID, 0);
@@ -136,41 +203,51 @@ struct SC_EnterMap FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const CharacterTotalInfo *my_player_info() const {
     return GetPointer<const CharacterTotalInfo *>(VT_MY_PLAYER_INFO);
   }
+  const Position *position() const {
+    return GetPointer<const Position *>(VT_POSITION);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint8_t>(verifier, VT_MAP_ID, 1) &&
            VerifyOffset(verifier, VT_MY_PLAYER_INFO) &&
            verifier.VerifyTable(my_player_info()) &&
+           VerifyOffset(verifier, VT_POSITION) &&
+           verifier.VerifyTable(position()) &&
            verifier.EndTable();
   }
 };
 
-struct SC_EnterMapBuilder {
-  typedef SC_EnterMap Table;
+struct SC_EnterGameBuilder {
+  typedef SC_EnterGame Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
   void add_map_id(uint8_t map_id) {
-    fbb_.AddElement<uint8_t>(SC_EnterMap::VT_MAP_ID, map_id, 0);
+    fbb_.AddElement<uint8_t>(SC_EnterGame::VT_MAP_ID, map_id, 0);
   }
   void add_my_player_info(::flatbuffers::Offset<CharacterTotalInfo> my_player_info) {
-    fbb_.AddOffset(SC_EnterMap::VT_MY_PLAYER_INFO, my_player_info);
+    fbb_.AddOffset(SC_EnterGame::VT_MY_PLAYER_INFO, my_player_info);
   }
-  explicit SC_EnterMapBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  void add_position(::flatbuffers::Offset<Position> position) {
+    fbb_.AddOffset(SC_EnterGame::VT_POSITION, position);
+  }
+  explicit SC_EnterGameBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<SC_EnterMap> Finish() {
+  ::flatbuffers::Offset<SC_EnterGame> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<SC_EnterMap>(end);
+    auto o = ::flatbuffers::Offset<SC_EnterGame>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<SC_EnterMap> CreateSC_EnterMap(
+inline ::flatbuffers::Offset<SC_EnterGame> CreateSC_EnterGame(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     uint8_t map_id = 0,
-    ::flatbuffers::Offset<CharacterTotalInfo> my_player_info = 0) {
-  SC_EnterMapBuilder builder_(_fbb);
+    ::flatbuffers::Offset<CharacterTotalInfo> my_player_info = 0,
+    ::flatbuffers::Offset<Position> position = 0) {
+  SC_EnterGameBuilder builder_(_fbb);
+  builder_.add_position(position);
   builder_.add_my_player_info(my_player_info);
   builder_.add_map_id(map_id);
   return builder_.Finish();

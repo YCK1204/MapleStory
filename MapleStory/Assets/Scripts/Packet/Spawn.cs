@@ -9,15 +9,12 @@ public partial class PacketHandler
 {
     // todo
     // 맵에 있는 item 정보도 갖고와야함
-    public static void SC_EnterMapHandler(PacketSession session, ByteBuffer buffer)
+    static void ChangeSceneHandler(CharacterTotalInfo myPlayerInfo, byte mapId, Position position)
     {
-        var pkt = SC_EnterMap.GetRootAsSC_EnterMap(buffer);
-
         Manager.Object.Clear();
-        var myPlayerInfo = pkt.MyPlayerInfo.Value;
         var prevInfo = myPlayerInfo.PrevInfo.Value;
         var ability = prevInfo.Ability.Value;
-        Manager.Scene.LoadSceneAsync($"Map_{pkt.MapId.ToString("000")}", () =>
+        Manager.Scene.LoadSceneAsync($"Map_{mapId.ToString("000")}", () =>
         {
             var pc = HandlePSpawn<MyPlayerContoller>(prevInfo);
             {
@@ -30,13 +27,15 @@ public partial class PacketHandler
                 pc.EXP = myPlayerInfo.Exp;
             }
             Manager.Object.MyPlayer = pc;
+            pc.transform.position = new Vector3(position.X, position.Y);
             var cc = Camera.main.gameObject.AddComponent<CameraController>();
             cc.AddComponent<CinemachineBrain>();
             cc.cinemachineCamera = Manager.Resource.Instantiate("Prefabs/PlayUtil/FollowCamera").GetComponent<CinemachineCamera>();
             var border = GameObject.Find("Border").GetComponent<Collider2D>();
             cc.Border = border;
             cc.Target = pc.gameObject;
-            cc.Init();
+            Camera.main.cullingMask = ~0;
+            //cc.Init();
 
             FlatBufferBuilder builder = new FlatBufferBuilder(1);
 
@@ -45,6 +44,18 @@ public partial class PacketHandler
             var packet = Manager.Packet.CreatePacket(data, builder, PacketType.C_CreatureInfos);
             Manager.Network.Send(packet);
         });
+    }
+    public static void SC_EnterGameHandler(PacketSession session, ByteBuffer buffer)
+    {
+        var pkt = SC_EnterGame.GetRootAsSC_EnterGame(buffer);
+
+        ChangeSceneHandler(pkt.MyPlayerInfo.Value, pkt.MapId, pkt.Position.Value);
+    }
+    public static void SC_PortalHandler(PacketSession session, ByteBuffer buffer)
+    {
+        var pkt = SC_Portal.GetRootAsSC_Portal(buffer);
+
+        ChangeSceneHandler(pkt.MyPlayerInfo.Value, pkt.MapId, pkt.Position.Value);
     }
     public static void SC_DespawnHandler(PacketSession session, ByteBuffer buffer)
     {

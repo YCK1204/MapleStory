@@ -2,17 +2,20 @@ using Google.FlatBuffers;
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class MyPlayerContoller : PlayerController
 {
+    PortalController portal;
     enum PlayerKeyInput
     {
         None,
         LeftArrow,
         RightArrow,
         DownArrow,
+        UpArrow,
         Space
     }
     Dictionary<PlayerKeyInput, Action> _keyDownHandler = new Dictionary<PlayerKeyInput, Action>();
@@ -55,6 +58,18 @@ public class MyPlayerContoller : PlayerController
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
             var data = C_MoveStart.CreateC_MoveStart(builder, Dir, transform.position.x, transform.position.y);
             var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveStart);
+            Manager.Network.Send(pkt);
+        });
+        _keyDownHandler.Add(PlayerKeyInput.UpArrow, () =>
+        {
+            // 나중에 사다리, 로프도 추가
+            
+            if (portal == null)
+                return;
+            FlatBufferBuilder builder = new FlatBufferBuilder(50);
+
+            var data = C_Portal.CreateC_Portal(builder, portal.PortalId);
+            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_Portal);
             Manager.Network.Send(pkt);
         });
         _keyDownHandler.Add(PlayerKeyInput.Space, () =>
@@ -121,6 +136,16 @@ public class MyPlayerContoller : PlayerController
         //cc.Target = gameObject;
         //cc.Init();
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Portal")
+            portal = collision.gameObject.GetComponent<PortalController>();
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Portal")
+            portal = null;
+    }
     protected override void UpdateController()
     {
         base.UpdateController();
@@ -145,6 +170,8 @@ public class MyPlayerContoller : PlayerController
                 keyDownAction = _keyDownHandler[PlayerKeyInput.Space];
             else if (Input.GetKeyDown(KeyCode.DownArrow))
                 keyDownAction = _keyDownHandler[PlayerKeyInput.DownArrow];
+            else if (Input.GetKeyDown(KeyCode.UpArrow))
+                keyDownAction = _keyDownHandler[PlayerKeyInput.UpArrow];
         }
 
         // AnyKeyUp

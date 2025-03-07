@@ -10,7 +10,7 @@ public:
 
 public:
 	uint8 MonsterId;
-	uint8 AttackableRange;
+	uint8 AttackableRange[2];
 	int32 Hp;
 	uint16 AttackPower;
 	uint16 Armor;
