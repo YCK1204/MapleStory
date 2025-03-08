@@ -42,8 +42,11 @@ struct SC_MSpawnBuilder;
 struct C_Despawn;
 struct C_DespawnBuilder;
 
-struct SC_Despawn;
-struct SC_DespawnBuilder;
+struct SC_PDespawn;
+struct SC_PDespawnBuilder;
+
+struct SC_MDespawn;
+struct SC_MDespawnBuilder;
 
 struct C_Portal FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef C_PortalBuilder Builder;
@@ -472,8 +475,49 @@ inline ::flatbuffers::Offset<C_Despawn> CreateC_Despawn(
   return builder_.Finish();
 }
 
-struct SC_Despawn FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef SC_DespawnBuilder Builder;
+struct SC_PDespawn FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SC_PDespawnBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_ID = 4
+  };
+  uint64_t id() const {
+    return GetField<uint64_t>(VT_ID, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_ID, 8) &&
+           verifier.EndTable();
+  }
+};
+
+struct SC_PDespawnBuilder {
+  typedef SC_PDespawn Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_id(uint64_t id) {
+    fbb_.AddElement<uint64_t>(SC_PDespawn::VT_ID, id, 0);
+  }
+  explicit SC_PDespawnBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SC_PDespawn> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SC_PDespawn>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SC_PDespawn> CreateSC_PDespawn(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t id = 0) {
+  SC_PDespawnBuilder builder_(_fbb);
+  builder_.add_id(id);
+  return builder_.Finish();
+}
+
+struct SC_MDespawn FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SC_MDespawnBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_ID = 4
   };
@@ -488,37 +532,37 @@ struct SC_Despawn FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   }
 };
 
-struct SC_DespawnBuilder {
-  typedef SC_Despawn Table;
+struct SC_MDespawnBuilder {
+  typedef SC_MDespawn Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
   void add_id(::flatbuffers::Offset<::flatbuffers::Vector<uint64_t>> id) {
-    fbb_.AddOffset(SC_Despawn::VT_ID, id);
+    fbb_.AddOffset(SC_MDespawn::VT_ID, id);
   }
-  explicit SC_DespawnBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit SC_MDespawnBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<SC_Despawn> Finish() {
+  ::flatbuffers::Offset<SC_MDespawn> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<SC_Despawn>(end);
+    auto o = ::flatbuffers::Offset<SC_MDespawn>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<SC_Despawn> CreateSC_Despawn(
+inline ::flatbuffers::Offset<SC_MDespawn> CreateSC_MDespawn(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     ::flatbuffers::Offset<::flatbuffers::Vector<uint64_t>> id = 0) {
-  SC_DespawnBuilder builder_(_fbb);
+  SC_MDespawnBuilder builder_(_fbb);
   builder_.add_id(id);
   return builder_.Finish();
 }
 
-inline ::flatbuffers::Offset<SC_Despawn> CreateSC_DespawnDirect(
+inline ::flatbuffers::Offset<SC_MDespawn> CreateSC_MDespawnDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     const std::vector<uint64_t> *id = nullptr) {
   auto id__ = id ? _fbb.CreateVector<uint64_t>(*id) : 0;
-  return CreateSC_Despawn(
+  return CreateSC_MDespawn(
       _fbb,
       id__);
 }

@@ -16,14 +16,10 @@ void PacketHandler::C_DespawnHandler(PacketSession* session, ByteRef& buffer)
 		return;
 	}
 	GameRoomRef room = client->Player->Room;
-
-	FlatBufferBuilder builder;
-
-	auto data = CreateSC_Despawn(builder, client->Player->GetCharId()); // <- 이 코드 절대 레전드 버그남 수정해야함 ////////
-	auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_Despawn);
-
-	room->Remove(client->Player->Id);
-	room->Broadcast(packet);
+	room->PushJob([client]() {
+		client->Player->Room->Remove(client->Player);
+		GPoolManager->Push<ClientSession>(client);
+	});
 }
 
 void PacketHandler::C_PortalHandler(PacketSession* session, ByteRef& buffer)
@@ -60,18 +56,15 @@ void PacketHandler::C_PortalHandler(PacketSession* session, ByteRef& buffer)
 		auto channel = server->FindChannel(client->ChannelId);
 		auto room = channel->FindRoom(targetPortal->SceneId);
 
-		// 이전 룸에서 자신을 제거
-		{
-			auto b = std::bind(static_cast<void(GameRoom::*)(PlayerRef)>(&GameRoom::Remove), player->Room, std::placeholders::_1);
-			player->Room->PushJob<PlayerRef>(b, player);
-		}
-
 		room->PushJob([room, client, targetPortal]() {
 			auto player = client->Player;
+			player->Room->Remove(player);
+			player->SetMapId(targetPortal->SceneId);
 			player->Room = room;
 			player->Pos->X = targetPortal->X;
 			player->Pos->Y = targetPortal->Y;
 			room->Push(player);
+
 			FlatBufferBuilder builder;
 			auto myPlayerInfo = player->GenerateTotalInfo(builder);
 			auto position = player->GeneratePosition(builder);
@@ -143,13 +136,13 @@ void PacketHandler::C_CreatureInfosHandler(PacketSession* session, ByteRef& buff
 		PlayerRef player = client->Player;
 		GameRoomRef room = player->Room;
 
-		room->PushJob<GameRoomRef, ClientRef>([room, client](GameRoomRef, ClientRef) {
+		room->PushJob([room, client]() {
 			FlatBufferBuilder builder;
 			auto playerInfos = room->GetPlayerInfos(builder);
 			auto data = CreateSC_CreatureInfos(builder, playerInfos);
 			auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CreatureInfos);
 			client->Send(pkt);
-			}, room, client);
+			});
 	}
 	catch (...)
 	{

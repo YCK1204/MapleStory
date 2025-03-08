@@ -39,6 +39,10 @@ table SC_MSpawn {
 table C_Despawn {
 }
 
-table SC_Despawn {
+table SC_PDespawn {
+	id:uint64;
+}
+
+table SC_MDespawn {
 	id:[uint64];
 }

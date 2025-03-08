@@ -59,9 +59,9 @@ public class PlayerController : CreatureController
     public string Name { get; set; }
 
     [SerializeField]
-    protected float Speed = 3f;
+    protected float Speed = 5f;
     [SerializeField]
-    protected float JumpForce = 3f;
+    protected float JumpForce = 7f;
     protected Rigidbody2D rb;
     Animator anim;
     Vector2 bottomOffset = new Vector2(0, -.5f);
@@ -138,6 +138,7 @@ public class PlayerController : CreatureController
     }
     public override void Destroy()
     {
+        GameObject.Destroy(gameObject);
     }
     protected override void UpdateController()
     {

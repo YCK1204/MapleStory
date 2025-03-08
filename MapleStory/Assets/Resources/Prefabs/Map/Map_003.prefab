@@ -5765,7 +5765,7 @@ GameObject:
   - component: {fileID: 2861678614993862726}
   m_Layer: 0
   m_Name: Map_003
-  m_TagString: Untagged
+  m_TagString: Border
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

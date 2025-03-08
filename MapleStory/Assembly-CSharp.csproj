@@ -78,6 +78,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\C_EnterChannel.cs" />
     <Compile Include="Assets\Scripts\Utils\Util.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_CharacterList.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_PDespawn.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_PSpawn.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\WorldSelect.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SignInError.cs" />
@@ -121,7 +122,6 @@
     <Compile Include="Assets\UI Toolkit\PrevInGame\UIPrevInGameController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_EnterChannel.cs" />
     <Compile Include="Assets\Scripts\Packet\PacketManager.cs" />
-    <Compile Include="Assets\Scripts\FlatBuffer\SC_Despawn.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterAbility.cs" />
     <Compile Include="Assets\Scripts\Packet\PrevInGame\CharacterSelect.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_CharacterDelete.cs" />
@@ -138,6 +138,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\PacketType.cs" />
     <Compile Include="Assets\Scripts\Packet\PrevInGame\CreateCharacter.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\CharacterSelect.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_MDespawn.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_CheckName.cs" />
     <Compile Include="Assets\Scripts\Controllers\PortalController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CreateCharacterError.cs" />

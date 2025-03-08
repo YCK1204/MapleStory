@@ -6597,7 +6597,7 @@ GameObject:
   - component: {fileID: 2861678614993862726}
   m_Layer: 0
   m_Name: Map_004
-  m_TagString: Untagged
+  m_TagString: Border
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8384,7 +8384,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5712581512740969979, guid: 8b46827612d530a4aa65e02320689058, type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6551757282940601409, guid: 8b46827612d530a4aa65e02320689058, type: 3}
       propertyPath: m_Name

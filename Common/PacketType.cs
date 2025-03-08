@@ -44,19 +44,20 @@ public enum PacketType : byte
   SC_PSpawn = 37,
   SC_MSpawn = 38,
   C_Despawn = 39,
-  SC_Despawn = 40,
-  C_CreatureInfos = 41,
-  SC_CreatureInfos = 42,
-  C_MoveStart = 43,
-  SC_MoveStart = 44,
-  C_MoveEnd = 45,
-  SC_MoveEnd = 46,
-  C_Jump = 47,
-  SC_Jump = 48,
-  C_ProneStabStart = 49,
-  SC_ProneStabStart = 50,
-  C_ProneStabEnd = 51,
-  SC_ProneStabEnd = 52,
+  SC_PDespawn = 40,
+  SC_MDespawn = 41,
+  C_CreatureInfos = 42,
+  SC_CreatureInfos = 43,
+  C_MoveStart = 44,
+  SC_MoveStart = 45,
+  C_MoveEnd = 46,
+  SC_MoveEnd = 47,
+  C_Jump = 48,
+  SC_Jump = 49,
+  C_ProneStabStart = 50,
+  SC_ProneStabStart = 51,
+  C_ProneStabEnd = 52,
+  SC_ProneStabEnd = 53,
 };
 
 
@@ -185,8 +186,11 @@ static public class PacketTypeVerify
       case PacketType.C_Despawn:
         result = C_DespawnVerify.Verify(verifier, tablePos);
         break;
-      case PacketType.SC_Despawn:
-        result = SC_DespawnVerify.Verify(verifier, tablePos);
+      case PacketType.SC_PDespawn:
+        result = SC_PDespawnVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_MDespawn:
+        result = SC_MDespawnVerify.Verify(verifier, tablePos);
         break;
       case PacketType.C_CreatureInfos:
         result = C_CreatureInfosVerify.Verify(verifier, tablePos);

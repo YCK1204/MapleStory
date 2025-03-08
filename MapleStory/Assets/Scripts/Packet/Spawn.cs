@@ -57,11 +57,24 @@ public partial class PacketHandler
 
         ChangeSceneHandler(pkt.MyPlayerInfo.Value, pkt.MapId, pkt.Position.Value);
     }
-    public static void SC_DespawnHandler(PacketSession session, ByteBuffer buffer)
+    public static void SC_PDespawnHandler(PacketSession session, ByteBuffer buffer)
     {
-        var pkt = SC_Despawn.GetRootAsSC_Despawn(buffer);
+        var pkt = SC_PDespawn.GetRootAsSC_PDespawn(buffer);
 
-         //Manager.Object.FindPlayer(pkt.Id);
+        var player = Manager.Object.FindPlayer(pkt.Id);
+        if (player != null)
+            Manager.Object.RemovePlayer(player.ID);
+    }
+    public static void SC_MDespawnHandler(PacketSession session, ByteBuffer buffer)
+    {
+        var pkt = SC_MDespawn.GetRootAsSC_MDespawn(buffer);
+
+        for (var i = 0; i < pkt.IdLength; i++)
+        {
+            var monster = Manager.Object.FindMonster(pkt.Id(i));
+            if (monster != null)
+                Manager.Object.RemoveMonster(monster.ID);
+        }
     }
     public static void SC_MSpawnHandler(PacketSession session, ByteBuffer buffer)
     {

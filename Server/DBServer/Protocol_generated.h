@@ -61,24 +61,25 @@ enum PacketType : uint8_t {
   PacketType_SC_PSpawn = 37,
   PacketType_SC_MSpawn = 38,
   PacketType_C_Despawn = 39,
-  PacketType_SC_Despawn = 40,
-  PacketType_C_CreatureInfos = 41,
-  PacketType_SC_CreatureInfos = 42,
-  PacketType_C_MoveStart = 43,
-  PacketType_SC_MoveStart = 44,
-  PacketType_C_MoveEnd = 45,
-  PacketType_SC_MoveEnd = 46,
-  PacketType_C_Jump = 47,
-  PacketType_SC_Jump = 48,
-  PacketType_C_ProneStabStart = 49,
-  PacketType_SC_ProneStabStart = 50,
-  PacketType_C_ProneStabEnd = 51,
-  PacketType_SC_ProneStabEnd = 52,
+  PacketType_SC_PDespawn = 40,
+  PacketType_SC_MDespawn = 41,
+  PacketType_C_CreatureInfos = 42,
+  PacketType_SC_CreatureInfos = 43,
+  PacketType_C_MoveStart = 44,
+  PacketType_SC_MoveStart = 45,
+  PacketType_C_MoveEnd = 46,
+  PacketType_SC_MoveEnd = 47,
+  PacketType_C_Jump = 48,
+  PacketType_SC_Jump = 49,
+  PacketType_C_ProneStabStart = 50,
+  PacketType_SC_ProneStabStart = 51,
+  PacketType_C_ProneStabEnd = 52,
+  PacketType_SC_ProneStabEnd = 53,
   PacketType_MIN = PacketType_NONE,
   PacketType_MAX = PacketType_SC_ProneStabEnd
 };
 
-inline const PacketType (&EnumValuesPacketType())[53] {
+inline const PacketType (&EnumValuesPacketType())[54] {
   static const PacketType values[] = {
     PacketType_NONE,
     PacketType_C_SignUp,
@@ -120,7 +121,8 @@ inline const PacketType (&EnumValuesPacketType())[53] {
     PacketType_SC_PSpawn,
     PacketType_SC_MSpawn,
     PacketType_C_Despawn,
-    PacketType_SC_Despawn,
+    PacketType_SC_PDespawn,
+    PacketType_SC_MDespawn,
     PacketType_C_CreatureInfos,
     PacketType_SC_CreatureInfos,
     PacketType_C_MoveStart,
@@ -138,7 +140,7 @@ inline const PacketType (&EnumValuesPacketType())[53] {
 }
 
 inline const char * const *EnumNamesPacketType() {
-  static const char * const names[54] = {
+  static const char * const names[55] = {
     "NONE",
     "C_SignUp",
     "SD_SignUp",
@@ -179,7 +181,8 @@ inline const char * const *EnumNamesPacketType() {
     "SC_PSpawn",
     "SC_MSpawn",
     "C_Despawn",
-    "SC_Despawn",
+    "SC_PDespawn",
+    "SC_MDespawn",
     "C_CreatureInfos",
     "SC_CreatureInfos",
     "C_MoveStart",
@@ -363,8 +366,12 @@ template<> struct PacketTypeTraits<C_Despawn> {
   static const PacketType enum_value = PacketType_C_Despawn;
 };
 
-template<> struct PacketTypeTraits<SC_Despawn> {
-  static const PacketType enum_value = PacketType_SC_Despawn;
+template<> struct PacketTypeTraits<SC_PDespawn> {
+  static const PacketType enum_value = PacketType_SC_PDespawn;
+};
+
+template<> struct PacketTypeTraits<SC_MDespawn> {
+  static const PacketType enum_value = PacketType_SC_MDespawn;
 };
 
 template<> struct PacketTypeTraits<C_CreatureInfos> {
@@ -579,8 +586,12 @@ inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj,
       auto ptr = reinterpret_cast<const C_Despawn *>(obj);
       return verifier.VerifyTable(ptr);
     }
-    case PacketType_SC_Despawn: {
-      auto ptr = reinterpret_cast<const SC_Despawn *>(obj);
+    case PacketType_SC_PDespawn: {
+      auto ptr = reinterpret_cast<const SC_PDespawn *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_MDespawn: {
+      auto ptr = reinterpret_cast<const SC_MDespawn *>(obj);
       return verifier.VerifyTable(ptr);
     }
     case PacketType_C_CreatureInfos: {

@@ -29,8 +29,8 @@ public class ObjectManager : IManager
         PlayerController pc = null;
         if (_players.TryGetValue(id, out pc) == false)
             return;
-        pc.Destroy();
         _players.Remove(id);
+        pc.Destroy();
     }
     public void Push(MonsterController mc)
     {
@@ -49,5 +49,11 @@ public class ObjectManager : IManager
         PlayerController pc = null;
         _players.TryGetValue(id, out pc);
         return pc;
+    }
+    public MonsterController FindMonster(UInt64 id)
+    {
+        MonsterController mc = null;
+        _monsters.TryGetValue (id, out mc);
+        return mc;
     }
 }
