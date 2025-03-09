@@ -16,7 +16,7 @@ public:
 private:
 	atomic<uint32> _writeLockFlag = 0;
 	atomic<uint32> _readLockFlag = 0;
-	uint16 _writeCount = 0;
+	atomic<uint16> _writeCount = 0;
 };
 
 class ReadLock

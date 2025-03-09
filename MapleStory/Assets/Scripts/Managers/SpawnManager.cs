@@ -15,8 +15,8 @@ public class SpawnManager : IManager
     {
         return _spawner.SpawnPlayer<T>(type);
     }
-    public T SpawnMonster<T>(MonsterType type) where T : CreatureController
+    public MonsterController SpawnMonster(MonsterType type)
     {
-        return _spawner.SpawnMonster<T>(type);
+        return _spawner.SpawnMonster(type);
     }
 }

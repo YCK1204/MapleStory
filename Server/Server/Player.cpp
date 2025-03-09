@@ -24,10 +24,7 @@ const bool Player::IsInState(PlayerState state)
 	return (State & (1 << (uint32)state));
 }
 
-Offset<Position> Player::GeneratePosition(FlatBufferBuilder& builder)
-{
-	return CreatePosition(builder, Pos->X, Pos->Y);
-}
+
 
 Offset<PlayerInfo> Player::GeneratePlayerInfo(FlatBufferBuilder& builder)
 {

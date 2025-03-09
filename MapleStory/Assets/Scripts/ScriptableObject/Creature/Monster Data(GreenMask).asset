@@ -16,3 +16,4 @@ MonoBehaviour:
   AttackSound: {fileID: 8300000, guid: 36d3e661371ccba4a845a634ed363912, type: 3}
   DieSound: {fileID: 8300000, guid: e44138e2340e68d419296beb717ab447, type: 3}
   HitSound: {fileID: 8300000, guid: 32e1727dcf5520d489e72a773b0e4ac4, type: 3}
+  SortingLayerNum: 133

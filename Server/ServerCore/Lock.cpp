@@ -5,7 +5,7 @@ void Lock::WriteLock()
 {
 	if (LThreadId == _writeLockFlag.load())
 	{
-		_writeCount++;
+		_writeCount.fetch_add(1);
 		return;
 	}
 
@@ -17,7 +17,7 @@ void Lock::WriteLock()
 			uint32 expected = EMPTY_FLAG;
 			if (_writeLockFlag.compare_exchange_strong(OUT expected, LThreadId))
 			{
-				_writeCount++;
+				_writeCount.fetch_add(1);
 				goto NEXT;
 			}
 		}
@@ -45,8 +45,8 @@ NEXT:
 
 void Lock::WriteUnlock()
 {
-	uint16 count = --_writeCount;
-	if (count == 0)
+	uint16 count = _writeCount.fetch_sub(1);
+	if (count == 1)
 		_writeLockFlag.store(EMPTY_FLAG);
 }
 

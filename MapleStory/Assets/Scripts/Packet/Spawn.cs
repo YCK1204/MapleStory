@@ -78,6 +78,22 @@ public partial class PacketHandler
     }
     public static void SC_MSpawnHandler(PacketSession session, ByteBuffer buffer)
     {
+        var pkt = SC_MSpawn.GetRootAsSC_MSpawn(buffer);
+
+        for (var i = 0; i < pkt.MonstersLength; i++)
+        {
+            var monsterInfo = pkt.Monsters(i).Value;
+            if (Manager.Object.FindMonster(monsterInfo.Id) == null)
+            {
+                var position = monsterInfo.Position.Value;
+
+                var type = monsterInfo.Type;
+                var monster = Manager.Spawn.SpawnMonster((MonsterType)type);
+                monster.ID = monsterInfo.Id;
+                monster.transform.position = new Vector3(position.X, position.Y);
+                Manager.Object.Push(monster);
+            }
+        }
     }
     static T HandlePSpawn<T>(CharacterPreviewInfo charInfo) where T : PlayerController
     {
@@ -121,16 +137,16 @@ public partial class PacketHandler
             var pc = HandlePSpawn<PlayerController>(charInfo);
             pc.transform.position = new Vector3(position.X, position.Y);
         }
-        //len = pkt.MonstersLength;
-        //for (var i = 0; i < len; ++i)
-        //{
-        //    var monsterInfo = pkt.Monsters(i).Value;
-        //    var position = monsterInfo.Position.Value;
+        len = pkt.MonstersLength;
+        for (var i = 0; i < len; ++i)
+        {
+            var monsterInfo = pkt.Monsters(i).Value;
+            var position = monsterInfo.Position.Value;
 
-        //    var mc = Manager.Spawn.SpawnMonster<MonsterController>((MonsterType)monsterInfo.Type);
-        //    mc.transform.position = new Vector3(position.X, position.Y);
-        //    mc.ID = monsterInfo.Id;
-        //    Manager.Object.Push(mc);
-        //}
+            var mc = Manager.Spawn.SpawnMonster((MonsterType)monsterInfo.Type);
+            mc.transform.position = new Vector3(position.X, position.Y);
+            mc.ID = monsterInfo.Id;
+            Manager.Object.Push(mc);
+        }
     }
 }

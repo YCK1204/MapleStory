@@ -12,3 +12,7 @@ Creature::~Creature()
 }
 
 
+Offset<Position> Creature::GeneratePosition(FlatBufferBuilder& builder)
+{
+	return CreatePosition(builder, Pos->X, Pos->Y);
+}

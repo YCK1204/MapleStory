@@ -48,7 +48,6 @@ public:
 	virtual ~Player();
 	virtual void TakeDamage(int32& damage);
 	const bool IsInState(PlayerState state);
-	Offset<Position> GeneratePosition(FlatBufferBuilder& builder);
 	Offset<PlayerInfo> GeneratePlayerInfo(FlatBufferBuilder& builder);
 	Offset<CharacterTotalInfo> GenerateTotalInfo(FlatBufferBuilder& builder);
 	Offset<CharacterPreviewInfo> GeneratePreviewInfo(FlatBufferBuilder& builder);

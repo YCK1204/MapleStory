@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Job.h"
 #include "Monster.h"
+#include <variant>
 
 class GameRoom
 {
@@ -24,6 +25,8 @@ private:
 	map<uint64, PlayerRef> _players;
 	uint64 _curId = 0;
 	queue<JobRef> _jobQueue;
+	const static uint64 SpawnUpdateTickTime = 3000;
+	uint64 LastSpawnUpdate = GetTickCount64();
 
 #pragma region MapInfo
 private:

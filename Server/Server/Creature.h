@@ -16,6 +16,7 @@ public:
 	virtual ~Creature();
 
 public:
+	Offset<Position> GeneratePosition(FlatBufferBuilder& builder);
 	virtual const bool IsAlive() const = 0;
 	virtual void TakeDamage(int32& damage) = 0;
 };

@@ -19,7 +19,7 @@ void PacketHandler::C_DespawnHandler(PacketSession* session, ByteRef& buffer)
 	room->PushJob([client]() {
 		client->Player->Room->Remove(client->Player);
 		GPoolManager->Push<ClientSession>(client);
-	});
+		});
 }
 
 void PacketHandler::C_PortalHandler(PacketSession* session, ByteRef& buffer)
@@ -103,12 +103,12 @@ void PacketHandler::C_EnterGameHandler(PacketSession* session, ByteRef& buffer)
 		auto room = channel->FindRoom(mapId);
 
 		room->PushJob<GameRoomRef, PlayerRef, ClientRef>([room, player, client](GameRoomRef, PlayerRef, ClientRef) {
-			player->Room = room;
 			room->Push(player);
 
 			player->Pos->X = room->InitPos[0];
 			player->Pos->Y = room->InitPos[1];
 			// 입장하려는 유저에게 자신의 캐릭터 정보를 알림
+			player->Room = room;
 			FlatBufferBuilder builder;
 			auto myPlayerInfo = player->GenerateTotalInfo(builder);
 			auto position = player->GeneratePosition(builder);
@@ -139,7 +139,8 @@ void PacketHandler::C_CreatureInfosHandler(PacketSession* session, ByteRef& buff
 		room->PushJob([room, client]() {
 			FlatBufferBuilder builder;
 			auto playerInfos = room->GetPlayerInfos(builder);
-			auto data = CreateSC_CreatureInfos(builder, playerInfos);
+			auto monsterInfos = room->GetMonsterInfos(builder);
+			auto data = CreateSC_CreatureInfos(builder, playerInfos, monsterInfos);
 			auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CreatureInfos);
 			client->Send(pkt);
 			});

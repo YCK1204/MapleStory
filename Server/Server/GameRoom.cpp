@@ -12,10 +12,10 @@ void GameRoom::GenMonster()
 	FlatBufferBuilder builder;
 	vector<Offset<MonsterInfo>> monsterInfos;
 
-	for (auto spawnInfo : _spawnInfo)
+	for (auto& spawnInfo : _spawnInfo)
 	{
-		auto key = spawnInfo.first;
-		auto value = spawnInfo.second;
+		auto& key = spawnInfo.first;
+		auto& value = spawnInfo.second;
 
 		if (value.size() >= key->spawnCount)
 			continue;
@@ -28,10 +28,12 @@ void GameRoom::GenMonster()
 
 			clone->Pos->X = RandomNumberGenerator::getRandomInt(key->RangeX[0], key->RangeX[1]);
 			clone->Pos->Y = key->Y;
-			auto pos = CreatePosition(builder, clone->Pos->X, clone->Pos->Y);
+			clone->Id = GenerateId(clone->Type);
+			auto pos = clone->GeneratePosition(builder);
 			auto monsterInfo = CreateMonsterInfo(builder, clone->MonsterId, clone->Id, pos);
 			monsterInfos.push_back(monsterInfo);
 			value.insert(clone);
+			_objects[clone->Id] = clone;
 		}
 	}
 	auto infos = builder.CreateVector(monsterInfos);
@@ -77,7 +79,13 @@ Offset<Vector<Offset<MonsterInfo>>> GameRoom::GetMonsterInfos(FlatBufferBuilder&
 
 	for (auto it = _objects.begin(); it != _objects.end(); it++)
 	{
-
+		if (it->second->Type == ObjectType::MONSTER)
+		{
+			auto monster = reinterpret_cast<Monster*>(it->second.get());
+			auto position = monster->GeneratePosition(builder);
+			auto data = CreateMonsterInfo(builder, monster->MonsterId, monster->Id, position);
+			infos.push_back(data);
+		}
 	}
 	return builder.CreateVector(infos);
 }
@@ -178,14 +186,17 @@ void GameRoom::Update() {
 	while (_jobQueue.size() > 0)
 	{
 		auto job = _jobQueue.front();
-		_jobQueue.pop();
 		job->Execute();
+		_jobQueue.pop();
 	}
-	/*if (_players.size() == 0)
+	if (_players.size() == 0)
 		return;
-
-	auto b = bind(static_cast<void(GameRoom::*)()>(&GameRoom::GenMonster), this);
-	PushJob(b);*/
+	auto tick = GetTickCount64();
+	if (LastSpawnUpdate + SpawnUpdateTickTime < tick)
+	{
+		LastSpawnUpdate = GetTickCount64();
+		PushJob([this]() { GenMonster(); });
+	}
 }
 
 void GameRoom::Init(json& room)

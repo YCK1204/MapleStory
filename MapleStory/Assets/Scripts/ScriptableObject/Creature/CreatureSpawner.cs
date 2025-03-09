@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public enum PlayerCharacterType { AngelicBuster, Tanjiro }
-public enum MonsterType { }
+public enum MonsterType { Hourglass, GreenMask, BlueMask, RedMask }
 
 public class CreatureSpawner : MonoBehaviour
 {
@@ -23,14 +23,20 @@ public class CreatureSpawner : MonoBehaviour
 
         return cc;
     }
-    public T SpawnMonster<T>(MonsterType type) where T : CreatureController
+    public MonsterController SpawnMonster(MonsterType type)
     {
         var go = Instantiate(MonsterController);
-        var cc = go.AddComponent<T>();
 
-        Animator animator = go.AddComponent<Animator>();
+        Animator animator = go.GetComponent<Animator>();
         animator.runtimeAnimatorController = MonsterData[(int)type].AnimatorController;
 
-        return cc;
+        var mc = go.GetComponent<MonsterController>();
+        mc.AttackSound = MonsterData[(int)type].AttackSound;
+        mc.DieSound = MonsterData[(int)type].DieSound;
+        mc.HitSound = MonsterData[(int)type].HitSound;
+        var sp = go.GetComponent<SpriteRenderer>();
+        sp.sortingOrder = MonsterData[(int)type].SortingLayerNum;
+
+        return mc;
     }
 }
