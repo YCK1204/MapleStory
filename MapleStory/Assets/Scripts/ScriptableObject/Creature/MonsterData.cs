@@ -13,4 +13,6 @@ public class MonsterData : ScriptableObject
     public AudioClip HitSound;
     [SerializeField]
     public int SortingLayerNum;
+    [SerializeField]
+    public Sprite InitSprite;
 }

@@ -19,4 +19,8 @@ public class SpawnManager : IManager
     {
         return _spawner.SpawnMonster(type);
     }
+    public void InitMonsterPosition(GameObject monster)
+    {
+        _spawner.SetPosToTilemap(monster);
+    }
 }

@@ -34,6 +34,7 @@ public class MonsterController : CreatureController
     {
         Animator = GetComponent<Animator>();
         State = MonsterState.Stand;
+
     }
 
     protected override void UpdateAnimation()

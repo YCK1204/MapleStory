@@ -68,7 +68,7 @@ public class PlayerController : CreatureController
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, "");
-        int target = LayerMask.GetMask("Floor", "FloorBase");
+        int target = LayerMask.GetMask("Floor", "FloorBase", "Stair");
         var hit = Physics2D.Raycast((Vector2)transform.position + bottomOffset, Vector2.down, .2f, target);
 
         if (hit.collider == null || hit.collider.gameObject == null)

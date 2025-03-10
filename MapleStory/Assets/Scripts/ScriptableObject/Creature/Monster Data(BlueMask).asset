@@ -17,3 +17,4 @@ MonoBehaviour:
   DieSound: {fileID: 8300000, guid: b6b946b13120a174e8464dddf0c4b1ea, type: 3}
   HitSound: {fileID: 8300000, guid: bc8f7f928fe80ad4d94820164e9c0630, type: 3}
   SortingLayerNum: 133
+  InitSprite: {fileID: -3120414314603217718, guid: 478c7d9f3a4a40c4aaa9a4c8696e98f4, type: 3}

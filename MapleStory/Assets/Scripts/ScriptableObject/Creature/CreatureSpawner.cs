@@ -13,6 +13,7 @@ public class CreatureSpawner : MonoBehaviour
     GameObject PlayerCharacter;
     [SerializeField]
     GameObject MonsterController;
+
     public T SpawnPlayer<T>(PlayerCharacterType type) where T : CreatureController
     {
         var go = Instantiate(PlayerCharacter);
@@ -36,7 +37,21 @@ public class CreatureSpawner : MonoBehaviour
         mc.HitSound = MonsterData[(int)type].HitSound;
         var sp = go.GetComponent<SpriteRenderer>();
         sp.sortingOrder = MonsterData[(int)type].SortingLayerNum;
+        sp.sprite = MonsterData[(int)type].InitSprite;
 
         return mc;
+    }
+    public void SetPosToTilemap(GameObject go)
+    {
+
+        RaycastHit2D hit = Physics2D.Raycast(go.transform.position, Vector2.down, Mathf.Infinity, LayerMask.GetMask("Floor", "FloorBase"));
+        var boxCollider = go.GetComponent<BoxCollider2D>();
+        boxCollider.size = go.GetComponent<SpriteRenderer>().bounds.size / 2;
+
+        hit = Physics2D.Raycast(go.transform.position, Vector2.down, Mathf.Infinity, LayerMask.GetMask("Floor", "FloorBase"));
+        float halfHeight = boxCollider.size.y * 0.5f * go.transform.localScale.y;
+        Vector3 newPosition = new Vector3(hit.point.x, hit.point.y + halfHeight, go.transform.position.z);
+
+        go.transform.position = newPosition;
     }
 }

@@ -90,7 +90,8 @@ public partial class PacketHandler
                 var type = monsterInfo.Type;
                 var monster = Manager.Spawn.SpawnMonster((MonsterType)type);
                 monster.ID = monsterInfo.Id;
-                monster.transform.position = new Vector3(position.X, position.Y);
+                monster.transform.position = new Vector3(position.X, position.Y + 5f);
+                Manager.Spawn.InitMonsterPosition(monster.gameObject);
                 Manager.Object.Push(monster);
             }
         }
@@ -144,8 +145,9 @@ public partial class PacketHandler
             var position = monsterInfo.Position.Value;
 
             var mc = Manager.Spawn.SpawnMonster((MonsterType)monsterInfo.Type);
-            mc.transform.position = new Vector3(position.X, position.Y);
+            mc.transform.position = new Vector3(position.X, position.Y + 5f);
             mc.ID = monsterInfo.Id;
+            Manager.Spawn.InitMonsterPosition(mc.gameObject);
             Manager.Object.Push(mc);
         }
     }
