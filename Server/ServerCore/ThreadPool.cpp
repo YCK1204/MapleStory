@@ -6,7 +6,8 @@ ThreadPool::ThreadPool(uint32 n)
 	_numOfThreads = n;
 	_threads.reserve(n);
 
-	for (uint32 i = 0; i < n; i++)
+	LThreadId = 1;
+	for (uint32 i = 1; i <= n; i++)
 	{
 		_threads.emplace_back([this, i]() {
 			LThreadId = i + 1;
