@@ -24,7 +24,7 @@ private:
 	map<uint64, GameObjectRef> _objects;
 	map<uint64, PlayerRef> _players;
 	uint64 _curId = 0;
-	queue<JobRef> _jobQueue;
+	priority_queue<JobRef, vector<JobRef>, greater<JobRef>> _jobQueue;
 	const static uint64 SpawnUpdateTickTime = 3000;
 	uint64 LastSpawnUpdate = GetTickCount64();
 
@@ -80,54 +80,54 @@ public:
 #pragma region Message Queue Util Functions
 public:
 	void PushJob(JobRef job);
-	void PushJob(function<void()> job);
+	void PushJob(function<void()> job, uint64 tick = 0);
 	template <typename _Ty1>
-	void PushJob(function<void(_Ty1)> func, _Ty1 t1);
+	void PushJob(function<void(_Ty1)> func, _Ty1 t1, uint64 tick = 0);
 	template <typename _Ty1, typename _Ty2>
-	void PushJob(function<void(_Ty1, _Ty2)> func, _Ty1 t1, _Ty2 t2);
+	void PushJob(function<void(_Ty1, _Ty2)> func, _Ty1 t1, _Ty2 t2, uint64 tick = 0);
 	template <typename _Ty1, typename _Ty2, typename _Ty3>
-	void PushJob(function<void(_Ty1, _Ty2, _Ty3)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3);
+	void PushJob(function<void(_Ty1, _Ty2, _Ty3)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3, uint64 tick = 0);
 	template <typename _Ty1, typename _Ty2, typename _Ty3, typename _Ty4>
-	void PushJob(function<void(_Ty1, _Ty2, _Ty3, _Ty4)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3, _Ty4 t4);
+	void PushJob(function<void(_Ty1, _Ty2, _Ty3, _Ty4)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3, _Ty4 t4, uint64 tick = 0);
 	template <typename _Ty1, typename _Ty2, typename _Ty3, typename _Ty4, typename _Ty5>
-	void PushJob(function<void(_Ty1, _Ty2, _Ty3, _Ty4, _Ty5)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3, _Ty4 t4, _Ty5 t5);
+	void PushJob(function<void(_Ty1, _Ty2, _Ty3, _Ty4, _Ty5)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3, _Ty4 t4, _Ty5 t5, uint64 tick = 0);
 	void Update();
 #pragma endregion
 };
 
 #pragma region PushJob Definition
 template<typename _Ty1>
-inline void GameRoom::PushJob(function<void(_Ty1)> func, _Ty1 t1)
+inline void GameRoom::PushJob(function<void(_Ty1)> func, _Ty1 t1, uint64 tick)
 {
-	auto jobRef = static_cast<JobRef>(make_shared<Job1<_Ty1>>(func, t1));
+	auto jobRef = static_cast<JobRef>(make_shared<Job1<_Ty1>>(func, t1, tick));
 	PushJob(jobRef);
 }
 
 template <typename _Ty1, typename _Ty2>
-inline void GameRoom::PushJob(function<void(_Ty1, _Ty2)> func, _Ty1 t1, _Ty2 t2)
+inline void GameRoom::PushJob(function<void(_Ty1, _Ty2)> func, _Ty1 t1, _Ty2 t2, uint64 tick)
 {
-	auto jobRef = static_cast<JobRef>(make_shared<Job2<_Ty1, _Ty2>>(func, t1, t2));
+	auto jobRef = static_cast<JobRef>(make_shared<Job2<_Ty1, _Ty2>>(func, t1, t2, tick));
 	PushJob(jobRef);
 }
 
 template <typename _Ty1, typename _Ty2, typename _Ty3>
-inline void GameRoom::PushJob(function<void(_Ty1, _Ty2, _Ty3)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3)
+inline void GameRoom::PushJob(function<void(_Ty1, _Ty2, _Ty3)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3, uint64 tick)
 {
-	auto jobRef = static_cast<JobRef>(make_shared<Job3<_Ty1, _Ty2, _Ty3>>(func, t1, t2, t3));
+	auto jobRef = static_cast<JobRef>(make_shared<Job3<_Ty1, _Ty2, _Ty3>>(func, t1, t2, t3, tick));
 	PushJob(jobRef);
 }
 
 template<typename _Ty1, typename _Ty2, typename _Ty3, typename _Ty4>
-inline void GameRoom::PushJob(function<void(_Ty1, _Ty2, _Ty3, _Ty4)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3, _Ty4 t4)
+inline void GameRoom::PushJob(function<void(_Ty1, _Ty2, _Ty3, _Ty4)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3, _Ty4 t4, uint64 tick)
 {
-	auto jobRef = static_cast<JobRef>(make_shared<Job4<_Ty1, _Ty2, _Ty3, _Ty4>>(func, t1, t2, t3, t4));
+	auto jobRef = static_cast<JobRef>(make_shared<Job4<_Ty1, _Ty2, _Ty3, _Ty4>>(func, t1, t2, t3, t4, tick));
 	PushJob(jobRef);
 }
 
 template<typename _Ty1, typename _Ty2, typename _Ty3, typename _Ty4, typename _Ty5>
-inline void GameRoom::PushJob(function<void(_Ty1, _Ty2, _Ty3, _Ty4, _Ty5)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3, _Ty4 t4, _Ty5 t5)
+inline void GameRoom::PushJob(function<void(_Ty1, _Ty2, _Ty3, _Ty4, _Ty5)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3, _Ty4 t4, _Ty5 t5, uint64 tick)
 {
-	auto jobRef = static_cast<JobRef>(make_shared<Job5<_Ty1, _Ty2, _Ty3, _Ty4, _Ty5>>(func, t1, t2, t3, t4, t5));
+	auto jobRef = static_cast<JobRef>(make_shared<Job5<_Ty1, _Ty2, _Ty3, _Ty4, _Ty5>>(func, t1, t2, t3, t4, t5, tick));
 	PushJob(jobRef);
 }
 #pragma endregion

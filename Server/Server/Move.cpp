@@ -136,7 +136,6 @@ void PacketHandler::C_ProneStabEndHandler(PacketSession* session, ByteRef& buffe
 		auto player = client->Player;
 		if (player->IsInState(PlayerState::PRONE_STAB) == false)
 			return;
-
 		auto room = player->Room;
 		player->RemoveState(PlayerState::PRONE_STAB);
 		room->PushJob<PlayerRef>([player](PlayerRef) {

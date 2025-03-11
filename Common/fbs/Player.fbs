@@ -1,0 +1,15 @@
+enum AttackEnum : uint8 {
+	TANJIRO_ATTACK1,
+	TANJIRO_ATTACK2,
+	TANJIRO_ATTACK3,
+	TANJIRO_ATTACK4
+}
+
+table C_Attack {
+	attack_id:AttackEnum;
+}
+
+table SC_Attack {
+	id:uint64;
+	attack_id:AttackEnum;
+}

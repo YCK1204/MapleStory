@@ -17,6 +17,7 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 24 &&
 #include "CreateCharacter_generated.h"
 #include "Login_generated.h"
 #include "Move_generated.h"
+#include "Player_generated.h"
 #include "Spawn_generated.h"
 #include "Tanjiro_generated.h"
 #include "WorldSelect_generated.h"
@@ -76,11 +77,13 @@ enum PacketType : uint8_t {
   PacketType_SC_ProneStabStart = 51,
   PacketType_C_ProneStabEnd = 52,
   PacketType_SC_ProneStabEnd = 53,
+  PacketType_C_Attack = 54,
+  PacketType_SC_Attack = 55,
   PacketType_MIN = PacketType_NONE,
-  PacketType_MAX = PacketType_SC_ProneStabEnd
+  PacketType_MAX = PacketType_SC_Attack
 };
 
-inline const PacketType (&EnumValuesPacketType())[54] {
+inline const PacketType (&EnumValuesPacketType())[56] {
   static const PacketType values[] = {
     PacketType_NONE,
     PacketType_C_SignUp,
@@ -135,13 +138,15 @@ inline const PacketType (&EnumValuesPacketType())[54] {
     PacketType_C_ProneStabStart,
     PacketType_SC_ProneStabStart,
     PacketType_C_ProneStabEnd,
-    PacketType_SC_ProneStabEnd
+    PacketType_SC_ProneStabEnd,
+    PacketType_C_Attack,
+    PacketType_SC_Attack
   };
   return values;
 }
 
 inline const char * const *EnumNamesPacketType() {
-  static const char * const names[55] = {
+  static const char * const names[57] = {
     "NONE",
     "C_SignUp",
     "SD_SignUp",
@@ -196,13 +201,15 @@ inline const char * const *EnumNamesPacketType() {
     "SC_ProneStabStart",
     "C_ProneStabEnd",
     "SC_ProneStabEnd",
+    "C_Attack",
+    "SC_Attack",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNamePacketType(PacketType e) {
-  if (::flatbuffers::IsOutRange(e, PacketType_NONE, PacketType_SC_ProneStabEnd)) return "";
+  if (::flatbuffers::IsOutRange(e, PacketType_NONE, PacketType_SC_Attack)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesPacketType()[index];
 }
@@ -423,6 +430,14 @@ template<> struct PacketTypeTraits<SC_ProneStabEnd> {
   static const PacketType enum_value = PacketType_SC_ProneStabEnd;
 };
 
+template<> struct PacketTypeTraits<C_Attack> {
+  static const PacketType enum_value = PacketType_C_Attack;
+};
+
+template<> struct PacketTypeTraits<SC_Attack> {
+  static const PacketType enum_value = PacketType_SC_Attack;
+};
+
 bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj, PacketType type);
 bool VerifyPacketTypeVector(::flatbuffers::Verifier &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types);
 
@@ -641,6 +656,14 @@ inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj,
     }
     case PacketType_SC_ProneStabEnd: {
       auto ptr = reinterpret_cast<const SC_ProneStabEnd *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_C_Attack: {
+      auto ptr = reinterpret_cast<const C_Attack *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_Attack: {
+      auto ptr = reinterpret_cast<const SC_Attack *>(obj);
       return verifier.VerifyTable(ptr);
     }
     default: return true;

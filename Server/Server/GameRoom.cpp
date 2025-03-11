@@ -170,29 +170,30 @@ void GameRoom::Broadcast(SendBufferRef pkt, PlayerRef exception)
 	}
 }
 
+void GameRoom::PushJob(function<void()> job, uint64 tick)
+{
+	auto j = make_shared<Job>(job, tick);
+	PushJob(j);
+}
+
 void GameRoom::PushJob(JobRef job) {
 	WRITE_LOCK;
 	_jobQueue.push(job);
-}
-
-void GameRoom::PushJob(function<void()> job)
-{
-	auto j = make_shared<Job>(job);
-	PushJob(j);
 }
 
 void GameRoom::Update() {
 	WRITE_LOCK;
 	while (_jobQueue.size() > 0)
 	{
-		auto job = _jobQueue.front();
+		auto job = _jobQueue.top();
+		if (job->CanExecute() == false)
+			break;
 		job->Execute();
 		_jobQueue.pop();
 	}
 	if (_players.size() == 0)
 		return;
-	auto tick = GetTickCount64();
-	if (LastSpawnUpdate + SpawnUpdateTickTime < tick)
+	if (LastSpawnUpdate + SpawnUpdateTickTime < GetTickCount64())
 	{
 		LastSpawnUpdate = GetTickCount64();
 		PushJob([this]() { GenMonster(); });

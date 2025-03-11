@@ -49,6 +49,7 @@ void PacketManager::Register()
 		_handler[PacketType::PacketType_C_Jump] = PacketHandler::C_JumpHandler;
 		_handler[PacketType::PacketType_C_ProneStabStart] = PacketHandler::C_ProneStabStartHandler;
 		_handler[PacketType::PacketType_C_ProneStabEnd] = PacketHandler::C_ProneStabEndHandler;
+		_handler[PacketType::PacketType_C_Attack] = PacketHandler::C_AttackHandler;
 		
 }
 

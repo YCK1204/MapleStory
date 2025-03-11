@@ -58,6 +58,8 @@ public enum PacketType : byte
   SC_ProneStabStart = 51,
   C_ProneStabEnd = 52,
   SC_ProneStabEnd = 53,
+  C_Attack = 54,
+  SC_Attack = 55,
 };
 
 
@@ -227,6 +229,12 @@ static public class PacketTypeVerify
         break;
       case PacketType.SC_ProneStabEnd:
         result = SC_ProneStabEndVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.C_Attack:
+        result = C_AttackVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_Attack:
+        result = SC_AttackVerify.Verify(verifier, tablePos);
         break;
       default: result = true;
         break;

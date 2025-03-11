@@ -44,7 +44,7 @@ public class MyPlayerContoller : PlayerController
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
             var data = C_MoveStart.CreateC_MoveStart(builder, Dir, transform.position.x, transform.position.y);
             var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveStart);
-            //Manager.Network.Send(pkt);
+            Manager.Network.Send(pkt);
         });
         _keyDownHandler.Add(PlayerKeyInput.RightArrow, () =>
         {
@@ -52,7 +52,7 @@ public class MyPlayerContoller : PlayerController
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
             var data = C_MoveStart.CreateC_MoveStart(builder, Dir, transform.position.x, transform.position.y);
             var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveStart);
-            //Manager.Network.Send(pkt);
+            Manager.Network.Send(pkt);
         });
         _keyDownHandler.Add(PlayerKeyInput.UpArrow, () =>
         {
@@ -64,7 +64,7 @@ public class MyPlayerContoller : PlayerController
 
             var data = C_Portal.CreateC_Portal(builder, portal.PortalId);
             var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_Portal);
-            //Manager.Network.Send(pkt);
+            Manager.Network.Send(pkt);
         });
         _keyDownHandler.Add(PlayerKeyInput.A, () =>
         {
@@ -72,12 +72,11 @@ public class MyPlayerContoller : PlayerController
                 return;
             tanjiro_Attack = (Tanjiro_Attack)(AttackCount++ % 4);
             State = PlayerState.Attack;
-            _coAttack = StartCoroutine(CoAttack(.5f));
-
+            Attack();
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
-            var data = C_MoveStart.CreateC_MoveStart(builder, Dir, transform.position.x, transform.position.y);
-            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveStart);
-            //Manager.Network.Send(pkt);
+            var data = C_Attack.CreateC_Attack(builder, (AttackEnum)tanjiro_Attack);
+            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_Attack);
+            Manager.Network.Send(pkt);
         });
         _keyDownHandler.Add(PlayerKeyInput.Space, () =>
         {
@@ -88,7 +87,7 @@ public class MyPlayerContoller : PlayerController
                 C_Jump.StartC_Jump(builder);
                 var data = C_Jump.EndC_Jump(builder);
                 var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_Jump);
-                //Manager.Network.Send(pkt);
+                Manager.Network.Send(pkt);
             }
         });
         _keyDownHandler.Add(PlayerKeyInput.DownArrow, () =>
@@ -99,7 +98,7 @@ public class MyPlayerContoller : PlayerController
             C_ProneStabStart.StartC_ProneStabStart(builder);
             var data = C_ProneStabStart.EndC_ProneStabStart(builder);
             var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_ProneStabStart);
-            //Manager.Network.Send(pkt);
+            Manager.Network.Send(pkt);
         });
         #endregion
         #region KeyUpBinding
@@ -109,7 +108,7 @@ public class MyPlayerContoller : PlayerController
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
             var data = C_MoveEnd.CreateC_MoveEnd(builder, transform.position.x, transform.position.y);
             var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveEnd);
-            //Manager.Network.Send(pkt);
+            Manager.Network.Send(pkt);
         });
         _keyUpHandler.Add(PlayerKeyInput.RightArrow, () =>
         {
@@ -117,7 +116,7 @@ public class MyPlayerContoller : PlayerController
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
             var data = C_MoveEnd.CreateC_MoveEnd(builder, transform.position.x, transform.position.y);
             var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveEnd);
-            //Manager.Network.Send(pkt);
+            Manager.Network.Send(pkt);
         });
         _keyUpHandler.Add(PlayerKeyInput.DownArrow, () =>
         {
@@ -126,7 +125,7 @@ public class MyPlayerContoller : PlayerController
             C_ProneStabEnd.StartC_ProneStabEnd(builder);
             var data = C_ProneStabEnd.EndC_ProneStabEnd(builder);
             var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_ProneStabEnd);
-            //Manager.Network.Send(pkt);
+            Manager.Network.Send(pkt);
         });
         #endregion
         //var cc = Camera.main.gameObject.GetComponent<CameraController>();

@@ -34,6 +34,7 @@ public class PacketManager
 		_handler.Add((ushort)PacketType.SC_Jump, PacketHandler.SC_JumpHandler);
 		_handler.Add((ushort)PacketType.SC_ProneStabStart, PacketHandler.SC_ProneStabStartHandler);
 		_handler.Add((ushort)PacketType.SC_ProneStabEnd, PacketHandler.SC_ProneStabEndHandler);
+		_handler.Add((ushort)PacketType.SC_Attack, PacketHandler.SC_AttackHandler);
 		
     }
     public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

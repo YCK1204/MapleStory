@@ -162,7 +162,7 @@ public class PlayerController : CreatureController
                 Manager.Audio.OneShotPlay(Manager.Audio.FindAudioClip("Tanjiro_Swing"));
             else if (tanjiro_Attack == Tanjiro_Attack.SwingT3)
                 Manager.Audio.OneShotPlay(Manager.Audio.FindAudioClip("Tanjiro_SwingT3"));
-            var anim = Util.FindChild<Animator>(gameObject.transform);
+            var anim = Util.FindChild<Animator>(gameObject.transform, false, "Effector");
             anim.Play($"Attack{(int)tanjiro_Attack + 1}");
         }
         else
@@ -174,12 +174,16 @@ public class PlayerController : CreatureController
     {
         UpdateController();
     }
-    protected IEnumerator CoAttack(float time)
+    IEnumerator CoAttack(float time)
     {
         yield return new WaitForSeconds(time);
         _state = PlayerState.Stand01;
         UpdateAnimation();
         StopCoroutine(_coAttack);
         _coAttack = null;
+    }
+    public void Attack()
+    {
+        _coAttack = StartCoroutine(CoAttack(.5f));
     }
 }

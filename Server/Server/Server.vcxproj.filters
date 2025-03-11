@@ -101,6 +101,9 @@
     <ClCompile Include="DataManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerPacket.cpp">
+      <Filter>Packet\Contents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

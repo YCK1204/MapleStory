@@ -110,13 +110,16 @@
     <Compile Include="Assets\Scripts\Controllers\BaseController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_ProneStabStart.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_CreateCharacter.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_Attack.cs" />
     <Compile Include="Assets\Scripts\Controllers\MyPlayerContoller.cs" />
     <Compile Include="Assets\Scripts\Scene\IntroScene.cs" />
     <Compile Include="Assets\MapData\MapEditor.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterTotalInfo.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\MonsterInfo.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CreateCharacter.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\AttackEnum.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_CreateCharacter.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_Attack.cs" />
     <Compile Include="Assets\Scripts\Packet\Move.cs" />
     <Compile Include="Assets\Scripts\Controllers\BackObjectController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_CharacterSelect.cs" />
@@ -136,6 +139,7 @@
     <Compile Include="Assets\UI Toolkit\UIBaseController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_CreatureInfos.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\CreateCharacter.cs" />
+    <Compile Include="Assets\Scripts\Packet\Player.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterListError.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\PacketType.cs" />
     <Compile Include="Assets\Scripts\Packet\PrevInGame\CreateCharacter.cs" />

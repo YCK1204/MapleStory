@@ -7,6 +7,7 @@ include "CreateCharacter.fbs";
 include "Spawn.fbs";
 include "Move.fbs";
 include "Tanjiro.fbs";
+include "Player.fbs";
 
 
 union PacketType {
@@ -76,4 +77,8 @@ union PacketType {
 	C_ProneStabEnd,
 	SC_ProneStabEnd,
 // ------------------- Move -----------------
+// ------------------- Player -----------------
+	C_Attack,
+	SC_Attack,
+// ------------------- Player -----------------
 }
