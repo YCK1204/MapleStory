@@ -6,6 +6,7 @@ include "CreateCharacter.fbs";
 // ------------------- PrevInGame -----------------
 include "Spawn.fbs";
 include "Move.fbs";
+include "Tanjiro.fbs";
 
 
 union PacketType {

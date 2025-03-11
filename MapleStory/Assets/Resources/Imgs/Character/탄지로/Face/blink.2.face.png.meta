@@ -172,7 +172,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      blink.2.face_0: 6266353783606624908
+      blink.2.face_1: 7259365250844266018
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

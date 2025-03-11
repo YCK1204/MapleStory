@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      RaceSelect_new.make.mouseOver.0_0: 5341375261811377428
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

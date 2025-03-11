@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      00002000.img.swingT1.0.armOverHair_0: 5359329660597639918
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

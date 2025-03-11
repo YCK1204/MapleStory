@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      rope.1.shoes_0: -6673041182931516915
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

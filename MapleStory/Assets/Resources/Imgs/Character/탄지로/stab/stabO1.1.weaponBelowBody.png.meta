@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      stabO1.1.weaponBelowBody_0: -6856519362122192583
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

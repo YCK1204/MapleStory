@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      WorldSelect.channel.chSelect.0_0: 2865223250124263230
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

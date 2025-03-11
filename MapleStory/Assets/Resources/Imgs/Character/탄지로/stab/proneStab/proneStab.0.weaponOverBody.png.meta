@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      proneStab.0.weaponOverBody_0: 5905477837723936233
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

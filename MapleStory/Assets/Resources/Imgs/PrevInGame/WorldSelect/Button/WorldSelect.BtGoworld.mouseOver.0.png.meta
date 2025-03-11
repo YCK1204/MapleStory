@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      WorldSelect.BtGoworld.mouseOver.0_0: -2198389315929552406
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

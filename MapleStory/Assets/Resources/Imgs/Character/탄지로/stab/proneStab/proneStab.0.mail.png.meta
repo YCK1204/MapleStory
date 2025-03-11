@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      proneStab.0.mail_0: 8496953931792039265
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

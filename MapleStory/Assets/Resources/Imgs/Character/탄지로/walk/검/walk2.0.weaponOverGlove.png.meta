@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      walk2.0.weaponOverGlove_0: -2654749961597067858
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

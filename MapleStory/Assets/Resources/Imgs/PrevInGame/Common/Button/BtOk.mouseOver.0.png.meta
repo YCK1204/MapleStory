@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BtOk.mouseOver.0_0: 4079423460269572454
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

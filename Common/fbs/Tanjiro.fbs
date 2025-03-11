@@ -1,0 +1,6 @@
+enum Tanjiro_Attack : uint8{
+	SwingT2,
+	Swing,
+	SwingT1,
+	SwingT3,
+}

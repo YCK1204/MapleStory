@@ -13,7 +13,8 @@ public class MyPlayerContoller : PlayerController
         RightArrow,
         DownArrow,
         UpArrow,
-        Space
+        Space,
+        A,
     }
     Dictionary<PlayerKeyInput, Action> _keyDownHandler = new Dictionary<PlayerKeyInput, Action>();
     Dictionary<PlayerKeyInput, Action> _keyUpHandler = new Dictionary<PlayerKeyInput, Action>();
@@ -39,35 +40,44 @@ public class MyPlayerContoller : PlayerController
         #region KeyDownBinding
         _keyDownHandler.Add(PlayerKeyInput.LeftArrow, () =>
         {
-            if (Dir == MoveDirection.LEFT)
-                return;
             Dir = MoveDirection.LEFT;
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
             var data = C_MoveStart.CreateC_MoveStart(builder, Dir, transform.position.x, transform.position.y);
             var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveStart);
-            Manager.Network.Send(pkt);
+            //Manager.Network.Send(pkt);
         });
         _keyDownHandler.Add(PlayerKeyInput.RightArrow, () =>
         {
-            if (Dir == MoveDirection.RIGHT)
-                return;
             Dir = MoveDirection.RIGHT;
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
             var data = C_MoveStart.CreateC_MoveStart(builder, Dir, transform.position.x, transform.position.y);
             var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveStart);
-            Manager.Network.Send(pkt);
+            //Manager.Network.Send(pkt);
         });
         _keyDownHandler.Add(PlayerKeyInput.UpArrow, () =>
         {
             // 나중에 사다리, 로프도 추가
-            
+
             if (portal == null)
                 return;
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
 
             var data = C_Portal.CreateC_Portal(builder, portal.PortalId);
             var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_Portal);
-            Manager.Network.Send(pkt);
+            //Manager.Network.Send(pkt);
+        });
+        _keyDownHandler.Add(PlayerKeyInput.A, () =>
+        {
+            if (State == PlayerState.Attack)
+                return;
+            tanjiro_Attack = (Tanjiro_Attack)(AttackCount++ % 4);
+            State = PlayerState.Attack;
+            _coAttack = StartCoroutine(CoAttack(.5f));
+
+            FlatBufferBuilder builder = new FlatBufferBuilder(50);
+            var data = C_MoveStart.CreateC_MoveStart(builder, Dir, transform.position.x, transform.position.y);
+            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveStart);
+            //Manager.Network.Send(pkt);
         });
         _keyDownHandler.Add(PlayerKeyInput.Space, () =>
         {
@@ -78,55 +88,45 @@ public class MyPlayerContoller : PlayerController
                 C_Jump.StartC_Jump(builder);
                 var data = C_Jump.EndC_Jump(builder);
                 var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_Jump);
-                Manager.Network.Send(pkt);
+                //Manager.Network.Send(pkt);
             }
         });
         _keyDownHandler.Add(PlayerKeyInput.DownArrow, () =>
         {
-            if (State == PlayerState.Stand01)
-            {
-                State = PlayerState.ProneStab;
-                FlatBufferBuilder builder = new FlatBufferBuilder(50);
+            State = PlayerState.ProneStab;
+            FlatBufferBuilder builder = new FlatBufferBuilder(50);
 
-                C_ProneStabStart.StartC_ProneStabStart(builder);
-                var data = C_ProneStabStart.EndC_ProneStabStart(builder);
-                var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_ProneStabStart);
-                Manager.Network.Send(pkt);
-            }
+            C_ProneStabStart.StartC_ProneStabStart(builder);
+            var data = C_ProneStabStart.EndC_ProneStabStart(builder);
+            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_ProneStabStart);
+            //Manager.Network.Send(pkt);
         });
         #endregion
         #region KeyUpBinding
         _keyUpHandler.Add(PlayerKeyInput.LeftArrow, () =>
         {
-            if (State == PlayerState.Stand01)
-                return;
             Dir = MoveDirection.NONE;
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
             var data = C_MoveEnd.CreateC_MoveEnd(builder, transform.position.x, transform.position.y);
             var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveEnd);
-            Manager.Network.Send(pkt);
+            //Manager.Network.Send(pkt);
         });
         _keyUpHandler.Add(PlayerKeyInput.RightArrow, () =>
         {
-            if (State == PlayerState.Stand01)
-                return;
             Dir = MoveDirection.NONE;
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
             var data = C_MoveEnd.CreateC_MoveEnd(builder, transform.position.x, transform.position.y);
             var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveEnd);
-            Manager.Network.Send(pkt);
+            //Manager.Network.Send(pkt);
         });
         _keyUpHandler.Add(PlayerKeyInput.DownArrow, () =>
         {
-            if (State == PlayerState.ProneStab)
-            {
-                State = PlayerState.Stand01;
-                FlatBufferBuilder builder = new FlatBufferBuilder(50);
-                C_ProneStabEnd.StartC_ProneStabEnd(builder);
-                var data = C_ProneStabEnd.EndC_ProneStabEnd(builder);
-                var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_ProneStabEnd);
-                Manager.Network.Send(pkt);
-            }
+            State = PlayerState.Stand01;
+            FlatBufferBuilder builder = new FlatBufferBuilder(50);
+            C_ProneStabEnd.StartC_ProneStabEnd(builder);
+            var data = C_ProneStabEnd.EndC_ProneStabEnd(builder);
+            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_ProneStabEnd);
+            //Manager.Network.Send(pkt);
         });
         #endregion
         //var cc = Camera.main.gameObject.GetComponent<CameraController>();
@@ -169,6 +169,8 @@ public class MyPlayerContoller : PlayerController
                 keyDownAction = _keyDownHandler[PlayerKeyInput.DownArrow];
             else if (Input.GetKeyDown(KeyCode.UpArrow))
                 keyDownAction = _keyDownHandler[PlayerKeyInput.UpArrow];
+            else if (Input.GetKeyDown(KeyCode.A))
+                keyDownAction = _keyDownHandler[PlayerKeyInput.A];
         }
 
         // AnyKeyUp

@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      WorldSelect.BtGoworld.normal.0_0: -2524697469098310722
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

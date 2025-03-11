@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      walk1.3.arm_0: 4110967598671307687
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

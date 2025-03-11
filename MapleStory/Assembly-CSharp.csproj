@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\SC_ChannelInfo.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_CharacterSelect.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CharacterDelete.cs" />
+    <Compile Include="Assets\Scripts\Managers\AudioManager.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\EnterChannelError.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\Login.cs" />
     <Compile Include="Assets\Scripts\Utils\Extension.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\D_SignUp.cs" />
     <Compile Include="Assets\Scripts\Managers\SpawnManager.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_SignIn.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\Tanjiro_Attack.cs" />
     <Compile Include="Assets\UI Toolkit\ReturnToFirst\UIReturnToFirstController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_Despawn.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_CharacterDelete.cs" />

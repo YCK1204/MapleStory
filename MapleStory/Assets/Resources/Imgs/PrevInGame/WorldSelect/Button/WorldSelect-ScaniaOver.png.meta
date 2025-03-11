@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      WorldSelect-ScaniaOver_0: -4838341430194554689
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

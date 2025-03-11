@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      01703528.img.30.jump.0.weaponBelowBody_0: 3956565993902748851
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

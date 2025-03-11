@@ -20,6 +20,7 @@ public class Manager : BaseMonobehaviour
     PacketManager _packet = new PacketManager();
     ObjectManager _object = new ObjectManager();
     SpawnManager _spawn = new SpawnManager();
+    AudioManager _audio;
     public static Manager Instance
     {
         get
@@ -33,6 +34,7 @@ public class Manager : BaseMonobehaviour
             return _instance;
         }
     }
+    public static AudioManager Audio { get { return _instance._audio; } }
     public static SceneManagerEx Scene { get { return Instance._scene; } }
     public static ResourceManager Resource { get { return Instance._resource; } }
     public static NetworkManager Network { get { return Instance._network; } }
@@ -46,6 +48,8 @@ public class Manager : BaseMonobehaviour
         Application.runInBackground = true;
 
         DontDestroyOnLoad(_instance.gameObject);
+        _audio = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        //DontDestroyOnLoad(Audio);
         Network.Init();
         Spawn.Init();
     }

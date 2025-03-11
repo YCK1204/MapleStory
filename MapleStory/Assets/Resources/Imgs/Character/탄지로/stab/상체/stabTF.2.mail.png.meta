@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      stabTF.2.mail_0: -6971750646369799683
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

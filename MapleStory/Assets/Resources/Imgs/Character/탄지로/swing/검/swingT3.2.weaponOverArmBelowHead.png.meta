@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      swingT3.2.weaponOverArmBelowHead_0: 8621934580724360176
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

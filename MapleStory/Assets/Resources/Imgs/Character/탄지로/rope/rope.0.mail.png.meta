@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      rope.0.mail_0: 8123703151942042453
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

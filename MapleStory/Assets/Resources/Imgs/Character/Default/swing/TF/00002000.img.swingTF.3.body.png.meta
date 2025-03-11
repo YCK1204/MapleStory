@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      00002000.img.swingTF.3.body_0: 6474854437304625898
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

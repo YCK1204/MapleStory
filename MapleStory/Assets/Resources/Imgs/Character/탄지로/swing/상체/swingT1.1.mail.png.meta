@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      swingT1.1.mail_0: -3108072149405743048
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

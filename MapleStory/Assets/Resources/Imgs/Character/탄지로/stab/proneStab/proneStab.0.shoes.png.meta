@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      proneStab.0.shoes_0: -3548420606593989523
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

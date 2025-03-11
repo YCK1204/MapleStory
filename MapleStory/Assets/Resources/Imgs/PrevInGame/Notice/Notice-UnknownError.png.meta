@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Notice-UnknownError_0: -4179980790048100254
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

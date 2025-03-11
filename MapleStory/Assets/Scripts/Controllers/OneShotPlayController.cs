@@ -3,25 +3,16 @@ using UnityEngine;
 
 public class OneShotPlayController : MonoBehaviour
 {
-    AudioSource audioSource;
-    public AudioClip audioClip;
-    void Start()
+    public void Play(AudioClip clip)
     {
-        audioSource = GetComponent<AudioSource>();
-    }
-    public void Play()
-    {
+        AudioSource audioSource = GetComponent<AudioSource>();
+        audioSource.clip = clip;
         audioSource.Play();
-        StartCoroutine(WaitForAudioToEnd());
+        StartCoroutine(WaitForAudioToEnd(clip.length));
     }
-    IEnumerator WaitForAudioToEnd()
+    IEnumerator WaitForAudioToEnd(float time)
     {
-        while (true)
-        {
-            yield return new WaitForSeconds(.1f);
-            if (audioSource.isPlaying == false)
-                break;
-        }
+        yield return new WaitForSeconds(time);
         GameObject.Destroy(gameObject);
     }
 }

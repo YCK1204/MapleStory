@@ -17,8 +17,8 @@ void PacketHandler::C_MoveStartHandler(PacketSession* session, ByteRef& buffer)
 	try {
 		auto room = player->Room;
 
+		player->AddState(PlayerState::MOVE);
 		room->PushJob<PlayerRef, MoveDirection, float, float>([player](PlayerRef, MoveDirection dir, float x, float y) {
-			player->AddState(PlayerState::MOVE);
 			player->Pos->X = x;
 			player->Pos->Y = y;
 
@@ -49,8 +49,8 @@ void PacketHandler::C_MoveEndHandler(PacketSession* session, ByteRef& buffer)
 	try {
 		auto room = player->Room;
 
+		player->RemoveState(PlayerState::MOVE);
 		room->PushJob<PlayerRef, float, float>([player](PlayerRef, float x, float y) {
-			player->RemoveState(PlayerState::MOVE);
 
 			player->Pos->X = x;
 			player->Pos->Y = y;
@@ -108,8 +108,8 @@ void PacketHandler::C_ProneStabStartHandler(PacketSession* session, ByteRef& buf
 			return;
 
 		auto room = player->Room;
+		player->AddState(PlayerState::PRONE_STAB);
 		room->PushJob<PlayerRef>([player](PlayerRef) {
-			player->AddState(PlayerState::PRONE_STAB);
 
 			FlatBufferBuilder builder;
 			auto data = CreateSC_ProneStabStart(builder, player->Id);
@@ -138,8 +138,8 @@ void PacketHandler::C_ProneStabEndHandler(PacketSession* session, ByteRef& buffe
 			return;
 
 		auto room = player->Room;
+		player->RemoveState(PlayerState::PRONE_STAB);
 		room->PushJob<PlayerRef>([player](PlayerRef) {
-			player->RemoveState(PlayerState::PRONE_STAB);
 
 			FlatBufferBuilder builder;
 			auto data = CreateSC_ProneStabEnd(builder, player->Id);

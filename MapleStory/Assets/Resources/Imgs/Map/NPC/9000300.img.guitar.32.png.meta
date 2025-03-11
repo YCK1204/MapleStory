@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      9000300.img.guitar.32_0: -6415851494953674190
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

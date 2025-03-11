@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Diagnostics;
 
 public class PlayerController : CreatureController
 {
@@ -12,10 +13,12 @@ public class PlayerController : CreatureController
         ProneStabAttack,
         rope,
         Stand01,
-        SwingT2,
-        SwingT3,
+        Attack,
         Walk01,
     }
+    public Tanjiro_Attack tanjiro_Attack;
+
+    protected UInt64 AttackCount = 0;
     PlayerState _state { get; set; } = PlayerState.Stand01;
     BoxCollider2D boxCollider;
     public PlayerState State
@@ -23,10 +26,13 @@ public class PlayerController : CreatureController
         get { return _state; }
         set
         {
+            if (_coAttack != null)
+                return;
             _state = value;
             UpdateAnimation();
         }
     }
+    protected Coroutine _coAttack = null;
     Vector2 MoveDir = Vector2.zero;
     MoveDirection _dir { get; set; } = MoveDirection.NONE;
     public MoveDirection Dir
@@ -67,7 +73,6 @@ public class PlayerController : CreatureController
     Vector2 bottomOffset = new Vector2(0, -.5f);
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, "");
         int target = LayerMask.GetMask("Floor", "FloorBase", "Stair");
         var hit = Physics2D.Raycast((Vector2)transform.position + bottomOffset, Vector2.down, .2f, target);
 
@@ -77,16 +82,10 @@ public class PlayerController : CreatureController
             return;
 
         rb.angularVelocity = 0;
-        //if (rb.linearVelocityY >= 0)
-        //    return;
         if (Dir != MoveDirection.NONE)
-        {
             State = PlayerState.Walk01;
-        }
         else
-        {
             State = PlayerState.Stand01;
-        }
     }
     protected void Move()
     {
@@ -153,12 +152,34 @@ public class PlayerController : CreatureController
     }
     protected override void UpdateAnimation()
     {
-        string animationStr = State.ToString();
+        string animationStr;
+        if (State == PlayerState.Attack)
+        {
+            animationStr = tanjiro_Attack.ToString();
+            var clip = Manager.Audio.FindAudioClip("Tanjiro_DefaultAttack");
+            Manager.Audio.OneShotPlay(clip);
+            if (tanjiro_Attack == Tanjiro_Attack.Swing)
+                Manager.Audio.OneShotPlay(Manager.Audio.FindAudioClip("Tanjiro_Swing"));
+            else if (tanjiro_Attack == Tanjiro_Attack.SwingT3)
+                Manager.Audio.OneShotPlay(Manager.Audio.FindAudioClip("Tanjiro_SwingT3"));
+            var anim = Util.FindChild<Animator>(gameObject.transform);
+            anim.Play($"Attack{(int)tanjiro_Attack + 1}");
+        }
+        else
+            animationStr = State.ToString();
 
         anim.Play(animationStr);
     }
     private void Update()
     {
         UpdateController();
+    }
+    protected IEnumerator CoAttack(float time)
+    {
+        yield return new WaitForSeconds(time);
+        _state = PlayerState.Stand01;
+        UpdateAnimation();
+        StopCoroutine(_coAttack);
+        _coAttack = null;
     }
 }

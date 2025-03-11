@@ -18,6 +18,7 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 24 &&
 #include "Login_generated.h"
 #include "Move_generated.h"
 #include "Spawn_generated.h"
+#include "Tanjiro_generated.h"
 #include "WorldSelect_generated.h"
 
 enum PacketType : uint8_t {

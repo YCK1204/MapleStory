@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      00002000.img.stabTF.2.armOverHair_0: 1832622464935128063
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

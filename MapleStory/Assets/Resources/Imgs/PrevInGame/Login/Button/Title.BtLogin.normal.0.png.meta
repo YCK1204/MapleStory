@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Title.BtLogin.normal.0_0: 8683285883175831083
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

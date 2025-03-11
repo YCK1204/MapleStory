@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      00002000.img.proneStab.1.arm_0: -6401421107570586263
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

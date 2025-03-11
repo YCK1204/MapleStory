@@ -48,11 +48,7 @@ public class MonsterController : CreatureController
     }
     void PlaySound(AudioClip audioClip)
     {
-        var go = Manager.Resource.Instantiate("prefabs/OneShotPlay");
-        var ospc = go.GetComponent<OneShotPlayController>();
-
-        ospc.audioClip = audioClip;
-        ospc.Play();
+        Manager.Audio.OneShotPlay(audioClip);
     }
     public virtual void PlayHitSound()
     {

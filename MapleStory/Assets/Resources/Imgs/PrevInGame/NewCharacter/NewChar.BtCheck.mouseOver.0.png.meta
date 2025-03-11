@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      NewChar.BtCheck.mouseOver.0_0: 8466612993405454717
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

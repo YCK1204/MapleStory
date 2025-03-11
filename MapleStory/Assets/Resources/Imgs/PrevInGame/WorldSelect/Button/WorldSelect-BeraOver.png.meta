@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      WorldSelect-BeraOver_0: 5231149871872814596
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

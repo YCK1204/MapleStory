@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      walk2.3.weaponBelowBody_0: 9016918184595194117
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -172,7 +172,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      swingPF.0.shoes_0: 622823516353969851
+      swingPF.0.shoes_1: -7040142709085571020
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
