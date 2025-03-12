@@ -1,11 +1,13 @@
 using Google.FlatBuffers;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MyPlayerContoller : PlayerController
 {
     PortalController portal;
+    bool CanClimb = false;
     enum PlayerKeyInput
     {
         None,
@@ -18,7 +20,7 @@ public class MyPlayerContoller : PlayerController
     }
     Dictionary<PlayerKeyInput, Action> _keyDownHandler = new Dictionary<PlayerKeyInput, Action>();
     Dictionary<PlayerKeyInput, Action> _keyUpHandler = new Dictionary<PlayerKeyInput, Action>();
-
+    #region Ability
     class Ability
     {
         public int STR;
@@ -34,12 +36,16 @@ public class MyPlayerContoller : PlayerController
     public int EXP { get; set; }
     public int HP { get; set; }
     public int MP { get; set; }
+    #endregion
     protected override void Init()
     {
         base.Init();
         #region KeyDownBinding
         _keyDownHandler.Add(PlayerKeyInput.LeftArrow, () =>
         {
+            if (HasState(PlayerState.Walk))
+                return;
+            AddState(PlayerState.Walk);
             Dir = MoveDirection.LEFT;
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
             var data = C_MoveStart.CreateC_MoveStart(builder, Dir, transform.position.x, transform.position.y);
@@ -48,6 +54,9 @@ public class MyPlayerContoller : PlayerController
         });
         _keyDownHandler.Add(PlayerKeyInput.RightArrow, () =>
         {
+            if (HasState(PlayerState.Walk))
+                return;
+            AddState(PlayerState.Walk);
             Dir = MoveDirection.RIGHT;
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
             var data = C_MoveStart.CreateC_MoveStart(builder, Dir, transform.position.x, transform.position.y);
@@ -56,22 +65,59 @@ public class MyPlayerContoller : PlayerController
         });
         _keyDownHandler.Add(PlayerKeyInput.UpArrow, () =>
         {
-            // 나중에 사다리, 로프도 추가
+            if (portal != null)
+            {
+                FlatBufferBuilder builder = new FlatBufferBuilder(50);
 
-            if (portal == null)
-                return;
-            FlatBufferBuilder builder = new FlatBufferBuilder(50);
+                var data = C_Portal.CreateC_Portal(builder, portal.PortalId);
+                var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_Portal);
+                Manager.Network.Send(pkt);
+            }
+            else if (CanClimb)
+            {
+                if (HasState(PlayerState.Ladder))
+                    return;
+                AddState(PlayerState.Ladder);
+                Dir = MoveDirection.UP;
 
-            var data = C_Portal.CreateC_Portal(builder, portal.PortalId);
-            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_Portal);
-            Manager.Network.Send(pkt);
+                FlatBufferBuilder builder = new FlatBufferBuilder(50);
+                var data = C_LadderUpStart.CreateC_LadderUpStart(builder, transform.position.x, transform.position.y);
+                var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_LadderUpStart);
+                Manager.Network.Send(pkt);
+            }
+        });
+        _keyDownHandler.Add(PlayerKeyInput.DownArrow, () =>
+        {
+            if (CanClimb)
+            {
+                if (HasState(PlayerState.Ladder))
+                    return;
+                AddState(PlayerState.Ladder);
+                Dir = MoveDirection.DOWN;
+
+                FlatBufferBuilder builder = new FlatBufferBuilder(50);
+                var data = C_LadderDownStart.CreateC_LadderDownStart(builder, transform.position.x, transform.position.y);
+                var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_LadderDownStart);
+                Manager.Network.Send(pkt);
+            }
+            else if (boxCollider.IsTouchingLayers(LayerMask.GetMask("Floor", "FloorBase", "Stair")))
+            {
+                if (HasState(PlayerState.ProneStab))
+                    return;
+                AddState(PlayerState.ProneStab);
+                FlatBufferBuilder builder = new FlatBufferBuilder(50);
+
+                C_ProneStabStart.StartC_ProneStabStart(builder);
+                var data = C_ProneStabStart.EndC_ProneStabStart(builder);
+                var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_ProneStabStart);
+                Manager.Network.Send(pkt);
+            }
         });
         _keyDownHandler.Add(PlayerKeyInput.A, () =>
         {
-            if (State == PlayerState.Attack)
+            if (HasState(PlayerState.Attack))
                 return;
-            tanjiro_Attack = (Tanjiro_Attack)(AttackCount++ % 4);
-            State = PlayerState.Attack;
+
             Attack();
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
             var data = C_Attack.CreateC_Attack(builder, (AttackEnum)tanjiro_Attack);
@@ -90,20 +136,13 @@ public class MyPlayerContoller : PlayerController
                 Manager.Network.Send(pkt);
             }
         });
-        _keyDownHandler.Add(PlayerKeyInput.DownArrow, () =>
-        {
-            State = PlayerState.ProneStab;
-            FlatBufferBuilder builder = new FlatBufferBuilder(50);
-
-            C_ProneStabStart.StartC_ProneStabStart(builder);
-            var data = C_ProneStabStart.EndC_ProneStabStart(builder);
-            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_ProneStabStart);
-            Manager.Network.Send(pkt);
-        });
         #endregion
         #region KeyUpBinding
         _keyUpHandler.Add(PlayerKeyInput.LeftArrow, () =>
         {
+            if (HasState(PlayerState.Walk) == false)
+                return;
+            RemoveState(PlayerState.Walk);
             Dir = MoveDirection.NONE;
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
             var data = C_MoveEnd.CreateC_MoveEnd(builder, transform.position.x, transform.position.y);
@@ -112,35 +151,64 @@ public class MyPlayerContoller : PlayerController
         });
         _keyUpHandler.Add(PlayerKeyInput.RightArrow, () =>
         {
+            if (HasState(PlayerState.Walk) == false)
+                return;
+            RemoveState(PlayerState.Walk);
             Dir = MoveDirection.NONE;
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
             var data = C_MoveEnd.CreateC_MoveEnd(builder, transform.position.x, transform.position.y);
             var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveEnd);
             Manager.Network.Send(pkt);
         });
-        _keyUpHandler.Add(PlayerKeyInput.DownArrow, () =>
+        _keyUpHandler.Add(PlayerKeyInput.UpArrow, () =>
         {
-            State = PlayerState.Stand01;
+            if (HasState(PlayerState.Ladder) == false)
+                return;
+            RemoveState(PlayerState.Ladder);
+            Dir = MoveDirection.NONE;
+
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
-            C_ProneStabEnd.StartC_ProneStabEnd(builder);
-            var data = C_ProneStabEnd.EndC_ProneStabEnd(builder);
-            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_ProneStabEnd);
+            var data = C_LadderUpEnd.CreateC_LadderUpEnd(builder, transform.position.x, transform.position.y);
+            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_LadderUpEnd);
             Manager.Network.Send(pkt);
         });
+        _keyUpHandler.Add(PlayerKeyInput.DownArrow, () =>
+        {
+            if (HasState(PlayerState.Ladder))
+            {
+                RemoveState(PlayerState.Ladder);
+                FlatBufferBuilder builder = new FlatBufferBuilder(50);
+                var data = C_LadderDownEnd.CreateC_LadderDownEnd(builder, transform.position.x, transform.position.y);
+                var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_LadderDownEnd);
+                Manager.Network.Send(pkt);
+            }
+            else if (HasState(PlayerState.ProneStab))
+            {
+                RemoveState(PlayerState.ProneStab);
+                FlatBufferBuilder builder = new FlatBufferBuilder(50);
+                C_ProneStabEnd.StartC_ProneStabEnd(builder);
+                var data = C_ProneStabEnd.EndC_ProneStabEnd(builder);
+                var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_ProneStabEnd);
+                Manager.Network.Send(pkt);
+            }
+        });
         #endregion
-        //var cc = Camera.main.gameObject.GetComponent<CameraController>();
-        //cc.Target = gameObject;
-        //cc.Init();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Portal")
+        base.TriggerEnter2D(collision);
+        if (collision.gameObject.HasLayer("Portal"))
             portal = collision.gameObject.GetComponent<PortalController>();
+        if (collision.gameObject.HasLayer("Ladder"))
+            CanClimb = true;
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "Portal")
+        base.TriggerExit2D(collision);
+        if (collision.gameObject.HasLayer("Portal"))
             portal = null;
+        if (collision.gameObject.HasLayer("Portal"))
+            CanClimb = false;
     }
     protected override void UpdateController()
     {

@@ -10290,7 +10290,8 @@ GameObject:
   - component: {fileID: 4476413974079469217}
   - component: {fileID: 7727731724880605119}
   - component: {fileID: 4038061933900973745}
-  m_Layer: 0
+  - component: {fileID: 339913798079868288}
+  m_Layer: 14
   m_Name: Ladder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10602,6 +10603,44 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!19719996 &339913798079868288
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037291896641005552}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
 --- !u!1 &2391578141961925141
 GameObject:
   m_ObjectHideFlags: 0
@@ -15008,7 +15047,8 @@ GameObject:
   - component: {fileID: 7554241085539147910}
   - component: {fileID: 7096945113652911450}
   - component: {fileID: 1280884512896480195}
-  m_Layer: 0
+  - component: {fileID: 3033930970121788913}
+  m_Layer: 14
   m_Name: Ladder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15322,6 +15362,44 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!19719996 &3033930970121788913
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6723757140236961704}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
 --- !u!1 &6869774818093012520
 GameObject:
   m_ObjectHideFlags: 0
@@ -17821,7 +17899,7 @@ Tilemap:
   - m_RefCount: 0
     m_Data: {r: 4.339564e-39, g: 4.339564e-39, b: 4.339564e-39, a: 4.339564e-39}
   - m_RefCount: 1
-    m_Data: {r: 0.8822484, g: 0.5741507, b: 0.5744527, a: 1}
+    m_Data: {r: 0.7169116, g: 0.3821811, b: 0.41718018, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -18484,6 +18562,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Portal
       objectReference: {fileID: 0}
+    - target: {fileID: 6551757282940601409, guid: 8b46827612d530a4aa65e02320689058, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 6551757282940601409, guid: 8b46827612d530a4aa65e02320689058, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 6551757282940601409, guid: 8b46827612d530a4aa65e02320689058, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7370756347602693806, guid: 8b46827612d530a4aa65e02320689058, type: 3}
       propertyPath: PortalId
       value: 2
@@ -18636,6 +18726,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Portal (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6551757282940601409, guid: 8b46827612d530a4aa65e02320689058, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 6551757282940601409, guid: 8b46827612d530a4aa65e02320689058, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 6551757282940601409, guid: 8b46827612d530a4aa65e02320689058, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7370756347602693806, guid: 8b46827612d530a4aa65e02320689058, type: 3}
       propertyPath: PortalId
       value: 1
@@ -18713,6 +18815,18 @@ PrefabInstance:
     - target: {fileID: 6551757282940601409, guid: 8b46827612d530a4aa65e02320689058, type: 3}
       propertyPath: m_Name
       value: Portal (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6551757282940601409, guid: 8b46827612d530a4aa65e02320689058, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 6551757282940601409, guid: 8b46827612d530a4aa65e02320689058, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 6551757282940601409, guid: 8b46827612d530a4aa65e02320689058, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7370756347602693806, guid: 8b46827612d530a4aa65e02320689058, type: 3}
       propertyPath: TargetMapId

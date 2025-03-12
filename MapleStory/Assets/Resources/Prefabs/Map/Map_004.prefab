@@ -8894,6 +8894,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Portal
       objectReference: {fileID: 0}
+    - target: {fileID: 6551757282940601409, guid: 8b46827612d530a4aa65e02320689058, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 6551757282940601409, guid: 8b46827612d530a4aa65e02320689058, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 7370756347602693806, guid: 8b46827612d530a4aa65e02320689058, type: 3}
       propertyPath: PortalId
       value: 5

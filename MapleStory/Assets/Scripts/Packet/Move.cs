@@ -55,7 +55,7 @@ public partial class PacketHandler
         if (pc == null || pc is MyPlayerContoller)
             return;
 
-        pc.State = PlayerController.PlayerState.Stand01;
+        pc.AddState(PlayerController.PlayerState.ProneStab);
     }
 
     public static void SC_ProneStabStartHandler(PacketSession session, ByteBuffer buffer)
@@ -67,6 +67,22 @@ public partial class PacketHandler
         if (pc == null || pc is MyPlayerContoller)
             return;
 
-        pc.State = PlayerController.PlayerState.ProneStab;
+        pc.RemoveState(PlayerController.PlayerState.ProneStab);
+    }
+    public static void SC_LadderUpStartHandler(PacketSession session, ByteBuffer buffer)
+    {
+
+    }
+    public static void SC_LadderUpEndHandler(PacketSession session, ByteBuffer buffer)
+    {
+
+    }
+    public static void SC_LadderDownStartHandler(PacketSession session, ByteBuffer buffer)
+    {
+
+    }
+    public static void SC_LadderDownEndHandler(PacketSession session, ByteBuffer buffer)
+    {
+
     }
 }

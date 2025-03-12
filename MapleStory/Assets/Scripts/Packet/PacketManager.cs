@@ -34,6 +34,10 @@ public class PacketManager
 		_handler.Add((ushort)PacketType.SC_Jump, PacketHandler.SC_JumpHandler);
 		_handler.Add((ushort)PacketType.SC_ProneStabStart, PacketHandler.SC_ProneStabStartHandler);
 		_handler.Add((ushort)PacketType.SC_ProneStabEnd, PacketHandler.SC_ProneStabEndHandler);
+		_handler.Add((ushort)PacketType.SC_LadderUpStart, PacketHandler.SC_LadderUpStartHandler);
+		_handler.Add((ushort)PacketType.SC_LadderUpEnd, PacketHandler.SC_LadderUpEndHandler);
+		_handler.Add((ushort)PacketType.SC_LadderDownStart, PacketHandler.SC_LadderDownStartHandler);
+		_handler.Add((ushort)PacketType.SC_LadderDownEnd, PacketHandler.SC_LadderDownEndHandler);
 		_handler.Add((ushort)PacketType.SC_Attack, PacketHandler.SC_AttackHandler);
 		
     }

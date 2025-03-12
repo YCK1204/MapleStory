@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\FlatBuffer\SC_ChannelInfo.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_CharacterSelect.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_LadderUpStart.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CharacterDelete.cs" />
     <Compile Include="Assets\Scripts\Managers\AudioManager.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\EnterChannelError.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterPreviewInfo.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\ChannelInfo.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_CharacterList.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_LadderDownEnd.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterDeleteError.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_Jump.cs" />
     <Compile Include="Assets\Scripts\Managers\ObjectManager.cs" />
@@ -99,6 +101,7 @@
     <Compile Include="Assets\Scripts\Utils\BaseMonobehaviour.cs" />
     <Compile Include="Assets\Scripts\ScriptableObject\Creature\CreatureSpawner.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\PlayerTotalInfo.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_LadderDownStart.cs" />
     <Compile Include="Assets\Scripts\Controllers\CreatureController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_SignIn.cs" />
     <Compile Include="Assets\Scripts\Scene\SceneManager.cs" />
@@ -127,7 +130,9 @@
     <Compile Include="Assets\Scripts\FlatBuffer\SC_EnterChannel.cs" />
     <Compile Include="Assets\Scripts\Packet\PacketManager.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterAbility.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_LadderUpEnd.cs" />
     <Compile Include="Assets\Scripts\Packet\PrevInGame\CharacterSelect.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_LadderUpStart.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_CharacterDelete.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_SignUp.cs" />
     <Compile Include="Assets\Scripts\Managers\SpawnManager.cs" />
@@ -156,6 +161,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\Position.cs" />
     <Compile Include="Assets\Scripts\ScriptableObject\Creature\MonsterData.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CheckName.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_ClimbStart.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_ChannelInfo.cs" />
     <Compile Include="Assets\Scripts\Packet\PrevInGame\Login.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CharacterSelect.cs" />
@@ -164,6 +170,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\C_CreateCharacter.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_SignIn.cs" />
     <Compile Include="Assets\Scripts\Managers\ResourceManager.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_LadderDownEnd.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_MoveStart.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_CheckName.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\PlayerInfo.cs" />
@@ -181,7 +188,10 @@
     <Compile Include="Assets\Scripts\Session\ServerSession.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_Portal.cs" />
     <Compile Include="Assets\Scripts\ScriptableObject\Creature\PlayerData.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_LadderUpEnd.cs" />
     <Compile Include="Assets\Scripts\Scene\PrevInGameScene.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_LadderDownStart.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_ClimbStart.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\UI Toolkit\PrevInGame\PrevInGameDocument.uxml" />

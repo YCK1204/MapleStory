@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 3
   tags:
   - Border
-  - Portal
   layers:
   - Default
   - TransparentFX
@@ -20,8 +19,8 @@ TagManager:
   - Floor
   - FloorBase
   - Stair
-  - 
-  - 
+  - Portal
+  - Ladder
   - 
   - 
   - 

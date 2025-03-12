@@ -58,8 +58,16 @@ public enum PacketType : byte
   SC_ProneStabStart = 51,
   C_ProneStabEnd = 52,
   SC_ProneStabEnd = 53,
-  C_Attack = 54,
-  SC_Attack = 55,
+  C_LadderUpStart = 54,
+  SC_LadderUpStart = 55,
+  C_LadderUpEnd = 56,
+  SC_LadderUpEnd = 57,
+  C_LadderDownStart = 58,
+  SC_LadderDownStart = 59,
+  C_LadderDownEnd = 60,
+  SC_LadderDownEnd = 61,
+  C_Attack = 62,
+  SC_Attack = 63,
 };
 
 
@@ -229,6 +237,30 @@ static public class PacketTypeVerify
         break;
       case PacketType.SC_ProneStabEnd:
         result = SC_ProneStabEndVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.C_LadderUpStart:
+        result = C_LadderUpStartVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_LadderUpStart:
+        result = SC_LadderUpStartVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.C_LadderUpEnd:
+        result = C_LadderUpEndVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_LadderUpEnd:
+        result = SC_LadderUpEndVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.C_LadderDownStart:
+        result = C_LadderDownStartVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_LadderDownStart:
+        result = SC_LadderDownStartVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.C_LadderDownEnd:
+        result = C_LadderDownEndVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_LadderDownEnd:
+        result = SC_LadderDownEndVerify.Verify(verifier, tablePos);
         break;
       case PacketType.C_Attack:
         result = C_AttackVerify.Verify(verifier, tablePos);

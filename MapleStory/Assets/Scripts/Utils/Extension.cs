@@ -19,4 +19,16 @@ public static class Extension
         int length = input.Length;
         return length >= minLength && length <= maxLength;
     }
+    public static bool HasLayer(this GameObject go, params string[] layerName)
+    {
+        return ((1 << go.layer) & LayerMask.GetMask(layerName)) != 0;
+    }
+    public static void FlipXLeft(this Transform transform)
+    {
+        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+    }
+    public static void FlipXRight(this Transform transform)
+    {
+        transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+    }
 }

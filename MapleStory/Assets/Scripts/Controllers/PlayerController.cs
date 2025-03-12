@@ -2,39 +2,64 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Diagnostics;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerController : CreatureController
 {
+    #region State
     public enum PlayerState : byte
     {
+        None,
         Jump,
         Ladder,
         ProneStab,
         ProneStabAttack,
         rope,
-        Stand01,
+        Stand,
         Attack,
-        Walk01,
+        Walk,
     }
-    public Tanjiro_Attack tanjiro_Attack;
-
-    protected UInt64 AttackCount = 0;
-    PlayerState _state { get; set; } = PlayerState.Stand01;
-    BoxCollider2D boxCollider;
-    public PlayerState State
+    int _state = 0;
+    private int State
     {
         get { return _state; }
         set
         {
-            if (_coAttack != null)
-                return;
             _state = value;
             UpdateAnimation();
         }
     }
+    public void AddState(PlayerState state) { 
+        State |= (1 << (int)state);
+        if (state == PlayerState.Attack)
+        {
+            var clip = Manager.Audio.FindAudioClip("Tanjiro_DefaultAttack");
+            Manager.Audio.OneShotPlay(clip);
+            if (tanjiro_Attack == Tanjiro_Attack.Swing)
+                Manager.Audio.OneShotPlay(Manager.Audio.FindAudioClip("Tanjiro_Swing"));
+            else if (tanjiro_Attack == Tanjiro_Attack.SwingT3)
+                Manager.Audio.OneShotPlay(Manager.Audio.FindAudioClip("Tanjiro_SwingT3"));
+            var effactorAnim = Util.FindChild<Animator>(gameObject.transform, false, "Effector");
+            effactorAnim.Play($"Attack{(int)tanjiro_Attack + 1}");
+        }
+    }
+    public void RemoveState(PlayerState state) { State &= ~(1 << (int)state); }
+    public bool HasState(PlayerState state) { return (State & (1 << (int)state)) != 0; }
+    #endregion
+    [SerializeField]
+    protected float Speed = 5f;
+    [SerializeField]
+    protected float JumpForce = 7f;
+    public ushort Level { get; set; }
+    public string Name { get; set; }
+
+    public Tanjiro_Attack tanjiro_Attack;
+
+    protected UInt64 AttackCount = 0;
     protected Coroutine _coAttack = null;
-    Vector2 MoveDir = Vector2.zero;
-    MoveDirection _dir { get; set; } = MoveDirection.NONE;
+
+    public Vector2 MoveDir = Vector2.zero;
+    MoveDirection _dir = MoveDirection.NONE;
     public MoveDirection Dir
     {
         get { return _dir; }
@@ -43,61 +68,55 @@ public class PlayerController : CreatureController
             _dir = value;
             switch (value)
             {
-                case MoveDirection.NONE:
-                    MoveDir = Vector2.zero;
-                    break;
                 case MoveDirection.LEFT:
                     MoveDir = Vector2.left;
-                    transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+                    transform.FlipXLeft();
                     break;
                 case MoveDirection.RIGHT:
                     MoveDir = Vector2.right;
-                    transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+                    transform.FlipXRight();
+                    break;
+                case MoveDirection.UP:
+                    MoveDir = Vector2.up;
+                    break;
+                case MoveDirection.DOWN:
+                    MoveDir = Vector2.down;
+                    break;
+                case MoveDirection.NONE:
+                    MoveDir = Vector2.zero;
                     break;
             }
-            if (State == PlayerState.Jump)
-                return;
-            State = MoveDir == Vector2.zero ? PlayerState.Stand01 : PlayerState.Walk01;
+            if (value == MoveDirection.NONE)
+                RemoveState(PlayerState.Walk);
+            else if (value == MoveDirection.LEFT || value == MoveDirection.RIGHT)
+                AddState(PlayerState.Walk);
+            else
+                AddState(PlayerState.Ladder);
         }
     }
     public PlayerCharacterType CharacterType { get; set; }
-    public ushort Level { get; set; }
-    public string Name { get; set; }
 
-    [SerializeField]
-    protected float Speed = 5f;
-    [SerializeField]
-    protected float JumpForce = 7f;
-    protected Rigidbody2D rb;
-    Animator anim;
     Vector2 bottomOffset = new Vector2(0, -.5f);
-    private void OnCollisionEnter2D(Collision2D collision)
+    #region Components Init
+    Animator anim;
+    protected Rigidbody2D rb;
+    protected BoxCollider2D boxCollider;
+    protected override void Init()
     {
-        int target = LayerMask.GetMask("Floor", "FloorBase", "Stair");
-        var hit = Physics2D.Raycast((Vector2)transform.position + bottomOffset, Vector2.down, .2f, target);
-
-        if (hit.collider == null || hit.collider.gameObject == null)
-            return;
-        if (hit.collider.gameObject != collision.gameObject)
-            return;
-
-        rb.angularVelocity = 0;
-        if (Dir != MoveDirection.NONE)
-            State = PlayerState.Walk01;
-        else
-            State = PlayerState.Stand01;
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        boxCollider = GetComponent<BoxCollider2D>();
+        AddState(PlayerState.Stand);
+        AddState(PlayerState.Jump);
     }
-    protected void Move()
-    {
-        transform.position += Speed * Time.deltaTime * (Vector3)MoveDir;
-    }
+    #endregion
+    protected void Move() { transform.position += Speed * Time.deltaTime * (Vector3)MoveDir; }
+    #region Jump
     private IEnumerator JumpDown()
     {
-        State = PlayerState.Stand01;
         float jumpForceOriginal = JumpForce;
         JumpForce = .1f;
         boxCollider.enabled = false;
-        Jump();
         yield return new WaitForSeconds(.2f);
         boxCollider.enabled = true;
         JumpForce = jumpForceOriginal;
@@ -105,36 +124,28 @@ public class PlayerController : CreatureController
     }
     protected bool CanJump()
     {
-        if (State == PlayerState.ProneStab)
+        if (boxCollider.IsTouchingLayers(LayerMask.GetMask("Floor", "Stair", "FloorBase")))
         {
-            int target = LayerMask.GetMask("Floor");
-            var hit = Physics2D.Raycast((Vector2)transform.position + bottomOffset, Vector2.down, .2f, target);
-
-            if (hit.collider == null)
+            if (HasState(PlayerState.ProneStab) && boxCollider.IsTouchingLayers(LayerMask.GetMask("FloorBase")))
+                return false;
+            if (rb.linearVelocity.magnitude > .01f)
                 return false;
             return true;
         }
-        if (State == PlayerState.Jump || rb.linearVelocity.magnitude > .01f)
-            return false;
-        if (State == PlayerState.Stand01 || State == PlayerState.Walk01)
-            return true;
         return false;
     }
     public void Jump()
     {
         if (CanJump())
         {
-            if (State == PlayerState.ProneStab)
-            {
+            AddState(PlayerState.Jump);
+            if (HasState(PlayerState.ProneStab))
                 StartCoroutine(JumpDown());
-            }
             else
-            {
                 rb.AddForce(Vector3.up * JumpForce, (ForceMode2D)ForceMode.Impulse);
-                State = PlayerState.Jump;
-            }
         }
     }
+    #endregion
     public override void Destroy()
     {
         GameObject.Destroy(gameObject);
@@ -144,31 +155,32 @@ public class PlayerController : CreatureController
         if (Dir != MoveDirection.NONE)
             Move();
     }
-    protected override void Init()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
-        boxCollider = GetComponent<BoxCollider2D>();
-    }
     protected override void UpdateAnimation()
     {
-        string animationStr;
-        if (State == PlayerState.Attack)
+        string animationStr = null;
+        if (HasState(PlayerState.Attack))
         {
             animationStr = tanjiro_Attack.ToString();
-            var clip = Manager.Audio.FindAudioClip("Tanjiro_DefaultAttack");
-            Manager.Audio.OneShotPlay(clip);
-            if (tanjiro_Attack == Tanjiro_Attack.Swing)
-                Manager.Audio.OneShotPlay(Manager.Audio.FindAudioClip("Tanjiro_Swing"));
-            else if (tanjiro_Attack == Tanjiro_Attack.SwingT3)
-                Manager.Audio.OneShotPlay(Manager.Audio.FindAudioClip("Tanjiro_SwingT3"));
-            var anim = Util.FindChild<Animator>(gameObject.transform, false, "Effector");
-            anim.Play($"Attack{(int)tanjiro_Attack + 1}");
+            
         }
         else
-            animationStr = State.ToString();
+        {
+            if (HasState(PlayerState.Ladder))
+                animationStr = "Ladder";
+            else if (HasState(PlayerState.rope))
+                animationStr = "rope";
+            else if (HasState(PlayerState.Jump))
+                animationStr = "Jump";
+            else if (HasState(PlayerState.ProneStab))
+                animationStr = "ProneStab";
+            else if (HasState(PlayerState.Walk))
+                animationStr = "Walk";
+            else if (HasState(PlayerState.Stand))
+                animationStr = "Stand";
+        }
 
-        anim.Play(animationStr);
+        if (animationStr != null)
+            anim.Play(animationStr);
     }
     private void Update()
     {
@@ -177,13 +189,44 @@ public class PlayerController : CreatureController
     IEnumerator CoAttack(float time)
     {
         yield return new WaitForSeconds(time);
-        _state = PlayerState.Stand01;
-        UpdateAnimation();
+        RemoveState(PlayerState.Attack);
         StopCoroutine(_coAttack);
         _coAttack = null;
     }
     public void Attack()
     {
+        Debug.Log(AttackCount);
+        tanjiro_Attack = (Tanjiro_Attack)(AttackCount++ % 4);
+        AddState(PlayerState.Attack);
         _coAttack = StartCoroutine(CoAttack(.5f));
     }
+    protected override void TriggerExit2D(Collider2D collider)
+    {
+        if (collider.gameObject.HasLayer("Ladder"))
+            MoveDir = Vector2.zero;
+    }
+    protected override void CollisionExit2D(Collision2D collider)
+    {
+        if ((collider.gameObject.HasLayer("Floor", "FloorBase", "Stair")))
+        {
+            AddState(PlayerState.Jump);
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision) { CollisionExit2D(collision); }
+    protected override void CollisionEnter2D(Collision2D collider)
+    {
+        if ((collider.gameObject.HasLayer("Floor", "FloorBase", "Stair")))
+        {
+            if (rb.linearVelocityY > 0)
+            {
+                if (MoveDir == Vector2.zero)
+                    AddState(PlayerState.Stand);
+                else
+                    AddState(PlayerState.Walk);
+                rb.angularVelocity = 0;
+                RemoveState(PlayerState.Jump);
+            }
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision) { CollisionEnter2D(collision); }
 }

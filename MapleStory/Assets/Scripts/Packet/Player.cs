@@ -16,7 +16,7 @@ public partial class PacketHandler
         if (pc == null || pc is MyPlayerContoller)
             return;
         pc.tanjiro_Attack = (Tanjiro_Attack)pkt.AttackId;
-        pc.State = PlayerController.PlayerState.Attack;
+        //pc.State = PlayerController.PlayerState.Attack;
         pc.Attack();
     }
 }
