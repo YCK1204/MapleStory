@@ -31,6 +31,7 @@ public class PlayerController : CreatureController
     }
     public void AddState(PlayerState state) { 
         State |= (1 << (int)state);
+
         if (state == PlayerState.Attack)
         {
             var clip = Manager.Audio.FindAudioClip("Tanjiro_DefaultAttack");
@@ -42,14 +43,22 @@ public class PlayerController : CreatureController
             var effactorAnim = Util.FindChild<Animator>(gameObject.transform, false, "Effector");
             effactorAnim.Play($"Attack{(int)tanjiro_Attack + 1}");
         }
+        else if (state == PlayerState.Ladder || state == PlayerState.rope)
+            rb.gravityScale = 0;
     }
-    public void RemoveState(PlayerState state) { State &= ~(1 << (int)state); }
+    public void RemoveState(PlayerState state) 
+    { 
+        State &= ~(1 << (int)state);
+        if (state == PlayerState.Ladder || state == PlayerState.rope)
+            rb.gravityScale = GravitiyScale;
+    }
     public bool HasState(PlayerState state) { return (State & (1 << (int)state)) != 0; }
     #endregion
     [SerializeField]
     protected float Speed = 5f;
     [SerializeField]
     protected float JumpForce = 7f;
+    protected float GravitiyScale = 2;
     public ushort Level { get; set; }
     public string Name { get; set; }
 
@@ -159,10 +168,7 @@ public class PlayerController : CreatureController
     {
         string animationStr = null;
         if (HasState(PlayerState.Attack))
-        {
             animationStr = tanjiro_Attack.ToString();
-            
-        }
         else
         {
             if (HasState(PlayerState.Ladder))
@@ -202,7 +208,7 @@ public class PlayerController : CreatureController
     }
     protected override void TriggerExit2D(Collider2D collider)
     {
-        if (collider.gameObject.HasLayer("Ladder"))
+        if (collider.gameObject.HasLayer("Ladder") && HasState(PlayerState.Ladder))
             MoveDir = Vector2.zero;
     }
     protected override void CollisionExit2D(Collision2D collider)

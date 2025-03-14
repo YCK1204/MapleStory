@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class MyPlayerContoller : PlayerController
 {
     PortalController portal;
-    bool CanClimb = false;
+    GameObject Ladder;
     enum PlayerKeyInput
     {
         None,
@@ -73,10 +74,9 @@ public class MyPlayerContoller : PlayerController
                 var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_Portal);
                 Manager.Network.Send(pkt);
             }
-            else if (CanClimb)
+            else if (Ladder != null)
             {
-                if (HasState(PlayerState.Ladder))
-                    return;
+                transform.position = new Vector3(Ladder.transform.position.x, transform.position.y);
                 AddState(PlayerState.Ladder);
                 Dir = MoveDirection.UP;
 
@@ -88,10 +88,9 @@ public class MyPlayerContoller : PlayerController
         });
         _keyDownHandler.Add(PlayerKeyInput.DownArrow, () =>
         {
-            if (CanClimb)
+            if (Ladder != null)
             {
-                if (HasState(PlayerState.Ladder))
-                    return;
+                transform.position = new Vector3(Ladder.transform.position.x, transform.position.y);
                 AddState(PlayerState.Ladder);
                 Dir = MoveDirection.DOWN;
 
@@ -164,7 +163,6 @@ public class MyPlayerContoller : PlayerController
         {
             if (HasState(PlayerState.Ladder) == false)
                 return;
-            RemoveState(PlayerState.Ladder);
             Dir = MoveDirection.NONE;
 
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
@@ -176,7 +174,8 @@ public class MyPlayerContoller : PlayerController
         {
             if (HasState(PlayerState.Ladder))
             {
-                RemoveState(PlayerState.Ladder);
+                Dir = MoveDirection.NONE;
+
                 FlatBufferBuilder builder = new FlatBufferBuilder(50);
                 var data = C_LadderDownEnd.CreateC_LadderDownEnd(builder, transform.position.x, transform.position.y);
                 var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_LadderDownEnd);
@@ -200,7 +199,7 @@ public class MyPlayerContoller : PlayerController
         if (collision.gameObject.HasLayer("Portal"))
             portal = collision.gameObject.GetComponent<PortalController>();
         if (collision.gameObject.HasLayer("Ladder"))
-            CanClimb = true;
+            Ladder = collision.gameObject;
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -208,7 +207,7 @@ public class MyPlayerContoller : PlayerController
         if (collision.gameObject.HasLayer("Portal"))
             portal = null;
         if (collision.gameObject.HasLayer("Portal"))
-            CanClimb = false;
+            Ladder = null;
     }
     protected override void UpdateController()
     {

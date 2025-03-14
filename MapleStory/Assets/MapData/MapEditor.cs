@@ -19,6 +19,7 @@ public class MapEditor
             {
                 Tilemap tmBase = Util.FindChild<Tilemap>(go.transform, true, "BG");
                 Tilemap tm = Util.FindChild<Tilemap>(go.transform, true, "Collision");
+                Tilemap spawn = Util.FindChild<Tilemap>(go.transform, true, "SpawnGround");
                 if (tmBase == null || tm == null)
                 {
                     Debug.Log($"{go.name} has not BG or Collision");
@@ -58,7 +59,21 @@ public class MapEditor
                         for (int x = minX; x <= maxX; x++)
                         {
                             TileBase tile = tm.GetTile(new Vector3Int(x, y, 0));
-                            writer.Write(tile != null ? "1" : "0");
+                            if (spawn == null)
+                            {
+                                writer.Write(tile != null ? "1" : "0");
+                                continue;
+                            }
+                            else
+                            {
+                                TileBase t = spawn.GetTile(new Vector3Int(x, y, 0));
+                                if (t != null)
+                                    writer.Write("2");
+                                else if (tile != null)
+                                    writer.Write("1");
+                                else
+                                    writer.Write("0");
+                            }
                         }
                         writer.WriteLine();
                     }

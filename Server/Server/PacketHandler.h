@@ -30,4 +30,8 @@ public:
 	static void C_ProneStabStartHandler(PacketSession* session, ByteRef& buffer);
 	static void C_ProneStabEndHandler(PacketSession* session, ByteRef& buffer);
 	static void C_AttackHandler(PacketSession* session, ByteRef& buffer);
+	static void C_LadderUpStartHandler(PacketSession* session, ByteRef& buffer);
+	static void C_LadderUpEndHandler(PacketSession* session, ByteRef& buffer);
+	static void C_LadderDownStartHandler(PacketSession* session, ByteRef& buffer);
+	static void C_LadderDownEndHandler(PacketSession* session, ByteRef& buffer);
 };

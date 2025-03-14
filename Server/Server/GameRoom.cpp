@@ -36,6 +36,8 @@ void GameRoom::GenMonster()
 			_objects[clone->Id] = clone;
 		}
 	}
+	if (monsterInfos.size() == 0)
+		return;
 	auto infos = builder.CreateVector(monsterInfos);
 	auto data = CreateSC_MSpawn(builder, infos);
 	auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_MSpawn);
@@ -193,7 +195,7 @@ void GameRoom::Update() {
 	}
 	if (_players.size() == 0)
 		return;
-	if (LastSpawnUpdate + SpawnUpdateTickTime < GetTickCount64())
+	if (LastSpawnUpdate + SpawnUpdateTickTime < GetTickCount64() && _spawnInfo.size() > 0)
 	{
 		LastSpawnUpdate = GetTickCount64();
 		PushJob([this]() { GenMonster(); });

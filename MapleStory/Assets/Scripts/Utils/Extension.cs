@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public static class Extension
@@ -12,7 +14,6 @@ public static class Extension
         }
         return true;
     }
-
     public static bool IsInLengthRange(this string input, int minLength, int maxLength)
     {
         if (input == null) return false;

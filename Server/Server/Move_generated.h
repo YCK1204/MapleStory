@@ -43,35 +43,71 @@ struct C_ProneStabEndBuilder;
 struct SC_ProneStabEnd;
 struct SC_ProneStabEndBuilder;
 
+struct C_ClimbStart;
+struct C_ClimbStartBuilder;
+
+struct SC_ClimbStart;
+struct SC_ClimbStartBuilder;
+
+struct C_LadderUpStart;
+struct C_LadderUpStartBuilder;
+
+struct SC_LadderUpStart;
+struct SC_LadderUpStartBuilder;
+
+struct C_LadderUpEnd;
+struct C_LadderUpEndBuilder;
+
+struct SC_LadderUpEnd;
+struct SC_LadderUpEndBuilder;
+
+struct C_LadderDownStart;
+struct C_LadderDownStartBuilder;
+
+struct SC_LadderDownStart;
+struct SC_LadderDownStartBuilder;
+
+struct C_LadderDownEnd;
+struct C_LadderDownEndBuilder;
+
+struct SC_LadderDownEnd;
+struct SC_LadderDownEndBuilder;
+
 enum MoveDirection : uint8_t {
   MoveDirection_NONE = 0,
   MoveDirection_LEFT = 1,
   MoveDirection_RIGHT = 2,
+  MoveDirection_UP = 3,
+  MoveDirection_DOWN = 4,
   MoveDirection_MIN = MoveDirection_NONE,
-  MoveDirection_MAX = MoveDirection_RIGHT
+  MoveDirection_MAX = MoveDirection_DOWN
 };
 
-inline const MoveDirection (&EnumValuesMoveDirection())[3] {
+inline const MoveDirection (&EnumValuesMoveDirection())[5] {
   static const MoveDirection values[] = {
     MoveDirection_NONE,
     MoveDirection_LEFT,
-    MoveDirection_RIGHT
+    MoveDirection_RIGHT,
+    MoveDirection_UP,
+    MoveDirection_DOWN
   };
   return values;
 }
 
 inline const char * const *EnumNamesMoveDirection() {
-  static const char * const names[4] = {
+  static const char * const names[6] = {
     "NONE",
     "LEFT",
     "RIGHT",
+    "UP",
+    "DOWN",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameMoveDirection(MoveDirection e) {
-  if (::flatbuffers::IsOutRange(e, MoveDirection_NONE, MoveDirection_RIGHT)) return "";
+  if (::flatbuffers::IsOutRange(e, MoveDirection_NONE, MoveDirection_DOWN)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesMoveDirection()[index];
 }
@@ -527,6 +563,566 @@ inline ::flatbuffers::Offset<SC_ProneStabEnd> CreateSC_ProneStabEnd(
     uint64_t id = 0) {
   SC_ProneStabEndBuilder builder_(_fbb);
   builder_.add_id(id);
+  return builder_.Finish();
+}
+
+struct C_ClimbStart FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef C_ClimbStartBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_X = 4,
+    VT_Y = 6
+  };
+  float x() const {
+    return GetField<float>(VT_X, 0.0f);
+  }
+  float y() const {
+    return GetField<float>(VT_Y, 0.0f);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<float>(verifier, VT_X, 4) &&
+           VerifyField<float>(verifier, VT_Y, 4) &&
+           verifier.EndTable();
+  }
+};
+
+struct C_ClimbStartBuilder {
+  typedef C_ClimbStart Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_x(float x) {
+    fbb_.AddElement<float>(C_ClimbStart::VT_X, x, 0.0f);
+  }
+  void add_y(float y) {
+    fbb_.AddElement<float>(C_ClimbStart::VT_Y, y, 0.0f);
+  }
+  explicit C_ClimbStartBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<C_ClimbStart> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<C_ClimbStart>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<C_ClimbStart> CreateC_ClimbStart(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    float x = 0.0f,
+    float y = 0.0f) {
+  C_ClimbStartBuilder builder_(_fbb);
+  builder_.add_y(y);
+  builder_.add_x(x);
+  return builder_.Finish();
+}
+
+struct SC_ClimbStart FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SC_ClimbStartBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_ID = 4,
+    VT_X = 6,
+    VT_Y = 8
+  };
+  uint64_t id() const {
+    return GetField<uint64_t>(VT_ID, 0);
+  }
+  float x() const {
+    return GetField<float>(VT_X, 0.0f);
+  }
+  float y() const {
+    return GetField<float>(VT_Y, 0.0f);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_ID, 8) &&
+           VerifyField<float>(verifier, VT_X, 4) &&
+           VerifyField<float>(verifier, VT_Y, 4) &&
+           verifier.EndTable();
+  }
+};
+
+struct SC_ClimbStartBuilder {
+  typedef SC_ClimbStart Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_id(uint64_t id) {
+    fbb_.AddElement<uint64_t>(SC_ClimbStart::VT_ID, id, 0);
+  }
+  void add_x(float x) {
+    fbb_.AddElement<float>(SC_ClimbStart::VT_X, x, 0.0f);
+  }
+  void add_y(float y) {
+    fbb_.AddElement<float>(SC_ClimbStart::VT_Y, y, 0.0f);
+  }
+  explicit SC_ClimbStartBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SC_ClimbStart> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SC_ClimbStart>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SC_ClimbStart> CreateSC_ClimbStart(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t id = 0,
+    float x = 0.0f,
+    float y = 0.0f) {
+  SC_ClimbStartBuilder builder_(_fbb);
+  builder_.add_id(id);
+  builder_.add_y(y);
+  builder_.add_x(x);
+  return builder_.Finish();
+}
+
+struct C_LadderUpStart FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef C_LadderUpStartBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_X = 4,
+    VT_Y = 6
+  };
+  float x() const {
+    return GetField<float>(VT_X, 0.0f);
+  }
+  float y() const {
+    return GetField<float>(VT_Y, 0.0f);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<float>(verifier, VT_X, 4) &&
+           VerifyField<float>(verifier, VT_Y, 4) &&
+           verifier.EndTable();
+  }
+};
+
+struct C_LadderUpStartBuilder {
+  typedef C_LadderUpStart Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_x(float x) {
+    fbb_.AddElement<float>(C_LadderUpStart::VT_X, x, 0.0f);
+  }
+  void add_y(float y) {
+    fbb_.AddElement<float>(C_LadderUpStart::VT_Y, y, 0.0f);
+  }
+  explicit C_LadderUpStartBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<C_LadderUpStart> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<C_LadderUpStart>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<C_LadderUpStart> CreateC_LadderUpStart(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    float x = 0.0f,
+    float y = 0.0f) {
+  C_LadderUpStartBuilder builder_(_fbb);
+  builder_.add_y(y);
+  builder_.add_x(x);
+  return builder_.Finish();
+}
+
+struct SC_LadderUpStart FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SC_LadderUpStartBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_ID = 4,
+    VT_X = 6,
+    VT_Y = 8
+  };
+  uint64_t id() const {
+    return GetField<uint64_t>(VT_ID, 0);
+  }
+  float x() const {
+    return GetField<float>(VT_X, 0.0f);
+  }
+  float y() const {
+    return GetField<float>(VT_Y, 0.0f);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_ID, 8) &&
+           VerifyField<float>(verifier, VT_X, 4) &&
+           VerifyField<float>(verifier, VT_Y, 4) &&
+           verifier.EndTable();
+  }
+};
+
+struct SC_LadderUpStartBuilder {
+  typedef SC_LadderUpStart Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_id(uint64_t id) {
+    fbb_.AddElement<uint64_t>(SC_LadderUpStart::VT_ID, id, 0);
+  }
+  void add_x(float x) {
+    fbb_.AddElement<float>(SC_LadderUpStart::VT_X, x, 0.0f);
+  }
+  void add_y(float y) {
+    fbb_.AddElement<float>(SC_LadderUpStart::VT_Y, y, 0.0f);
+  }
+  explicit SC_LadderUpStartBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SC_LadderUpStart> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SC_LadderUpStart>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SC_LadderUpStart> CreateSC_LadderUpStart(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t id = 0,
+    float x = 0.0f,
+    float y = 0.0f) {
+  SC_LadderUpStartBuilder builder_(_fbb);
+  builder_.add_id(id);
+  builder_.add_y(y);
+  builder_.add_x(x);
+  return builder_.Finish();
+}
+
+struct C_LadderUpEnd FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef C_LadderUpEndBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_X = 4,
+    VT_Y = 6
+  };
+  float x() const {
+    return GetField<float>(VT_X, 0.0f);
+  }
+  float y() const {
+    return GetField<float>(VT_Y, 0.0f);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<float>(verifier, VT_X, 4) &&
+           VerifyField<float>(verifier, VT_Y, 4) &&
+           verifier.EndTable();
+  }
+};
+
+struct C_LadderUpEndBuilder {
+  typedef C_LadderUpEnd Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_x(float x) {
+    fbb_.AddElement<float>(C_LadderUpEnd::VT_X, x, 0.0f);
+  }
+  void add_y(float y) {
+    fbb_.AddElement<float>(C_LadderUpEnd::VT_Y, y, 0.0f);
+  }
+  explicit C_LadderUpEndBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<C_LadderUpEnd> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<C_LadderUpEnd>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<C_LadderUpEnd> CreateC_LadderUpEnd(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    float x = 0.0f,
+    float y = 0.0f) {
+  C_LadderUpEndBuilder builder_(_fbb);
+  builder_.add_y(y);
+  builder_.add_x(x);
+  return builder_.Finish();
+}
+
+struct SC_LadderUpEnd FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SC_LadderUpEndBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_ID = 4,
+    VT_X = 6,
+    VT_Y = 8
+  };
+  uint64_t id() const {
+    return GetField<uint64_t>(VT_ID, 0);
+  }
+  float x() const {
+    return GetField<float>(VT_X, 0.0f);
+  }
+  float y() const {
+    return GetField<float>(VT_Y, 0.0f);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_ID, 8) &&
+           VerifyField<float>(verifier, VT_X, 4) &&
+           VerifyField<float>(verifier, VT_Y, 4) &&
+           verifier.EndTable();
+  }
+};
+
+struct SC_LadderUpEndBuilder {
+  typedef SC_LadderUpEnd Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_id(uint64_t id) {
+    fbb_.AddElement<uint64_t>(SC_LadderUpEnd::VT_ID, id, 0);
+  }
+  void add_x(float x) {
+    fbb_.AddElement<float>(SC_LadderUpEnd::VT_X, x, 0.0f);
+  }
+  void add_y(float y) {
+    fbb_.AddElement<float>(SC_LadderUpEnd::VT_Y, y, 0.0f);
+  }
+  explicit SC_LadderUpEndBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SC_LadderUpEnd> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SC_LadderUpEnd>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SC_LadderUpEnd> CreateSC_LadderUpEnd(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t id = 0,
+    float x = 0.0f,
+    float y = 0.0f) {
+  SC_LadderUpEndBuilder builder_(_fbb);
+  builder_.add_id(id);
+  builder_.add_y(y);
+  builder_.add_x(x);
+  return builder_.Finish();
+}
+
+struct C_LadderDownStart FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef C_LadderDownStartBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_X = 4,
+    VT_Y = 6
+  };
+  float x() const {
+    return GetField<float>(VT_X, 0.0f);
+  }
+  float y() const {
+    return GetField<float>(VT_Y, 0.0f);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<float>(verifier, VT_X, 4) &&
+           VerifyField<float>(verifier, VT_Y, 4) &&
+           verifier.EndTable();
+  }
+};
+
+struct C_LadderDownStartBuilder {
+  typedef C_LadderDownStart Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_x(float x) {
+    fbb_.AddElement<float>(C_LadderDownStart::VT_X, x, 0.0f);
+  }
+  void add_y(float y) {
+    fbb_.AddElement<float>(C_LadderDownStart::VT_Y, y, 0.0f);
+  }
+  explicit C_LadderDownStartBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<C_LadderDownStart> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<C_LadderDownStart>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<C_LadderDownStart> CreateC_LadderDownStart(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    float x = 0.0f,
+    float y = 0.0f) {
+  C_LadderDownStartBuilder builder_(_fbb);
+  builder_.add_y(y);
+  builder_.add_x(x);
+  return builder_.Finish();
+}
+
+struct SC_LadderDownStart FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SC_LadderDownStartBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_ID = 4,
+    VT_X = 6,
+    VT_Y = 8
+  };
+  uint64_t id() const {
+    return GetField<uint64_t>(VT_ID, 0);
+  }
+  float x() const {
+    return GetField<float>(VT_X, 0.0f);
+  }
+  float y() const {
+    return GetField<float>(VT_Y, 0.0f);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_ID, 8) &&
+           VerifyField<float>(verifier, VT_X, 4) &&
+           VerifyField<float>(verifier, VT_Y, 4) &&
+           verifier.EndTable();
+  }
+};
+
+struct SC_LadderDownStartBuilder {
+  typedef SC_LadderDownStart Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_id(uint64_t id) {
+    fbb_.AddElement<uint64_t>(SC_LadderDownStart::VT_ID, id, 0);
+  }
+  void add_x(float x) {
+    fbb_.AddElement<float>(SC_LadderDownStart::VT_X, x, 0.0f);
+  }
+  void add_y(float y) {
+    fbb_.AddElement<float>(SC_LadderDownStart::VT_Y, y, 0.0f);
+  }
+  explicit SC_LadderDownStartBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SC_LadderDownStart> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SC_LadderDownStart>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SC_LadderDownStart> CreateSC_LadderDownStart(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t id = 0,
+    float x = 0.0f,
+    float y = 0.0f) {
+  SC_LadderDownStartBuilder builder_(_fbb);
+  builder_.add_id(id);
+  builder_.add_y(y);
+  builder_.add_x(x);
+  return builder_.Finish();
+}
+
+struct C_LadderDownEnd FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef C_LadderDownEndBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_X = 4,
+    VT_Y = 6
+  };
+  float x() const {
+    return GetField<float>(VT_X, 0.0f);
+  }
+  float y() const {
+    return GetField<float>(VT_Y, 0.0f);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<float>(verifier, VT_X, 4) &&
+           VerifyField<float>(verifier, VT_Y, 4) &&
+           verifier.EndTable();
+  }
+};
+
+struct C_LadderDownEndBuilder {
+  typedef C_LadderDownEnd Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_x(float x) {
+    fbb_.AddElement<float>(C_LadderDownEnd::VT_X, x, 0.0f);
+  }
+  void add_y(float y) {
+    fbb_.AddElement<float>(C_LadderDownEnd::VT_Y, y, 0.0f);
+  }
+  explicit C_LadderDownEndBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<C_LadderDownEnd> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<C_LadderDownEnd>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<C_LadderDownEnd> CreateC_LadderDownEnd(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    float x = 0.0f,
+    float y = 0.0f) {
+  C_LadderDownEndBuilder builder_(_fbb);
+  builder_.add_y(y);
+  builder_.add_x(x);
+  return builder_.Finish();
+}
+
+struct SC_LadderDownEnd FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SC_LadderDownEndBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_ID = 4,
+    VT_X = 6,
+    VT_Y = 8
+  };
+  uint64_t id() const {
+    return GetField<uint64_t>(VT_ID, 0);
+  }
+  float x() const {
+    return GetField<float>(VT_X, 0.0f);
+  }
+  float y() const {
+    return GetField<float>(VT_Y, 0.0f);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_ID, 8) &&
+           VerifyField<float>(verifier, VT_X, 4) &&
+           VerifyField<float>(verifier, VT_Y, 4) &&
+           verifier.EndTable();
+  }
+};
+
+struct SC_LadderDownEndBuilder {
+  typedef SC_LadderDownEnd Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_id(uint64_t id) {
+    fbb_.AddElement<uint64_t>(SC_LadderDownEnd::VT_ID, id, 0);
+  }
+  void add_x(float x) {
+    fbb_.AddElement<float>(SC_LadderDownEnd::VT_X, x, 0.0f);
+  }
+  void add_y(float y) {
+    fbb_.AddElement<float>(SC_LadderDownEnd::VT_Y, y, 0.0f);
+  }
+  explicit SC_LadderDownEndBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SC_LadderDownEnd> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SC_LadderDownEnd>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SC_LadderDownEnd> CreateSC_LadderDownEnd(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t id = 0,
+    float x = 0.0f,
+    float y = 0.0f) {
+  SC_LadderDownEndBuilder builder_(_fbb);
+  builder_.add_id(id);
+  builder_.add_y(y);
+  builder_.add_x(x);
   return builder_.Finish();
 }
 

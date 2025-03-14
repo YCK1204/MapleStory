@@ -76,6 +76,14 @@ union PacketType {
 	SC_ProneStabStart,
 	C_ProneStabEnd,
 	SC_ProneStabEnd,
+	C_LadderUpStart,
+	SC_LadderUpStart,
+	C_LadderUpEnd,
+	SC_LadderUpEnd,
+	C_LadderDownStart,
+	SC_LadderDownStart,
+	C_LadderDownEnd,
+	SC_LadderDownEnd,
 // ------------------- Move -----------------
 // ------------------- Player -----------------
 	C_Attack,

@@ -1,7 +1,9 @@
 enum MoveDirection : uint8 {
 	NONE,
 	LEFT,
-	RIGHT
+	RIGHT,
+	UP,
+	DOWN,
 }
 
 table C_MoveStart {
@@ -47,4 +49,59 @@ table C_ProneStabEnd {
 
 table SC_ProneStabEnd {
 	id:uint64;
+}
+
+table C_ClimbStart {
+	x:float;
+	y:float;
+}
+
+table SC_ClimbStart {
+	id:uint64;
+	x:float;
+	y:float;
+}
+
+table C_LadderUpStart {
+	x:float;
+	y:float;
+}
+
+table SC_LadderUpStart {
+	id:uint64;
+	x:float;
+	y:float;
+}
+
+table C_LadderUpEnd {
+	x:float;
+	y:float;
+}
+
+table SC_LadderUpEnd {
+	id:uint64;
+	x:float;
+	y:float;
+}
+
+table C_LadderDownStart {
+	x:float;
+	y:float;
+}
+
+table SC_LadderDownStart {
+	id:uint64;
+	x:float;
+	y:float;
+}
+
+table C_LadderDownEnd {
+	x:float;
+	y:float;
+}
+
+table SC_LadderDownEnd {
+	id:uint64;
+	x:float;
+	y:float;
 }

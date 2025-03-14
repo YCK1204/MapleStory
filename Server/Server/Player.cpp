@@ -24,8 +24,6 @@ const bool Player::IsInState(PlayerState state)
 	return (State & (1 << (uint32)state));
 }
 
-
-
 Offset<PlayerInfo> Player::GeneratePlayerInfo(FlatBufferBuilder& builder)
 {
 	auto info = GeneratePreviewInfo(builder);

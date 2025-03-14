@@ -8083,6 +8083,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1109106254}
     - target: {fileID: 7082758934722569316, guid: a69c5645d6a729841b7c82227601bd69, type: 3}
+      propertyPath: m_TileColorArray.Array.data[4].m_Data.b
+      value: 0.50316685
+      objectReference: {fileID: 0}
+    - target: {fileID: 7082758934722569316, guid: a69c5645d6a729841b7c82227601bd69, type: 3}
+      propertyPath: m_TileColorArray.Array.data[4].m_Data.g
+      value: 0.43417028
+      objectReference: {fileID: 0}
+    - target: {fileID: 7082758934722569316, guid: a69c5645d6a729841b7c82227601bd69, type: 3}
+      propertyPath: m_TileColorArray.Array.data[4].m_Data.r
+      value: 0.74292433
+      objectReference: {fileID: 0}
+    - target: {fileID: 7082758934722569316, guid: a69c5645d6a729841b7c82227601bd69, type: 3}
       propertyPath: m_TileSpriteArray.Array.data[11].m_Data
       value: 
       objectReference: {fileID: 1779635827}
@@ -8125,10 +8137,6 @@ PrefabInstance:
     - target: {fileID: 7353820729883873568, guid: a69c5645d6a729841b7c82227601bd69, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7817723355704090579, guid: a69c5645d6a729841b7c82227601bd69, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 11.58
       objectReference: {fileID: 0}
     - target: {fileID: 9180870909766822853, guid: a69c5645d6a729841b7c82227601bd69, type: 3}
       propertyPath: m_Size.x

@@ -77,13 +77,21 @@ enum PacketType : uint8_t {
   PacketType_SC_ProneStabStart = 51,
   PacketType_C_ProneStabEnd = 52,
   PacketType_SC_ProneStabEnd = 53,
-  PacketType_C_Attack = 54,
-  PacketType_SC_Attack = 55,
+  PacketType_C_LadderUpStart = 54,
+  PacketType_SC_LadderUpStart = 55,
+  PacketType_C_LadderUpEnd = 56,
+  PacketType_SC_LadderUpEnd = 57,
+  PacketType_C_LadderDownStart = 58,
+  PacketType_SC_LadderDownStart = 59,
+  PacketType_C_LadderDownEnd = 60,
+  PacketType_SC_LadderDownEnd = 61,
+  PacketType_C_Attack = 62,
+  PacketType_SC_Attack = 63,
   PacketType_MIN = PacketType_NONE,
   PacketType_MAX = PacketType_SC_Attack
 };
 
-inline const PacketType (&EnumValuesPacketType())[56] {
+inline const PacketType (&EnumValuesPacketType())[64] {
   static const PacketType values[] = {
     PacketType_NONE,
     PacketType_C_SignUp,
@@ -139,6 +147,14 @@ inline const PacketType (&EnumValuesPacketType())[56] {
     PacketType_SC_ProneStabStart,
     PacketType_C_ProneStabEnd,
     PacketType_SC_ProneStabEnd,
+    PacketType_C_LadderUpStart,
+    PacketType_SC_LadderUpStart,
+    PacketType_C_LadderUpEnd,
+    PacketType_SC_LadderUpEnd,
+    PacketType_C_LadderDownStart,
+    PacketType_SC_LadderDownStart,
+    PacketType_C_LadderDownEnd,
+    PacketType_SC_LadderDownEnd,
     PacketType_C_Attack,
     PacketType_SC_Attack
   };
@@ -146,7 +162,7 @@ inline const PacketType (&EnumValuesPacketType())[56] {
 }
 
 inline const char * const *EnumNamesPacketType() {
-  static const char * const names[57] = {
+  static const char * const names[65] = {
     "NONE",
     "C_SignUp",
     "SD_SignUp",
@@ -201,6 +217,14 @@ inline const char * const *EnumNamesPacketType() {
     "SC_ProneStabStart",
     "C_ProneStabEnd",
     "SC_ProneStabEnd",
+    "C_LadderUpStart",
+    "SC_LadderUpStart",
+    "C_LadderUpEnd",
+    "SC_LadderUpEnd",
+    "C_LadderDownStart",
+    "SC_LadderDownStart",
+    "C_LadderDownEnd",
+    "SC_LadderDownEnd",
     "C_Attack",
     "SC_Attack",
     nullptr
@@ -430,6 +454,38 @@ template<> struct PacketTypeTraits<SC_ProneStabEnd> {
   static const PacketType enum_value = PacketType_SC_ProneStabEnd;
 };
 
+template<> struct PacketTypeTraits<C_LadderUpStart> {
+  static const PacketType enum_value = PacketType_C_LadderUpStart;
+};
+
+template<> struct PacketTypeTraits<SC_LadderUpStart> {
+  static const PacketType enum_value = PacketType_SC_LadderUpStart;
+};
+
+template<> struct PacketTypeTraits<C_LadderUpEnd> {
+  static const PacketType enum_value = PacketType_C_LadderUpEnd;
+};
+
+template<> struct PacketTypeTraits<SC_LadderUpEnd> {
+  static const PacketType enum_value = PacketType_SC_LadderUpEnd;
+};
+
+template<> struct PacketTypeTraits<C_LadderDownStart> {
+  static const PacketType enum_value = PacketType_C_LadderDownStart;
+};
+
+template<> struct PacketTypeTraits<SC_LadderDownStart> {
+  static const PacketType enum_value = PacketType_SC_LadderDownStart;
+};
+
+template<> struct PacketTypeTraits<C_LadderDownEnd> {
+  static const PacketType enum_value = PacketType_C_LadderDownEnd;
+};
+
+template<> struct PacketTypeTraits<SC_LadderDownEnd> {
+  static const PacketType enum_value = PacketType_SC_LadderDownEnd;
+};
+
 template<> struct PacketTypeTraits<C_Attack> {
   static const PacketType enum_value = PacketType_C_Attack;
 };
@@ -656,6 +712,38 @@ inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj,
     }
     case PacketType_SC_ProneStabEnd: {
       auto ptr = reinterpret_cast<const SC_ProneStabEnd *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_C_LadderUpStart: {
+      auto ptr = reinterpret_cast<const C_LadderUpStart *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_LadderUpStart: {
+      auto ptr = reinterpret_cast<const SC_LadderUpStart *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_C_LadderUpEnd: {
+      auto ptr = reinterpret_cast<const C_LadderUpEnd *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_LadderUpEnd: {
+      auto ptr = reinterpret_cast<const SC_LadderUpEnd *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_C_LadderDownStart: {
+      auto ptr = reinterpret_cast<const C_LadderDownStart *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_LadderDownStart: {
+      auto ptr = reinterpret_cast<const SC_LadderDownStart *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_C_LadderDownEnd: {
+      auto ptr = reinterpret_cast<const C_LadderDownEnd *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_LadderDownEnd: {
+      auto ptr = reinterpret_cast<const SC_LadderDownEnd *>(obj);
       return verifier.VerifyTable(ptr);
     }
     case PacketType_C_Attack: {
