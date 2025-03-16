@@ -202,7 +202,7 @@ void GameRoom::Update() {
 	}
 }
 
-void GameRoom::Init(json& room)
+void GameRoom::Init(json& room, shared_ptr<ifstream> map)
 {
 	minX = room["min_x"];
 	minY = room["min_y"];
@@ -215,6 +215,7 @@ void GameRoom::Init(json& room)
 		for (auto portal : room["portals"])
 			portals.push_back(portal);
 	}
+	_map = make_shared<Map>(*map.get());
 	if (room.find("spawn_info") == room.end())
 		return;
 	auto sp = room["spawn_info"];

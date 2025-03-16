@@ -154,6 +154,7 @@
     <ClCompile Include="ClientSession.cpp" />
     <ClCompile Include="CreateCharacter.cpp" />
     <ClCompile Include="Creature.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="DbSession.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Channel.h" />
     <ClInclude Include="ClientSession.h" />
     <ClInclude Include="Creature.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="DbSession.h" />

@@ -5,8 +5,8 @@
 #include "ServerManager.h"
 #include "DataManager.h"
 
-#ifndef COMMON_JSON_PATH
-	#define COMMON_JSON_PATH "../../Data/"
+#ifndef COMMON_DATA_PATH
+	#define COMMON_DATA_PATH "../../Data/"
 #endif
 
 class Manager

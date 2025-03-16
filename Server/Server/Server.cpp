@@ -9,7 +9,7 @@ Server::~Server()
 {
 }
 
-void Server::Init(json& servJ, json& roomInfo)
+void Server::Init(json& servJ, json& roomInfo, vector<shared_ptr<ifstream>>& maps)
 {
 	// 서버 정보 유효성 검사 및 초기화
 	{
@@ -47,7 +47,7 @@ void Server::Init(json& servJ, json& roomInfo)
 	{
 		ChannelRef channel = shared_ptr<Channel>(new Channel());
 		_channels[i] = channel;
-		channel->Init(_id, i, rooms);
+		channel->Init(_id, i, rooms, maps);
 	}
 }
 

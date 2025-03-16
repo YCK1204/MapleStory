@@ -104,6 +104,9 @@
     <ClCompile Include="PlayerPacket.cpp">
       <Filter>Packet\Contents</Filter>
     </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>GameServer\Channel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -157,6 +160,9 @@
     </ClInclude>
     <ClInclude Include="DataManager.h">
       <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>GameServer\Channel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

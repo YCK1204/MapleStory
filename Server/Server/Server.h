@@ -12,7 +12,7 @@ private:
 public:
 	Server();
 	~Server();
-	void Init(json& servJ, json& roomInfo);
+	void Init(json& servJ, json& roomInfo, vector<shared_ptr<ifstream>>& maps);
 	void Update();
 public:
 	map<uint8, ChannelRef>::iterator begin();

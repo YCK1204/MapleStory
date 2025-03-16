@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Job.h"
 #include "Monster.h"
+#include "Map.h"
 #include <variant>
 
 class GameRoom
@@ -37,6 +38,7 @@ private:
 	int32 maxY;
 	vector<uint8> portals;
 	map<SpawnInfoRef, unordered_set<MonsterRef>> _spawnInfo;
+	shared_ptr<Map> _map = nullptr;
 public:
 	float InitPos[2];
 private:
@@ -55,7 +57,7 @@ public:
 
 #pragma region default constructor, destructor, Init
 public:
-	void Init(json& room);
+	void Init(json& room, shared_ptr<ifstream> map);
 	GameRoom() = delete;
 	GameRoom(uint32 roomId);
 	~GameRoom();

@@ -10,7 +10,7 @@ Channel::~Channel()
 {
 }
 
-void Channel::Init(uint8 serverId, uint8 channelId, json& rooms)
+void Channel::Init(uint8 serverId, uint8 channelId, json& rooms, vector<shared_ptr<ifstream>>& maps)
 {
 	auto roomCount = rooms.size();
 	_id = channelId;
@@ -21,7 +21,7 @@ void Channel::Init(uint8 serverId, uint8 channelId, json& rooms)
 		auto roomId = (serverId << 24) | (channelId << 16) | id;
 		auto roomRef = make_shared<GameRoom>(roomId);
 		_rooms[roomId] = roomRef;
-		roomRef->Init(room);
+		roomRef->Init(room, maps[id - 1]);
 	}
 }
 

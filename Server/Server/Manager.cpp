@@ -12,7 +12,7 @@ DataManager& Manager::Data = DataManager::Instance();
 void Manager::Init() {
 #pragma region DB ¿¬°á
 	{
-		string portJsonPath = COMMON_JSON_PATH + (string)"port.json";
+		string portJsonPath = COMMON_DATA_PATH + (string)"port.json";
 		ifstream portJson(portJsonPath);
 
 		ASSERT_CRASH(portJson.is_open());
@@ -50,7 +50,7 @@ void Manager::Init() {
 		std::random_device rd;
 		std::mt19937 gen(rd());
 
-		string serverJsonPath = COMMON_JSON_PATH + (string)"server.json";
+		string serverJsonPath = COMMON_DATA_PATH + (string)"server.json";
 		ifstream serverJson(serverJsonPath);
 
 		ASSERT_CRASH(serverJson.is_open());
@@ -63,7 +63,7 @@ void Manager::Init() {
 
 #pragma region Data
 	{
-		string dataJsonPath = COMMON_JSON_PATH + (string)"Data.json";
+		string dataJsonPath = COMMON_DATA_PATH + (string)"Data.json";
 		ifstream dataJson(dataJsonPath);
 
 		json j = json::parse(dataJson);
