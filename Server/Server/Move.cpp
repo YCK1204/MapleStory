@@ -151,22 +151,3 @@ void PacketHandler::C_ProneStabEndHandler(PacketSession* session, ByteRef& buffe
 
 	}
 }
-void PacketHandler::C_LadderUpStartHandler(PacketSession* session, ByteRef& buffer)
-{
-
-}
-
-void PacketHandler::C_LadderUpEndHandler(PacketSession* session, ByteRef& buffer)
-{
-
-}
-
-void PacketHandler::C_LadderDownStartHandler(PacketSession* session, ByteRef& buffer)
-{
-
-}
-
-void PacketHandler::C_LadderDownEndHandler(PacketSession* session, ByteRef& buffer)
-{
-
-}

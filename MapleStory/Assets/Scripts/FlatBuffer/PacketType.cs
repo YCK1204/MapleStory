@@ -48,26 +48,20 @@ public enum PacketType : byte
   SC_MDespawn = 41,
   C_CreatureInfos = 42,
   SC_CreatureInfos = 43,
-  C_MoveStart = 44,
-  SC_MoveStart = 45,
-  C_MoveEnd = 46,
-  SC_MoveEnd = 47,
-  C_Jump = 48,
-  SC_Jump = 49,
-  C_ProneStabStart = 50,
-  SC_ProneStabStart = 51,
-  C_ProneStabEnd = 52,
-  SC_ProneStabEnd = 53,
-  C_LadderUpStart = 54,
-  SC_LadderUpStart = 55,
-  C_LadderUpEnd = 56,
-  SC_LadderUpEnd = 57,
-  C_LadderDownStart = 58,
-  SC_LadderDownStart = 59,
-  C_LadderDownEnd = 60,
-  SC_LadderDownEnd = 61,
-  C_Attack = 62,
-  SC_Attack = 63,
+  C_OnCreatureInfos = 44,
+  C_MoveStart = 45,
+  SC_MoveStart = 46,
+  C_MoveEnd = 47,
+  SC_MoveEnd = 48,
+  C_Jump = 49,
+  SC_Jump = 50,
+  C_ProneStabStart = 51,
+  SC_ProneStabStart = 52,
+  C_ProneStabEnd = 53,
+  SC_ProneStabEnd = 54,
+  C_Attack = 55,
+  SC_Attack = 56,
+  SC_MonsterMove = 57,
 };
 
 
@@ -208,6 +202,9 @@ static public class PacketTypeVerify
       case PacketType.SC_CreatureInfos:
         result = SC_CreatureInfosVerify.Verify(verifier, tablePos);
         break;
+      case PacketType.C_OnCreatureInfos:
+        result = C_OnCreatureInfosVerify.Verify(verifier, tablePos);
+        break;
       case PacketType.C_MoveStart:
         result = C_MoveStartVerify.Verify(verifier, tablePos);
         break;
@@ -238,35 +235,14 @@ static public class PacketTypeVerify
       case PacketType.SC_ProneStabEnd:
         result = SC_ProneStabEndVerify.Verify(verifier, tablePos);
         break;
-      case PacketType.C_LadderUpStart:
-        result = C_LadderUpStartVerify.Verify(verifier, tablePos);
-        break;
-      case PacketType.SC_LadderUpStart:
-        result = SC_LadderUpStartVerify.Verify(verifier, tablePos);
-        break;
-      case PacketType.C_LadderUpEnd:
-        result = C_LadderUpEndVerify.Verify(verifier, tablePos);
-        break;
-      case PacketType.SC_LadderUpEnd:
-        result = SC_LadderUpEndVerify.Verify(verifier, tablePos);
-        break;
-      case PacketType.C_LadderDownStart:
-        result = C_LadderDownStartVerify.Verify(verifier, tablePos);
-        break;
-      case PacketType.SC_LadderDownStart:
-        result = SC_LadderDownStartVerify.Verify(verifier, tablePos);
-        break;
-      case PacketType.C_LadderDownEnd:
-        result = C_LadderDownEndVerify.Verify(verifier, tablePos);
-        break;
-      case PacketType.SC_LadderDownEnd:
-        result = SC_LadderDownEndVerify.Verify(verifier, tablePos);
-        break;
       case PacketType.C_Attack:
         result = C_AttackVerify.Verify(verifier, tablePos);
         break;
       case PacketType.SC_Attack:
         result = SC_AttackVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_MonsterMove:
+        result = SC_MonsterMoveVerify.Verify(verifier, tablePos);
         break;
       default: result = true;
         break;

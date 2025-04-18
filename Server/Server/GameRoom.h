@@ -6,18 +6,19 @@
 #include "Map.h"
 #include <variant>
 
+struct SpawnInfo {
+	int32 RangeX[2];
+	int32 Y;
+	uint8 spawnCount;
+	vector<uint8> monsterType;
+};
+
 class GameRoom
 {
 private:
 	static const uint32 SERVER_MASK = 0xFFFF'0000'0000'0000;
 	static const uint32 CHANNEL_MASK = 0x0000'FFFF'0000'0000;
 	static const uint32 MAP_MASK = 0x0000'0000'FFFF'FFFF;
-	typedef struct {
-		int32 RangeX[2];
-		int32 Y;
-		uint8 spawnCount;
-		vector<uint8> monsterType;
-	} SpawnInfo;
 	typedef shared_ptr<SpawnInfo> SpawnInfoRef;
 	typedef shared_ptr<Monster> MonsterRef;
 private:
@@ -28,14 +29,14 @@ private:
 	priority_queue<JobRef, vector<JobRef>, greater<JobRef>> _jobQueue;
 	const static uint64 SpawnUpdateTickTime = 3000;
 	uint64 LastSpawnUpdate = GetTickCount64();
+	const static uint64 PatrolUpdateTickTime = 15000;
+	uint64 LastPatrolUpdate = GetTickCount64();
+	const static uint64 MonsterSyncTickTime = 250;
+	uint64 LastMonsterSync = GetTickCount64();
 
 #pragma region MapInfo
 private:
 	uint32 _roomId;
-	int32 minX;
-	int32 maxX;
-	int32 minY;
-	int32 maxY;
 	vector<uint8> portals;
 	map<SpawnInfoRef, unordered_set<MonsterRef>> _spawnInfo;
 	shared_ptr<Map> _map = nullptr;
@@ -77,6 +78,9 @@ public:
 	void Push(GameObject* go);
 	void Push(PlayerRef player);
 	void Broadcast(SendBufferRef pkt, PlayerRef exception = nullptr);
+	void Update();
+	void UpdatePatrol();
+	void UpdateMonster();
 #pragma endregion
 
 #pragma region Message Queue Util Functions
@@ -93,7 +97,6 @@ public:
 	void PushJob(function<void(_Ty1, _Ty2, _Ty3, _Ty4)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3, _Ty4 t4, uint64 tick = 0);
 	template <typename _Ty1, typename _Ty2, typename _Ty3, typename _Ty4, typename _Ty5>
 	void PushJob(function<void(_Ty1, _Ty2, _Ty3, _Ty4, _Ty5)> func, _Ty1 t1, _Ty2 t2, _Ty3 t3, _Ty4 t4, _Ty5 t5, uint64 tick = 0);
-	void Update();
 #pragma endregion
 };
 

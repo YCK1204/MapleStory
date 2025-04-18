@@ -41,7 +41,14 @@ Map::Map(ifstream& mapInfo)
 bool Map::CanGo(Vector2& pos, bool cell) 
 {
 	Vector2 p(pos);
-	if (cell)
+	if (cell == false)
 		p = PosToCell(pos);
+	if (!(p.X >= 0 && p.X < Cells[p.Y].size()))
+		return false;
 	return Cells[p.Y][p.X] == 2;
+}
+
+vector<uint8>& Map::operator[](uint32 index)
+{
+	return Cells[index];
 }

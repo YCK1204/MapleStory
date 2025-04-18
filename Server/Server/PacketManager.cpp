@@ -44,15 +44,12 @@ void PacketManager::Register()
 		_handler[PacketType::PacketType_C_EnterGame] = PacketHandler::C_EnterGameHandler;
 		_handler[PacketType::PacketType_C_Despawn] = PacketHandler::C_DespawnHandler;
 		_handler[PacketType::PacketType_C_CreatureInfos] = PacketHandler::C_CreatureInfosHandler;
+		_handler[PacketType::PacketType_C_OnCreatureInfos] = PacketHandler::C_OnCreatureInfosHandler;
 		_handler[PacketType::PacketType_C_MoveStart] = PacketHandler::C_MoveStartHandler;
 		_handler[PacketType::PacketType_C_MoveEnd] = PacketHandler::C_MoveEndHandler;
 		_handler[PacketType::PacketType_C_Jump] = PacketHandler::C_JumpHandler;
 		_handler[PacketType::PacketType_C_ProneStabStart] = PacketHandler::C_ProneStabStartHandler;
 		_handler[PacketType::PacketType_C_ProneStabEnd] = PacketHandler::C_ProneStabEndHandler;
-		_handler[PacketType::PacketType_C_LadderUpStart] = PacketHandler::C_LadderUpStartHandler;
-		_handler[PacketType::PacketType_C_LadderUpEnd] = PacketHandler::C_LadderUpEndHandler;
-		_handler[PacketType::PacketType_C_LadderDownStart] = PacketHandler::C_LadderDownStartHandler;
-		_handler[PacketType::PacketType_C_LadderDownEnd] = PacketHandler::C_LadderDownEndHandler;
 		_handler[PacketType::PacketType_C_Attack] = PacketHandler::C_AttackHandler;
 		
 }

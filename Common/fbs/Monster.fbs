@@ -1,0 +1,14 @@
+include "Creature.fbs";
+include "Move.fbs";
+
+enum MonsterState : uint8 {
+	Move,
+	Stand,
+	Hit,
+	Attack,
+	Die
+}
+
+table SC_MonsterMove {
+	move_infos:[MonsterInfo];
+}

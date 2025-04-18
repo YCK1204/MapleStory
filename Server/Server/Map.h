@@ -16,4 +16,5 @@ private:
 public:
 	Map(ifstream& mapInfo);
 	bool CanGo(Vector2& pos, bool cell = false);
+	vector<uint8>& operator[](uint32 index);
 };

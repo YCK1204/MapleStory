@@ -4,6 +4,7 @@ using System;
 using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public partial class PacketHandler
 {
@@ -11,11 +12,14 @@ public partial class PacketHandler
     // 맵에 있는 item 정보도 갖고와야함
     static void ChangeSceneHandler(CharacterTotalInfo myPlayerInfo, byte mapId, Position position)
     {
-        Manager.Object.Clear();
         var prevInfo = myPlayerInfo.PrevInfo.Value;
         var ability = prevInfo.Ability.Value;
-        Manager.Scene.LoadSceneAsync($"Map_{mapId.ToString("000")}", () =>
+        string mapName = $"Map_{mapId.ToString("000")}";
+        Manager.Scene.LoadSceneAsync(mapName, () =>
         {
+            Manager.Object.Clear();
+            GameObject map = GameObject.Find(mapName);
+            Manager.Object.NavGrid = Util.FindChild<Tilemap>(map.transform, true, "SpawnGround");
             var pc = HandlePSpawn<MyPlayerContoller>(prevInfo);
             {
                 pc.STR = ability.STR;
@@ -38,7 +42,6 @@ public partial class PacketHandler
             //cc.Init();
 
             FlatBufferBuilder builder = new FlatBufferBuilder(1);
-
             C_CreatureInfos.StartC_CreatureInfos(builder);
             var data = C_CreatureInfos.EndC_CreatureInfos(builder);
             var packet = Manager.Packet.CreatePacket(data, builder, PacketType.C_CreatureInfos);
@@ -90,7 +93,7 @@ public partial class PacketHandler
                 var type = monsterInfo.Type;
                 var monster = Manager.Spawn.SpawnMonster((MonsterType)type);
                 monster.ID = monsterInfo.Id;
-                monster.transform.position = new Vector3(position.X, position.Y + 5f);
+                monster.transform.position = new Vector3(position.X, position.Y + 2f);
                 Manager.Spawn.InitMonsterPosition(monster.gameObject);
                 Manager.Object.Push(monster);
             }
@@ -145,10 +148,16 @@ public partial class PacketHandler
             var position = monsterInfo.Position.Value;
 
             var mc = Manager.Spawn.SpawnMonster((MonsterType)monsterInfo.Type);
-            mc.transform.position = new Vector3(position.X, position.Y + 5f);
+            mc.transform.position = new Vector3(position.X, position.Y + 2f);
             mc.ID = monsterInfo.Id;
+            mc.Invoke(() => { mc.DestPosX = monsterInfo.DestX; });
             Manager.Spawn.InitMonsterPosition(mc.gameObject);
             Manager.Object.Push(mc);
         }
+        FlatBufferBuilder builder = new FlatBufferBuilder(1);
+        C_OnCreatureInfos.StartC_OnCreatureInfos(builder);
+        var data = C_OnCreatureInfos.EndC_OnCreatureInfos(builder);
+        var packet = Manager.Packet.CreatePacket(data, builder, PacketType.C_OnCreatureInfos);
+        Manager.Network.Send(packet);
     }
 }

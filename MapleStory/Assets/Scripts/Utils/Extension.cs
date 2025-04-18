@@ -32,4 +32,12 @@ public static class Extension
     {
         transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
     }
+    public static bool IsInRange(this Vector3 position1, Position position2, float range)
+    {
+        return (position2.X + 1 > position1.x && position2.X - 1 < position1.x);
+    }
+    public static Vector3Int ToVector3Int(this Vector3 position)
+    {
+        return new Vector3Int((int)position.x, (int)position.y, (int)position.z);
+    }
 }

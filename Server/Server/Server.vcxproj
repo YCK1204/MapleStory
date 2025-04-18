@@ -154,12 +154,14 @@
     <ClCompile Include="ClientSession.cpp" />
     <ClCompile Include="CreateCharacter.cpp" />
     <ClCompile Include="Creature.cpp" />
+    <ClCompile Include="GameRoomGetSet.cpp" />
+    <ClCompile Include="GameRoomUtils.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="DbSession.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GameRoom.cpp" />
+    <ClCompile Include="GameRoomContents.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Manager.cpp" />

@@ -83,7 +83,8 @@ struct MonsterInfo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_TYPE = 4,
     VT_ID = 6,
-    VT_POSITION = 8
+    VT_POSITION = 8,
+    VT_DEST_X = 10
   };
   uint8_t type() const {
     return GetField<uint8_t>(VT_TYPE, 0);
@@ -94,12 +95,16 @@ struct MonsterInfo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const Position *position() const {
     return GetPointer<const Position *>(VT_POSITION);
   }
+  float dest_x() const {
+    return GetField<float>(VT_DEST_X, 0.0f);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint8_t>(verifier, VT_TYPE, 1) &&
            VerifyField<uint64_t>(verifier, VT_ID, 8) &&
            VerifyOffset(verifier, VT_POSITION) &&
            verifier.VerifyTable(position()) &&
+           VerifyField<float>(verifier, VT_DEST_X, 4) &&
            verifier.EndTable();
   }
 };
@@ -117,6 +122,9 @@ struct MonsterInfoBuilder {
   void add_position(::flatbuffers::Offset<Position> position) {
     fbb_.AddOffset(MonsterInfo::VT_POSITION, position);
   }
+  void add_dest_x(float dest_x) {
+    fbb_.AddElement<float>(MonsterInfo::VT_DEST_X, dest_x, 0.0f);
+  }
   explicit MonsterInfoBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -132,9 +140,11 @@ inline ::flatbuffers::Offset<MonsterInfo> CreateMonsterInfo(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     uint8_t type = 0,
     uint64_t id = 0,
-    ::flatbuffers::Offset<Position> position = 0) {
+    ::flatbuffers::Offset<Position> position = 0,
+    float dest_x = 0.0f) {
   MonsterInfoBuilder builder_(_fbb);
   builder_.add_id(id);
+  builder_.add_dest_x(dest_x);
   builder_.add_position(position);
   builder_.add_type(type);
   return builder_.Finish();

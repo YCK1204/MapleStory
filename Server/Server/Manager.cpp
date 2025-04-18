@@ -44,6 +44,17 @@ void Manager::Init() {
 	}
 #pragma endregion
 
+#pragma region Data
+	{
+		string dataJsonPath = COMMON_DATA_PATH + (string)"Data.json";
+		ifstream dataJson(dataJsonPath);
+
+		json j = json::parse(dataJson);
+		Data.Init(j);
+		dataJson.close();
+	}
+#pragma endregion
+
 #pragma region Server And Room
 	{
 		// 난수 생성 엔진 초기화
@@ -58,17 +69,6 @@ void Manager::Init() {
 
 		Server.Init(j);
 		serverJson.close();
-	}
-#pragma endregion
-
-#pragma region Data
-	{
-		string dataJsonPath = COMMON_DATA_PATH + (string)"Data.json";
-		ifstream dataJson(dataJsonPath);
-
-		json j = json::parse(dataJson);
-		Data.Init(j);
-		dataJson.close();
 	}
 #pragma endregion
 }

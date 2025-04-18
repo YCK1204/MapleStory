@@ -49,7 +49,7 @@ public class Manager : BaseMonobehaviour
 
         DontDestroyOnLoad(_instance.gameObject);
         _audio = GameObject.Find("AudioManager").GetComponent<AudioManager>();
-        //DontDestroyOnLoad(Audio);
+        DontDestroyOnLoad(Audio);
         Network.Init();
         Spawn.Init();
     }

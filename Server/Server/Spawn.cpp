@@ -63,7 +63,6 @@ void PacketHandler::C_PortalHandler(PacketSession* session, ByteRef& buffer)
 			player->Room = room;
 			player->Pos->X = targetPortal->X;
 			player->Pos->Y = targetPortal->Y;
-			room->Push(player);
 
 			FlatBufferBuilder builder;
 			auto myPlayerInfo = player->GenerateTotalInfo(builder);
@@ -103,8 +102,6 @@ void PacketHandler::C_EnterGameHandler(PacketSession* session, ByteRef& buffer)
 		auto room = channel->FindRoom(mapId);
 
 		room->PushJob<GameRoomRef, PlayerRef, ClientRef>([room, player, client](GameRoomRef, PlayerRef, ClientRef) {
-			room->Push(player);
-
 			player->Pos->X = room->InitPos[0];
 			player->Pos->Y = room->InitPos[1];
 			// 입장하려는 유저에게 자신의 캐릭터 정보를 알림
@@ -143,6 +140,29 @@ void PacketHandler::C_CreatureInfosHandler(PacketSession* session, ByteRef& buff
 			auto data = CreateSC_CreatureInfos(builder, playerInfos, monsterInfos);
 			auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CreatureInfos);
 			client->Send(pkt);
+			});
+	}
+	catch (...)
+	{
+
+	}
+}
+
+void PacketHandler::C_OnCreatureInfosHandler(PacketSession* session, ByteRef& buffer)
+{
+	try {
+		ClientRef client = Manager::Session.Find(session->GetSessionId());
+		if (client->State != ClientState::INGAME)
+		{
+			client->Disconnect();
+			return;
+		}
+
+		PlayerRef player = client->Player;
+		GameRoomRef room = player->Room;
+
+		room->PushJob([room, client]() {
+			room->Push(client->Player);
 			});
 	}
 	catch (...)

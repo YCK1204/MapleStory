@@ -62,7 +62,7 @@
     <ClCompile Include="Creature.cpp">
       <Filter>Object</Filter>
     </ClCompile>
-    <ClCompile Include="GameRoom.cpp">
+    <ClCompile Include="GameRoomContents.cpp">
       <Filter>GameServer\Room</Filter>
     </ClCompile>
     <ClCompile Include="Channel.cpp">
@@ -106,6 +106,12 @@
     </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>GameServer\Channel</Filter>
+    </ClCompile>
+    <ClCompile Include="GameRoomGetSet.cpp">
+      <Filter>GameServer\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="GameRoomUtils.cpp">
+      <Filter>GameServer\Room</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

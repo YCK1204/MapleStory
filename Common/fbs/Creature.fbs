@@ -9,6 +9,7 @@ table MonsterInfo {
 	type:uint8;
 	id:uint64;
 	position:Position;
+	dest_x:float;
 }
 
 table PlayerInfo {

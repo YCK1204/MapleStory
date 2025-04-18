@@ -29,14 +29,6 @@ void Server::Init(json& servJ, json& roomInfo, vector<shared_ptr<ifstream>>& map
 		for (auto room : rooms)
 		{
 			ASSERT_CRASH((room.find("id") != room.end()));
-			ASSERT_CRASH((room.find("min_x") != room.end()));
-			ASSERT_CRASH((room.find("max_x") != room.end()));
-			ASSERT_CRASH((room.find("min_y") != room.end()));
-			ASSERT_CRASH((room.find("max_y") != room.end()));
-			/*ASSERT_CRASH((room.find("spawn_pos") != room.end()));
-			json spawnPos = room["spawn_pos"];
-			ASSERT_CRASH((spawnPos.find("range_x") != spawnPos.end()));
-			ASSERT_CRASH((spawnPos.find("y") != spawnPos.end()));*/
 		}
 	}
 

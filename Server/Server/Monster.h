@@ -8,6 +8,19 @@ public:
 	Monster();
 	virtual ~Monster();
 
+private:
+	const static uint64 RanPatrolTickTime = 10000;
+	uint64 LastPatrolUpdate = GetTickCount64();
+	uint64 RanTickTime;
+public:
+	bool CanPatrol();
+	Offset<MonsterInfo> Patrol(FlatBufferBuilder& builder);
+	void EndPatrol();
+	Offset<MonsterInfo> GenerateMonsterInfo(FlatBufferBuilder& builder);
+public:
+	float DestPosX;
+	MonsterState State = MonsterState::MonsterState_Stand;
+	shared_ptr<struct SpawnInfo> SpawnInfo;
 public:
 	uint8 MonsterId;
 	uint8 AttackableRange[2];

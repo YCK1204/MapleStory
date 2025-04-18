@@ -9,3 +9,10 @@ int RandomNumberGenerator::getRandomInt(int min, int max) {
     uniform_int_distribution<int> dis(min, max);
     return dis(gen);
 }
+
+float RandomNumberGenerator::getRandomFloat(int min, int max, int p)
+{
+    int _min = min * p;
+    int _max = max * p;
+    return (float)getRandomInt(_min, _max) / (float)p;
+}

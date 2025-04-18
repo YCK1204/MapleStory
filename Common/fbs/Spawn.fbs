@@ -46,3 +46,6 @@ table SC_PDespawn {
 table SC_MDespawn {
 	id:[uint64];
 }
+
+table C_OnCreatureInfos {
+}

@@ -48,6 +48,9 @@ struct SC_PDespawnBuilder;
 struct SC_MDespawn;
 struct SC_MDespawnBuilder;
 
+struct C_OnCreatureInfos;
+struct C_OnCreatureInfosBuilder;
+
 struct C_Portal FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef C_PortalBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
@@ -565,6 +568,35 @@ inline ::flatbuffers::Offset<SC_MDespawn> CreateSC_MDespawnDirect(
   return CreateSC_MDespawn(
       _fbb,
       id__);
+}
+
+struct C_OnCreatureInfos FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef C_OnCreatureInfosBuilder Builder;
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           verifier.EndTable();
+  }
+};
+
+struct C_OnCreatureInfosBuilder {
+  typedef C_OnCreatureInfos Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  explicit C_OnCreatureInfosBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<C_OnCreatureInfos> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<C_OnCreatureInfos>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<C_OnCreatureInfos> CreateC_OnCreatureInfos(
+    ::flatbuffers::FlatBufferBuilder &_fbb) {
+  C_OnCreatureInfosBuilder builder_(_fbb);
+  return builder_.Finish();
 }
 
 #endif  // FLATBUFFERS_GENERATED_SPAWN_H_

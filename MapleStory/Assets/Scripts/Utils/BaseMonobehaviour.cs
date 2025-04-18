@@ -10,7 +10,7 @@ public class BaseMonobehaviour : MonoBehaviour
         action.Invoke();
         StopCoroutine("InvokeAction");
     }
-    protected void Invoke(Action action, float time = 0f)
+    public void Invoke(Action action, float time = 0f)
     {
         StartCoroutine(InvokeAction(action, time));
     }

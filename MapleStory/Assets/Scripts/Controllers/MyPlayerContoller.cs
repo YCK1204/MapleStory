@@ -8,7 +8,6 @@ using UnityEngine.Tilemaps;
 public class MyPlayerContoller : PlayerController
 {
     PortalController portal;
-    GameObject Ladder;
     enum PlayerKeyInput
     {
         None,
@@ -74,32 +73,10 @@ public class MyPlayerContoller : PlayerController
                 var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_Portal);
                 Manager.Network.Send(pkt);
             }
-            else if (Ladder != null)
-            {
-                transform.position = new Vector3(Ladder.transform.position.x, transform.position.y);
-                AddState(PlayerState.Ladder);
-                Dir = MoveDirection.UP;
-
-                FlatBufferBuilder builder = new FlatBufferBuilder(50);
-                var data = C_LadderUpStart.CreateC_LadderUpStart(builder, transform.position.x, transform.position.y);
-                var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_LadderUpStart);
-                Manager.Network.Send(pkt);
-            }
         });
         _keyDownHandler.Add(PlayerKeyInput.DownArrow, () =>
         {
-            if (Ladder != null)
-            {
-                transform.position = new Vector3(Ladder.transform.position.x, transform.position.y);
-                AddState(PlayerState.Ladder);
-                Dir = MoveDirection.DOWN;
-
-                FlatBufferBuilder builder = new FlatBufferBuilder(50);
-                var data = C_LadderDownStart.CreateC_LadderDownStart(builder, transform.position.x, transform.position.y);
-                var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_LadderDownStart);
-                Manager.Network.Send(pkt);
-            }
-            else if (boxCollider.IsTouchingLayers(LayerMask.GetMask("Floor", "FloorBase", "Stair")))
+            if (boxCollider.IsTouchingLayers(LayerMask.GetMask("Floor", "FloorBase", "Stair")))
             {
                 if (HasState(PlayerState.ProneStab))
                     return;
@@ -159,29 +136,9 @@ public class MyPlayerContoller : PlayerController
             var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_MoveEnd);
             Manager.Network.Send(pkt);
         });
-        _keyUpHandler.Add(PlayerKeyInput.UpArrow, () =>
-        {
-            if (HasState(PlayerState.Ladder) == false)
-                return;
-            Dir = MoveDirection.NONE;
-
-            FlatBufferBuilder builder = new FlatBufferBuilder(50);
-            var data = C_LadderUpEnd.CreateC_LadderUpEnd(builder, transform.position.x, transform.position.y);
-            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_LadderUpEnd);
-            Manager.Network.Send(pkt);
-        });
         _keyUpHandler.Add(PlayerKeyInput.DownArrow, () =>
         {
-            if (HasState(PlayerState.Ladder))
-            {
-                Dir = MoveDirection.NONE;
-
-                FlatBufferBuilder builder = new FlatBufferBuilder(50);
-                var data = C_LadderDownEnd.CreateC_LadderDownEnd(builder, transform.position.x, transform.position.y);
-                var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_LadderDownEnd);
-                Manager.Network.Send(pkt);
-            }
-            else if (HasState(PlayerState.ProneStab))
+            if (HasState(PlayerState.ProneStab))
             {
                 RemoveState(PlayerState.ProneStab);
                 FlatBufferBuilder builder = new FlatBufferBuilder(50);
@@ -198,16 +155,12 @@ public class MyPlayerContoller : PlayerController
         base.TriggerEnter2D(collision);
         if (collision.gameObject.HasLayer("Portal"))
             portal = collision.gameObject.GetComponent<PortalController>();
-        if (collision.gameObject.HasLayer("Ladder"))
-            Ladder = collision.gameObject;
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         base.TriggerExit2D(collision);
         if (collision.gameObject.HasLayer("Portal"))
             portal = null;
-        if (collision.gameObject.HasLayer("Portal"))
-            Ladder = null;
     }
     protected override void UpdateController()
     {

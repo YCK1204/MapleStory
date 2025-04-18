@@ -44,13 +44,13 @@ public class CreatureSpawner : MonoBehaviour
     public void SetPosToTilemap(GameObject go)
     {
 
-        RaycastHit2D hit = Physics2D.Raycast(go.transform.position, Vector2.down, Mathf.Infinity, LayerMask.GetMask("Floor", "FloorBase"));
+        RaycastHit2D hit = Physics2D.Raycast(go.transform.position, Vector2.down, 5f, LayerMask.GetMask("Floor", "FloorBase"));
+        
         var boxCollider = go.GetComponent<BoxCollider2D>();
         boxCollider.size = go.GetComponent<SpriteRenderer>().bounds.size / 2;
 
-        hit = Physics2D.Raycast(go.transform.position, Vector2.down, Mathf.Infinity, LayerMask.GetMask("Floor", "FloorBase"));
         float halfHeight = boxCollider.size.y * 0.5f * go.transform.localScale.y;
-        Vector3 newPosition = new Vector3(hit.point.x, hit.point.y + halfHeight, go.transform.position.z);
+        Vector3 newPosition = new Vector3(go.transform.position.x, hit.point.y + halfHeight, go.transform.position.z);
 
         go.transform.position = newPosition;
     }

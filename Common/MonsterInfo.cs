@@ -19,22 +19,26 @@ public struct MonsterInfo : IFlatbufferObject
   public byte Type { get { int o = __p.__offset(4); return o != 0 ? __p.bb.Get(o + __p.bb_pos) : (byte)0; } }
   public ulong Id { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetUlong(o + __p.bb_pos) : (ulong)0; } }
   public Position? Position { get { int o = __p.__offset(8); return o != 0 ? (Position?)(new Position()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
+  public float DestX { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
 
   public static Offset<MonsterInfo> CreateMonsterInfo(FlatBufferBuilder builder,
       byte type = 0,
       ulong id = 0,
-      Offset<Position> positionOffset = default(Offset<Position>)) {
-    builder.StartTable(3);
+      Offset<Position> positionOffset = default(Offset<Position>),
+      float dest_x = 0.0f) {
+    builder.StartTable(4);
     MonsterInfo.AddId(builder, id);
+    MonsterInfo.AddDestX(builder, dest_x);
     MonsterInfo.AddPosition(builder, positionOffset);
     MonsterInfo.AddType(builder, type);
     return MonsterInfo.EndMonsterInfo(builder);
   }
 
-  public static void StartMonsterInfo(FlatBufferBuilder builder) { builder.StartTable(3); }
+  public static void StartMonsterInfo(FlatBufferBuilder builder) { builder.StartTable(4); }
   public static void AddType(FlatBufferBuilder builder, byte type) { builder.AddByte(0, type, 0); }
   public static void AddId(FlatBufferBuilder builder, ulong id) { builder.AddUlong(1, id, 0); }
   public static void AddPosition(FlatBufferBuilder builder, Offset<Position> positionOffset) { builder.AddOffset(2, positionOffset.Value, 0); }
+  public static void AddDestX(FlatBufferBuilder builder, float destX) { builder.AddFloat(3, destX, 0.0f); }
   public static Offset<MonsterInfo> EndMonsterInfo(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<MonsterInfo>(o);
@@ -50,6 +54,7 @@ static public class MonsterInfoVerify
       && verifier.VerifyField(tablePos, 4 /*Type*/, 1 /*byte*/, 1, false)
       && verifier.VerifyField(tablePos, 6 /*Id*/, 8 /*ulong*/, 8, false)
       && verifier.VerifyTable(tablePos, 8 /*Position*/, PositionVerify.Verify, false)
+      && verifier.VerifyField(tablePos, 10 /*DestX*/, 4 /*float*/, 4, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }
