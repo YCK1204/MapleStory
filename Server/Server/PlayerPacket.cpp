@@ -14,14 +14,33 @@ void PacketHandler::C_AttackHandler(PacketSession* session, ByteRef& buffer)
 	if (player->IsInState(PlayerState::ATTACK) == true)
 		return;
 	player->AddState(PlayerState::ATTACK);
+
+	
 	try {
+		vector<uint64> targets(pkt->targets()->begin(), pkt->targets()->end());
 
-		player->Room->PushJob<AttackEnum>([player](AttackEnum attackId) {
+		player->Room->PushJob<AttackEnum>([player, targets](AttackEnum attackId) {
+			auto room = player->Room;
+
+			vector<uint64> hitted;
+			hitted.reserve(targets.size());
+			for (auto id : targets)
+			{
+				auto go = room->Find(id);
+				if (go == nullptr)
+					continue;
+				//auto enemy = reinterpret_cast<Monster*>(go);
+				//auto dmg = 10;
+				//enemy->TakeDamage(dmg);
+				//if (enemy->IsAlive() == false)
+				hitted.push_back(id);
+			}
 			FlatBufferBuilder builder;
-			auto data = CreateSC_Attack(builder, player->Id, attackId);
+			auto targetsVector = builder.CreateVector(hitted);
+			auto data = CreateSC_Attack(builder, player->Id, attackId, targetsVector);
 			auto packet = Manager::Packet.CreatePacket(data, builder, PacketType::PacketType_SC_Attack);
-			player->Room->Broadcast(packet, player);
-
+			//room->Broadcast(packet, player);
+			room->Broadcast(packet);
 			}, pkt->attack_id());
 		player->Room->PushJob([player]() {
 			player->RemoveState(PlayerState::ATTACK);

@@ -2,6 +2,7 @@ using Google.FlatBuffers;
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -37,6 +38,10 @@ public class MyPlayerContoller : PlayerController
     public int HP { get; set; }
     public int MP { get; set; }
     #endregion
+    [SerializeField]
+    float X = 4f;
+    [SerializeField]
+    float Y = 3f;
     protected override void Init()
     {
         base.Init();
@@ -95,8 +100,20 @@ public class MyPlayerContoller : PlayerController
                 return;
 
             Attack();
+            Vector2 center = (Vector2)transform.position + (Vector2.right * (transform.localScale.x > 0 ? -XX : XX)) + Vector2.up * YY; // 앞 방향 (오른쪽)으로 1만큼 이동한 위치
+            Vector2 size = new Vector2(X, Y); // 가로 2, 세로 1 범위  
+
+            Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, 0f, LayerMask.GetMask("Enemy"));
+            List<ulong> targets = new List<ulong>();
+            foreach (var hit in hits)
+            {
+                var mc = hit.GetComponent<MonsterController>();
+                targets.Add(mc.ID);
+                Debug.Log("앞에 감지된 오브젝트: " + hit.gameObject.name);
+            }
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
-            var data = C_Attack.CreateC_Attack(builder, (AttackEnum)tanjiro_Attack);
+            var vector = C_Attack.CreateTargetsVector(builder, targets.ToArray());
+            var data = C_Attack.CreateC_Attack(builder, (AttackEnum)tanjiro_Attack, vector);
             var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_Attack);
             Manager.Network.Send(pkt);
         });
@@ -166,10 +183,28 @@ public class MyPlayerContoller : PlayerController
     {
         base.UpdateController();
     }
+    private bool drawGizmo = false;
     private void Update()
     {
         HandleInput();
         UpdateController();
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            drawGizmo = !drawGizmo;
+        }
+    }
+    [SerializeField]
+    float XX = 2.5f;
+    [SerializeField]
+    float YY = .5f;
+    private void OnDrawGizmos()
+    {
+        if (!drawGizmo) return;
+
+            Vector2 center = (Vector2)transform.position + (Vector2.right * (transform.localScale.x > 0 ? -XX : XX)) + Vector2.up * YY; // 앞 방향 (오른쪽)으로 1만큼 이동한 위치
+        Vector2 size = new Vector2(X, Y);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(center, size);
     }
     private void HandleInput()
     {

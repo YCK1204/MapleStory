@@ -17,16 +17,32 @@ public struct C_Attack : IFlatbufferObject
   public C_Attack __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
   public AttackEnum AttackId { get { int o = __p.__offset(4); return o != 0 ? (AttackEnum)__p.bb.Get(o + __p.bb_pos) : AttackEnum.TANJIRO_ATTACK1; } }
+  public ulong Targets(int j) { int o = __p.__offset(6); return o != 0 ? __p.bb.GetUlong(__p.__vector(o) + j * 8) : (ulong)0; }
+  public int TargetsLength { get { int o = __p.__offset(6); return o != 0 ? __p.__vector_len(o) : 0; } }
+#if ENABLE_SPAN_T
+  public Span<ulong> GetTargetsBytes() { return __p.__vector_as_span<ulong>(6, 8); }
+#else
+  public ArraySegment<byte>? GetTargetsBytes() { return __p.__vector_as_arraysegment(6); }
+#endif
+  public ulong[] GetTargetsArray() { return __p.__vector_as_array<ulong>(6); }
 
   public static Offset<C_Attack> CreateC_Attack(FlatBufferBuilder builder,
-      AttackEnum attack_id = AttackEnum.TANJIRO_ATTACK1) {
-    builder.StartTable(1);
+      AttackEnum attack_id = AttackEnum.TANJIRO_ATTACK1,
+      VectorOffset targetsOffset = default(VectorOffset)) {
+    builder.StartTable(2);
+    C_Attack.AddTargets(builder, targetsOffset);
     C_Attack.AddAttackId(builder, attack_id);
     return C_Attack.EndC_Attack(builder);
   }
 
-  public static void StartC_Attack(FlatBufferBuilder builder) { builder.StartTable(1); }
+  public static void StartC_Attack(FlatBufferBuilder builder) { builder.StartTable(2); }
   public static void AddAttackId(FlatBufferBuilder builder, AttackEnum attackId) { builder.AddByte(0, (byte)attackId, 0); }
+  public static void AddTargets(FlatBufferBuilder builder, VectorOffset targetsOffset) { builder.AddOffset(1, targetsOffset.Value, 0); }
+  public static VectorOffset CreateTargetsVector(FlatBufferBuilder builder, ulong[] data) { builder.StartVector(8, data.Length, 8); for (int i = data.Length - 1; i >= 0; i--) builder.AddUlong(data[i]); return builder.EndVector(); }
+  public static VectorOffset CreateTargetsVectorBlock(FlatBufferBuilder builder, ulong[] data) { builder.StartVector(8, data.Length, 8); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateTargetsVectorBlock(FlatBufferBuilder builder, ArraySegment<ulong> data) { builder.StartVector(8, data.Count, 8); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateTargetsVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<ulong>(dataPtr, sizeInBytes); return builder.EndVector(); }
+  public static void StartTargetsVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(8, numElems, 8); }
   public static Offset<C_Attack> EndC_Attack(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<C_Attack>(o);
@@ -40,6 +56,7 @@ static public class C_AttackVerify
   {
     return verifier.VerifyTableStart(tablePos)
       && verifier.VerifyField(tablePos, 4 /*AttackId*/, 1 /*AttackEnum*/, 1, false)
+      && verifier.VerifyVectorOfData(tablePos, 6 /*Targets*/, 8 /*ulong*/, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

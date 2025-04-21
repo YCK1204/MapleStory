@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Diagnostics;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerController : CreatureController
 {
@@ -201,7 +200,6 @@ public class PlayerController : CreatureController
     }
     public void Attack()
     {
-        Debug.Log(AttackCount);
         tanjiro_Attack = (Tanjiro_Attack)(AttackCount++ % 4);
         AddState(PlayerState.Attack);
         _coAttack = StartCoroutine(CoAttack(.5f));

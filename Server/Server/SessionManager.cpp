@@ -22,7 +22,7 @@ void SessionManager::Push(ClientSession* session)
 	WRITE_LOCK;
 	{
 		session->SetSessionId(_curId);
-		auto client = shared_ptr<ClientSession>(session);
+		auto client = shared_ptr<ClientSession>(session, [](ClientSession* p) {GPoolManager->Push<ClientSession>(p); });
 		session->Player->Session = client;
 		_sessions[_curId++] = client;
 	}

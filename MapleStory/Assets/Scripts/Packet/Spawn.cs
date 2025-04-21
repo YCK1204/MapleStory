@@ -150,6 +150,7 @@ public partial class PacketHandler
             var mc = Manager.Spawn.SpawnMonster((MonsterType)monsterInfo.Type);
             mc.transform.position = new Vector3(position.X, position.Y + 2f);
             mc.ID = monsterInfo.Id;
+            mc.name = $"{mc.name}_{i}";
             mc.Invoke(() => { mc.DestPosX = monsterInfo.DestX; });
             Manager.Spawn.InitMonsterPosition(mc.gameObject);
             Manager.Object.Push(mc);

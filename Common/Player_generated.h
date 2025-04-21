@@ -58,14 +58,20 @@ inline const char *EnumNameAttackEnum(AttackEnum e) {
 struct C_Attack FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef C_AttackBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_ATTACK_ID = 4
+    VT_ATTACK_ID = 4,
+    VT_TARGETS = 6
   };
   AttackEnum attack_id() const {
     return static_cast<AttackEnum>(GetField<uint8_t>(VT_ATTACK_ID, 0));
   }
+  const ::flatbuffers::Vector<uint64_t> *targets() const {
+    return GetPointer<const ::flatbuffers::Vector<uint64_t> *>(VT_TARGETS);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint8_t>(verifier, VT_ATTACK_ID, 1) &&
+           VerifyOffset(verifier, VT_TARGETS) &&
+           verifier.VerifyVector(targets()) &&
            verifier.EndTable();
   }
 };
@@ -76,6 +82,9 @@ struct C_AttackBuilder {
   ::flatbuffers::uoffset_t start_;
   void add_attack_id(AttackEnum attack_id) {
     fbb_.AddElement<uint8_t>(C_Attack::VT_ATTACK_ID, static_cast<uint8_t>(attack_id), 0);
+  }
+  void add_targets(::flatbuffers::Offset<::flatbuffers::Vector<uint64_t>> targets) {
+    fbb_.AddOffset(C_Attack::VT_TARGETS, targets);
   }
   explicit C_AttackBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -90,17 +99,31 @@ struct C_AttackBuilder {
 
 inline ::flatbuffers::Offset<C_Attack> CreateC_Attack(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    AttackEnum attack_id = AttackEnum_TANJIRO_ATTACK1) {
+    AttackEnum attack_id = AttackEnum_TANJIRO_ATTACK1,
+    ::flatbuffers::Offset<::flatbuffers::Vector<uint64_t>> targets = 0) {
   C_AttackBuilder builder_(_fbb);
+  builder_.add_targets(targets);
   builder_.add_attack_id(attack_id);
   return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<C_Attack> CreateC_AttackDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    AttackEnum attack_id = AttackEnum_TANJIRO_ATTACK1,
+    const std::vector<uint64_t> *targets = nullptr) {
+  auto targets__ = targets ? _fbb.CreateVector<uint64_t>(*targets) : 0;
+  return CreateC_Attack(
+      _fbb,
+      attack_id,
+      targets__);
 }
 
 struct SC_Attack FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef SC_AttackBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_ID = 4,
-    VT_ATTACK_ID = 6
+    VT_ATTACK_ID = 6,
+    VT_TARGETS = 8
   };
   uint64_t id() const {
     return GetField<uint64_t>(VT_ID, 0);
@@ -108,10 +131,15 @@ struct SC_Attack FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   AttackEnum attack_id() const {
     return static_cast<AttackEnum>(GetField<uint8_t>(VT_ATTACK_ID, 0));
   }
+  const ::flatbuffers::Vector<uint64_t> *targets() const {
+    return GetPointer<const ::flatbuffers::Vector<uint64_t> *>(VT_TARGETS);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint64_t>(verifier, VT_ID, 8) &&
            VerifyField<uint8_t>(verifier, VT_ATTACK_ID, 1) &&
+           VerifyOffset(verifier, VT_TARGETS) &&
+           verifier.VerifyVector(targets()) &&
            verifier.EndTable();
   }
 };
@@ -125,6 +153,9 @@ struct SC_AttackBuilder {
   }
   void add_attack_id(AttackEnum attack_id) {
     fbb_.AddElement<uint8_t>(SC_Attack::VT_ATTACK_ID, static_cast<uint8_t>(attack_id), 0);
+  }
+  void add_targets(::flatbuffers::Offset<::flatbuffers::Vector<uint64_t>> targets) {
+    fbb_.AddOffset(SC_Attack::VT_TARGETS, targets);
   }
   explicit SC_AttackBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -140,11 +171,26 @@ struct SC_AttackBuilder {
 inline ::flatbuffers::Offset<SC_Attack> CreateSC_Attack(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     uint64_t id = 0,
-    AttackEnum attack_id = AttackEnum_TANJIRO_ATTACK1) {
+    AttackEnum attack_id = AttackEnum_TANJIRO_ATTACK1,
+    ::flatbuffers::Offset<::flatbuffers::Vector<uint64_t>> targets = 0) {
   SC_AttackBuilder builder_(_fbb);
   builder_.add_id(id);
+  builder_.add_targets(targets);
   builder_.add_attack_id(attack_id);
   return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<SC_Attack> CreateSC_AttackDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t id = 0,
+    AttackEnum attack_id = AttackEnum_TANJIRO_ATTACK1,
+    const std::vector<uint64_t> *targets = nullptr) {
+  auto targets__ = targets ? _fbb.CreateVector<uint64_t>(*targets) : 0;
+  return CreateSC_Attack(
+      _fbb,
+      id,
+      attack_id,
+      targets__);
 }
 
 #endif  // FLATBUFFERS_GENERATED_PLAYER_H_

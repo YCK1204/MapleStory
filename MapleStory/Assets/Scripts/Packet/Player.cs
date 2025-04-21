@@ -13,10 +13,21 @@ public partial class PacketHandler
         var id = pkt.Id;
 
         var pc = Manager.Object.FindPlayer(id);
-        if (pc == null || pc is MyPlayerContoller)
+        if (pc == null)
             return;
+        if (pc is not MyPlayerContoller)
+            pc.Attack();
+        //    return;
         pc.tanjiro_Attack = (Tanjiro_Attack)pkt.AttackId;
         //pc.State = PlayerController.PlayerState.Attack;
-        pc.Attack();
+        var len = pkt.TargetsLength;
+        for (var i = 0; i < len; i++)
+        {
+            var monster = Manager.Object.FindMonster(pkt.Targets(i));
+            if (monster == null)
+                Debug.Log("null");
+            else
+                Debug.Log(monster.name);
+        }
     }
 }

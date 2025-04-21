@@ -7,9 +7,11 @@ enum AttackEnum : uint8 {
 
 table C_Attack {
 	attack_id:AttackEnum;
+	targets:[uint64];
 }
 
 table SC_Attack {
 	id:uint64;
 	attack_id:AttackEnum;
+	targets:[uint64];
 }
