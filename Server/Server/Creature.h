@@ -35,6 +35,7 @@ class Creature : public GameObject
 {
 public:
 	shared_ptr<Vector2> Pos = make_shared<Vector2>();
+	GameRoomRef Room = nullptr;
 public:
 	Creature();
 	virtual ~Creature();

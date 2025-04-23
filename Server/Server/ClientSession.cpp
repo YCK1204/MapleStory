@@ -16,9 +16,6 @@ void ClientSession::OnConnect()
 void ClientSession::OnDisconnect()
 {
 	// todo
-	if (Player != nullptr && Player->Room != nullptr)
-		Player->Room->Remove(Player);
-
 	Manager::Session.Remove(this->_sessionId);
 	cout << "disconnected!\n";
 }

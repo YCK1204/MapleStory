@@ -25,7 +25,6 @@ public class PacketManager
 		_handler.Add((ushort)PacketType.SC_Portal, PacketHandler.SC_PortalHandler);
 		_handler.Add((ushort)PacketType.SC_EnterGame, PacketHandler.SC_EnterGameHandler);
 		_handler.Add((ushort)PacketType.SC_PSpawn, PacketHandler.SC_PSpawnHandler);
-		_handler.Add((ushort)PacketType.SC_MSpawn, PacketHandler.SC_MSpawnHandler);
 		_handler.Add((ushort)PacketType.SC_PDespawn, PacketHandler.SC_PDespawnHandler);
 		_handler.Add((ushort)PacketType.SC_MDespawn, PacketHandler.SC_MDespawnHandler);
 		_handler.Add((ushort)PacketType.SC_CreatureInfos, PacketHandler.SC_CreatureInfosHandler);
@@ -35,7 +34,7 @@ public class PacketManager
 		_handler.Add((ushort)PacketType.SC_ProneStabStart, PacketHandler.SC_ProneStabStartHandler);
 		_handler.Add((ushort)PacketType.SC_ProneStabEnd, PacketHandler.SC_ProneStabEndHandler);
 		_handler.Add((ushort)PacketType.SC_Attack, PacketHandler.SC_AttackHandler);
-		_handler.Add((ushort)PacketType.SC_MonsterMove, PacketHandler.SC_MonsterMoveHandler);
+		_handler.Add((ushort)PacketType.SC_MonsterInfos, PacketHandler.SC_MonsterInfosHandler);
 		
     }
     public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

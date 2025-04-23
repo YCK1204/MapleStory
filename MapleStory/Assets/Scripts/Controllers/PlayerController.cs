@@ -176,10 +176,10 @@ public class PlayerController : CreatureController
                 animationStr = "rope";
             else if (HasState(PlayerState.Jump))
                 animationStr = "Jump";
-            else if (HasState(PlayerState.ProneStab))
-                animationStr = "ProneStab";
             else if (HasState(PlayerState.Walk))
                 animationStr = "Walk";
+            else if (HasState(PlayerState.ProneStab))
+                animationStr = "ProneStab";
             else if (HasState(PlayerState.Stand))
                 animationStr = "Stand";
         }

@@ -18,7 +18,7 @@ public struct D_CharacterList : IFlatbufferObject
 
   public CharacterListError Ok { get { int o = __p.__offset(4); return o != 0 ? (CharacterListError)__p.bb.Get(o + __p.bb_pos) : CharacterListError.SUCCESS; } }
   public ulong SessionId { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetUlong(o + __p.bb_pos) : (ulong)0; } }
-  public CharacterPreviewInfo? List(int j) { int o = __p.__offset(8); return o != 0 ? (CharacterPreviewInfo?)(new CharacterPreviewInfo()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
+  public CharacterInfo? List(int j) { int o = __p.__offset(8); return o != 0 ? (CharacterInfo?)(new CharacterInfo()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
   public int ListLength { get { int o = __p.__offset(8); return o != 0 ? __p.__vector_len(o) : 0; } }
 
   public static Offset<D_CharacterList> CreateD_CharacterList(FlatBufferBuilder builder,
@@ -36,10 +36,10 @@ public struct D_CharacterList : IFlatbufferObject
   public static void AddOk(FlatBufferBuilder builder, CharacterListError ok) { builder.AddByte(0, (byte)ok, 0); }
   public static void AddSessionId(FlatBufferBuilder builder, ulong sessionId) { builder.AddUlong(1, sessionId, 0); }
   public static void AddList(FlatBufferBuilder builder, VectorOffset listOffset) { builder.AddOffset(2, listOffset.Value, 0); }
-  public static VectorOffset CreateListVector(FlatBufferBuilder builder, Offset<CharacterPreviewInfo>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
-  public static VectorOffset CreateListVectorBlock(FlatBufferBuilder builder, Offset<CharacterPreviewInfo>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
-  public static VectorOffset CreateListVectorBlock(FlatBufferBuilder builder, ArraySegment<Offset<CharacterPreviewInfo>> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
-  public static VectorOffset CreateListVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<Offset<CharacterPreviewInfo>>(dataPtr, sizeInBytes); return builder.EndVector(); }
+  public static VectorOffset CreateListVector(FlatBufferBuilder builder, Offset<CharacterInfo>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
+  public static VectorOffset CreateListVectorBlock(FlatBufferBuilder builder, Offset<CharacterInfo>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateListVectorBlock(FlatBufferBuilder builder, ArraySegment<Offset<CharacterInfo>> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateListVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<Offset<CharacterInfo>>(dataPtr, sizeInBytes); return builder.EndVector(); }
   public static void StartListVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
   public static Offset<D_CharacterList> EndD_CharacterList(FlatBufferBuilder builder) {
     int o = builder.EndTable();
@@ -55,7 +55,7 @@ static public class D_CharacterListVerify
     return verifier.VerifyTableStart(tablePos)
       && verifier.VerifyField(tablePos, 4 /*Ok*/, 1 /*CharacterListError*/, 1, false)
       && verifier.VerifyField(tablePos, 6 /*SessionId*/, 8 /*ulong*/, 8, false)
-      && verifier.VerifyVectorOfTables(tablePos, 8 /*List*/, CharacterPreviewInfoVerify.Verify, false)
+      && verifier.VerifyVectorOfTables(tablePos, 8 /*List*/, CharacterInfoVerify.Verify, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

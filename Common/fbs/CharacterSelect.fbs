@@ -17,12 +17,12 @@ enum CharacterListError : uint8 {
 table D_CharacterList {
 	ok:CharacterListError;
 	session_id:uint64;
-	list:[CharacterPreviewInfo];
+	list:[CharacterInfo];
 }
 
 table SC_CharacterList {
 	ok:CharacterListError;
-	list:[CharacterPreviewInfo];
+	list:[CharacterInfo];
 }
 
 table C_CharacterDelete {
@@ -67,9 +67,9 @@ table SD_CharacterSelect {
 table D_CharacterSelect {
 	ok:CharacterSelectError;
 	session_id:uint64;
-	char_info:CharacterTotalInfo;
+	char_info:CharacterInfoDetail;
 }
 
 table SC_CharacterSelect {
-	char_info:CharacterTotalInfo;
+	char_info:CharacterInfoDetail;
 }

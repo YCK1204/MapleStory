@@ -16,11 +16,11 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 24 &&
 struct CharacterAbility;
 struct CharacterAbilityBuilder;
 
-struct CharacterPreviewInfo;
-struct CharacterPreviewInfoBuilder;
+struct CharacterInfo;
+struct CharacterInfoBuilder;
 
-struct CharacterTotalInfo;
-struct CharacterTotalInfoBuilder;
+struct CharacterInfoDetail;
+struct CharacterInfoDetailBuilder;
 
 struct CharacterAbility FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef CharacterAbilityBuilder Builder;
@@ -93,8 +93,8 @@ inline ::flatbuffers::Offset<CharacterAbility> CreateCharacterAbility(
   return builder_.Finish();
 }
 
-struct CharacterPreviewInfo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef CharacterPreviewInfoBuilder Builder;
+struct CharacterInfo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef CharacterInfoBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_CHAR_ID = 4,
     VT_CHAR_TYPE = 6,
@@ -130,44 +130,44 @@ struct CharacterPreviewInfo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Tab
   }
 };
 
-struct CharacterPreviewInfoBuilder {
-  typedef CharacterPreviewInfo Table;
+struct CharacterInfoBuilder {
+  typedef CharacterInfo Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
   void add_char_id(uint64_t char_id) {
-    fbb_.AddElement<uint64_t>(CharacterPreviewInfo::VT_CHAR_ID, char_id, 0);
+    fbb_.AddElement<uint64_t>(CharacterInfo::VT_CHAR_ID, char_id, 0);
   }
   void add_char_type(uint8_t char_type) {
-    fbb_.AddElement<uint8_t>(CharacterPreviewInfo::VT_CHAR_TYPE, char_type, 0);
+    fbb_.AddElement<uint8_t>(CharacterInfo::VT_CHAR_TYPE, char_type, 0);
   }
   void add_level(uint16_t level) {
-    fbb_.AddElement<uint16_t>(CharacterPreviewInfo::VT_LEVEL, level, 0);
+    fbb_.AddElement<uint16_t>(CharacterInfo::VT_LEVEL, level, 0);
   }
   void add_name(::flatbuffers::Offset<::flatbuffers::String> name) {
-    fbb_.AddOffset(CharacterPreviewInfo::VT_NAME, name);
+    fbb_.AddOffset(CharacterInfo::VT_NAME, name);
   }
   void add_ability(::flatbuffers::Offset<CharacterAbility> ability) {
-    fbb_.AddOffset(CharacterPreviewInfo::VT_ABILITY, ability);
+    fbb_.AddOffset(CharacterInfo::VT_ABILITY, ability);
   }
-  explicit CharacterPreviewInfoBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit CharacterInfoBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<CharacterPreviewInfo> Finish() {
+  ::flatbuffers::Offset<CharacterInfo> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<CharacterPreviewInfo>(end);
+    auto o = ::flatbuffers::Offset<CharacterInfo>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<CharacterPreviewInfo> CreateCharacterPreviewInfo(
+inline ::flatbuffers::Offset<CharacterInfo> CreateCharacterInfo(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     uint64_t char_id = 0,
     uint8_t char_type = 0,
     uint16_t level = 0,
     ::flatbuffers::Offset<::flatbuffers::String> name = 0,
     ::flatbuffers::Offset<CharacterAbility> ability = 0) {
-  CharacterPreviewInfoBuilder builder_(_fbb);
+  CharacterInfoBuilder builder_(_fbb);
   builder_.add_char_id(char_id);
   builder_.add_ability(ability);
   builder_.add_name(name);
@@ -176,7 +176,7 @@ inline ::flatbuffers::Offset<CharacterPreviewInfo> CreateCharacterPreviewInfo(
   return builder_.Finish();
 }
 
-inline ::flatbuffers::Offset<CharacterPreviewInfo> CreateCharacterPreviewInfoDirect(
+inline ::flatbuffers::Offset<CharacterInfo> CreateCharacterInfoDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     uint64_t char_id = 0,
     uint8_t char_type = 0,
@@ -184,7 +184,7 @@ inline ::flatbuffers::Offset<CharacterPreviewInfo> CreateCharacterPreviewInfoDir
     const char *name = nullptr,
     ::flatbuffers::Offset<CharacterAbility> ability = 0) {
   auto name__ = name ? _fbb.CreateString(name) : 0;
-  return CreateCharacterPreviewInfo(
+  return CreateCharacterInfo(
       _fbb,
       char_id,
       char_type,
@@ -193,8 +193,8 @@ inline ::flatbuffers::Offset<CharacterPreviewInfo> CreateCharacterPreviewInfoDir
       ability);
 }
 
-struct CharacterTotalInfo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef CharacterTotalInfoBuilder Builder;
+struct CharacterInfoDetail FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef CharacterInfoDetailBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_PREV_INFO = 4,
     VT_LAST_POS = 6,
@@ -202,8 +202,8 @@ struct CharacterTotalInfo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table
     VT_MP = 10,
     VT_EXP = 12
   };
-  const CharacterPreviewInfo *prev_info() const {
-    return GetPointer<const CharacterPreviewInfo *>(VT_PREV_INFO);
+  const CharacterInfo *prev_info() const {
+    return GetPointer<const CharacterInfo *>(VT_PREV_INFO);
   }
   int32_t last_pos() const {
     return GetField<int32_t>(VT_LAST_POS, 0);
@@ -229,44 +229,44 @@ struct CharacterTotalInfo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table
   }
 };
 
-struct CharacterTotalInfoBuilder {
-  typedef CharacterTotalInfo Table;
+struct CharacterInfoDetailBuilder {
+  typedef CharacterInfoDetail Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
-  void add_prev_info(::flatbuffers::Offset<CharacterPreviewInfo> prev_info) {
-    fbb_.AddOffset(CharacterTotalInfo::VT_PREV_INFO, prev_info);
+  void add_prev_info(::flatbuffers::Offset<CharacterInfo> prev_info) {
+    fbb_.AddOffset(CharacterInfoDetail::VT_PREV_INFO, prev_info);
   }
   void add_last_pos(int32_t last_pos) {
-    fbb_.AddElement<int32_t>(CharacterTotalInfo::VT_LAST_POS, last_pos, 0);
+    fbb_.AddElement<int32_t>(CharacterInfoDetail::VT_LAST_POS, last_pos, 0);
   }
   void add_hp(int32_t hp) {
-    fbb_.AddElement<int32_t>(CharacterTotalInfo::VT_HP, hp, 0);
+    fbb_.AddElement<int32_t>(CharacterInfoDetail::VT_HP, hp, 0);
   }
   void add_mp(int32_t mp) {
-    fbb_.AddElement<int32_t>(CharacterTotalInfo::VT_MP, mp, 0);
+    fbb_.AddElement<int32_t>(CharacterInfoDetail::VT_MP, mp, 0);
   }
   void add_exp(int32_t exp) {
-    fbb_.AddElement<int32_t>(CharacterTotalInfo::VT_EXP, exp, 0);
+    fbb_.AddElement<int32_t>(CharacterInfoDetail::VT_EXP, exp, 0);
   }
-  explicit CharacterTotalInfoBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit CharacterInfoDetailBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<CharacterTotalInfo> Finish() {
+  ::flatbuffers::Offset<CharacterInfoDetail> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<CharacterTotalInfo>(end);
+    auto o = ::flatbuffers::Offset<CharacterInfoDetail>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<CharacterTotalInfo> CreateCharacterTotalInfo(
+inline ::flatbuffers::Offset<CharacterInfoDetail> CreateCharacterInfoDetail(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    ::flatbuffers::Offset<CharacterPreviewInfo> prev_info = 0,
+    ::flatbuffers::Offset<CharacterInfo> prev_info = 0,
     int32_t last_pos = 0,
     int32_t hp = 0,
     int32_t mp = 0,
     int32_t exp = 0) {
-  CharacterTotalInfoBuilder builder_(_fbb);
+  CharacterInfoDetailBuilder builder_(_fbb);
   builder_.add_exp(exp);
   builder_.add_mp(mp);
   builder_.add_hp(hp);

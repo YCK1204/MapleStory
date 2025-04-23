@@ -16,11 +16,11 @@ public struct PlayerInfo : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public PlayerInfo __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public CharacterPreviewInfo? CharInfo { get { int o = __p.__offset(4); return o != 0 ? (CharacterPreviewInfo?)(new CharacterPreviewInfo()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
+  public CharacterInfo? CharInfo { get { int o = __p.__offset(4); return o != 0 ? (CharacterInfo?)(new CharacterInfo()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
   public Position? Position { get { int o = __p.__offset(6); return o != 0 ? (Position?)(new Position()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
 
   public static Offset<PlayerInfo> CreatePlayerInfo(FlatBufferBuilder builder,
-      Offset<CharacterPreviewInfo> char_infoOffset = default(Offset<CharacterPreviewInfo>),
+      Offset<CharacterInfo> char_infoOffset = default(Offset<CharacterInfo>),
       Offset<Position> positionOffset = default(Offset<Position>)) {
     builder.StartTable(2);
     PlayerInfo.AddPosition(builder, positionOffset);
@@ -29,7 +29,7 @@ public struct PlayerInfo : IFlatbufferObject
   }
 
   public static void StartPlayerInfo(FlatBufferBuilder builder) { builder.StartTable(2); }
-  public static void AddCharInfo(FlatBufferBuilder builder, Offset<CharacterPreviewInfo> charInfoOffset) { builder.AddOffset(0, charInfoOffset.Value, 0); }
+  public static void AddCharInfo(FlatBufferBuilder builder, Offset<CharacterInfo> charInfoOffset) { builder.AddOffset(0, charInfoOffset.Value, 0); }
   public static void AddPosition(FlatBufferBuilder builder, Offset<Position> positionOffset) { builder.AddOffset(1, positionOffset.Value, 0); }
   public static Offset<PlayerInfo> EndPlayerInfo(FlatBufferBuilder builder) {
     int o = builder.EndTable();
@@ -43,7 +43,7 @@ static public class PlayerInfoVerify
   static public bool Verify(Google.FlatBuffers.Verifier verifier, uint tablePos)
   {
     return verifier.VerifyTableStart(tablePos)
-      && verifier.VerifyTable(tablePos, 4 /*CharInfo*/, CharacterPreviewInfoVerify.Verify, false)
+      && verifier.VerifyTable(tablePos, 4 /*CharInfo*/, CharacterInfoVerify.Verify, false)
       && verifier.VerifyTable(tablePos, 6 /*Position*/, PositionVerify.Verify, false)
       && verifier.VerifyTableEnd(tablePos);
   }

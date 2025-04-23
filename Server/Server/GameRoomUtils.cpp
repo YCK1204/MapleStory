@@ -23,16 +23,14 @@ GameObject* GameRoom::Find(uint64& id)
 	return it->second.get();
 }
 
-void GameRoom::Remove(uint64& id)
-{
+void GameRoom::RemoveMonster(uint64& id) {
 	_objects.erase(id);
 }
 
-void GameRoom::Remove(PlayerRef player)
-{
-	_players.erase(player->Id);
+void GameRoom::RemovePlayer(uint64& id) {
+	_players.erase(id);
 	FlatBufferBuilder builder;
-	auto data = CreateSC_PDespawn(builder, player->Id);
+	auto data = CreateSC_PDespawn(builder, id);
 	auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_PDespawn);
 	Broadcast(packet);
 }

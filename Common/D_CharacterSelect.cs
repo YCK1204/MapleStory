@@ -18,12 +18,12 @@ public struct D_CharacterSelect : IFlatbufferObject
 
   public CharacterSelectError Ok { get { int o = __p.__offset(4); return o != 0 ? (CharacterSelectError)__p.bb.Get(o + __p.bb_pos) : CharacterSelectError.SUCCESS; } }
   public ulong SessionId { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetUlong(o + __p.bb_pos) : (ulong)0; } }
-  public CharacterTotalInfo? CharInfo { get { int o = __p.__offset(8); return o != 0 ? (CharacterTotalInfo?)(new CharacterTotalInfo()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
+  public CharacterInfoDetail? CharInfo { get { int o = __p.__offset(8); return o != 0 ? (CharacterInfoDetail?)(new CharacterInfoDetail()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
 
   public static Offset<D_CharacterSelect> CreateD_CharacterSelect(FlatBufferBuilder builder,
       CharacterSelectError ok = CharacterSelectError.SUCCESS,
       ulong session_id = 0,
-      Offset<CharacterTotalInfo> char_infoOffset = default(Offset<CharacterTotalInfo>)) {
+      Offset<CharacterInfoDetail> char_infoOffset = default(Offset<CharacterInfoDetail>)) {
     builder.StartTable(3);
     D_CharacterSelect.AddSessionId(builder, session_id);
     D_CharacterSelect.AddCharInfo(builder, char_infoOffset);
@@ -34,7 +34,7 @@ public struct D_CharacterSelect : IFlatbufferObject
   public static void StartD_CharacterSelect(FlatBufferBuilder builder) { builder.StartTable(3); }
   public static void AddOk(FlatBufferBuilder builder, CharacterSelectError ok) { builder.AddByte(0, (byte)ok, 0); }
   public static void AddSessionId(FlatBufferBuilder builder, ulong sessionId) { builder.AddUlong(1, sessionId, 0); }
-  public static void AddCharInfo(FlatBufferBuilder builder, Offset<CharacterTotalInfo> charInfoOffset) { builder.AddOffset(2, charInfoOffset.Value, 0); }
+  public static void AddCharInfo(FlatBufferBuilder builder, Offset<CharacterInfoDetail> charInfoOffset) { builder.AddOffset(2, charInfoOffset.Value, 0); }
   public static Offset<D_CharacterSelect> EndD_CharacterSelect(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<D_CharacterSelect>(o);
@@ -49,7 +49,7 @@ static public class D_CharacterSelectVerify
     return verifier.VerifyTableStart(tablePos)
       && verifier.VerifyField(tablePos, 4 /*Ok*/, 1 /*CharacterSelectError*/, 1, false)
       && verifier.VerifyField(tablePos, 6 /*SessionId*/, 8 /*ulong*/, 8, false)
-      && verifier.VerifyTable(tablePos, 8 /*CharInfo*/, CharacterTotalInfoVerify.Verify, false)
+      && verifier.VerifyTable(tablePos, 8 /*CharInfo*/, CharacterInfoDetailVerify.Verify, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

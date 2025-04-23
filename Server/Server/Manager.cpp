@@ -27,7 +27,7 @@ void Manager::Init() {
 #pragma endregion
 
 #pragma region Listen
-		GPoolManager->CreatePool<ClientSession>(500);
+		GPoolManager->CreatePool<ClientSession>(1);
 		Listener* listener = new Listener();
 
 		sockaddr_in clientAddr;

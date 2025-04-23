@@ -9,5 +9,6 @@ public enum MonsterState : byte
   Hit = 2,
   Attack = 3,
   Die = 4,
+  Trace = 5,
 };
 

@@ -16,9 +16,7 @@ void PacketHandler::C_DespawnHandler(PacketSession* session, ByteRef& buffer)
 		return;
 	}
 	GameRoomRef room = client->Player->Room;
-	room->PushJob([client]() {
-		client->Player->Room->Remove(client->Player);
-		});
+	room->PushJob(bind(&GameRoom::RemovePlayer, client->Player->Room.get(), client->Player->Id));
 }
 
 void PacketHandler::C_PortalHandler(PacketSession* session, ByteRef& buffer)
@@ -57,7 +55,7 @@ void PacketHandler::C_PortalHandler(PacketSession* session, ByteRef& buffer)
 
 		room->PushJob([room, client, targetPortal]() {
 			auto player = client->Player;
-			player->Room->Remove(player);
+			player->Room->RemovePlayer(player->Id);
 			room->Push(player);
 			player->SetMapId(targetPortal->SceneId);
 			player->Room = room;
@@ -65,7 +63,7 @@ void PacketHandler::C_PortalHandler(PacketSession* session, ByteRef& buffer)
 			player->Pos->Y = targetPortal->Y;
 
 			FlatBufferBuilder builder;
-			auto myPlayerInfo = player->GenerateTotalInfo(builder);
+			auto myPlayerInfo = player->GenerateInfoDetail(builder);
 			auto position = player->GeneratePosition(builder);
 			auto data = CreateSC_Portal(builder, targetPortal->SceneId, myPlayerInfo, position);
 			auto pacekt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_Portal);
@@ -108,7 +106,7 @@ void PacketHandler::C_EnterGameHandler(PacketSession* session, ByteRef& buffer)
 			player->Room = room;
 			room->Push(player);
 			FlatBufferBuilder builder;
-			auto myPlayerInfo = player->GenerateTotalInfo(builder);
+			auto myPlayerInfo = player->GenerateInfoDetail(builder);
 			auto position = player->GeneratePosition(builder);
 			auto data = CreateSC_EnterGame(builder, player->GetMapId(), myPlayerInfo, position);
 			auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_EnterGame);
@@ -136,35 +134,12 @@ void PacketHandler::C_CreatureInfosHandler(PacketSession* session, ByteRef& buff
 
 		room->PushJob([room, client]() {
 			FlatBufferBuilder builder;
-			auto playerInfos = room->GetPlayerInfos(builder);
-			auto monsterInfos = room->GetMonsterInfos(builder);
+			auto playerInfos = room->GenPlayerInfos(builder);
+			auto monsterInfos = room->GenMonsterInfoDetails(builder);
 			auto data = CreateSC_CreatureInfos(builder, playerInfos, monsterInfos);
 			auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CreatureInfos);
 			client->Send(pkt);
 			});
-	}
-	catch (...)
-	{
-
-	}
-}
-
-void PacketHandler::C_OnCreatureInfosHandler(PacketSession* session, ByteRef& buffer)
-{
-	try {
-		ClientRef client = Manager::Session.Find(session->GetSessionId());
-		if (client->State != ClientState::INGAME)
-		{
-			client->Disconnect();
-			return;
-		}
-			
-		PlayerRef player = client->Player;
-		GameRoomRef room = player->Room;
-
-		/*room->PushJob([room, client]() {
-			room->Push(client->Player);
-			});*/
 	}
 	catch (...)
 	{

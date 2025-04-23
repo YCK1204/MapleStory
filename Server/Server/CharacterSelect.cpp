@@ -35,7 +35,7 @@ void PacketHandler::D_CharacterListHandler(PacketSession* session, ByteRef& buff
 	FlatBufferBuilder builder;
 	auto ok = pkt->ok();
 	auto list = pkt->list();
-	vector<Offset<CharacterPreviewInfo>> infoList;
+	vector<Offset<CharacterInfo>> infoList;
 	for (auto it = list->begin(); it != list->end(); it++)
 	{
 		auto ability = CreateCharacterAbility(builder,
@@ -43,7 +43,7 @@ void PacketHandler::D_CharacterListHandler(PacketSession* session, ByteRef& buff
 			it->ability()->DEX(),
 			it->ability()->INT(),
 			it->ability()->LUK());
-		infoList.push_back(CreateCharacterPreviewInfo(
+		infoList.push_back(CreateCharacterInfo(
 			builder,
 			it->char_id(),
 			it->char_type(),
@@ -161,8 +161,8 @@ void PacketHandler::D_CharacterSelectHandler(PacketSession* session, ByteRef& bu
 	FlatBufferBuilder builder;
 
 	auto newAbility = CreateCharacterAbility(builder, ability->STR(), ability->DEX(), ability->INT(), ability->LUK());
-	auto newPrevInfo = CreateCharacterPreviewInfoDirect(builder, prevInfo->char_id(), prevInfo->char_type(), prevInfo->level(), prevInfo->name()->c_str());
-	auto newTotalinfo = CreateCharacterTotalInfo(builder, newPrevInfo, lastPos, info->hp(), info->mp(), info->exp());
+	auto newPrevInfo = CreateCharacterInfoDirect(builder, prevInfo->char_id(), prevInfo->char_type(), prevInfo->level(), prevInfo->name()->c_str());
+	auto newTotalinfo = CreateCharacterInfoDetail(builder, newPrevInfo, lastPos, info->hp(), info->mp(), info->exp());
 
 	auto data = CreateSC_CharacterSelect(builder, newTotalinfo);
 	auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CharacterSelect);

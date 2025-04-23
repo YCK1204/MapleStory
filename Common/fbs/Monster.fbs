@@ -6,9 +6,22 @@ enum MonsterState : uint8 {
 	Stand,
 	Hit,
 	Attack,
-	Die
+	Die,
+	Trace
 }
 
-table SC_MonsterMove {
-	move_infos:[MonsterInfo];
+table MonsterInfoDetail {
+	type:uint8;
+	position:Position;
+	base_info:MonsterInfo;
+}
+
+table MonsterInfo {
+	id:uint64;
+	dest_x:float;
+	state:MonsterState;
+}
+
+table SC_MonsterInfos {
+	monster_infos:[MonsterInfoDetail];
 }

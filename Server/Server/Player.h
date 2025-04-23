@@ -41,7 +41,6 @@ private:
 
 public:
 	weak_ptr<ClientSession> Session;
-	GameRoomRef Room = nullptr;
 
 public:
 	Player();
@@ -49,8 +48,8 @@ public:
 	virtual void TakeDamage(int32& damage);
 	const bool IsInState(PlayerState state);
 	Offset<PlayerInfo> GeneratePlayerInfo(FlatBufferBuilder& builder);
-	Offset<CharacterTotalInfo> GenerateTotalInfo(FlatBufferBuilder& builder);
-	Offset<CharacterPreviewInfo> GeneratePreviewInfo(FlatBufferBuilder& builder);
+	Offset<CharacterInfoDetail> GenerateInfoDetail(FlatBufferBuilder& builder);
+	Offset<CharacterInfo> GenerateInfo(FlatBufferBuilder& builder);
 public:
 	const shared_ptr<Ability> GetAbility() const;
 	const string& GetName() const;

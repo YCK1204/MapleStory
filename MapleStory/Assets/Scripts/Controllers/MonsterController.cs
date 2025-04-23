@@ -11,6 +11,7 @@ public class MonsterController : CreatureController
     public AudioClip HitSound;
     public Animator Animator;
     float _destPosX;
+    public PlayerController Target;
     BoxCollider2D _collider;
     public float DestPosX
     {
@@ -22,13 +23,15 @@ public class MonsterController : CreatureController
         }
     }
     MonsterState _state = MonsterState.Stand;
-    MonsterState State
+    public MonsterState State
     {
         get { return _state; }
         set
         {
             if (_state == value)
                 return;
+            if (value == MonsterState.Trace)
+                value = MonsterState.Move;
             _state = value;
             UpdateAnimation();
             UpdateController();
@@ -63,7 +66,6 @@ public class MonsterController : CreatureController
             }
         }
     }
-
     [SerializeField]
     float Speed = 1f;
 
@@ -104,6 +106,9 @@ public class MonsterController : CreatureController
             case MonsterState.Attack:
                 UpdateAttack();
                 break;
+            case MonsterState.Trace:
+                UpdateTrace();
+                break;
         }
     }
     private void UpdateStand()
@@ -120,6 +125,7 @@ public class MonsterController : CreatureController
     }
     IEnumerator CoMove()
     {
+        StopCoroutine(CoMove());
         while (true)
         {
             if (State != MonsterState.Move)
@@ -132,16 +138,15 @@ public class MonsterController : CreatureController
                 break;
             }
             var hit = Physics2D.Raycast(new Vector2(_collider.bounds.center.x, _collider.bounds.min.y), Vector2.down, 1f, LayerMask.GetMask("Floor", "FloorBase"));
-            if (hit.collider == null)
+            if (hit.collider != null)
             {
-                Dir = MoveDirection.NONE;
-                break;
+                transform.position = pos;
             }
-            transform.position = pos;
             yield return null;
         }
         StopCoroutine(CoMove());
     }
+    float traceTime = 5f;
     private void UpdateMove()
     {
         StartCoroutine(CoMove());
@@ -157,6 +162,10 @@ public class MonsterController : CreatureController
     private void UpdateAttack()
     {
 
+    }
+    private void UpdateTrace()
+    {
+        StartCoroutine(CoMove());
     }
     void PlaySound(AudioClip audioClip)
     {

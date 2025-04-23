@@ -5,7 +5,7 @@ table CharacterAbility {
 	LUK:uint16;
 }
 
-table CharacterPreviewInfo {
+table CharacterInfo {
 	char_id:uint64;
 	char_type:uint8;
 	level:uint16;
@@ -13,8 +13,8 @@ table CharacterPreviewInfo {
 	ability:CharacterAbility;
 }
 
-table CharacterTotalInfo {
-	prev_info:CharacterPreviewInfo;
+table CharacterInfoDetail {
+	prev_info:CharacterInfo;
 	last_pos:int32;
 	hp:int32;
 	mp:int32;

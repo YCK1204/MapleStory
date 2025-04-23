@@ -13,11 +13,23 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 24 &&
               FLATBUFFERS_VERSION_REVISION == 25,
              "Non-compatible flatbuffers version included");
 
+#include "Character_generated.h"
+#include "Creature_generated.h"
+
+struct PlayerInfo;
+struct PlayerInfoBuilder;
+
+struct PlayerInfoDetail;
+struct PlayerInfoDetailBuilder;
+
 struct C_Attack;
 struct C_AttackBuilder;
 
 struct SC_Attack;
 struct SC_AttackBuilder;
+
+struct C_UpdatePosition;
+struct C_UpdatePositionBuilder;
 
 enum AttackEnum : uint8_t {
   AttackEnum_TANJIRO_ATTACK1 = 0,
@@ -53,6 +65,112 @@ inline const char *EnumNameAttackEnum(AttackEnum e) {
   if (::flatbuffers::IsOutRange(e, AttackEnum_TANJIRO_ATTACK1, AttackEnum_TANJIRO_ATTACK4)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesAttackEnum()[index];
+}
+
+struct PlayerInfo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef PlayerInfoBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_CHAR_INFO = 4,
+    VT_POSITION = 6
+  };
+  const CharacterInfo *char_info() const {
+    return GetPointer<const CharacterInfo *>(VT_CHAR_INFO);
+  }
+  const Position *position() const {
+    return GetPointer<const Position *>(VT_POSITION);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_CHAR_INFO) &&
+           verifier.VerifyTable(char_info()) &&
+           VerifyOffset(verifier, VT_POSITION) &&
+           verifier.VerifyTable(position()) &&
+           verifier.EndTable();
+  }
+};
+
+struct PlayerInfoBuilder {
+  typedef PlayerInfo Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_char_info(::flatbuffers::Offset<CharacterInfo> char_info) {
+    fbb_.AddOffset(PlayerInfo::VT_CHAR_INFO, char_info);
+  }
+  void add_position(::flatbuffers::Offset<Position> position) {
+    fbb_.AddOffset(PlayerInfo::VT_POSITION, position);
+  }
+  explicit PlayerInfoBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<PlayerInfo> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<PlayerInfo>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<PlayerInfo> CreatePlayerInfo(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<CharacterInfo> char_info = 0,
+    ::flatbuffers::Offset<Position> position = 0) {
+  PlayerInfoBuilder builder_(_fbb);
+  builder_.add_position(position);
+  builder_.add_char_info(char_info);
+  return builder_.Finish();
+}
+
+struct PlayerInfoDetail FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef PlayerInfoDetailBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_CHAR_INFO = 4,
+    VT_POSITION = 6
+  };
+  const CharacterInfoDetail *char_info() const {
+    return GetPointer<const CharacterInfoDetail *>(VT_CHAR_INFO);
+  }
+  const Position *position() const {
+    return GetPointer<const Position *>(VT_POSITION);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_CHAR_INFO) &&
+           verifier.VerifyTable(char_info()) &&
+           VerifyOffset(verifier, VT_POSITION) &&
+           verifier.VerifyTable(position()) &&
+           verifier.EndTable();
+  }
+};
+
+struct PlayerInfoDetailBuilder {
+  typedef PlayerInfoDetail Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_char_info(::flatbuffers::Offset<CharacterInfoDetail> char_info) {
+    fbb_.AddOffset(PlayerInfoDetail::VT_CHAR_INFO, char_info);
+  }
+  void add_position(::flatbuffers::Offset<Position> position) {
+    fbb_.AddOffset(PlayerInfoDetail::VT_POSITION, position);
+  }
+  explicit PlayerInfoDetailBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<PlayerInfoDetail> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<PlayerInfoDetail>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<PlayerInfoDetail> CreatePlayerInfoDetail(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<CharacterInfoDetail> char_info = 0,
+    ::flatbuffers::Offset<Position> position = 0) {
+  PlayerInfoDetailBuilder builder_(_fbb);
+  builder_.add_position(position);
+  builder_.add_char_info(char_info);
+  return builder_.Finish();
 }
 
 struct C_Attack FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
@@ -191,6 +309,48 @@ inline ::flatbuffers::Offset<SC_Attack> CreateSC_AttackDirect(
       id,
       attack_id,
       targets__);
+}
+
+struct C_UpdatePosition FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef C_UpdatePositionBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_POSITION = 4
+  };
+  const Position *position() const {
+    return GetPointer<const Position *>(VT_POSITION);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_POSITION) &&
+           verifier.VerifyTable(position()) &&
+           verifier.EndTable();
+  }
+};
+
+struct C_UpdatePositionBuilder {
+  typedef C_UpdatePosition Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_position(::flatbuffers::Offset<Position> position) {
+    fbb_.AddOffset(C_UpdatePosition::VT_POSITION, position);
+  }
+  explicit C_UpdatePositionBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<C_UpdatePosition> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<C_UpdatePosition>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<C_UpdatePosition> CreateC_UpdatePosition(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<Position> position = 0) {
+  C_UpdatePositionBuilder builder_(_fbb);
+  builder_.add_position(position);
+  return builder_.Finish();
 }
 
 #endif  // FLATBUFFERS_GENERATED_PLAYER_H_

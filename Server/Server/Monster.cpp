@@ -23,33 +23,65 @@ Monster::~Monster()
 {
 }
 
-bool Monster::CanPatrol()
-{
-	return (State == MonsterState::MonsterState_Stand && LastPatrolUpdate + RanTickTime < GetTickCount64());
-}
-
-Offset<MonsterInfo> Monster::Patrol(FlatBufferBuilder& builder)
-{
-	auto minX = this->SpawnInfo->RangeX[0];
-	auto maxX = this->SpawnInfo->RangeX[1];
-
-	auto ran = RandomNumberGenerator::getRandomFloat(minX, maxX, 2);
-
-	DestPosX = (float)ran;
-	State = MonsterState::MonsterState_Move;
-
-	return GenerateMonsterInfo(builder);
-}
-
-void Monster::EndPatrol()
-{
-	LastPatrolUpdate = ::GetTickCount64();
-	State = MonsterState::MonsterState_Stand;
-	RanTickTime = RandomNumberGenerator::getRandomInt(0, 15000);
-}
-
 Offset<MonsterInfo> Monster::GenerateMonsterInfo(FlatBufferBuilder& builder)
 {
+	return CreateMonsterInfo(builder, Id, DestPosX, State);
+}
+
+Offset<MonsterInfoDetail> Monster::GenerateMonsterInfoDetail(FlatBufferBuilder& builder)
+{
+	auto info = GenerateMonsterInfo(builder);
 	auto position = GeneratePosition(builder);
-	return CreateMonsterInfo(builder, MonsterId, Id, position, DestPosX);
+
+	return CreateMonsterInfoDetail(builder, MonsterId, position, info);
+}
+
+
+void Monster::SetState(MonsterState state)
+{
+	if (State == state)
+		return;
+
+	switch (State)
+	{
+	case MonsterState_Move:
+		break;
+	case MonsterState_Stand:
+		break;
+	case MonsterState_Hit:
+		break;
+	case MonsterState_Attack:
+		break;
+	case MonsterState_Die:
+		break;
+	case MonsterState_Trace:
+		Target.reset();
+		break;
+	}
+
+	switch (state)
+	{
+	case MonsterState::MonsterState_Stand:
+		LastPatrolUpdate = ::GetTickCount64();
+		State = MonsterState::MonsterState_Stand;
+		RanTickTime = RandomNumberGenerator::getRandomInt(0, 15000);
+		break;
+	case MonsterState::MonsterState_Attack:
+		break;
+	case MonsterState::MonsterState_Hit:
+		break;
+	case MonsterState::MonsterState_Die:
+		break;
+	case MonsterState::MonsterState_Move:
+		break;
+	case MonsterState::MonsterState_Trace:
+		break;
+	}
+	State = state;
+}
+
+
+const MonsterState& Monster::GetState() const
+{
+	return State;
 }

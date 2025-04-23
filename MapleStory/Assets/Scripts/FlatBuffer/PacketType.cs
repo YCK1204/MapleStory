@@ -42,26 +42,24 @@ public enum PacketType : byte
   C_EnterGame = 35,
   SC_EnterGame = 36,
   SC_PSpawn = 37,
-  SC_MSpawn = 38,
-  C_Despawn = 39,
-  SC_PDespawn = 40,
-  SC_MDespawn = 41,
-  C_CreatureInfos = 42,
-  SC_CreatureInfos = 43,
-  C_OnCreatureInfos = 44,
-  C_MoveStart = 45,
-  SC_MoveStart = 46,
-  C_MoveEnd = 47,
-  SC_MoveEnd = 48,
-  C_Jump = 49,
-  SC_Jump = 50,
-  C_ProneStabStart = 51,
-  SC_ProneStabStart = 52,
-  C_ProneStabEnd = 53,
-  SC_ProneStabEnd = 54,
-  C_Attack = 55,
-  SC_Attack = 56,
-  SC_MonsterMove = 57,
+  C_Despawn = 38,
+  SC_PDespawn = 39,
+  SC_MDespawn = 40,
+  C_CreatureInfos = 41,
+  SC_CreatureInfos = 42,
+  C_MoveStart = 43,
+  SC_MoveStart = 44,
+  C_MoveEnd = 45,
+  SC_MoveEnd = 46,
+  C_Jump = 47,
+  SC_Jump = 48,
+  C_ProneStabStart = 49,
+  SC_ProneStabStart = 50,
+  C_ProneStabEnd = 51,
+  SC_ProneStabEnd = 52,
+  C_Attack = 53,
+  SC_Attack = 54,
+  SC_MonsterInfos = 55,
 };
 
 
@@ -184,9 +182,6 @@ static public class PacketTypeVerify
       case PacketType.SC_PSpawn:
         result = SC_PSpawnVerify.Verify(verifier, tablePos);
         break;
-      case PacketType.SC_MSpawn:
-        result = SC_MSpawnVerify.Verify(verifier, tablePos);
-        break;
       case PacketType.C_Despawn:
         result = C_DespawnVerify.Verify(verifier, tablePos);
         break;
@@ -201,9 +196,6 @@ static public class PacketTypeVerify
         break;
       case PacketType.SC_CreatureInfos:
         result = SC_CreatureInfosVerify.Verify(verifier, tablePos);
-        break;
-      case PacketType.C_OnCreatureInfos:
-        result = C_OnCreatureInfosVerify.Verify(verifier, tablePos);
         break;
       case PacketType.C_MoveStart:
         result = C_MoveStartVerify.Verify(verifier, tablePos);
@@ -241,8 +233,8 @@ static public class PacketTypeVerify
       case PacketType.SC_Attack:
         result = SC_AttackVerify.Verify(verifier, tablePos);
         break;
-      case PacketType.SC_MonsterMove:
-        result = SC_MonsterMoveVerify.Verify(verifier, tablePos);
+      case PacketType.SC_MonsterInfos:
+        result = SC_MonsterInfosVerify.Verify(verifier, tablePos);
         break;
       default: result = true;
         break;

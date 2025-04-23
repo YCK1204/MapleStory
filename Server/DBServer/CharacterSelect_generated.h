@@ -244,8 +244,8 @@ struct D_CharacterList FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   uint64_t session_id() const {
     return GetField<uint64_t>(VT_SESSION_ID, 0);
   }
-  const ::flatbuffers::Vector<::flatbuffers::Offset<CharacterPreviewInfo>> *list() const {
-    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<CharacterPreviewInfo>> *>(VT_LIST);
+  const ::flatbuffers::Vector<::flatbuffers::Offset<CharacterInfo>> *list() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<CharacterInfo>> *>(VT_LIST);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -268,7 +268,7 @@ struct D_CharacterListBuilder {
   void add_session_id(uint64_t session_id) {
     fbb_.AddElement<uint64_t>(D_CharacterList::VT_SESSION_ID, session_id, 0);
   }
-  void add_list(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<CharacterPreviewInfo>>> list) {
+  void add_list(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<CharacterInfo>>> list) {
     fbb_.AddOffset(D_CharacterList::VT_LIST, list);
   }
   explicit D_CharacterListBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
@@ -286,7 +286,7 @@ inline ::flatbuffers::Offset<D_CharacterList> CreateD_CharacterList(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     CharacterListError ok = CharacterListError_SUCCESS,
     uint64_t session_id = 0,
-    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<CharacterPreviewInfo>>> list = 0) {
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<CharacterInfo>>> list = 0) {
   D_CharacterListBuilder builder_(_fbb);
   builder_.add_session_id(session_id);
   builder_.add_list(list);
@@ -298,8 +298,8 @@ inline ::flatbuffers::Offset<D_CharacterList> CreateD_CharacterListDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     CharacterListError ok = CharacterListError_SUCCESS,
     uint64_t session_id = 0,
-    const std::vector<::flatbuffers::Offset<CharacterPreviewInfo>> *list = nullptr) {
-  auto list__ = list ? _fbb.CreateVector<::flatbuffers::Offset<CharacterPreviewInfo>>(*list) : 0;
+    const std::vector<::flatbuffers::Offset<CharacterInfo>> *list = nullptr) {
+  auto list__ = list ? _fbb.CreateVector<::flatbuffers::Offset<CharacterInfo>>(*list) : 0;
   return CreateD_CharacterList(
       _fbb,
       ok,
@@ -316,8 +316,8 @@ struct SC_CharacterList FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   CharacterListError ok() const {
     return static_cast<CharacterListError>(GetField<uint8_t>(VT_OK, 0));
   }
-  const ::flatbuffers::Vector<::flatbuffers::Offset<CharacterPreviewInfo>> *list() const {
-    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<CharacterPreviewInfo>> *>(VT_LIST);
+  const ::flatbuffers::Vector<::flatbuffers::Offset<CharacterInfo>> *list() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<CharacterInfo>> *>(VT_LIST);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -336,7 +336,7 @@ struct SC_CharacterListBuilder {
   void add_ok(CharacterListError ok) {
     fbb_.AddElement<uint8_t>(SC_CharacterList::VT_OK, static_cast<uint8_t>(ok), 0);
   }
-  void add_list(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<CharacterPreviewInfo>>> list) {
+  void add_list(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<CharacterInfo>>> list) {
     fbb_.AddOffset(SC_CharacterList::VT_LIST, list);
   }
   explicit SC_CharacterListBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
@@ -353,7 +353,7 @@ struct SC_CharacterListBuilder {
 inline ::flatbuffers::Offset<SC_CharacterList> CreateSC_CharacterList(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     CharacterListError ok = CharacterListError_SUCCESS,
-    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<CharacterPreviewInfo>>> list = 0) {
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<CharacterInfo>>> list = 0) {
   SC_CharacterListBuilder builder_(_fbb);
   builder_.add_list(list);
   builder_.add_ok(ok);
@@ -363,8 +363,8 @@ inline ::flatbuffers::Offset<SC_CharacterList> CreateSC_CharacterList(
 inline ::flatbuffers::Offset<SC_CharacterList> CreateSC_CharacterListDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     CharacterListError ok = CharacterListError_SUCCESS,
-    const std::vector<::flatbuffers::Offset<CharacterPreviewInfo>> *list = nullptr) {
-  auto list__ = list ? _fbb.CreateVector<::flatbuffers::Offset<CharacterPreviewInfo>>(*list) : 0;
+    const std::vector<::flatbuffers::Offset<CharacterInfo>> *list = nullptr) {
+  auto list__ = list ? _fbb.CreateVector<::flatbuffers::Offset<CharacterInfo>>(*list) : 0;
   return CreateSC_CharacterList(
       _fbb,
       ok,
@@ -680,8 +680,8 @@ struct D_CharacterSelect FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table 
   uint64_t session_id() const {
     return GetField<uint64_t>(VT_SESSION_ID, 0);
   }
-  const CharacterTotalInfo *char_info() const {
-    return GetPointer<const CharacterTotalInfo *>(VT_CHAR_INFO);
+  const CharacterInfoDetail *char_info() const {
+    return GetPointer<const CharacterInfoDetail *>(VT_CHAR_INFO);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -703,7 +703,7 @@ struct D_CharacterSelectBuilder {
   void add_session_id(uint64_t session_id) {
     fbb_.AddElement<uint64_t>(D_CharacterSelect::VT_SESSION_ID, session_id, 0);
   }
-  void add_char_info(::flatbuffers::Offset<CharacterTotalInfo> char_info) {
+  void add_char_info(::flatbuffers::Offset<CharacterInfoDetail> char_info) {
     fbb_.AddOffset(D_CharacterSelect::VT_CHAR_INFO, char_info);
   }
   explicit D_CharacterSelectBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
@@ -721,7 +721,7 @@ inline ::flatbuffers::Offset<D_CharacterSelect> CreateD_CharacterSelect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     CharacterSelectError ok = CharacterSelectError_SUCCESS,
     uint64_t session_id = 0,
-    ::flatbuffers::Offset<CharacterTotalInfo> char_info = 0) {
+    ::flatbuffers::Offset<CharacterInfoDetail> char_info = 0) {
   D_CharacterSelectBuilder builder_(_fbb);
   builder_.add_session_id(session_id);
   builder_.add_char_info(char_info);
@@ -734,8 +734,8 @@ struct SC_CharacterSelect FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_CHAR_INFO = 4
   };
-  const CharacterTotalInfo *char_info() const {
-    return GetPointer<const CharacterTotalInfo *>(VT_CHAR_INFO);
+  const CharacterInfoDetail *char_info() const {
+    return GetPointer<const CharacterInfoDetail *>(VT_CHAR_INFO);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -749,7 +749,7 @@ struct SC_CharacterSelectBuilder {
   typedef SC_CharacterSelect Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
-  void add_char_info(::flatbuffers::Offset<CharacterTotalInfo> char_info) {
+  void add_char_info(::flatbuffers::Offset<CharacterInfoDetail> char_info) {
     fbb_.AddOffset(SC_CharacterSelect::VT_CHAR_INFO, char_info);
   }
   explicit SC_CharacterSelectBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
@@ -765,7 +765,7 @@ struct SC_CharacterSelectBuilder {
 
 inline ::flatbuffers::Offset<SC_CharacterSelect> CreateSC_CharacterSelect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    ::flatbuffers::Offset<CharacterTotalInfo> char_info = 0) {
+    ::flatbuffers::Offset<CharacterInfoDetail> char_info = 0) {
   SC_CharacterSelectBuilder builder_(_fbb);
   builder_.add_char_info(char_info);
   return builder_.Finish();

@@ -1,4 +1,6 @@
 include "Creature.fbs";
+include "Monster.fbs";
+include "Player.fbs";
 
 table C_Portal {
 	portal_id:uint8;
@@ -6,7 +8,7 @@ table C_Portal {
 
 table SC_Portal {
 	map_id:uint8;
-	my_player_info:CharacterTotalInfo;
+	my_player_info:CharacterInfoDetail;
 	position:Position;
 }
 
@@ -16,7 +18,7 @@ table C_EnterGame {
 
 table SC_EnterGame {
 	map_id:uint8;
-	my_player_info:CharacterTotalInfo;
+	my_player_info:CharacterInfoDetail;
 	position:Position;
 }
 
@@ -25,15 +27,11 @@ table C_CreatureInfos {
 
 table SC_CreatureInfos {
 	players:[PlayerInfo];
-	monsters:[MonsterInfo];
+	monsters:[MonsterInfoDetail];
 }
 
 table SC_PSpawn {
 	player_info:PlayerInfo;
-}
-
-table SC_MSpawn {
-	monsters:[MonsterInfo];
 }
 
 table C_Despawn {
@@ -45,7 +43,4 @@ table SC_PDespawn {
 
 table SC_MDespawn {
 	id:[uint64];
-}
-
-table C_OnCreatureInfos {
 }

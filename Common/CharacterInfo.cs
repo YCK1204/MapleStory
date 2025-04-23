@@ -6,15 +6,15 @@ using global::System;
 using global::System.Collections.Generic;
 using global::Google.FlatBuffers;
 
-public struct CharacterPreviewInfo : IFlatbufferObject
+public struct CharacterInfo : IFlatbufferObject
 {
   private Table __p;
   public ByteBuffer ByteBuffer { get { return __p.bb; } }
   public static void ValidateVersion() { FlatBufferConstants.FLATBUFFERS_24_3_25(); }
-  public static CharacterPreviewInfo GetRootAsCharacterPreviewInfo(ByteBuffer _bb) { return GetRootAsCharacterPreviewInfo(_bb, new CharacterPreviewInfo()); }
-  public static CharacterPreviewInfo GetRootAsCharacterPreviewInfo(ByteBuffer _bb, CharacterPreviewInfo obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
+  public static CharacterInfo GetRootAsCharacterInfo(ByteBuffer _bb) { return GetRootAsCharacterInfo(_bb, new CharacterInfo()); }
+  public static CharacterInfo GetRootAsCharacterInfo(ByteBuffer _bb, CharacterInfo obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
-  public CharacterPreviewInfo __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
+  public CharacterInfo __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
   public ulong CharId { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetUlong(o + __p.bb_pos) : (ulong)0; } }
   public byte CharType { get { int o = __p.__offset(6); return o != 0 ? __p.bb.Get(o + __p.bb_pos) : (byte)0; } }
@@ -28,35 +28,35 @@ public struct CharacterPreviewInfo : IFlatbufferObject
   public byte[] GetNameArray() { return __p.__vector_as_array<byte>(10); }
   public CharacterAbility? Ability { get { int o = __p.__offset(12); return o != 0 ? (CharacterAbility?)(new CharacterAbility()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
 
-  public static Offset<CharacterPreviewInfo> CreateCharacterPreviewInfo(FlatBufferBuilder builder,
+  public static Offset<CharacterInfo> CreateCharacterInfo(FlatBufferBuilder builder,
       ulong char_id = 0,
       byte char_type = 0,
       ushort level = 0,
       StringOffset nameOffset = default(StringOffset),
       Offset<CharacterAbility> abilityOffset = default(Offset<CharacterAbility>)) {
     builder.StartTable(5);
-    CharacterPreviewInfo.AddCharId(builder, char_id);
-    CharacterPreviewInfo.AddAbility(builder, abilityOffset);
-    CharacterPreviewInfo.AddName(builder, nameOffset);
-    CharacterPreviewInfo.AddLevel(builder, level);
-    CharacterPreviewInfo.AddCharType(builder, char_type);
-    return CharacterPreviewInfo.EndCharacterPreviewInfo(builder);
+    CharacterInfo.AddCharId(builder, char_id);
+    CharacterInfo.AddAbility(builder, abilityOffset);
+    CharacterInfo.AddName(builder, nameOffset);
+    CharacterInfo.AddLevel(builder, level);
+    CharacterInfo.AddCharType(builder, char_type);
+    return CharacterInfo.EndCharacterInfo(builder);
   }
 
-  public static void StartCharacterPreviewInfo(FlatBufferBuilder builder) { builder.StartTable(5); }
+  public static void StartCharacterInfo(FlatBufferBuilder builder) { builder.StartTable(5); }
   public static void AddCharId(FlatBufferBuilder builder, ulong charId) { builder.AddUlong(0, charId, 0); }
   public static void AddCharType(FlatBufferBuilder builder, byte charType) { builder.AddByte(1, charType, 0); }
   public static void AddLevel(FlatBufferBuilder builder, ushort level) { builder.AddUshort(2, level, 0); }
   public static void AddName(FlatBufferBuilder builder, StringOffset nameOffset) { builder.AddOffset(3, nameOffset.Value, 0); }
   public static void AddAbility(FlatBufferBuilder builder, Offset<CharacterAbility> abilityOffset) { builder.AddOffset(4, abilityOffset.Value, 0); }
-  public static Offset<CharacterPreviewInfo> EndCharacterPreviewInfo(FlatBufferBuilder builder) {
+  public static Offset<CharacterInfo> EndCharacterInfo(FlatBufferBuilder builder) {
     int o = builder.EndTable();
-    return new Offset<CharacterPreviewInfo>(o);
+    return new Offset<CharacterInfo>(o);
   }
 }
 
 
-static public class CharacterPreviewInfoVerify
+static public class CharacterInfoVerify
 {
   static public bool Verify(Google.FlatBuffers.Verifier verifier, uint tablePos)
   {

@@ -17,12 +17,12 @@ public struct SC_EnterGame : IFlatbufferObject
   public SC_EnterGame __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
   public byte MapId { get { int o = __p.__offset(4); return o != 0 ? __p.bb.Get(o + __p.bb_pos) : (byte)0; } }
-  public CharacterTotalInfo? MyPlayerInfo { get { int o = __p.__offset(6); return o != 0 ? (CharacterTotalInfo?)(new CharacterTotalInfo()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
+  public CharacterInfoDetail? MyPlayerInfo { get { int o = __p.__offset(6); return o != 0 ? (CharacterInfoDetail?)(new CharacterInfoDetail()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
   public Position? Position { get { int o = __p.__offset(8); return o != 0 ? (Position?)(new Position()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
 
   public static Offset<SC_EnterGame> CreateSC_EnterGame(FlatBufferBuilder builder,
       byte map_id = 0,
-      Offset<CharacterTotalInfo> my_player_infoOffset = default(Offset<CharacterTotalInfo>),
+      Offset<CharacterInfoDetail> my_player_infoOffset = default(Offset<CharacterInfoDetail>),
       Offset<Position> positionOffset = default(Offset<Position>)) {
     builder.StartTable(3);
     SC_EnterGame.AddPosition(builder, positionOffset);
@@ -33,7 +33,7 @@ public struct SC_EnterGame : IFlatbufferObject
 
   public static void StartSC_EnterGame(FlatBufferBuilder builder) { builder.StartTable(3); }
   public static void AddMapId(FlatBufferBuilder builder, byte mapId) { builder.AddByte(0, mapId, 0); }
-  public static void AddMyPlayerInfo(FlatBufferBuilder builder, Offset<CharacterTotalInfo> myPlayerInfoOffset) { builder.AddOffset(1, myPlayerInfoOffset.Value, 0); }
+  public static void AddMyPlayerInfo(FlatBufferBuilder builder, Offset<CharacterInfoDetail> myPlayerInfoOffset) { builder.AddOffset(1, myPlayerInfoOffset.Value, 0); }
   public static void AddPosition(FlatBufferBuilder builder, Offset<Position> positionOffset) { builder.AddOffset(2, positionOffset.Value, 0); }
   public static Offset<SC_EnterGame> EndSC_EnterGame(FlatBufferBuilder builder) {
     int o = builder.EndTable();
@@ -48,7 +48,7 @@ static public class SC_EnterGameVerify
   {
     return verifier.VerifyTableStart(tablePos)
       && verifier.VerifyField(tablePos, 4 /*MapId*/, 1 /*byte*/, 1, false)
-      && verifier.VerifyTable(tablePos, 6 /*MyPlayerInfo*/, CharacterTotalInfoVerify.Verify, false)
+      && verifier.VerifyTable(tablePos, 6 /*MyPlayerInfo*/, CharacterInfoDetailVerify.Verify, false)
       && verifier.VerifyTable(tablePos, 8 /*Position*/, PositionVerify.Verify, false)
       && verifier.VerifyTableEnd(tablePos);
   }

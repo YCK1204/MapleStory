@@ -1,6 +1,7 @@
 using Google.FlatBuffers;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -108,8 +109,13 @@ public class MyPlayerContoller : PlayerController
             foreach (var hit in hits)
             {
                 var mc = hit.GetComponent<MonsterController>();
+                mc.DestPosX = transform.position.x;
+                mc.State = MonsterState.Hit;
+                Invoke(() =>
+                {
+                    mc.State = MonsterState.Move;
+                }, 1f);
                 targets.Add(mc.ID);
-                Debug.Log("앞에 감지된 오브젝트: " + hit.gameObject.name);
             }
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
             var vector = C_Attack.CreateTargetsVector(builder, targets.ToArray());
@@ -188,24 +194,11 @@ public class MyPlayerContoller : PlayerController
     {
         HandleInput();
         UpdateController();
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            drawGizmo = !drawGizmo;
-        }
     }
     [SerializeField]
     float XX = 2.5f;
     [SerializeField]
     float YY = .5f;
-    private void OnDrawGizmos()
-    {
-        if (!drawGizmo) return;
-
-            Vector2 center = (Vector2)transform.position + (Vector2.right * (transform.localScale.x > 0 ? -XX : XX)) + Vector2.up * YY; // 앞 방향 (오른쪽)으로 1만큼 이동한 위치
-        Vector2 size = new Vector2(X, Y);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(center, size);
-    }
     private void HandleInput()
     {
         Action keyDownAction = null;

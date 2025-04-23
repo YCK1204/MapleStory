@@ -16,7 +16,12 @@ const uint8 GameRoom::GetMapId() const
 	return ((_roomId & MAP_MASK));
 }
 
-Offset<Vector<Offset<PlayerInfo>>> GameRoom::GetPlayerInfos(FlatBufferBuilder& builder)
+const uint32& GameRoom::GetRoomId() const
+{
+	return _roomId;
+}
+
+Offset<Vector<Offset<PlayerInfo>>> GameRoom::GenPlayerInfos(FlatBufferBuilder& builder)
 {
 	vector<Offset<PlayerInfo>> infos;
 
@@ -30,19 +35,37 @@ Offset<Vector<Offset<PlayerInfo>>> GameRoom::GetPlayerInfos(FlatBufferBuilder& b
 	return builder.CreateVector(infos);
 }
 
-Offset<Vector<Offset<MonsterInfo>>> GameRoom::GetMonsterInfos(FlatBufferBuilder& builder)
+Offset<Vector<Offset<MonsterInfo>>> GameRoom::GenMonsterInfos(FlatBufferBuilder& builder)
 {
 	vector<Offset<MonsterInfo>> infos;
 
-	cout << "================================================================" << endl;
 	for (auto it = _objects.begin(); it != _objects.end(); it++)
 	{
 		if (it->second->Type == ObjectType::MONSTER)
 		{
 			auto monster = reinterpret_cast<Monster*>(it->second.get());
+			if (monster->GetState() == MonsterState::MonsterState_Die)
+				continue;
 			auto info = monster->GenerateMonsterInfo(builder);
 			infos.push_back(info);
-			cout << monster->Pos->X << ", " << monster->Pos->Y << endl;
+		}
+	}
+	return builder.CreateVector(infos);
+}
+
+Offset<Vector<Offset<MonsterInfoDetail>>> GameRoom::GenMonsterInfoDetails(FlatBufferBuilder& builder)
+{
+	vector<Offset<MonsterInfoDetail>> infos;
+
+	for (auto it = _objects.begin(); it != _objects.end(); it++)
+	{
+		if (it->second->Type == ObjectType::MONSTER)
+		{
+			auto monster = reinterpret_cast<Monster*>(it->second.get());
+			if (monster->GetState() == MonsterState::MonsterState_Die)
+				continue;
+			auto info = monster->GenerateMonsterInfoDetail(builder);
+			infos.push_back(info);
 		}
 	}
 	return builder.CreateVector(infos);

@@ -1,8 +1,21 @@
+include "Character.fbs";
+include "Creature.fbs";
+
 enum AttackEnum : uint8 {
 	TANJIRO_ATTACK1,
 	TANJIRO_ATTACK2,
 	TANJIRO_ATTACK3,
 	TANJIRO_ATTACK4
+}
+
+table PlayerInfo {
+	char_info:CharacterInfo;
+	position:Position;
+}
+
+table PlayerInfoDetail {
+	char_info:CharacterInfoDetail;
+	position:Position;
 }
 
 table C_Attack {
@@ -14,4 +27,8 @@ table SC_Attack {
 	id:uint64;
 	attack_id:AttackEnum;
 	targets:[uint64];
+}
+
+table C_UpdatePosition {
+	position:Position;
 }

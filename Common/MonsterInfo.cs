@@ -16,29 +16,25 @@ public struct MonsterInfo : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public MonsterInfo __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public byte Type { get { int o = __p.__offset(4); return o != 0 ? __p.bb.Get(o + __p.bb_pos) : (byte)0; } }
-  public ulong Id { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetUlong(o + __p.bb_pos) : (ulong)0; } }
-  public Position? Position { get { int o = __p.__offset(8); return o != 0 ? (Position?)(new Position()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
-  public float DestX { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public ulong Id { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetUlong(o + __p.bb_pos) : (ulong)0; } }
+  public float DestX { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public MonsterState State { get { int o = __p.__offset(8); return o != 0 ? (MonsterState)__p.bb.Get(o + __p.bb_pos) : MonsterState.Move; } }
 
   public static Offset<MonsterInfo> CreateMonsterInfo(FlatBufferBuilder builder,
-      byte type = 0,
       ulong id = 0,
-      Offset<Position> positionOffset = default(Offset<Position>),
-      float dest_x = 0.0f) {
-    builder.StartTable(4);
+      float dest_x = 0.0f,
+      MonsterState state = MonsterState.Move) {
+    builder.StartTable(3);
     MonsterInfo.AddId(builder, id);
     MonsterInfo.AddDestX(builder, dest_x);
-    MonsterInfo.AddPosition(builder, positionOffset);
-    MonsterInfo.AddType(builder, type);
+    MonsterInfo.AddState(builder, state);
     return MonsterInfo.EndMonsterInfo(builder);
   }
 
-  public static void StartMonsterInfo(FlatBufferBuilder builder) { builder.StartTable(4); }
-  public static void AddType(FlatBufferBuilder builder, byte type) { builder.AddByte(0, type, 0); }
-  public static void AddId(FlatBufferBuilder builder, ulong id) { builder.AddUlong(1, id, 0); }
-  public static void AddPosition(FlatBufferBuilder builder, Offset<Position> positionOffset) { builder.AddOffset(2, positionOffset.Value, 0); }
-  public static void AddDestX(FlatBufferBuilder builder, float destX) { builder.AddFloat(3, destX, 0.0f); }
+  public static void StartMonsterInfo(FlatBufferBuilder builder) { builder.StartTable(3); }
+  public static void AddId(FlatBufferBuilder builder, ulong id) { builder.AddUlong(0, id, 0); }
+  public static void AddDestX(FlatBufferBuilder builder, float destX) { builder.AddFloat(1, destX, 0.0f); }
+  public static void AddState(FlatBufferBuilder builder, MonsterState state) { builder.AddByte(2, (byte)state, 0); }
   public static Offset<MonsterInfo> EndMonsterInfo(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<MonsterInfo>(o);
@@ -51,10 +47,9 @@ static public class MonsterInfoVerify
   static public bool Verify(Google.FlatBuffers.Verifier verifier, uint tablePos)
   {
     return verifier.VerifyTableStart(tablePos)
-      && verifier.VerifyField(tablePos, 4 /*Type*/, 1 /*byte*/, 1, false)
-      && verifier.VerifyField(tablePos, 6 /*Id*/, 8 /*ulong*/, 8, false)
-      && verifier.VerifyTable(tablePos, 8 /*Position*/, PositionVerify.Verify, false)
-      && verifier.VerifyField(tablePos, 10 /*DestX*/, 4 /*float*/, 4, false)
+      && verifier.VerifyField(tablePos, 4 /*Id*/, 8 /*ulong*/, 8, false)
+      && verifier.VerifyField(tablePos, 6 /*DestX*/, 4 /*float*/, 4, false)
+      && verifier.VerifyField(tablePos, 8 /*State*/, 1 /*MonsterState*/, 1, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

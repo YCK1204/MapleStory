@@ -16,8 +16,14 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 24 &&
 #include "Creature_generated.h"
 #include "Move_generated.h"
 
-struct SC_MonsterMove;
-struct SC_MonsterMoveBuilder;
+struct MonsterInfoDetail;
+struct MonsterInfoDetailBuilder;
+
+struct MonsterInfo;
+struct MonsterInfoBuilder;
+
+struct SC_MonsterInfos;
+struct SC_MonsterInfosBuilder;
 
 enum MonsterState : uint8_t {
   MonsterState_Move = 0,
@@ -25,89 +31,216 @@ enum MonsterState : uint8_t {
   MonsterState_Hit = 2,
   MonsterState_Attack = 3,
   MonsterState_Die = 4,
+  MonsterState_Trace = 5,
   MonsterState_MIN = MonsterState_Move,
-  MonsterState_MAX = MonsterState_Die
+  MonsterState_MAX = MonsterState_Trace
 };
 
-inline const MonsterState (&EnumValuesMonsterState())[5] {
+inline const MonsterState (&EnumValuesMonsterState())[6] {
   static const MonsterState values[] = {
     MonsterState_Move,
     MonsterState_Stand,
     MonsterState_Hit,
     MonsterState_Attack,
-    MonsterState_Die
+    MonsterState_Die,
+    MonsterState_Trace
   };
   return values;
 }
 
 inline const char * const *EnumNamesMonsterState() {
-  static const char * const names[6] = {
+  static const char * const names[7] = {
     "Move",
     "Stand",
     "Hit",
     "Attack",
     "Die",
+    "Trace",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameMonsterState(MonsterState e) {
-  if (::flatbuffers::IsOutRange(e, MonsterState_Move, MonsterState_Die)) return "";
+  if (::flatbuffers::IsOutRange(e, MonsterState_Move, MonsterState_Trace)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesMonsterState()[index];
 }
 
-struct SC_MonsterMove FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef SC_MonsterMoveBuilder Builder;
+struct MonsterInfoDetail FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef MonsterInfoDetailBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_MOVE_INFOS = 4
+    VT_TYPE = 4,
+    VT_POSITION = 6,
+    VT_BASE_INFO = 8
   };
-  const ::flatbuffers::Vector<::flatbuffers::Offset<MonsterInfo>> *move_infos() const {
-    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<MonsterInfo>> *>(VT_MOVE_INFOS);
+  uint8_t type() const {
+    return GetField<uint8_t>(VT_TYPE, 0);
+  }
+  const Position *position() const {
+    return GetPointer<const Position *>(VT_POSITION);
+  }
+  const MonsterInfo *base_info() const {
+    return GetPointer<const MonsterInfo *>(VT_BASE_INFO);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyOffset(verifier, VT_MOVE_INFOS) &&
-           verifier.VerifyVector(move_infos()) &&
-           verifier.VerifyVectorOfTables(move_infos()) &&
+           VerifyField<uint8_t>(verifier, VT_TYPE, 1) &&
+           VerifyOffset(verifier, VT_POSITION) &&
+           verifier.VerifyTable(position()) &&
+           VerifyOffset(verifier, VT_BASE_INFO) &&
+           verifier.VerifyTable(base_info()) &&
            verifier.EndTable();
   }
 };
 
-struct SC_MonsterMoveBuilder {
-  typedef SC_MonsterMove Table;
+struct MonsterInfoDetailBuilder {
+  typedef MonsterInfoDetail Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
-  void add_move_infos(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<MonsterInfo>>> move_infos) {
-    fbb_.AddOffset(SC_MonsterMove::VT_MOVE_INFOS, move_infos);
+  void add_type(uint8_t type) {
+    fbb_.AddElement<uint8_t>(MonsterInfoDetail::VT_TYPE, type, 0);
   }
-  explicit SC_MonsterMoveBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  void add_position(::flatbuffers::Offset<Position> position) {
+    fbb_.AddOffset(MonsterInfoDetail::VT_POSITION, position);
+  }
+  void add_base_info(::flatbuffers::Offset<MonsterInfo> base_info) {
+    fbb_.AddOffset(MonsterInfoDetail::VT_BASE_INFO, base_info);
+  }
+  explicit MonsterInfoDetailBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<SC_MonsterMove> Finish() {
+  ::flatbuffers::Offset<MonsterInfoDetail> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<SC_MonsterMove>(end);
+    auto o = ::flatbuffers::Offset<MonsterInfoDetail>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<SC_MonsterMove> CreateSC_MonsterMove(
+inline ::flatbuffers::Offset<MonsterInfoDetail> CreateMonsterInfoDetail(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<MonsterInfo>>> move_infos = 0) {
-  SC_MonsterMoveBuilder builder_(_fbb);
-  builder_.add_move_infos(move_infos);
+    uint8_t type = 0,
+    ::flatbuffers::Offset<Position> position = 0,
+    ::flatbuffers::Offset<MonsterInfo> base_info = 0) {
+  MonsterInfoDetailBuilder builder_(_fbb);
+  builder_.add_base_info(base_info);
+  builder_.add_position(position);
+  builder_.add_type(type);
   return builder_.Finish();
 }
 
-inline ::flatbuffers::Offset<SC_MonsterMove> CreateSC_MonsterMoveDirect(
+struct MonsterInfo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef MonsterInfoBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_ID = 4,
+    VT_DEST_X = 6,
+    VT_STATE = 8
+  };
+  uint64_t id() const {
+    return GetField<uint64_t>(VT_ID, 0);
+  }
+  float dest_x() const {
+    return GetField<float>(VT_DEST_X, 0.0f);
+  }
+  MonsterState state() const {
+    return static_cast<MonsterState>(GetField<uint8_t>(VT_STATE, 0));
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_ID, 8) &&
+           VerifyField<float>(verifier, VT_DEST_X, 4) &&
+           VerifyField<uint8_t>(verifier, VT_STATE, 1) &&
+           verifier.EndTable();
+  }
+};
+
+struct MonsterInfoBuilder {
+  typedef MonsterInfo Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_id(uint64_t id) {
+    fbb_.AddElement<uint64_t>(MonsterInfo::VT_ID, id, 0);
+  }
+  void add_dest_x(float dest_x) {
+    fbb_.AddElement<float>(MonsterInfo::VT_DEST_X, dest_x, 0.0f);
+  }
+  void add_state(MonsterState state) {
+    fbb_.AddElement<uint8_t>(MonsterInfo::VT_STATE, static_cast<uint8_t>(state), 0);
+  }
+  explicit MonsterInfoBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<MonsterInfo> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<MonsterInfo>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<MonsterInfo> CreateMonsterInfo(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    const std::vector<::flatbuffers::Offset<MonsterInfo>> *move_infos = nullptr) {
-  auto move_infos__ = move_infos ? _fbb.CreateVector<::flatbuffers::Offset<MonsterInfo>>(*move_infos) : 0;
-  return CreateSC_MonsterMove(
+    uint64_t id = 0,
+    float dest_x = 0.0f,
+    MonsterState state = MonsterState_Move) {
+  MonsterInfoBuilder builder_(_fbb);
+  builder_.add_id(id);
+  builder_.add_dest_x(dest_x);
+  builder_.add_state(state);
+  return builder_.Finish();
+}
+
+struct SC_MonsterInfos FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SC_MonsterInfosBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_MONSTER_INFOS = 4
+  };
+  const ::flatbuffers::Vector<::flatbuffers::Offset<MonsterInfoDetail>> *monster_infos() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<MonsterInfoDetail>> *>(VT_MONSTER_INFOS);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_MONSTER_INFOS) &&
+           verifier.VerifyVector(monster_infos()) &&
+           verifier.VerifyVectorOfTables(monster_infos()) &&
+           verifier.EndTable();
+  }
+};
+
+struct SC_MonsterInfosBuilder {
+  typedef SC_MonsterInfos Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_monster_infos(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<MonsterInfoDetail>>> monster_infos) {
+    fbb_.AddOffset(SC_MonsterInfos::VT_MONSTER_INFOS, monster_infos);
+  }
+  explicit SC_MonsterInfosBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SC_MonsterInfos> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SC_MonsterInfos>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SC_MonsterInfos> CreateSC_MonsterInfos(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<MonsterInfoDetail>>> monster_infos = 0) {
+  SC_MonsterInfosBuilder builder_(_fbb);
+  builder_.add_monster_infos(monster_infos);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<SC_MonsterInfos> CreateSC_MonsterInfosDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const std::vector<::flatbuffers::Offset<MonsterInfoDetail>> *monster_infos = nullptr) {
+  auto monster_infos__ = monster_infos ? _fbb.CreateVector<::flatbuffers::Offset<MonsterInfoDetail>>(*monster_infos) : 0;
+  return CreateSC_MonsterInfos(
       _fbb,
-      move_infos__);
+      monster_infos__);
 }
 
 #endif  // FLATBUFFERS_GENERATED_MONSTER_H_

@@ -6,56 +6,56 @@ using global::System;
 using global::System.Collections.Generic;
 using global::Google.FlatBuffers;
 
-public struct CharacterTotalInfo : IFlatbufferObject
+public struct CharacterInfoDetail : IFlatbufferObject
 {
   private Table __p;
   public ByteBuffer ByteBuffer { get { return __p.bb; } }
   public static void ValidateVersion() { FlatBufferConstants.FLATBUFFERS_24_3_25(); }
-  public static CharacterTotalInfo GetRootAsCharacterTotalInfo(ByteBuffer _bb) { return GetRootAsCharacterTotalInfo(_bb, new CharacterTotalInfo()); }
-  public static CharacterTotalInfo GetRootAsCharacterTotalInfo(ByteBuffer _bb, CharacterTotalInfo obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
+  public static CharacterInfoDetail GetRootAsCharacterInfoDetail(ByteBuffer _bb) { return GetRootAsCharacterInfoDetail(_bb, new CharacterInfoDetail()); }
+  public static CharacterInfoDetail GetRootAsCharacterInfoDetail(ByteBuffer _bb, CharacterInfoDetail obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
-  public CharacterTotalInfo __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
+  public CharacterInfoDetail __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public CharacterPreviewInfo? PrevInfo { get { int o = __p.__offset(4); return o != 0 ? (CharacterPreviewInfo?)(new CharacterPreviewInfo()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
+  public CharacterInfo? PrevInfo { get { int o = __p.__offset(4); return o != 0 ? (CharacterInfo?)(new CharacterInfo()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
   public int LastPos { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
   public int Hp { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
   public int Mp { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
   public int Exp { get { int o = __p.__offset(12); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
 
-  public static Offset<CharacterTotalInfo> CreateCharacterTotalInfo(FlatBufferBuilder builder,
-      Offset<CharacterPreviewInfo> prev_infoOffset = default(Offset<CharacterPreviewInfo>),
+  public static Offset<CharacterInfoDetail> CreateCharacterInfoDetail(FlatBufferBuilder builder,
+      Offset<CharacterInfo> prev_infoOffset = default(Offset<CharacterInfo>),
       int last_pos = 0,
       int hp = 0,
       int mp = 0,
       int exp = 0) {
     builder.StartTable(5);
-    CharacterTotalInfo.AddExp(builder, exp);
-    CharacterTotalInfo.AddMp(builder, mp);
-    CharacterTotalInfo.AddHp(builder, hp);
-    CharacterTotalInfo.AddLastPos(builder, last_pos);
-    CharacterTotalInfo.AddPrevInfo(builder, prev_infoOffset);
-    return CharacterTotalInfo.EndCharacterTotalInfo(builder);
+    CharacterInfoDetail.AddExp(builder, exp);
+    CharacterInfoDetail.AddMp(builder, mp);
+    CharacterInfoDetail.AddHp(builder, hp);
+    CharacterInfoDetail.AddLastPos(builder, last_pos);
+    CharacterInfoDetail.AddPrevInfo(builder, prev_infoOffset);
+    return CharacterInfoDetail.EndCharacterInfoDetail(builder);
   }
 
-  public static void StartCharacterTotalInfo(FlatBufferBuilder builder) { builder.StartTable(5); }
-  public static void AddPrevInfo(FlatBufferBuilder builder, Offset<CharacterPreviewInfo> prevInfoOffset) { builder.AddOffset(0, prevInfoOffset.Value, 0); }
+  public static void StartCharacterInfoDetail(FlatBufferBuilder builder) { builder.StartTable(5); }
+  public static void AddPrevInfo(FlatBufferBuilder builder, Offset<CharacterInfo> prevInfoOffset) { builder.AddOffset(0, prevInfoOffset.Value, 0); }
   public static void AddLastPos(FlatBufferBuilder builder, int lastPos) { builder.AddInt(1, lastPos, 0); }
   public static void AddHp(FlatBufferBuilder builder, int hp) { builder.AddInt(2, hp, 0); }
   public static void AddMp(FlatBufferBuilder builder, int mp) { builder.AddInt(3, mp, 0); }
   public static void AddExp(FlatBufferBuilder builder, int exp) { builder.AddInt(4, exp, 0); }
-  public static Offset<CharacterTotalInfo> EndCharacterTotalInfo(FlatBufferBuilder builder) {
+  public static Offset<CharacterInfoDetail> EndCharacterInfoDetail(FlatBufferBuilder builder) {
     int o = builder.EndTable();
-    return new Offset<CharacterTotalInfo>(o);
+    return new Offset<CharacterInfoDetail>(o);
   }
 }
 
 
-static public class CharacterTotalInfoVerify
+static public class CharacterInfoDetailVerify
 {
   static public bool Verify(Google.FlatBuffers.Verifier verifier, uint tablePos)
   {
     return verifier.VerifyTableStart(tablePos)
-      && verifier.VerifyTable(tablePos, 4 /*PrevInfo*/, CharacterPreviewInfoVerify.Verify, false)
+      && verifier.VerifyTable(tablePos, 4 /*PrevInfo*/, CharacterInfoVerify.Verify, false)
       && verifier.VerifyField(tablePos, 6 /*LastPos*/, 4 /*int*/, 4, false)
       && verifier.VerifyField(tablePos, 8 /*Hp*/, 4 /*int*/, 4, false)
       && verifier.VerifyField(tablePos, 10 /*Mp*/, 4 /*int*/, 4, false)

@@ -29,7 +29,11 @@ void PacketHandler::C_AttackHandler(PacketSession* session, ByteRef& buffer)
 				auto go = room->Find(id);
 				if (go == nullptr)
 					continue;
-				//auto enemy = reinterpret_cast<Monster*>(go);
+
+				auto enemy = reinterpret_cast<Monster*>(go);
+				enemy->Target = player;
+				enemy->DestPosX = player->Pos->X;
+				enemy->SetState(MonsterState::MonsterState_Trace);
 				//auto dmg = 10;
 				//enemy->TakeDamage(dmg);
 				//if (enemy->IsAlive() == false)
@@ -39,7 +43,6 @@ void PacketHandler::C_AttackHandler(PacketSession* session, ByteRef& buffer)
 			auto targetsVector = builder.CreateVector(hitted);
 			auto data = CreateSC_Attack(builder, player->Id, attackId, targetsVector);
 			auto packet = Manager::Packet.CreatePacket(data, builder, PacketType::PacketType_SC_Attack);
-			//room->Broadcast(packet, player);
 			room->Broadcast(packet);
 			}, pkt->attack_id());
 		player->Room->PushJob([player]() {

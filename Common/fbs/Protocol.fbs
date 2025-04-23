@@ -59,13 +59,11 @@ union PacketType {
 	C_EnterGame,
 	SC_EnterGame,
 	SC_PSpawn,
-	SC_MSpawn,
 	C_Despawn,
 	SC_PDespawn,
 	SC_MDespawn,
 	C_CreatureInfos,
 	SC_CreatureInfos,
-	C_OnCreatureInfos,
 // ------------------- Spawn -----------------
 // ------------------- Move -----------------
 	C_MoveStart,
@@ -84,6 +82,6 @@ union PacketType {
 	SC_Attack,
 // ------------------- Player -----------------
 // ------------------- Monster -----------------
-	SC_MonsterMove,
+	SC_MonsterInfos,
 // ------------------- Monster -----------------
 }

@@ -10,7 +10,7 @@ public partial class PacketHandler
 {
     // todo
     // 맵에 있는 item 정보도 갖고와야함
-    static void ChangeSceneHandler(CharacterTotalInfo myPlayerInfo, byte mapId, Position position)
+    static void ChangeSceneHandler(CharacterInfoDetail myPlayerInfo, byte mapId, Position position)
     {
         var prevInfo = myPlayerInfo.PrevInfo.Value;
         var ability = prevInfo.Ability.Value;
@@ -79,27 +79,7 @@ public partial class PacketHandler
                 Manager.Object.RemoveMonster(monster.ID);
         }
     }
-    public static void SC_MSpawnHandler(PacketSession session, ByteBuffer buffer)
-    {
-        var pkt = SC_MSpawn.GetRootAsSC_MSpawn(buffer);
-
-        for (var i = 0; i < pkt.MonstersLength; i++)
-        {
-            var monsterInfo = pkt.Monsters(i).Value;
-            if (Manager.Object.FindMonster(monsterInfo.Id) == null)
-            {
-                var position = monsterInfo.Position.Value;
-
-                var type = monsterInfo.Type;
-                var monster = Manager.Spawn.SpawnMonster((MonsterType)type);
-                monster.ID = monsterInfo.Id;
-                monster.transform.position = new Vector3(position.X, position.Y + 2f);
-                Manager.Spawn.InitMonsterPosition(monster.gameObject);
-                Manager.Object.Push(monster);
-            }
-        }
-    }
-    static T HandlePSpawn<T>(CharacterPreviewInfo charInfo) where T : PlayerController
+    static T HandlePSpawn<T>(CharacterInfo charInfo) where T : PlayerController
     {
         var pc = Manager.Spawn.SpawnPlayer<T>((PlayerCharacterType)charInfo.CharType);
         {
@@ -145,20 +125,16 @@ public partial class PacketHandler
         for (var i = 0; i < len; ++i)
         {
             var monsterInfo = pkt.Monsters(i).Value;
+            var monsterBaseInfo = monsterInfo.BaseInfo.Value;
             var position = monsterInfo.Position.Value;
 
             var mc = Manager.Spawn.SpawnMonster((MonsterType)monsterInfo.Type);
             mc.transform.position = new Vector3(position.X, position.Y + 2f);
-            mc.ID = monsterInfo.Id;
+            mc.ID = monsterBaseInfo.Id;
             mc.name = $"{mc.name}_{i}";
-            mc.Invoke(() => { mc.DestPosX = monsterInfo.DestX; });
+            mc.Invoke(() => { mc.DestPosX = monsterBaseInfo.DestX; });
             Manager.Spawn.InitMonsterPosition(mc.gameObject);
             Manager.Object.Push(mc);
         }
-        FlatBufferBuilder builder = new FlatBufferBuilder(1);
-        C_OnCreatureInfos.StartC_OnCreatureInfos(builder);
-        var data = C_OnCreatureInfos.EndC_OnCreatureInfos(builder);
-        var packet = Manager.Packet.CreatePacket(data, builder, PacketType.C_OnCreatureInfos);
-        Manager.Network.Send(packet);
     }
 }

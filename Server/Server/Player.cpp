@@ -26,18 +26,18 @@ const bool Player::IsInState(PlayerState state)
 
 Offset<PlayerInfo> Player::GeneratePlayerInfo(FlatBufferBuilder& builder)
 {
-	auto info = GeneratePreviewInfo(builder);
+	auto info = GenerateInfo(builder);
 	auto position = CreatePosition(builder, Pos->X, Pos->Y);
 	auto playerInfo = CreatePlayerInfo(builder, info, position);
 
 	return playerInfo;
 }
 
-Offset<CharacterTotalInfo> Player::GenerateTotalInfo(FlatBufferBuilder& builder)
+Offset<CharacterInfoDetail> Player::GenerateInfoDetail(FlatBufferBuilder& builder)
 {
-	auto info = GeneratePreviewInfo(builder);
+	auto info = GenerateInfo(builder);
 
-	auto totalInfo = CreateCharacterTotalInfo(
+	auto totalInfo = CreateCharacterInfoDetail(
 		builder,
 		info,
 		_baseInfo->MapId,
@@ -48,7 +48,7 @@ Offset<CharacterTotalInfo> Player::GenerateTotalInfo(FlatBufferBuilder& builder)
 	return totalInfo;
 }
 
-Offset<CharacterPreviewInfo> Player::GeneratePreviewInfo(FlatBufferBuilder& builder)
+Offset<CharacterInfo> Player::GenerateInfo(FlatBufferBuilder& builder)
 {
 	auto ability = CreateCharacterAbility(
 		builder,
@@ -57,7 +57,7 @@ Offset<CharacterPreviewInfo> Player::GeneratePreviewInfo(FlatBufferBuilder& buil
 		_ability->INT,
 		_ability->LUK);
 
-	auto info = CreateCharacterPreviewInfoDirect(
+	auto info = CreateCharacterInfoDirect(
 		builder,
 		Id,
 		_baseInfo->CharType,

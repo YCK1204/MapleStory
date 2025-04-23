@@ -12,10 +12,15 @@ public class ServerSession : PacketSession
         Debug.Log($"OnConnect");
     }
 
+
+
     public override void OnDisconnect(EndPoint endPoint)
     {
         Debug.Log($"OnDisconnect");
     }
+
+
+
     public override void OnRecvPacket(ArraySegment<byte> data)
     {
         Debug.Log($"OnRecvPacket");
@@ -23,6 +28,6 @@ public class ServerSession : PacketSession
     }
     public override void OnSend(int numOfBytes)
     {
-        Debug.Log($"OnSend");
+        Debug.Log($"OnSend {numOfBytes}");
     }
 }

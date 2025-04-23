@@ -16,17 +16,17 @@ public struct SC_CharacterSelect : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public SC_CharacterSelect __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public CharacterTotalInfo? CharInfo { get { int o = __p.__offset(4); return o != 0 ? (CharacterTotalInfo?)(new CharacterTotalInfo()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
+  public CharacterInfoDetail? CharInfo { get { int o = __p.__offset(4); return o != 0 ? (CharacterInfoDetail?)(new CharacterInfoDetail()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
 
   public static Offset<SC_CharacterSelect> CreateSC_CharacterSelect(FlatBufferBuilder builder,
-      Offset<CharacterTotalInfo> char_infoOffset = default(Offset<CharacterTotalInfo>)) {
+      Offset<CharacterInfoDetail> char_infoOffset = default(Offset<CharacterInfoDetail>)) {
     builder.StartTable(1);
     SC_CharacterSelect.AddCharInfo(builder, char_infoOffset);
     return SC_CharacterSelect.EndSC_CharacterSelect(builder);
   }
 
   public static void StartSC_CharacterSelect(FlatBufferBuilder builder) { builder.StartTable(1); }
-  public static void AddCharInfo(FlatBufferBuilder builder, Offset<CharacterTotalInfo> charInfoOffset) { builder.AddOffset(0, charInfoOffset.Value, 0); }
+  public static void AddCharInfo(FlatBufferBuilder builder, Offset<CharacterInfoDetail> charInfoOffset) { builder.AddOffset(0, charInfoOffset.Value, 0); }
   public static Offset<SC_CharacterSelect> EndSC_CharacterSelect(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<SC_CharacterSelect>(o);
@@ -39,7 +39,7 @@ static public class SC_CharacterSelectVerify
   static public bool Verify(Google.FlatBuffers.Verifier verifier, uint tablePos)
   {
     return verifier.VerifyTableStart(tablePos)
-      && verifier.VerifyTable(tablePos, 4 /*CharInfo*/, CharacterTotalInfoVerify.Verify, false)
+      && verifier.VerifyTable(tablePos, 4 /*CharInfo*/, CharacterInfoDetailVerify.Verify, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

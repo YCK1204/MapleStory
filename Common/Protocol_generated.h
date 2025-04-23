@@ -62,31 +62,29 @@ enum PacketType : uint8_t {
   PacketType_C_EnterGame = 35,
   PacketType_SC_EnterGame = 36,
   PacketType_SC_PSpawn = 37,
-  PacketType_SC_MSpawn = 38,
-  PacketType_C_Despawn = 39,
-  PacketType_SC_PDespawn = 40,
-  PacketType_SC_MDespawn = 41,
-  PacketType_C_CreatureInfos = 42,
-  PacketType_SC_CreatureInfos = 43,
-  PacketType_C_OnCreatureInfos = 44,
-  PacketType_C_MoveStart = 45,
-  PacketType_SC_MoveStart = 46,
-  PacketType_C_MoveEnd = 47,
-  PacketType_SC_MoveEnd = 48,
-  PacketType_C_Jump = 49,
-  PacketType_SC_Jump = 50,
-  PacketType_C_ProneStabStart = 51,
-  PacketType_SC_ProneStabStart = 52,
-  PacketType_C_ProneStabEnd = 53,
-  PacketType_SC_ProneStabEnd = 54,
-  PacketType_C_Attack = 55,
-  PacketType_SC_Attack = 56,
-  PacketType_SC_MonsterMove = 57,
+  PacketType_C_Despawn = 38,
+  PacketType_SC_PDespawn = 39,
+  PacketType_SC_MDespawn = 40,
+  PacketType_C_CreatureInfos = 41,
+  PacketType_SC_CreatureInfos = 42,
+  PacketType_C_MoveStart = 43,
+  PacketType_SC_MoveStart = 44,
+  PacketType_C_MoveEnd = 45,
+  PacketType_SC_MoveEnd = 46,
+  PacketType_C_Jump = 47,
+  PacketType_SC_Jump = 48,
+  PacketType_C_ProneStabStart = 49,
+  PacketType_SC_ProneStabStart = 50,
+  PacketType_C_ProneStabEnd = 51,
+  PacketType_SC_ProneStabEnd = 52,
+  PacketType_C_Attack = 53,
+  PacketType_SC_Attack = 54,
+  PacketType_SC_MonsterInfos = 55,
   PacketType_MIN = PacketType_NONE,
-  PacketType_MAX = PacketType_SC_MonsterMove
+  PacketType_MAX = PacketType_SC_MonsterInfos
 };
 
-inline const PacketType (&EnumValuesPacketType())[58] {
+inline const PacketType (&EnumValuesPacketType())[56] {
   static const PacketType values[] = {
     PacketType_NONE,
     PacketType_C_SignUp,
@@ -126,13 +124,11 @@ inline const PacketType (&EnumValuesPacketType())[58] {
     PacketType_C_EnterGame,
     PacketType_SC_EnterGame,
     PacketType_SC_PSpawn,
-    PacketType_SC_MSpawn,
     PacketType_C_Despawn,
     PacketType_SC_PDespawn,
     PacketType_SC_MDespawn,
     PacketType_C_CreatureInfos,
     PacketType_SC_CreatureInfos,
-    PacketType_C_OnCreatureInfos,
     PacketType_C_MoveStart,
     PacketType_SC_MoveStart,
     PacketType_C_MoveEnd,
@@ -145,13 +141,13 @@ inline const PacketType (&EnumValuesPacketType())[58] {
     PacketType_SC_ProneStabEnd,
     PacketType_C_Attack,
     PacketType_SC_Attack,
-    PacketType_SC_MonsterMove
+    PacketType_SC_MonsterInfos
   };
   return values;
 }
 
 inline const char * const *EnumNamesPacketType() {
-  static const char * const names[59] = {
+  static const char * const names[57] = {
     "NONE",
     "C_SignUp",
     "SD_SignUp",
@@ -190,13 +186,11 @@ inline const char * const *EnumNamesPacketType() {
     "C_EnterGame",
     "SC_EnterGame",
     "SC_PSpawn",
-    "SC_MSpawn",
     "C_Despawn",
     "SC_PDespawn",
     "SC_MDespawn",
     "C_CreatureInfos",
     "SC_CreatureInfos",
-    "C_OnCreatureInfos",
     "C_MoveStart",
     "SC_MoveStart",
     "C_MoveEnd",
@@ -209,14 +203,14 @@ inline const char * const *EnumNamesPacketType() {
     "SC_ProneStabEnd",
     "C_Attack",
     "SC_Attack",
-    "SC_MonsterMove",
+    "SC_MonsterInfos",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNamePacketType(PacketType e) {
-  if (::flatbuffers::IsOutRange(e, PacketType_NONE, PacketType_SC_MonsterMove)) return "";
+  if (::flatbuffers::IsOutRange(e, PacketType_NONE, PacketType_SC_MonsterInfos)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesPacketType()[index];
 }
@@ -373,10 +367,6 @@ template<> struct PacketTypeTraits<SC_PSpawn> {
   static const PacketType enum_value = PacketType_SC_PSpawn;
 };
 
-template<> struct PacketTypeTraits<SC_MSpawn> {
-  static const PacketType enum_value = PacketType_SC_MSpawn;
-};
-
 template<> struct PacketTypeTraits<C_Despawn> {
   static const PacketType enum_value = PacketType_C_Despawn;
 };
@@ -395,10 +385,6 @@ template<> struct PacketTypeTraits<C_CreatureInfos> {
 
 template<> struct PacketTypeTraits<SC_CreatureInfos> {
   static const PacketType enum_value = PacketType_SC_CreatureInfos;
-};
-
-template<> struct PacketTypeTraits<C_OnCreatureInfos> {
-  static const PacketType enum_value = PacketType_C_OnCreatureInfos;
 };
 
 template<> struct PacketTypeTraits<C_MoveStart> {
@@ -449,8 +435,8 @@ template<> struct PacketTypeTraits<SC_Attack> {
   static const PacketType enum_value = PacketType_SC_Attack;
 };
 
-template<> struct PacketTypeTraits<SC_MonsterMove> {
-  static const PacketType enum_value = PacketType_SC_MonsterMove;
+template<> struct PacketTypeTraits<SC_MonsterInfos> {
+  static const PacketType enum_value = PacketType_SC_MonsterInfos;
 };
 
 bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj, PacketType type);
@@ -609,10 +595,6 @@ inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj,
       auto ptr = reinterpret_cast<const SC_PSpawn *>(obj);
       return verifier.VerifyTable(ptr);
     }
-    case PacketType_SC_MSpawn: {
-      auto ptr = reinterpret_cast<const SC_MSpawn *>(obj);
-      return verifier.VerifyTable(ptr);
-    }
     case PacketType_C_Despawn: {
       auto ptr = reinterpret_cast<const C_Despawn *>(obj);
       return verifier.VerifyTable(ptr);
@@ -631,10 +613,6 @@ inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj,
     }
     case PacketType_SC_CreatureInfos: {
       auto ptr = reinterpret_cast<const SC_CreatureInfos *>(obj);
-      return verifier.VerifyTable(ptr);
-    }
-    case PacketType_C_OnCreatureInfos: {
-      auto ptr = reinterpret_cast<const C_OnCreatureInfos *>(obj);
       return verifier.VerifyTable(ptr);
     }
     case PacketType_C_MoveStart: {
@@ -685,8 +663,8 @@ inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj,
       auto ptr = reinterpret_cast<const SC_Attack *>(obj);
       return verifier.VerifyTable(ptr);
     }
-    case PacketType_SC_MonsterMove: {
-      auto ptr = reinterpret_cast<const SC_MonsterMove *>(obj);
+    case PacketType_SC_MonsterInfos: {
+      auto ptr = reinterpret_cast<const SC_MonsterInfos *>(obj);
       return verifier.VerifyTable(ptr);
     }
     default: return true;

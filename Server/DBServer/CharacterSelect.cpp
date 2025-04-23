@@ -56,7 +56,7 @@ void PacketHandler::SD_CharacterListHandler(PacketSession* session, ByteRef& buf
 			SQLBindCol(stmt, 7, SQL_C_LONG, &_int, sizeof(_int), &intIndicator);
 			SQLBindCol(stmt, 8, SQL_C_LONG, &_luk, sizeof(_luk), &lukIndicator);
 
-			vector<Offset<CharacterPreviewInfo>> charInfos;
+			vector<Offset<CharacterInfo>> charInfos;
 			while (true)
 			{
 				SQLRETURN fetchResult = SQLFetch(stmt);
@@ -68,7 +68,7 @@ void PacketHandler::SD_CharacterListHandler(PacketSession* session, ByteRef& buf
 				for (auto i = 0; i < nameIndicator; i++)
 					str.push_back(name[i]);
 				auto ability = CreateCharacterAbility(builder, _str, _dex, _int, _luk);
-				auto info = CreateCharacterPreviewInfo(
+				auto info = CreateCharacterInfo(
 					builder,
 					charId,
 					static_cast<uint8>(charType),
@@ -202,8 +202,8 @@ void PacketHandler::SD_CharacterSelectHandler(PacketSession* session, ByteRef& b
 			auto nameStr = builder.CreateString(n);
 
 			auto ability = CreateCharacterAbility(builder, _str, _dex, _int, _luk);
-			auto prevInfo = CreateCharacterPreviewInfo(builder, charId, charType, level, nameStr, ability);
-			auto totalInfo = CreateCharacterTotalInfo(builder, prevInfo, lastPos, hp, mp, exp);
+			auto prevInfo = CreateCharacterInfo(builder, charId, charType, level, nameStr, ability);
+			auto totalInfo = CreateCharacterInfoDetail(builder, prevInfo, lastPos, hp, mp, exp);
 			auto data = CreateD_CharacterSelect(builder, CharacterSelectError_SUCCESS, sessionId, totalInfo);
 			auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_D_CharacterSelect);
 			Manager::session->Send(pkt);

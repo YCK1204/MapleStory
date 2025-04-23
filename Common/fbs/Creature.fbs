@@ -1,23 +1,5 @@
-include "Character.fbs";
 
 table Position {
 	x:float;
 	y:float;
-}
-
-table MonsterInfo {
-	type:uint8;
-	id:uint64;
-	position:Position;
-	dest_x:float;
-}
-
-table PlayerInfo {
-	char_info:CharacterPreviewInfo;
-	position:Position;
-}
-
-table PlayerTotalInfo {
-	char_info:CharacterTotalInfo;
-	position:Position;
 }

@@ -27,12 +27,12 @@ private:
 	map<uint64, PlayerRef> _players;
 	uint64 _curId = 0;
 	priority_queue<JobRef, vector<JobRef>, greater<JobRef>> _jobQueue;
-	const static uint64 SpawnUpdateTickTime = 3000;
+	const static uint16 SpawnUpdateTickTime = 5000;
 	uint64 LastSpawnUpdate = GetTickCount64();
-	const static uint64 PatrolUpdateTickTime = 15000;
-	uint64 LastPatrolUpdate = GetTickCount64();
-	const static uint64 MonsterSyncTickTime = 250;
-	uint64 LastMonsterSync = GetTickCount64();
+	const static uint16 MonsterUpdateTickTime = 250;
+	uint64 LastMonsterUpdate = GetTickCount64();
+	const static uint16 MonsterInfoBroadcastTickTime = 1500;
+	uint64 LastMonsterInfoBroadcast = GetTickCount64();
 
 #pragma region MapInfo
 private:
@@ -45,6 +45,7 @@ public:
 private:
 	uint64 GenerateId(const ObjectType& type);
 	void GenMonster();
+	void UpdateMonster();
 #pragma endregion
 
 #pragma region Getter
@@ -52,8 +53,10 @@ public:
 	const uint8 GetServerId() const;
 	const uint8 GetChannelId() const;
 	const uint8 GetMapId() const;
-	Offset<Vector<Offset<PlayerInfo>>> GetPlayerInfos(FlatBufferBuilder& builder);
-	Offset<Vector<Offset<MonsterInfo>>> GetMonsterInfos(FlatBufferBuilder& builder);
+	const uint32& GetRoomId() const;
+	Offset<Vector<Offset<PlayerInfo>>> GenPlayerInfos(FlatBufferBuilder& builder);
+	Offset<Vector<Offset<MonsterInfoDetail>>> GenMonsterInfoDetails(FlatBufferBuilder& builder);
+	Offset<Vector<Offset<MonsterInfo>>> GenMonsterInfos(FlatBufferBuilder& builder);
 #pragma endregion
 
 #pragma region default constructor, destructor, Init
@@ -72,15 +75,13 @@ public:
 #pragma region Main Function
 public:
 	GameObject* Find(uint64& id);
-	void Remove(uint64& id);
-	void Remove(PlayerRef player);
+	void RemoveMonster(uint64& id);
+	void RemovePlayer(uint64& id);
 	void Push(GameObjectRef& go);
 	void Push(GameObject* go);
 	void Push(PlayerRef player);
 	void Broadcast(SendBufferRef pkt, PlayerRef exception = nullptr);
 	void Update();
-	void UpdatePatrol();
-	void UpdateMonster();
 #pragma endregion
 
 #pragma region Message Queue Util Functions

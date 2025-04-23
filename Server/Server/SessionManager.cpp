@@ -3,6 +3,7 @@
 #include "SocketUtils.h"
 #include "DbSession.h"
 #include "ClientSession.h"
+#include <functional>
 
 SessionManager* SessionManager::_instance = nullptr;
 
@@ -22,7 +23,12 @@ void SessionManager::Push(ClientSession* session)
 	WRITE_LOCK;
 	{
 		session->SetSessionId(_curId);
-		auto client = shared_ptr<ClientSession>(session, [](ClientSession* p) {GPoolManager->Push<ClientSession>(p); });
+		auto client = shared_ptr<ClientSession>(session, [](ClientSession* p) { 
+			GPoolManager->Push<ClientSession>(p);
+			if (p->Player->Room != nullptr)
+				p->Player->Room->PushJob(std::bind(&GameRoom::RemovePlayer, p->Player->Room.get(), p->Player->Id));
+			p->Player->Room = nullptr;
+			});
 		session->Player->Session = client;
 		_sessions[_curId++] = client;
 	}

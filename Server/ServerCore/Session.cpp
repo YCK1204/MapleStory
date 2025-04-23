@@ -268,7 +268,7 @@ void Session::Disconnect()
 	if (_connected.exchange(false) == false)
 		return;
 
-	RegisterDisconnect();
+ 	RegisterDisconnect();
 }
 #pragma endregion
 
