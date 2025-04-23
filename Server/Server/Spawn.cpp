@@ -135,8 +135,7 @@ void PacketHandler::C_CreatureInfosHandler(PacketSession* session, ByteRef& buff
 		room->PushJob([room, client]() {
 			FlatBufferBuilder builder;
 			auto playerInfos = room->GenPlayerInfos(builder);
-			auto monsterInfos = room->GenMonsterInfoDetails(builder);
-			auto data = CreateSC_CreatureInfos(builder, playerInfos, monsterInfos);
+			auto data = CreateSC_CreatureInfos(builder, playerInfos);
 			auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CreatureInfos);
 			client->Send(pkt);
 			});

@@ -23,7 +23,7 @@ public class ObjectManager : IManager
         MonsterController mc = null;
         if (_monsters.TryGetValue(id, out mc) == false)
             return;
-        mc.Destroy();
+        mc.State = MonsterState.Die;
         _monsters.Remove(id);
     }
     public void RemovePlayer(UInt64 id)

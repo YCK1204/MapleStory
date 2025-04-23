@@ -18,31 +18,21 @@ public struct SC_CreatureInfos : IFlatbufferObject
 
   public PlayerInfo? Players(int j) { int o = __p.__offset(4); return o != 0 ? (PlayerInfo?)(new PlayerInfo()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
   public int PlayersLength { get { int o = __p.__offset(4); return o != 0 ? __p.__vector_len(o) : 0; } }
-  public MonsterInfoDetail? Monsters(int j) { int o = __p.__offset(6); return o != 0 ? (MonsterInfoDetail?)(new MonsterInfoDetail()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
-  public int MonstersLength { get { int o = __p.__offset(6); return o != 0 ? __p.__vector_len(o) : 0; } }
 
   public static Offset<SC_CreatureInfos> CreateSC_CreatureInfos(FlatBufferBuilder builder,
-      VectorOffset playersOffset = default(VectorOffset),
-      VectorOffset monstersOffset = default(VectorOffset)) {
-    builder.StartTable(2);
-    SC_CreatureInfos.AddMonsters(builder, monstersOffset);
+      VectorOffset playersOffset = default(VectorOffset)) {
+    builder.StartTable(1);
     SC_CreatureInfos.AddPlayers(builder, playersOffset);
     return SC_CreatureInfos.EndSC_CreatureInfos(builder);
   }
 
-  public static void StartSC_CreatureInfos(FlatBufferBuilder builder) { builder.StartTable(2); }
+  public static void StartSC_CreatureInfos(FlatBufferBuilder builder) { builder.StartTable(1); }
   public static void AddPlayers(FlatBufferBuilder builder, VectorOffset playersOffset) { builder.AddOffset(0, playersOffset.Value, 0); }
   public static VectorOffset CreatePlayersVector(FlatBufferBuilder builder, Offset<PlayerInfo>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
   public static VectorOffset CreatePlayersVectorBlock(FlatBufferBuilder builder, Offset<PlayerInfo>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreatePlayersVectorBlock(FlatBufferBuilder builder, ArraySegment<Offset<PlayerInfo>> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreatePlayersVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<Offset<PlayerInfo>>(dataPtr, sizeInBytes); return builder.EndVector(); }
   public static void StartPlayersVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
-  public static void AddMonsters(FlatBufferBuilder builder, VectorOffset monstersOffset) { builder.AddOffset(1, monstersOffset.Value, 0); }
-  public static VectorOffset CreateMonstersVector(FlatBufferBuilder builder, Offset<MonsterInfoDetail>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
-  public static VectorOffset CreateMonstersVectorBlock(FlatBufferBuilder builder, Offset<MonsterInfoDetail>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
-  public static VectorOffset CreateMonstersVectorBlock(FlatBufferBuilder builder, ArraySegment<Offset<MonsterInfoDetail>> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
-  public static VectorOffset CreateMonstersVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<Offset<MonsterInfoDetail>>(dataPtr, sizeInBytes); return builder.EndVector(); }
-  public static void StartMonstersVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
   public static Offset<SC_CreatureInfos> EndSC_CreatureInfos(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<SC_CreatureInfos>(o);
@@ -56,7 +46,6 @@ static public class SC_CreatureInfosVerify
   {
     return verifier.VerifyTableStart(tablePos)
       && verifier.VerifyVectorOfTables(tablePos, 4 /*Players*/, PlayerInfoVerify.Verify, false)
-      && verifier.VerifyVectorOfTables(tablePos, 6 /*Monsters*/, MonsterInfoDetailVerify.Verify, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

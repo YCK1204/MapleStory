@@ -27,7 +27,6 @@ table C_CreatureInfos {
 
 table SC_CreatureInfos {
 	players:[PlayerInfo];
-	monsters:[MonsterInfoDetail];
 }
 
 table SC_PSpawn {

@@ -4,8 +4,6 @@
 
 void GameRoom::GenMonster()
 {
-	FlatBufferBuilder builder;
-
 	if (_spawnInfo.size() == 0)
 		return;
 
@@ -29,7 +27,6 @@ void GameRoom::GenMonster()
 			clone->Pos->X = RandomNumberGenerator::getRandomInt(key->RangeX[0], key->RangeX[1]);
 			clone->Pos->Y = key->Y;
 			clone->SpawnInfo = spawnInfo.first;
-			auto info = clone->GenerateMonsterInfoDetail(builder);
 			value.insert(clone);
 		}
 	}
@@ -79,9 +76,20 @@ void GameRoom::Update() {
 
 void GameRoom::UpdateMonster()
 {
-	for (auto object : _objects)
+	for (auto& [spawnInfo, monsterSet] : _spawnInfo)
 	{
-		auto monster = static_pointer_cast<Monster>(object.second);
-		monster->Update();
+		for (auto it = monsterSet.begin(); it != monsterSet.end();)
+		{
+			auto monster = static_pointer_cast<Monster>(*it);
+
+			monster->Update();
+			if (monster->GetState() == MonsterState::MonsterState_Die) {
+				RemoveMonster(monster->Id);
+				it = monsterSet.erase(it);
+			}
+			else {
+				++it;
+			}
+		}
 	}
 }

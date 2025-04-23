@@ -73,11 +73,7 @@ public partial class PacketHandler
         var pkt = SC_MDespawn.GetRootAsSC_MDespawn(buffer);
 
         for (var i = 0; i < pkt.IdLength; i++)
-        {
-            var monster = Manager.Object.FindMonster(pkt.Id(i));
-            if (monster != null)
-                Manager.Object.RemoveMonster(monster.ID);
-        }
+            Manager.Object.RemoveMonster(pkt.Id(i));
     }
     static T HandlePSpawn<T>(CharacterInfo charInfo) where T : PlayerController
     {
@@ -120,21 +116,6 @@ public partial class PacketHandler
 
             var pc = HandlePSpawn<PlayerController>(charInfo);
             pc.transform.position = new Vector3(position.X, position.Y);
-        }
-        len = pkt.MonstersLength;
-        for (var i = 0; i < len; ++i)
-        {
-            var monsterInfo = pkt.Monsters(i).Value;
-            var monsterBaseInfo = monsterInfo.BaseInfo.Value;
-            var position = monsterInfo.Position.Value;
-
-            var mc = Manager.Spawn.SpawnMonster((MonsterType)monsterInfo.Type);
-            mc.transform.position = new Vector3(position.X, position.Y + 2f);
-            mc.ID = monsterBaseInfo.Id;
-            mc.name = $"{mc.name}_{i}";
-            mc.Invoke(() => { mc.DestPosX = monsterBaseInfo.DestX; });
-            Manager.Spawn.InitMonsterPosition(mc.gameObject);
-            Manager.Object.Push(mc);
         }
     }
 }

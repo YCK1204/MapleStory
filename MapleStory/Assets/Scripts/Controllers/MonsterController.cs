@@ -28,7 +28,7 @@ public class MonsterController : CreatureController
         get { return _state; }
         set
         {
-            if (_state == value)
+            if (_state == value || _state == MonsterState.Die)
                 return;
             if (value == MonsterState.Trace)
                 value = MonsterState.Move;
@@ -71,13 +71,14 @@ public class MonsterController : CreatureController
 
     public override void Destroy()
     {
-        GameObject.Destroy(this);
+        GameObject.Destroy(gameObject);
     }
     protected override void Init()
     {
         Animator = GetComponent<Animator>();
         State = MonsterState.Stand;
         _collider = GetComponent<BoxCollider2D>();
+        FadeIn(1f);
     }
     protected override void UpdateAnimation()
     {

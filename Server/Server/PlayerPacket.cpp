@@ -15,7 +15,7 @@ void PacketHandler::C_AttackHandler(PacketSession* session, ByteRef& buffer)
 		return;
 	player->AddState(PlayerState::ATTACK);
 
-	
+
 	try {
 		vector<uint64> targets(pkt->targets()->begin(), pkt->targets()->end());
 
@@ -24,6 +24,9 @@ void PacketHandler::C_AttackHandler(PacketSession* session, ByteRef& buffer)
 
 			vector<uint64> hitted;
 			hitted.reserve(targets.size());
+			vector<uint64> diedMonsters;
+			diedMonsters.reserve(targets.size());
+
 			for (auto id : targets)
 			{
 				auto go = room->Find(id);
@@ -34,16 +37,34 @@ void PacketHandler::C_AttackHandler(PacketSession* session, ByteRef& buffer)
 				enemy->Target = player;
 				enemy->DestPosX = player->Pos->X;
 				enemy->SetState(MonsterState::MonsterState_Trace);
-				//auto dmg = 10;
-				//enemy->TakeDamage(dmg);
-				//if (enemy->IsAlive() == false)
-				hitted.push_back(id);
+				auto dmg = 10;
+				enemy->TakeDamage(dmg);
+				if (enemy->IsAlive() == false)
+				{
+					enemy->SetState(MonsterState::MonsterState_Die);
+					diedMonsters.push_back(id);
+				}
+				else
+				{
+					hitted.push_back(id);
+				}
 			}
 			FlatBufferBuilder builder;
-			auto targetsVector = builder.CreateVector(hitted);
-			auto data = CreateSC_Attack(builder, player->Id, attackId, targetsVector);
-			auto packet = Manager::Packet.CreatePacket(data, builder, PacketType::PacketType_SC_Attack);
-			room->Broadcast(packet);
+			{
+				auto targetsVector = builder.CreateVector(hitted);
+				auto data = CreateSC_Attack(builder, player->Id, attackId, targetsVector);
+				auto packet = Manager::Packet.CreatePacket(data, builder, PacketType::PacketType_SC_Attack);
+				room->Broadcast(packet);
+			}
+
+			if (diedMonsters.size() > 0)
+			{
+				builder.Clear();
+				auto died = builder.CreateVector(diedMonsters);
+				auto data = CreateSC_MDespawn(builder, died);
+				auto packet = Manager::Packet.CreatePacket(data, builder, PacketType::PacketType_SC_MDespawn);
+				room->Broadcast(packet);
+			}
 			}, pkt->attack_id());
 		player->Room->PushJob([player]() {
 			player->RemoveState(PlayerState::ATTACK);
