@@ -53,13 +53,13 @@ public class MonsterController : CreatureController
                     State = MonsterState.Stand;
                     return;
                 case MoveDirection.LEFT:
+                    transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
                     MoveDir = Vector2.left;
-                    transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
                     State = MonsterState.Move;
                     break;
                 case MoveDirection.RIGHT:
+                    transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
                     MoveDir = Vector2.right;
-                    transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
                     State = MonsterState.Move;
                     break;
             }
