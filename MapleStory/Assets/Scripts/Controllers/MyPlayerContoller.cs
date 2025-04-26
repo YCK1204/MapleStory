@@ -111,6 +111,8 @@ public class MyPlayerContoller : PlayerController
             foreach (var hit in hits)
             {
                 var mc = hit.GetComponent<MonsterController>();
+                if (mc.State == MonsterState.Hit)
+                    return;
                 mc.DestPosX = transform.position.x;
                 mc.State = MonsterState.Hit;
                 Invoke(() =>

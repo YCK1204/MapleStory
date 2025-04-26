@@ -37,6 +37,8 @@ void PacketHandler::C_AttackHandler(PacketSession* session, ByteRef& buffer)
 					continue;
 
 				auto enemy = reinterpret_pointer_cast<Monster>(go);
+				if (enemy->GetState() == MonsterState::MonsterState_Hit)
+					continue;
 				enemy->Target = player;
 				enemy->DestPosX = player->Pos->X;
 				enemy->SetState(MonsterState::MonsterState_Hit);

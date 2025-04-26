@@ -157,6 +157,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\SC_MDespawn.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_CheckName.cs" />
     <Compile Include="Assets\Scripts\Controllers\PortalController.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_PosNoti.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CreateCharacterError.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_CharacterDelete.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CharacterList.cs" />
