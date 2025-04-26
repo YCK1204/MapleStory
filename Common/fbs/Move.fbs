@@ -50,3 +50,8 @@ table C_ProneStabEnd {
 table SC_ProneStabEnd {
 	id:uint64;
 }
+
+table C_PosNoti {
+	x:float;
+	y:float;
+}

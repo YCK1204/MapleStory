@@ -215,11 +215,16 @@ public class MyPlayerContoller : PlayerController
     {
         base.UpdateController();
     }
-    private bool drawGizmo = false;
+    float PosNotiTick = 1f;
+    float LastPosNotiTime = Time.deltaTime;
     private void Update()
     {
         HandleInput();
         UpdateController();
+        if (HasState(PlayerState.Walk) && LastPosNotiTime + PosNotiTick < Time.deltaTime)
+        {
+
+        }
     }
     [SerializeField]
     float XX = 2.5f;

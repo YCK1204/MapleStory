@@ -43,6 +43,9 @@ struct C_ProneStabEndBuilder;
 struct SC_ProneStabEnd;
 struct SC_ProneStabEndBuilder;
 
+struct C_PosNoti;
+struct C_PosNotiBuilder;
+
 enum MoveDirection : uint8_t {
   MoveDirection_NONE = 0,
   MoveDirection_LEFT = 1,
@@ -533,6 +536,57 @@ inline ::flatbuffers::Offset<SC_ProneStabEnd> CreateSC_ProneStabEnd(
     uint64_t id = 0) {
   SC_ProneStabEndBuilder builder_(_fbb);
   builder_.add_id(id);
+  return builder_.Finish();
+}
+
+struct C_PosNoti FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef C_PosNotiBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_X = 4,
+    VT_Y = 6
+  };
+  float x() const {
+    return GetField<float>(VT_X, 0.0f);
+  }
+  float y() const {
+    return GetField<float>(VT_Y, 0.0f);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<float>(verifier, VT_X, 4) &&
+           VerifyField<float>(verifier, VT_Y, 4) &&
+           verifier.EndTable();
+  }
+};
+
+struct C_PosNotiBuilder {
+  typedef C_PosNoti Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_x(float x) {
+    fbb_.AddElement<float>(C_PosNoti::VT_X, x, 0.0f);
+  }
+  void add_y(float y) {
+    fbb_.AddElement<float>(C_PosNoti::VT_Y, y, 0.0f);
+  }
+  explicit C_PosNotiBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<C_PosNoti> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<C_PosNoti>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<C_PosNoti> CreateC_PosNoti(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    float x = 0.0f,
+    float y = 0.0f) {
+  C_PosNotiBuilder builder_(_fbb);
+  builder_.add_y(y);
+  builder_.add_x(x);
   return builder_.Finish();
 }
 

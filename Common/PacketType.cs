@@ -57,13 +57,14 @@ public enum PacketType : byte
   SC_ProneStabStart = 50,
   C_ProneStabEnd = 51,
   SC_ProneStabEnd = 52,
-  C_Attack = 53,
-  SC_Attack = 54,
-  SC_MonsterInfos = 55,
-  SC_DespawnItem = 56,
-  C_CollectCoin = 57,
-  SC_CollectCoin = 58,
-  SD_CollectionCoin = 59,
+  C_PosNoti = 53,
+  C_Attack = 54,
+  SC_Attack = 55,
+  SC_MonsterInfos = 56,
+  SC_DespawnItem = 57,
+  C_CollectCoin = 58,
+  SC_CollectCoin = 59,
+  SD_CollectionCoin = 60,
 };
 
 
@@ -230,6 +231,9 @@ static public class PacketTypeVerify
         break;
       case PacketType.SC_ProneStabEnd:
         result = SC_ProneStabEndVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.C_PosNoti:
+        result = C_PosNotiVerify.Verify(verifier, tablePos);
         break;
       case PacketType.C_Attack:
         result = C_AttackVerify.Verify(verifier, tablePos);

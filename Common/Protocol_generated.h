@@ -78,18 +78,19 @@ enum PacketType : uint8_t {
   PacketType_SC_ProneStabStart = 50,
   PacketType_C_ProneStabEnd = 51,
   PacketType_SC_ProneStabEnd = 52,
-  PacketType_C_Attack = 53,
-  PacketType_SC_Attack = 54,
-  PacketType_SC_MonsterInfos = 55,
-  PacketType_SC_DespawnItem = 56,
-  PacketType_C_CollectCoin = 57,
-  PacketType_SC_CollectCoin = 58,
-  PacketType_SD_CollectionCoin = 59,
+  PacketType_C_PosNoti = 53,
+  PacketType_C_Attack = 54,
+  PacketType_SC_Attack = 55,
+  PacketType_SC_MonsterInfos = 56,
+  PacketType_SC_DespawnItem = 57,
+  PacketType_C_CollectCoin = 58,
+  PacketType_SC_CollectCoin = 59,
+  PacketType_SD_CollectionCoin = 60,
   PacketType_MIN = PacketType_NONE,
   PacketType_MAX = PacketType_SD_CollectionCoin
 };
 
-inline const PacketType (&EnumValuesPacketType())[60] {
+inline const PacketType (&EnumValuesPacketType())[61] {
   static const PacketType values[] = {
     PacketType_NONE,
     PacketType_C_SignUp,
@@ -144,6 +145,7 @@ inline const PacketType (&EnumValuesPacketType())[60] {
     PacketType_SC_ProneStabStart,
     PacketType_C_ProneStabEnd,
     PacketType_SC_ProneStabEnd,
+    PacketType_C_PosNoti,
     PacketType_C_Attack,
     PacketType_SC_Attack,
     PacketType_SC_MonsterInfos,
@@ -156,7 +158,7 @@ inline const PacketType (&EnumValuesPacketType())[60] {
 }
 
 inline const char * const *EnumNamesPacketType() {
-  static const char * const names[61] = {
+  static const char * const names[62] = {
     "NONE",
     "C_SignUp",
     "SD_SignUp",
@@ -210,6 +212,7 @@ inline const char * const *EnumNamesPacketType() {
     "SC_ProneStabStart",
     "C_ProneStabEnd",
     "SC_ProneStabEnd",
+    "C_PosNoti",
     "C_Attack",
     "SC_Attack",
     "SC_MonsterInfos",
@@ -438,6 +441,10 @@ template<> struct PacketTypeTraits<C_ProneStabEnd> {
 
 template<> struct PacketTypeTraits<SC_ProneStabEnd> {
   static const PacketType enum_value = PacketType_SC_ProneStabEnd;
+};
+
+template<> struct PacketTypeTraits<C_PosNoti> {
+  static const PacketType enum_value = PacketType_C_PosNoti;
 };
 
 template<> struct PacketTypeTraits<C_Attack> {
@@ -682,6 +689,10 @@ inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj,
     }
     case PacketType_SC_ProneStabEnd: {
       auto ptr = reinterpret_cast<const SC_ProneStabEnd *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_C_PosNoti: {
+      auto ptr = reinterpret_cast<const C_PosNoti *>(obj);
       return verifier.VerifyTable(ptr);
     }
     case PacketType_C_Attack: {

@@ -151,3 +151,27 @@ void PacketHandler::C_ProneStabEndHandler(PacketSession* session, ByteRef& buffe
 
 	}
 }
+
+void PacketHandler::C_PosNotiHandler(PacketSession* session, ByteRef& buffer) {
+	try {
+		auto client = Manager::Session.Find(session->GetSessionId());
+		if (client->State != ClientState::INGAME)
+		{
+			client->Disconnect();
+			return;
+		}
+		auto player = client->Player;
+		if (player->IsInState(PlayerState::MOVE) == false)
+			return;
+		auto room = player->Room;
+		auto pkt = GetRoot<C_PosNoti>(buffer->operator std::byte * ());
+		room->PushJob<PlayerRef, float, float>([player](PlayerRef, float x, float y) {
+			player->Pos->X = x;
+			player->Pos->Y = y;
+			}, player, pkt->x(), pkt->y());
+	}
+	catch (...)
+	{
+
+	}
+}

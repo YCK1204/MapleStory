@@ -32,6 +32,7 @@ public: // player move
 	static void C_JumpHandler(PacketSession* session, ByteRef& buffer);
 	static void C_ProneStabStartHandler(PacketSession* session, ByteRef& buffer);
 	static void C_ProneStabEndHandler(PacketSession* session, ByteRef& buffer);
+	static void C_PosNotiHandler(PacketSession* session, ByteRef& buffer);
 public: // player attack
 	static void C_AttackHandler(PacketSession* session, ByteRef& buffer);
 public: // item
