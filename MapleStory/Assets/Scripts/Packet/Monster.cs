@@ -22,14 +22,14 @@ public partial class PacketHandler
                 mc.transform.position = new Vector3(position.X, position.Y + 2f);
                 mc.ID = baseInfo.Id;
                 mc.name = $"{mc.name}_{i}";
-                mc.Invoke(() => { mc.DestPosX = baseInfo.DestX; });
+                mc.Invoke(() => { mc.DestPosX = baseInfo.X; });
                 Manager.Spawn.InitMonsterPosition(mc.gameObject);
                 Manager.Object.Push(mc);
             }
             else
             {
-                monster.DestPosX = baseInfo.DestX;
-                monster.State = baseInfo.State;
+                monster.DestPosX = baseInfo.X;
+                //monster.State = baseInfo.State;
             }
         }
     }

@@ -38,6 +38,56 @@ const bool GameRoom::CanPort(uint8 id) const
 	return portal != portals.end();
 }
 
+void GameRoom::BroadcastMonsterInfo()
+{
+	if (_objects.size() == 0)
+		return;
+	FlatBufferBuilder builder;
+	auto infos = GenMonsterInfoDetails(builder);
+	auto data = CreateSC_MonsterInfos(builder, infos);
+	auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType::PacketType_SC_MonsterInfos);
+	Broadcast(pkt);
+}
+
+void GameRoom::CheckItemLifetime()
+{
+	if (_objects.size() == 0)
+		return;
+	vector<uint64> deletedItems;
+	deletedItems.reserve(_objects.size());
+
+	for (auto it = _objects.begin(); it != _objects.end();)
+	{
+		if (it->second->Type != ObjectType::ITEM)
+		{
+			it++;
+			continue;
+		}
+		auto item = reinterpret_pointer_cast<Item>(it->second);
+		if (item->CreatedTime + item->LifeTime < GetTickCount64())
+		{
+			deletedItems.push_back(item->Id);
+			it = _objects.erase(it);
+		}
+		else
+		{
+			it++;
+		}
+	}
+
+	if (deletedItems.size())
+	{
+		FlatBufferBuilder builder;
+
+		auto itemVector = builder.CreateVector(deletedItems);
+		auto data = CreateSC_DespawnItem(builder, itemVector);
+		auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_DespawnItem);
+		Broadcast(pkt);
+		cout << "아이템 없어짐 : " << deletedItems.size() << endl;
+		// 아이템 없어짐 패킷 브로드 캐스트
+	}
+}
+
 void GameRoom::Update() {
 	WRITE_LOCK;
 	while (_jobQueue.size() > 0)
@@ -62,15 +112,12 @@ void GameRoom::Update() {
 	if (LastMonsterInfoBroadcast + MonsterInfoBroadcastTickTime < tick)
 	{
 		LastMonsterInfoBroadcast = tick;
-		PushJob([this]() {
-			if (_objects.size() == 0)
-				return;
-			FlatBufferBuilder builder;
-			auto infos = GenMonsterInfoDetails(builder);
-			auto data = CreateSC_MonsterInfos(builder, infos);
-			auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType::PacketType_SC_MonsterInfos);
-			Broadcast(pkt);
-			});
+		PushJob([this]() { BroadcastMonsterInfo(); });
+	}
+	if (LastCheckItemLifetime + CheckItemLifeTicktime < tick)
+	{
+		LastCheckItemLifetime = tick;
+		PushJob([this]() { CheckItemLifetime(); });
 	}
 }
 
@@ -84,7 +131,7 @@ void GameRoom::UpdateMonster()
 
 			monster->Update();
 			if (monster->GetState() == MonsterState::MonsterState_Die) {
-				RemoveMonster(monster->Id);
+				RemoveObject(monster->Id);
 				it = monsterSet.erase(it);
 			}
 			else {

@@ -146,6 +146,7 @@ void PacketHandler::D_CharacterSelectHandler(PacketSession* session, ByteRef& bu
 	auto lastPos = info->last_pos();
 	if (lastPos == 0)
 		lastPos = 1;
+	
 
 	auto& player = client->Player;
 	{
@@ -155,6 +156,7 @@ void PacketHandler::D_CharacterSelectHandler(PacketSession* session, ByteRef& bu
 		player->SetCharId(prevInfo->char_id());
 		player->SetCharType(prevInfo->char_type());
 		player->SetMapId(lastPos);
+		player->SetMoney(info->money());
 		client->State = ClientState::INGAME;
 	}
 
@@ -162,7 +164,7 @@ void PacketHandler::D_CharacterSelectHandler(PacketSession* session, ByteRef& bu
 
 	auto newAbility = CreateCharacterAbility(builder, ability->STR(), ability->DEX(), ability->INT(), ability->LUK());
 	auto newPrevInfo = CreateCharacterInfoDirect(builder, prevInfo->char_id(), prevInfo->char_type(), prevInfo->level(), prevInfo->name()->c_str());
-	auto newTotalinfo = CreateCharacterInfoDetail(builder, newPrevInfo, lastPos, info->hp(), info->mp(), info->exp());
+	auto newTotalinfo = CreateCharacterInfoDetail(builder, newPrevInfo, lastPos, info->hp(), info->mp(), info->exp(), info->money());
 
 	auto data = CreateSC_CharacterSelect(builder, newTotalinfo);
 	auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CharacterSelect);

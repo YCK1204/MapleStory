@@ -200,7 +200,8 @@ struct CharacterInfoDetail FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Tabl
     VT_LAST_POS = 6,
     VT_HP = 8,
     VT_MP = 10,
-    VT_EXP = 12
+    VT_EXP = 12,
+    VT_MONEY = 14
   };
   const CharacterInfo *prev_info() const {
     return GetPointer<const CharacterInfo *>(VT_PREV_INFO);
@@ -217,6 +218,9 @@ struct CharacterInfoDetail FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Tabl
   int32_t exp() const {
     return GetField<int32_t>(VT_EXP, 0);
   }
+  int32_t money() const {
+    return GetField<int32_t>(VT_MONEY, 0);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_PREV_INFO) &&
@@ -225,6 +229,7 @@ struct CharacterInfoDetail FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Tabl
            VerifyField<int32_t>(verifier, VT_HP, 4) &&
            VerifyField<int32_t>(verifier, VT_MP, 4) &&
            VerifyField<int32_t>(verifier, VT_EXP, 4) &&
+           VerifyField<int32_t>(verifier, VT_MONEY, 4) &&
            verifier.EndTable();
   }
 };
@@ -248,6 +253,9 @@ struct CharacterInfoDetailBuilder {
   void add_exp(int32_t exp) {
     fbb_.AddElement<int32_t>(CharacterInfoDetail::VT_EXP, exp, 0);
   }
+  void add_money(int32_t money) {
+    fbb_.AddElement<int32_t>(CharacterInfoDetail::VT_MONEY, money, 0);
+  }
   explicit CharacterInfoDetailBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -265,8 +273,10 @@ inline ::flatbuffers::Offset<CharacterInfoDetail> CreateCharacterInfoDetail(
     int32_t last_pos = 0,
     int32_t hp = 0,
     int32_t mp = 0,
-    int32_t exp = 0) {
+    int32_t exp = 0,
+    int32_t money = 0) {
   CharacterInfoDetailBuilder builder_(_fbb);
+  builder_.add_money(money);
   builder_.add_exp(exp);
   builder_.add_mp(mp);
   builder_.add_hp(hp);

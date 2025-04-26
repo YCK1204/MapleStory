@@ -18,6 +18,8 @@ public class MonsterController : CreatureController
         get { return _destPosX; }
         set
         {
+            if (Mathf.Abs(transform.position.x - value) < .5f)
+                return;
             _destPosX = value;
             Dir = (transform.position.x > _destPosX) ? Dir = MoveDirection.LEFT : MoveDirection.RIGHT;
         }
@@ -30,11 +32,8 @@ public class MonsterController : CreatureController
         {
             if (_state == value || _state == MonsterState.Die)
                 return;
-            if (value == MonsterState.Trace)
-                value = MonsterState.Move;
             _state = value;
             UpdateAnimation();
-            UpdateController();
         }
     }
     Vector2 MoveDir = Vector2.zero;
@@ -68,13 +67,17 @@ public class MonsterController : CreatureController
     }
     [SerializeField]
     float Speed = 1f;
-
+    private void Update()
+    {
+        UpdateController();
+    }
     public override void Destroy()
     {
         GameObject.Destroy(gameObject);
     }
     protected override void Init()
     {
+        Type = ObjectType.Monster;
         Animator = GetComponent<Animator>();
         State = MonsterState.Stand;
         _collider = GetComponent<BoxCollider2D>();
@@ -116,41 +119,19 @@ public class MonsterController : CreatureController
     {
 
     }
-    float Check(float a, float b)
-    {
-        if (b < 0 && a < 0)
-            a = a + b;
-        a = Mathf.Abs(a);
-        b = Mathf.Abs(b);
-        return Mathf.Abs(a - b);
-    }
-    IEnumerator CoMove()
-    {
-        StopCoroutine(CoMove());
-        while (true)
-        {
-            if (State != MonsterState.Move)
-                break;
-            var pos = transform.position;
-            pos += (Vector3)MoveDir * Speed * Time.deltaTime;
-            if (Mathf.Abs(transform.position.x - DestPosX) < .05f)
-            {
-                Dir = MoveDirection.NONE;
-                break;
-            }
-            var hit = Physics2D.Raycast(new Vector2(_collider.bounds.center.x, _collider.bounds.min.y), Vector2.down, 1f, LayerMask.GetMask("Floor", "FloorBase"));
-            if (hit.collider != null)
-            {
-                transform.position = pos;
-            }
-            yield return null;
-        }
-        StopCoroutine(CoMove());
-    }
     float traceTime = 5f;
     private void UpdateMove()
     {
-        StartCoroutine(CoMove());
+        var pos = transform.position;
+        pos += (Vector3)MoveDir * Speed * Time.deltaTime;
+        if (Mathf.Abs(transform.position.x - DestPosX) < .5f)
+        {
+            Dir = MoveDirection.NONE;
+            return;
+        }
+        var hit = Physics2D.Raycast(new Vector2(_collider.bounds.center.x, _collider.bounds.min.y), Vector2.down, 1f, LayerMask.GetMask("Floor", "FloorBase"));
+        if (hit.collider != null)
+            transform.position = pos;
     }
     private void UpdateHit()
     {
@@ -166,7 +147,16 @@ public class MonsterController : CreatureController
     }
     private void UpdateTrace()
     {
-        StartCoroutine(CoMove());
+        var pos = transform.position;
+        pos += (Vector3)MoveDir * Speed * Time.deltaTime;
+        if (Mathf.Abs(transform.position.x - DestPosX) < .5f)
+        {
+            Dir = MoveDirection.NONE;
+            return;
+        }
+        var hit = Physics2D.Raycast(new Vector2(_collider.bounds.center.x, _collider.bounds.min.y), Vector2.down, 1f, LayerMask.GetMask("Floor", "FloorBase"));
+        if (hit.collider != null)
+            transform.position = pos;
     }
     void PlaySound(AudioClip audioClip)
     {

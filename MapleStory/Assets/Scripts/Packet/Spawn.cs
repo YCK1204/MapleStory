@@ -29,6 +29,7 @@ public partial class PacketHandler
                 pc.HP = myPlayerInfo.Hp;
                 pc.MP = myPlayerInfo.Mp;
                 pc.EXP = myPlayerInfo.Exp;
+                pc.Money = myPlayerInfo.Money;
             }
             Manager.Object.MyPlayer = pc;
             pc.transform.position = new Vector3(position.X, position.Y);
@@ -39,12 +40,11 @@ public partial class PacketHandler
             cc.Border = border;
             cc.Target = pc.gameObject;
             Camera.main.cullingMask = ~0;
-            //cc.Init();
 
             FlatBufferBuilder builder = new FlatBufferBuilder(1);
-            C_CreatureInfos.StartC_CreatureInfos(builder);
-            var data = C_CreatureInfos.EndC_CreatureInfos(builder);
-            var packet = Manager.Packet.CreatePacket(data, builder, PacketType.C_CreatureInfos);
+            C_RoomObjects.StartC_RoomObjects(builder);
+            var data = C_RoomObjects.EndC_RoomObjects(builder);
+            var packet = Manager.Packet.CreatePacket(data, builder, PacketType.C_RoomObjects);
             Manager.Network.Send(packet);
         });
     }
@@ -73,7 +73,7 @@ public partial class PacketHandler
         var pkt = SC_MDespawn.GetRootAsSC_MDespawn(buffer);
 
         for (var i = 0; i < pkt.IdLength; i++)
-            Manager.Object.RemoveMonster(pkt.Id(i));
+            Manager.Object.RemoveMonster(pkt.Id(i), pkt.Coin(i).Value);
     }
     static T HandlePSpawn<T>(CharacterInfo charInfo) where T : PlayerController
     {
@@ -101,9 +101,9 @@ public partial class PacketHandler
         var pc = HandlePSpawn<PlayerController>(previewInfo);
         pc.transform.position = new Vector3(position.X, position.Y);
     }
-    public static void SC_CreatureInfosHandler(PacketSession session, ByteBuffer buffer)
+    public static void SC_RoomObjectsHandler(PacketSession session, ByteBuffer buffer)
     {
-        var pkt = SC_CreatureInfos.GetRootAsSC_CreatureInfos(buffer);
+        var pkt = SC_RoomObjects.GetRootAsSC_RoomObjects(buffer);
 
         var len = pkt.PlayersLength;
         for (var i = 0; i < len; i++)
@@ -116,6 +116,17 @@ public partial class PacketHandler
 
             var pc = HandlePSpawn<PlayerController>(charInfo);
             pc.transform.position = new Vector3(position.X, position.Y);
+        }
+        len = pkt.ItemsLength;
+        for (var i = 0; i < len; i++)
+        {
+            var item = pkt.Items(i).Value;
+            CoinController cc = Manager.Resource.Instantiate("prefabs/MapObject/coin").GetComponent<CoinController>();
+
+            cc.transform.position = new Vector2(item.X, item.Y);
+            cc.ID = item.Id;
+            cc.Money = item.Money;
+            Manager.Object.Push(cc);
         }
     }
 }

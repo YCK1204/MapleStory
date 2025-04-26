@@ -19,6 +19,7 @@ public class MyPlayerContoller : PlayerController
         UpArrow,
         Space,
         A,
+        Z,
     }
     Dictionary<PlayerKeyInput, Action> _keyDownHandler = new Dictionary<PlayerKeyInput, Action>();
     Dictionary<PlayerKeyInput, Action> _keyUpHandler = new Dictionary<PlayerKeyInput, Action>();
@@ -38,6 +39,7 @@ public class MyPlayerContoller : PlayerController
     public int EXP { get; set; }
     public int HP { get; set; }
     public int MP { get; set; }
+    public int Money { get; set; }
     #endregion
     [SerializeField]
     float X = 4f;
@@ -135,6 +137,30 @@ public class MyPlayerContoller : PlayerController
                 Manager.Network.Send(pkt);
             }
         });
+        _keyDownHandler.Add(PlayerKeyInput.Z, () =>
+        {
+            Vector2 size = new Vector2(2, 2);
+            Collider2D[] items = Physics2D.OverlapBoxAll(transform.position, size, 0f, LayerMask.GetMask("Item"));
+            GameObject go = null;
+            foreach (var collision in items)
+            {
+                if (go == null)
+                    go = collision.gameObject;
+                else
+                {
+                    if ((gameObject.transform.position - go.transform.position).magnitude > (gameObject.transform.position - collision.transform.position).magnitude)
+                        go = collision.gameObject;
+                }
+            }
+            if (go != null)
+            {
+                var cc = go.GetComponent<CoinController>();
+                FlatBufferBuilder builder = new FlatBufferBuilder(1);
+                var data = C_CollectCoin.CreateC_CollectCoin(builder, cc.ID);
+                var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_CollectCoin);
+                Manager.Network.Send(pkt);
+            }
+        });
         #endregion
         #region KeyUpBinding
         _keyUpHandler.Add(PlayerKeyInput.LeftArrow, () =>
@@ -218,6 +244,8 @@ public class MyPlayerContoller : PlayerController
                 keyDownAction = _keyDownHandler[PlayerKeyInput.UpArrow];
             else if (Input.GetKeyDown(KeyCode.A))
                 keyDownAction = _keyDownHandler[PlayerKeyInput.A];
+            else if (Input.GetKeyDown(KeyCode.Z))
+                keyDownAction = _keyDownHandler[PlayerKeyInput.Z];
         }
 
         // AnyKeyUp

@@ -19,4 +19,5 @@ table CharacterInfoDetail {
 	hp:int32;
 	mp:int32;
 	exp:int32;
+	money:int32;
 }

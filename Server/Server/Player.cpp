@@ -43,7 +43,8 @@ Offset<CharacterInfoDetail> Player::GenerateInfoDetail(FlatBufferBuilder& builde
 		_baseInfo->MapId,
 		_baseInfo->Hp,
 		_baseInfo->Mp,
-		_baseInfo->Exp);
+		_baseInfo->Exp,
+		_baseInfo->Money);
 
 	return totalInfo;
 }
@@ -113,6 +114,11 @@ const int32& Player::GetExp() const
 	return _baseInfo->Exp;
 }
 
+const int32& Player::GetMoey() const
+{
+	return _baseInfo->Money;
+}
+
 void Player::SetAbility(const CharacterAbility* ability)
 {
 	_ability->STR = ability->STR();
@@ -174,6 +180,16 @@ void Player::AddState(const PlayerState state)
 void Player::ClearState()
 {
 	State = 0;
+}
+
+void Player::CollectCoin(shared_ptr<class Meso> meso)
+{
+	_baseInfo->Money += meso->Money;
+}
+
+void Player::SetMoney(const int32& money)
+{
+	_baseInfo->Money = money;
 }
 
 const bool Player::IsAlive() const

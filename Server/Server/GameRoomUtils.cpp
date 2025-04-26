@@ -15,15 +15,27 @@ uint64 GameRoom::GenerateId(const ObjectType& type)
 	return ++_curId | ((uint64)type << 56);
 }
 
-GameObject* GameRoom::Find(uint64& id)
+GameObjectRef GameRoom::Find(uint64& id)
 {
 	auto it = _objects.find(id);
 	if (it == _objects.end())
 		return nullptr;
-	return it->second.get();
+	return _objects[id];
 }
 
-void GameRoom::RemoveMonster(uint64& id) {
+GameObjectRef GameRoom::Find(const uint64& id)
+{
+	auto it = _objects.find(id);
+	if (it == _objects.end())
+		return nullptr;
+	return _objects[id];
+}
+
+void GameRoom::RemoveObject(uint64& id) {
+	_objects.erase(id);
+}
+
+void GameRoom::RemoveObject(const uint64& id) {
 	_objects.erase(id);
 }
 
@@ -40,14 +52,12 @@ void GameRoom::Push(GameObjectRef& go)
 	uint64 id = GenerateId(go->Type);
 	_objects[id] = go;
 	go->Id = id;
-	// broadcast
 }
 
 void GameRoom::Push(GameObject* go)
 {
 	GameObjectRef ref = shared_ptr<GameObject>(go);
 	Push(ref);
-	// broadcast
 }
 
 void GameRoom::Push(PlayerRef player)

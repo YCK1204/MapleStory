@@ -76,7 +76,7 @@
     <Compile Include="Assets\Scripts\Scene\BaseScene.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_UpdatePosition.cs" />
     <Compile Include="Assets\Scripts\Network\Session.cs" />
-    <Compile Include="Assets\Scripts\FlatBuffer\C_CreatureInfos.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_CollectCoin.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_EnterGame.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_EnterChannel.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\MonsterState.cs" />
@@ -97,10 +97,13 @@
     <Compile Include="Assets\Scripts\Controllers\OneShotPlayController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SignUpError.cs" />
     <Compile Include="Assets\Scripts\Network\Connector.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\Coin.cs" />
     <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Packet\PrevInGame\WorldSelect.cs" />
     <Compile Include="Assets\Scripts\Managers\NetworkManager.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_RoomObjects.cs" />
     <Compile Include="Assets\Scripts\Utils\BaseMonobehaviour.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_CollectCoin.cs" />
     <Compile Include="Assets\Scripts\ScriptableObject\Creature\CreatureSpawner.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterInfo.cs" />
     <Compile Include="Assets\Scripts\Controllers\CreatureController.cs" />
@@ -137,15 +140,16 @@
     <Compile Include="Assets\Scripts\FlatBuffer\SC_CharacterDelete.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_SignUp.cs" />
     <Compile Include="Assets\Scripts\Managers\SpawnManager.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_RoomObjects.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_SignIn.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\Tanjiro_Attack.cs" />
     <Compile Include="Assets\UI Toolkit\ReturnToFirst\UIReturnToFirstController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_Despawn.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_CharacterDelete.cs" />
     <Compile Include="Assets\UI Toolkit\UIBaseController.cs" />
-    <Compile Include="Assets\Scripts\FlatBuffer\SC_CreatureInfos.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\CreateCharacter.cs" />
     <Compile Include="Assets\Scripts\Packet\Player.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_DespawnItem.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterListError.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\PacketType.cs" />
     <Compile Include="Assets\Scripts\Packet\PrevInGame\CreateCharacter.cs" />
@@ -158,9 +162,11 @@
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CharacterList.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_MoveStart.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\ServerInfo.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SD_CollectionCoin.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\Position.cs" />
     <Compile Include="Assets\Scripts\ScriptableObject\Creature\MonsterData.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CheckName.cs" />
+    <Compile Include="Assets\Scripts\Packet\Item.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_ChannelInfo.cs" />
     <Compile Include="Assets\Scripts\Packet\PrevInGame\Login.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CharacterSelect.cs" />
@@ -188,6 +194,7 @@
     <Compile Include="Assets\Scripts\Session\ServerSession.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_Portal.cs" />
     <Compile Include="Assets\Scripts\ScriptableObject\Creature\PlayerData.cs" />
+    <Compile Include="Assets\Scripts\Controllers\CoinController.cs" />
     <Compile Include="Assets\Scripts\Scene\PrevInGameScene.cs" />
   </ItemGroup>
   <ItemGroup>

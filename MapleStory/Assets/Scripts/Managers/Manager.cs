@@ -52,6 +52,16 @@ public class Manager : BaseMonobehaviour
         DontDestroyOnLoad(Audio);
         Network.Init();
         Spawn.Init();
+
+
+        int playerLayer = LayerMask.NameToLayer("Player");
+        int ItemLayer = LayerMask.NameToLayer("Item");
+        int enemyLayer = LayerMask.NameToLayer("Enemy");
+
+        Physics2D.IgnoreLayerCollision(playerLayer, ItemLayer);
+        Physics2D.IgnoreLayerCollision(playerLayer, playerLayer);
+        Physics2D.IgnoreLayerCollision(ItemLayer, enemyLayer);
+        Physics2D.IgnoreLayerCollision(ItemLayer, ItemLayer);
     }
     void Update()
     {

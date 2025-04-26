@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Diagnostics;
 
 public class PlayerController : CreatureController
 {
@@ -103,14 +102,13 @@ public class PlayerController : CreatureController
         }
     }
     public PlayerCharacterType CharacterType { get; set; }
-
-    Vector2 bottomOffset = new Vector2(0, -.5f);
     #region Components Init
     Animator anim;
     protected Rigidbody2D rb;
     protected BoxCollider2D boxCollider;
     protected override void Init()
     {
+        Type = ObjectType.Player;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();

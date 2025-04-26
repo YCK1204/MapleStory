@@ -45,8 +45,8 @@ public enum PacketType : byte
   C_Despawn = 38,
   SC_PDespawn = 39,
   SC_MDespawn = 40,
-  C_CreatureInfos = 41,
-  SC_CreatureInfos = 42,
+  C_RoomObjects = 41,
+  SC_RoomObjects = 42,
   C_MoveStart = 43,
   SC_MoveStart = 44,
   C_MoveEnd = 45,
@@ -60,6 +60,10 @@ public enum PacketType : byte
   C_Attack = 53,
   SC_Attack = 54,
   SC_MonsterInfos = 55,
+  SC_DespawnItem = 56,
+  C_CollectCoin = 57,
+  SC_CollectCoin = 58,
+  SD_CollectionCoin = 59,
 };
 
 
@@ -191,11 +195,11 @@ static public class PacketTypeVerify
       case PacketType.SC_MDespawn:
         result = SC_MDespawnVerify.Verify(verifier, tablePos);
         break;
-      case PacketType.C_CreatureInfos:
-        result = C_CreatureInfosVerify.Verify(verifier, tablePos);
+      case PacketType.C_RoomObjects:
+        result = C_RoomObjectsVerify.Verify(verifier, tablePos);
         break;
-      case PacketType.SC_CreatureInfos:
-        result = SC_CreatureInfosVerify.Verify(verifier, tablePos);
+      case PacketType.SC_RoomObjects:
+        result = SC_RoomObjectsVerify.Verify(verifier, tablePos);
         break;
       case PacketType.C_MoveStart:
         result = C_MoveStartVerify.Verify(verifier, tablePos);
@@ -235,6 +239,18 @@ static public class PacketTypeVerify
         break;
       case PacketType.SC_MonsterInfos:
         result = SC_MonsterInfosVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_DespawnItem:
+        result = SC_DespawnItemVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.C_CollectCoin:
+        result = C_CollectCoinVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SC_CollectCoin:
+        result = SC_CollectCoinVerify.Verify(verifier, tablePos);
+        break;
+      case PacketType.SD_CollectionCoin:
+        result = SD_CollectionCoinVerify.Verify(verifier, tablePos);
         break;
       default: result = true;
         break;

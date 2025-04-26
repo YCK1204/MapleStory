@@ -15,6 +15,7 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 24 &&
 
 #include "CharacterSelect_generated.h"
 #include "CreateCharacter_generated.h"
+#include "Item_generated.h"
 #include "Login_generated.h"
 #include "Monster_generated.h"
 #include "Move_generated.h"
@@ -65,8 +66,8 @@ enum PacketType : uint8_t {
   PacketType_C_Despawn = 38,
   PacketType_SC_PDespawn = 39,
   PacketType_SC_MDespawn = 40,
-  PacketType_C_CreatureInfos = 41,
-  PacketType_SC_CreatureInfos = 42,
+  PacketType_C_RoomObjects = 41,
+  PacketType_SC_RoomObjects = 42,
   PacketType_C_MoveStart = 43,
   PacketType_SC_MoveStart = 44,
   PacketType_C_MoveEnd = 45,
@@ -80,11 +81,15 @@ enum PacketType : uint8_t {
   PacketType_C_Attack = 53,
   PacketType_SC_Attack = 54,
   PacketType_SC_MonsterInfos = 55,
+  PacketType_SC_DespawnItem = 56,
+  PacketType_C_CollectCoin = 57,
+  PacketType_SC_CollectCoin = 58,
+  PacketType_SD_CollectionCoin = 59,
   PacketType_MIN = PacketType_NONE,
-  PacketType_MAX = PacketType_SC_MonsterInfos
+  PacketType_MAX = PacketType_SD_CollectionCoin
 };
 
-inline const PacketType (&EnumValuesPacketType())[56] {
+inline const PacketType (&EnumValuesPacketType())[60] {
   static const PacketType values[] = {
     PacketType_NONE,
     PacketType_C_SignUp,
@@ -127,8 +132,8 @@ inline const PacketType (&EnumValuesPacketType())[56] {
     PacketType_C_Despawn,
     PacketType_SC_PDespawn,
     PacketType_SC_MDespawn,
-    PacketType_C_CreatureInfos,
-    PacketType_SC_CreatureInfos,
+    PacketType_C_RoomObjects,
+    PacketType_SC_RoomObjects,
     PacketType_C_MoveStart,
     PacketType_SC_MoveStart,
     PacketType_C_MoveEnd,
@@ -141,13 +146,17 @@ inline const PacketType (&EnumValuesPacketType())[56] {
     PacketType_SC_ProneStabEnd,
     PacketType_C_Attack,
     PacketType_SC_Attack,
-    PacketType_SC_MonsterInfos
+    PacketType_SC_MonsterInfos,
+    PacketType_SC_DespawnItem,
+    PacketType_C_CollectCoin,
+    PacketType_SC_CollectCoin,
+    PacketType_SD_CollectionCoin
   };
   return values;
 }
 
 inline const char * const *EnumNamesPacketType() {
-  static const char * const names[57] = {
+  static const char * const names[61] = {
     "NONE",
     "C_SignUp",
     "SD_SignUp",
@@ -189,8 +198,8 @@ inline const char * const *EnumNamesPacketType() {
     "C_Despawn",
     "SC_PDespawn",
     "SC_MDespawn",
-    "C_CreatureInfos",
-    "SC_CreatureInfos",
+    "C_RoomObjects",
+    "SC_RoomObjects",
     "C_MoveStart",
     "SC_MoveStart",
     "C_MoveEnd",
@@ -204,13 +213,17 @@ inline const char * const *EnumNamesPacketType() {
     "C_Attack",
     "SC_Attack",
     "SC_MonsterInfos",
+    "SC_DespawnItem",
+    "C_CollectCoin",
+    "SC_CollectCoin",
+    "SD_CollectionCoin",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNamePacketType(PacketType e) {
-  if (::flatbuffers::IsOutRange(e, PacketType_NONE, PacketType_SC_MonsterInfos)) return "";
+  if (::flatbuffers::IsOutRange(e, PacketType_NONE, PacketType_SD_CollectionCoin)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesPacketType()[index];
 }
@@ -379,12 +392,12 @@ template<> struct PacketTypeTraits<SC_MDespawn> {
   static const PacketType enum_value = PacketType_SC_MDespawn;
 };
 
-template<> struct PacketTypeTraits<C_CreatureInfos> {
-  static const PacketType enum_value = PacketType_C_CreatureInfos;
+template<> struct PacketTypeTraits<C_RoomObjects> {
+  static const PacketType enum_value = PacketType_C_RoomObjects;
 };
 
-template<> struct PacketTypeTraits<SC_CreatureInfos> {
-  static const PacketType enum_value = PacketType_SC_CreatureInfos;
+template<> struct PacketTypeTraits<SC_RoomObjects> {
+  static const PacketType enum_value = PacketType_SC_RoomObjects;
 };
 
 template<> struct PacketTypeTraits<C_MoveStart> {
@@ -437,6 +450,22 @@ template<> struct PacketTypeTraits<SC_Attack> {
 
 template<> struct PacketTypeTraits<SC_MonsterInfos> {
   static const PacketType enum_value = PacketType_SC_MonsterInfos;
+};
+
+template<> struct PacketTypeTraits<SC_DespawnItem> {
+  static const PacketType enum_value = PacketType_SC_DespawnItem;
+};
+
+template<> struct PacketTypeTraits<C_CollectCoin> {
+  static const PacketType enum_value = PacketType_C_CollectCoin;
+};
+
+template<> struct PacketTypeTraits<SC_CollectCoin> {
+  static const PacketType enum_value = PacketType_SC_CollectCoin;
+};
+
+template<> struct PacketTypeTraits<SD_CollectionCoin> {
+  static const PacketType enum_value = PacketType_SD_CollectionCoin;
 };
 
 bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj, PacketType type);
@@ -607,12 +636,12 @@ inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj,
       auto ptr = reinterpret_cast<const SC_MDespawn *>(obj);
       return verifier.VerifyTable(ptr);
     }
-    case PacketType_C_CreatureInfos: {
-      auto ptr = reinterpret_cast<const C_CreatureInfos *>(obj);
+    case PacketType_C_RoomObjects: {
+      auto ptr = reinterpret_cast<const C_RoomObjects *>(obj);
       return verifier.VerifyTable(ptr);
     }
-    case PacketType_SC_CreatureInfos: {
-      auto ptr = reinterpret_cast<const SC_CreatureInfos *>(obj);
+    case PacketType_SC_RoomObjects: {
+      auto ptr = reinterpret_cast<const SC_RoomObjects *>(obj);
       return verifier.VerifyTable(ptr);
     }
     case PacketType_C_MoveStart: {
@@ -665,6 +694,22 @@ inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj,
     }
     case PacketType_SC_MonsterInfos: {
       auto ptr = reinterpret_cast<const SC_MonsterInfos *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_DespawnItem: {
+      auto ptr = reinterpret_cast<const SC_DespawnItem *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_C_CollectCoin: {
+      auto ptr = reinterpret_cast<const C_CollectCoin *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_CollectCoin: {
+      auto ptr = reinterpret_cast<const SC_CollectCoin *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SD_CollectionCoin: {
+      auto ptr = reinterpret_cast<const SD_CollectionCoin *>(obj);
       return verifier.VerifyTable(ptr);
     }
     default: return true;

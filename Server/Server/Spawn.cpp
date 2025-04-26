@@ -119,7 +119,7 @@ void PacketHandler::C_EnterGameHandler(PacketSession* session, ByteRef& buffer)
 	}
 }
 
-void PacketHandler::C_CreatureInfosHandler(PacketSession* session, ByteRef& buffer)
+void PacketHandler::C_RoomObjectsHandler(PacketSession* session, ByteRef& buffer)
 {
 	try {
 		ClientRef client = Manager::Session.Find(session->GetSessionId());
@@ -135,8 +135,9 @@ void PacketHandler::C_CreatureInfosHandler(PacketSession* session, ByteRef& buff
 		room->PushJob([room, client]() {
 			FlatBufferBuilder builder;
 			auto playerInfos = room->GenPlayerInfos(builder);
-			auto data = CreateSC_CreatureInfos(builder, playerInfos);
-			auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_CreatureInfos);
+			auto items = room->GenItemInfos(builder);
+			auto data = CreateSC_RoomObjects(builder, playerInfos, items);
+			auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_RoomObjects);
 			client->Send(pkt);
 			});
 	}

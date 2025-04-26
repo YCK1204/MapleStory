@@ -9,6 +9,7 @@ include "Move.fbs";
 include "Tanjiro.fbs";
 include "Player.fbs";
 include "Monster.fbs";
+include "Item.fbs";
 
 
 union PacketType {
@@ -62,8 +63,8 @@ union PacketType {
 	C_Despawn,
 	SC_PDespawn,
 	SC_MDespawn,
-	C_CreatureInfos,
-	SC_CreatureInfos,
+	C_RoomObjects,
+	SC_RoomObjects,
 // ------------------- Spawn -----------------
 // ------------------- Move -----------------
 	C_MoveStart,
@@ -84,4 +85,10 @@ union PacketType {
 // ------------------- Monster -----------------
 	SC_MonsterInfos,
 // ------------------- Monster -----------------
+// ------------------- Item -----------------
+	SC_DespawnItem,
+	C_CollectCoin,
+	SC_CollectCoin,
+	SD_CollectionCoin,
+// ------------------- Item -----------------
 }

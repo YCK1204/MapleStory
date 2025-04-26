@@ -31,6 +31,7 @@ void PacketManager::Register()
 		_handler[PacketType::PacketType_SD_CharacterSelect] = PacketHandler::SD_CharacterSelectHandler;
 		_handler[PacketType::PacketType_SD_CheckName] = PacketHandler::SD_CheckNameHandler;
 		_handler[PacketType::PacketType_SD_CreateCharacter] = PacketHandler::SD_CreateCharacterHandler;
+		_handler[PacketType::PacketType_SD_CollectionCoin] = PacketHandler::SD_CollectionCoinHandler;
 		
 }
 

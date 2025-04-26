@@ -27,7 +27,7 @@ public class PacketManager
 		_handler.Add((ushort)PacketType.SC_PSpawn, PacketHandler.SC_PSpawnHandler);
 		_handler.Add((ushort)PacketType.SC_PDespawn, PacketHandler.SC_PDespawnHandler);
 		_handler.Add((ushort)PacketType.SC_MDespawn, PacketHandler.SC_MDespawnHandler);
-		_handler.Add((ushort)PacketType.SC_CreatureInfos, PacketHandler.SC_CreatureInfosHandler);
+		_handler.Add((ushort)PacketType.SC_RoomObjects, PacketHandler.SC_RoomObjectsHandler);
 		_handler.Add((ushort)PacketType.SC_MoveStart, PacketHandler.SC_MoveStartHandler);
 		_handler.Add((ushort)PacketType.SC_MoveEnd, PacketHandler.SC_MoveEndHandler);
 		_handler.Add((ushort)PacketType.SC_Jump, PacketHandler.SC_JumpHandler);
@@ -35,6 +35,8 @@ public class PacketManager
 		_handler.Add((ushort)PacketType.SC_ProneStabEnd, PacketHandler.SC_ProneStabEndHandler);
 		_handler.Add((ushort)PacketType.SC_Attack, PacketHandler.SC_AttackHandler);
 		_handler.Add((ushort)PacketType.SC_MonsterInfos, PacketHandler.SC_MonsterInfosHandler);
+		_handler.Add((ushort)PacketType.SC_DespawnItem, PacketHandler.SC_DespawnItemHandler);
+		_handler.Add((ushort)PacketType.SC_CollectCoin, PacketHandler.SC_CollectCoinHandler);
 		
     }
     public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

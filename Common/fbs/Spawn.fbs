@@ -1,6 +1,7 @@
 include "Creature.fbs";
 include "Monster.fbs";
 include "Player.fbs";
+include "Item.fbs";
 
 table C_Portal {
 	portal_id:uint8;
@@ -22,11 +23,12 @@ table SC_EnterGame {
 	position:Position;
 }
 
-table C_CreatureInfos {
+table C_RoomObjects {
 }
 
-table SC_CreatureInfos {
+table SC_RoomObjects {
 	players:[PlayerInfo];
+	items:[Coin];
 }
 
 table SC_PSpawn {
@@ -42,4 +44,5 @@ table SC_PDespawn {
 
 table SC_MDespawn {
 	id:[uint64];
+	coin:[Coin];
 }

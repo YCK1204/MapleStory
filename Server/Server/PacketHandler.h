@@ -25,7 +25,7 @@ public: // spawn
 	static void C_DespawnHandler(PacketSession* session, ByteRef& buffer);
 	static void C_PortalHandler(PacketSession* session, ByteRef& buffer);
 	static void C_EnterGameHandler(PacketSession* session, ByteRef& buffer);
-	static void C_CreatureInfosHandler(PacketSession* session, ByteRef& buffer);
+	static void C_RoomObjectsHandler(PacketSession* session, ByteRef& buffer);
 public: // player move
 	static void C_MoveStartHandler(PacketSession* session, ByteRef& buffer);
 	static void C_MoveEndHandler(PacketSession* session, ByteRef& buffer);
@@ -34,4 +34,6 @@ public: // player move
 	static void C_ProneStabEndHandler(PacketSession* session, ByteRef& buffer);
 public: // player attack
 	static void C_AttackHandler(PacketSession* session, ByteRef& buffer);
+public: // item
+	static void C_CollectCoinHandler(PacketSession* session, ByteRef& buffer);
 };

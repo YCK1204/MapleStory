@@ -139,7 +139,7 @@ void PacketHandler::SD_CharacterSelectHandler(PacketSession* session, ByteRef& b
 	auto charId = pkt->char_id();
 
 	wstring query = Utils::wformat(
-		"select A.level, A.exp, A.hp, A.mp, A.last_pos, A._str, A._dex, A._int, A._luk, B.name, B.char_type "
+		"select A.level, A.exp, A.hp, A.mp, A.last_pos, A._str, A._dex, A._int, A._luk, A.money, B.name, B.char_type "
 		"from character_status as A "
 		"inner join "
 		"character_info as B "
@@ -161,6 +161,7 @@ void PacketHandler::SD_CharacterSelectHandler(PacketSession* session, ByteRef& b
 			SQLINTEGER _dex;
 			SQLINTEGER _int;
 			SQLINTEGER _luk;
+			SQLINTEGER money;
 			SQLCHAR name[20] = {};
 			SQLINTEGER charType;
 
@@ -173,6 +174,7 @@ void PacketHandler::SD_CharacterSelectHandler(PacketSession* session, ByteRef& b
 			SQLLEN _dexIndicator;
 			SQLLEN _intIndicator;
 			SQLLEN _lukIndicator;
+			SQLLEN moneyIndicator;
 			SQLLEN nameIndicator;
 			SQLLEN charTypeIndicator;
 
@@ -189,8 +191,9 @@ void PacketHandler::SD_CharacterSelectHandler(PacketSession* session, ByteRef& b
 			SQLBindCol(stmt, 7, SQL_INTEGER, &_dex, sizeof(_dex), &_dexIndicator);
 			SQLBindCol(stmt, 8, SQL_INTEGER, &_int, sizeof(_int), &_intIndicator);
 			SQLBindCol(stmt, 9, SQL_INTEGER, &_luk, sizeof(_luk), &_lukIndicator);
-			SQLBindCol(stmt, 10, SQL_CHAR, name, sizeof(name), &nameIndicator);
-			SQLBindCol(stmt, 11, SQL_INTEGER, &charType, sizeof(charType), &charTypeIndicator);
+			SQLBindCol(stmt, 10, SQL_INTEGER, &money, sizeof(money), &moneyIndicator);
+			SQLBindCol(stmt, 11, SQL_CHAR, name, sizeof(name), &nameIndicator);
+			SQLBindCol(stmt, 12, SQL_INTEGER, &charType, sizeof(charType), &charTypeIndicator);
 			SQLRETURN fetchResult = SQLFetch(stmt);
 			if (fetchResult != SQL_SUCCESS || fetchResult == SQL_NO_DATA)
 				throw - 1;
@@ -203,7 +206,7 @@ void PacketHandler::SD_CharacterSelectHandler(PacketSession* session, ByteRef& b
 
 			auto ability = CreateCharacterAbility(builder, _str, _dex, _int, _luk);
 			auto prevInfo = CreateCharacterInfo(builder, charId, charType, level, nameStr, ability);
-			auto totalInfo = CreateCharacterInfoDetail(builder, prevInfo, lastPos, hp, mp, exp);
+			auto totalInfo = CreateCharacterInfoDetail(builder, prevInfo, lastPos, hp, mp, exp, money);
 			auto data = CreateD_CharacterSelect(builder, CharacterSelectError_SUCCESS, sessionId, totalInfo);
 			auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_D_CharacterSelect);
 			Manager::session->Send(pkt);

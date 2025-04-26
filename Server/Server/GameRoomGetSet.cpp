@@ -53,6 +53,25 @@ Offset<Vector<Offset<MonsterInfo>>> GameRoom::GenMonsterInfos(FlatBufferBuilder&
 	return builder.CreateVector(infos);
 }
 
+Offset<Vector<Offset<Coin>>> GameRoom::GenItemInfos(FlatBufferBuilder& builder)
+{
+	vector<Offset<Coin>> coins;
+
+	for (auto it = _objects.begin(); it != _objects.end(); it++)
+	{
+		if (it->second->Type == ObjectType::ITEM)
+		{
+			auto item = reinterpret_cast<Item*>(it->second.get());
+			if (item->ItemType != ItemType::COIN)
+				continue;
+			auto meso = reinterpret_cast<Meso*>(item);
+			auto coin = CreateCoin(builder, meso->Id, meso->Money, meso->Pos->X, meso->Pos->Y);
+			coins.push_back(coin);
+		}
+	}
+	return builder.CreateVector(coins);
+}
+
 Offset<Vector<Offset<MonsterInfoDetail>>> GameRoom::GenMonsterInfoDetails(FlatBufferBuilder& builder)
 {
 	vector<Offset<MonsterInfoDetail>> infos;

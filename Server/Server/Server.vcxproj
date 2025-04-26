@@ -152,10 +152,13 @@
     <ClCompile Include="Channel.cpp" />
     <ClCompile Include="CharacterSelect.cpp" />
     <ClCompile Include="ClientSession.cpp" />
+    <ClCompile Include="ItemPacket.cpp" />
+    <ClCompile Include="Meso.cpp" />
     <ClCompile Include="CreateCharacter.cpp" />
     <ClCompile Include="Creature.cpp" />
     <ClCompile Include="GameRoomGetSet.cpp" />
     <ClCompile Include="GameRoomUtils.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="DataManager.cpp" />
@@ -183,7 +186,9 @@
   <ItemGroup>
     <ClInclude Include="Channel.h" />
     <ClInclude Include="ClientSession.h" />
+    <ClInclude Include="Meso.h" />
     <ClInclude Include="Creature.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="DataManager.h" />

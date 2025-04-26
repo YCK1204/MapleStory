@@ -24,21 +24,31 @@ public struct SC_MDespawn : IFlatbufferObject
   public ArraySegment<byte>? GetIdBytes() { return __p.__vector_as_arraysegment(4); }
 #endif
   public ulong[] GetIdArray() { return __p.__vector_as_array<ulong>(4); }
+  public Coin? Coin(int j) { int o = __p.__offset(6); return o != 0 ? (Coin?)(new Coin()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
+  public int CoinLength { get { int o = __p.__offset(6); return o != 0 ? __p.__vector_len(o) : 0; } }
 
   public static Offset<SC_MDespawn> CreateSC_MDespawn(FlatBufferBuilder builder,
-      VectorOffset idOffset = default(VectorOffset)) {
-    builder.StartTable(1);
+      VectorOffset idOffset = default(VectorOffset),
+      VectorOffset coinOffset = default(VectorOffset)) {
+    builder.StartTable(2);
+    SC_MDespawn.AddCoin(builder, coinOffset);
     SC_MDespawn.AddId(builder, idOffset);
     return SC_MDespawn.EndSC_MDespawn(builder);
   }
 
-  public static void StartSC_MDespawn(FlatBufferBuilder builder) { builder.StartTable(1); }
+  public static void StartSC_MDespawn(FlatBufferBuilder builder) { builder.StartTable(2); }
   public static void AddId(FlatBufferBuilder builder, VectorOffset idOffset) { builder.AddOffset(0, idOffset.Value, 0); }
   public static VectorOffset CreateIdVector(FlatBufferBuilder builder, ulong[] data) { builder.StartVector(8, data.Length, 8); for (int i = data.Length - 1; i >= 0; i--) builder.AddUlong(data[i]); return builder.EndVector(); }
   public static VectorOffset CreateIdVectorBlock(FlatBufferBuilder builder, ulong[] data) { builder.StartVector(8, data.Length, 8); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreateIdVectorBlock(FlatBufferBuilder builder, ArraySegment<ulong> data) { builder.StartVector(8, data.Count, 8); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreateIdVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<ulong>(dataPtr, sizeInBytes); return builder.EndVector(); }
   public static void StartIdVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(8, numElems, 8); }
+  public static void AddCoin(FlatBufferBuilder builder, VectorOffset coinOffset) { builder.AddOffset(1, coinOffset.Value, 0); }
+  public static VectorOffset CreateCoinVector(FlatBufferBuilder builder, Offset<Coin>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
+  public static VectorOffset CreateCoinVectorBlock(FlatBufferBuilder builder, Offset<Coin>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateCoinVectorBlock(FlatBufferBuilder builder, ArraySegment<Offset<Coin>> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateCoinVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<Offset<Coin>>(dataPtr, sizeInBytes); return builder.EndVector(); }
+  public static void StartCoinVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
   public static Offset<SC_MDespawn> EndSC_MDespawn(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<SC_MDespawn>(o);
@@ -52,6 +62,7 @@ static public class SC_MDespawnVerify
   {
     return verifier.VerifyTableStart(tablePos)
       && verifier.VerifyVectorOfData(tablePos, 4 /*Id*/, 8 /*ulong*/, false)
+      && verifier.VerifyVectorOfTables(tablePos, 6 /*Coin*/, CoinVerify.Verify, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

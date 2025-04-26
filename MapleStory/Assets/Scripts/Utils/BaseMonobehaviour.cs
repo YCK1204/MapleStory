@@ -37,4 +37,25 @@ public class BaseMonobehaviour : MonoBehaviour
         var renderer = GetComponent<SpriteRenderer>();
         StartCoroutine(FadeInInvoke(renderer, duration));
     }
+    IEnumerator FadeOutInvoke(SpriteRenderer renderer, float duration)
+    {
+        float elapsed = 0f;
+        Color color = renderer.color;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
+            renderer.color = new Color(color.r, color.g, color.b, alpha);
+            yield return null;
+        }
+
+        renderer.color = new Color(color.r, color.g, color.b, 0f);
+        StopCoroutine(FadeOutInvoke(renderer, duration));
+    }
+    public void FadeOut(float duration)
+    {
+        var renderer = GetComponent<SpriteRenderer>();
+        StartCoroutine(FadeOutInvoke(renderer, duration));
+    }
 }

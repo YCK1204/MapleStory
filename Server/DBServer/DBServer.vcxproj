@@ -142,6 +142,7 @@
     <ClCompile Include="CreateCharacter.cpp" />
     <ClCompile Include="DataModel.cpp" />
     <ClCompile Include="DbManager.cpp" />
+    <ClCompile Include="ItemPacket.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Manager.cpp" />

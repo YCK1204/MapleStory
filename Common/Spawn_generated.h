@@ -14,6 +14,7 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 24 &&
              "Non-compatible flatbuffers version included");
 
 #include "Creature_generated.h"
+#include "Item_generated.h"
 #include "Monster_generated.h"
 #include "Player_generated.h"
 
@@ -29,11 +30,11 @@ struct C_EnterGameBuilder;
 struct SC_EnterGame;
 struct SC_EnterGameBuilder;
 
-struct C_CreatureInfos;
-struct C_CreatureInfosBuilder;
+struct C_RoomObjects;
+struct C_RoomObjectsBuilder;
 
-struct SC_CreatureInfos;
-struct SC_CreatureInfosBuilder;
+struct SC_RoomObjects;
+struct SC_RoomObjectsBuilder;
 
 struct SC_PSpawn;
 struct SC_PSpawnBuilder;
@@ -255,85 +256,100 @@ inline ::flatbuffers::Offset<SC_EnterGame> CreateSC_EnterGame(
   return builder_.Finish();
 }
 
-struct C_CreatureInfos FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef C_CreatureInfosBuilder Builder;
+struct C_RoomObjects FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef C_RoomObjectsBuilder Builder;
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            verifier.EndTable();
   }
 };
 
-struct C_CreatureInfosBuilder {
-  typedef C_CreatureInfos Table;
+struct C_RoomObjectsBuilder {
+  typedef C_RoomObjects Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
-  explicit C_CreatureInfosBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit C_RoomObjectsBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<C_CreatureInfos> Finish() {
+  ::flatbuffers::Offset<C_RoomObjects> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<C_CreatureInfos>(end);
+    auto o = ::flatbuffers::Offset<C_RoomObjects>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<C_CreatureInfos> CreateC_CreatureInfos(
+inline ::flatbuffers::Offset<C_RoomObjects> CreateC_RoomObjects(
     ::flatbuffers::FlatBufferBuilder &_fbb) {
-  C_CreatureInfosBuilder builder_(_fbb);
+  C_RoomObjectsBuilder builder_(_fbb);
   return builder_.Finish();
 }
 
-struct SC_CreatureInfos FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef SC_CreatureInfosBuilder Builder;
+struct SC_RoomObjects FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SC_RoomObjectsBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_PLAYERS = 4
+    VT_PLAYERS = 4,
+    VT_ITEMS = 6
   };
   const ::flatbuffers::Vector<::flatbuffers::Offset<PlayerInfo>> *players() const {
     return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<PlayerInfo>> *>(VT_PLAYERS);
+  }
+  const ::flatbuffers::Vector<::flatbuffers::Offset<Coin>> *items() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<Coin>> *>(VT_ITEMS);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_PLAYERS) &&
            verifier.VerifyVector(players()) &&
            verifier.VerifyVectorOfTables(players()) &&
+           VerifyOffset(verifier, VT_ITEMS) &&
+           verifier.VerifyVector(items()) &&
+           verifier.VerifyVectorOfTables(items()) &&
            verifier.EndTable();
   }
 };
 
-struct SC_CreatureInfosBuilder {
-  typedef SC_CreatureInfos Table;
+struct SC_RoomObjectsBuilder {
+  typedef SC_RoomObjects Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
   void add_players(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<PlayerInfo>>> players) {
-    fbb_.AddOffset(SC_CreatureInfos::VT_PLAYERS, players);
+    fbb_.AddOffset(SC_RoomObjects::VT_PLAYERS, players);
   }
-  explicit SC_CreatureInfosBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  void add_items(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<Coin>>> items) {
+    fbb_.AddOffset(SC_RoomObjects::VT_ITEMS, items);
+  }
+  explicit SC_RoomObjectsBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<SC_CreatureInfos> Finish() {
+  ::flatbuffers::Offset<SC_RoomObjects> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<SC_CreatureInfos>(end);
+    auto o = ::flatbuffers::Offset<SC_RoomObjects>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<SC_CreatureInfos> CreateSC_CreatureInfos(
+inline ::flatbuffers::Offset<SC_RoomObjects> CreateSC_RoomObjects(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<PlayerInfo>>> players = 0) {
-  SC_CreatureInfosBuilder builder_(_fbb);
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<PlayerInfo>>> players = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<Coin>>> items = 0) {
+  SC_RoomObjectsBuilder builder_(_fbb);
+  builder_.add_items(items);
   builder_.add_players(players);
   return builder_.Finish();
 }
 
-inline ::flatbuffers::Offset<SC_CreatureInfos> CreateSC_CreatureInfosDirect(
+inline ::flatbuffers::Offset<SC_RoomObjects> CreateSC_RoomObjectsDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    const std::vector<::flatbuffers::Offset<PlayerInfo>> *players = nullptr) {
+    const std::vector<::flatbuffers::Offset<PlayerInfo>> *players = nullptr,
+    const std::vector<::flatbuffers::Offset<Coin>> *items = nullptr) {
   auto players__ = players ? _fbb.CreateVector<::flatbuffers::Offset<PlayerInfo>>(*players) : 0;
-  return CreateSC_CreatureInfos(
+  auto items__ = items ? _fbb.CreateVector<::flatbuffers::Offset<Coin>>(*items) : 0;
+  return CreateSC_RoomObjects(
       _fbb,
-      players__);
+      players__,
+      items__);
 }
 
 struct SC_PSpawn FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
@@ -451,15 +467,22 @@ inline ::flatbuffers::Offset<SC_PDespawn> CreateSC_PDespawn(
 struct SC_MDespawn FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef SC_MDespawnBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_ID = 4
+    VT_ID = 4,
+    VT_COIN = 6
   };
   const ::flatbuffers::Vector<uint64_t> *id() const {
     return GetPointer<const ::flatbuffers::Vector<uint64_t> *>(VT_ID);
+  }
+  const ::flatbuffers::Vector<::flatbuffers::Offset<Coin>> *coin() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<Coin>> *>(VT_COIN);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_ID) &&
            verifier.VerifyVector(id()) &&
+           VerifyOffset(verifier, VT_COIN) &&
+           verifier.VerifyVector(coin()) &&
+           verifier.VerifyVectorOfTables(coin()) &&
            verifier.EndTable();
   }
 };
@@ -470,6 +493,9 @@ struct SC_MDespawnBuilder {
   ::flatbuffers::uoffset_t start_;
   void add_id(::flatbuffers::Offset<::flatbuffers::Vector<uint64_t>> id) {
     fbb_.AddOffset(SC_MDespawn::VT_ID, id);
+  }
+  void add_coin(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<Coin>>> coin) {
+    fbb_.AddOffset(SC_MDespawn::VT_COIN, coin);
   }
   explicit SC_MDespawnBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -484,19 +510,24 @@ struct SC_MDespawnBuilder {
 
 inline ::flatbuffers::Offset<SC_MDespawn> CreateSC_MDespawn(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    ::flatbuffers::Offset<::flatbuffers::Vector<uint64_t>> id = 0) {
+    ::flatbuffers::Offset<::flatbuffers::Vector<uint64_t>> id = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<Coin>>> coin = 0) {
   SC_MDespawnBuilder builder_(_fbb);
+  builder_.add_coin(coin);
   builder_.add_id(id);
   return builder_.Finish();
 }
 
 inline ::flatbuffers::Offset<SC_MDespawn> CreateSC_MDespawnDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    const std::vector<uint64_t> *id = nullptr) {
+    const std::vector<uint64_t> *id = nullptr,
+    const std::vector<::flatbuffers::Offset<Coin>> *coin = nullptr) {
   auto id__ = id ? _fbb.CreateVector<uint64_t>(*id) : 0;
+  auto coin__ = coin ? _fbb.CreateVector<::flatbuffers::Offset<Coin>>(*coin) : 0;
   return CreateSC_MDespawn(
       _fbb,
-      id__);
+      id__,
+      coin__);
 }
 
 #endif  // FLATBUFFERS_GENERATED_SPAWN_H_

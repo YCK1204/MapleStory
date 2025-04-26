@@ -27,6 +27,9 @@
     <ClCompile Include="CreateCharacter.cpp">
       <Filter>Packet\PrevInGame</Filter>
     </ClCompile>
+    <ClCompile Include="ItemPacket.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

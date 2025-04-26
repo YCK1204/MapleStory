@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Job.h"
 #include "Monster.h"
+#include "Meso.h"
 #include "Map.h"
 #include <variant>
 
@@ -33,6 +34,8 @@ private:
 	uint64 LastMonsterUpdate = GetTickCount64();
 	const static uint16 MonsterInfoBroadcastTickTime = 1500;
 	uint64 LastMonsterInfoBroadcast = GetTickCount64();
+	const static uint16 CheckItemLifeTicktime = 6'0000;
+	uint64 LastCheckItemLifetime = GetTickCount64();
 
 #pragma region MapInfo
 private:
@@ -44,7 +47,6 @@ public:
 	float InitPos[2];
 private:
 	uint64 GenerateId(const ObjectType& type);
-	void GenMonster();
 	void UpdateMonster();
 #pragma endregion
 
@@ -57,6 +59,7 @@ public:
 	Offset<Vector<Offset<PlayerInfo>>> GenPlayerInfos(FlatBufferBuilder& builder);
 	Offset<Vector<Offset<MonsterInfoDetail>>> GenMonsterInfoDetails(FlatBufferBuilder& builder);
 	Offset<Vector<Offset<MonsterInfo>>> GenMonsterInfos(FlatBufferBuilder& builder);
+	Offset<Vector<Offset<Coin>>> GenItemInfos(FlatBufferBuilder& builder);
 #pragma endregion
 
 #pragma region default constructor, destructor, Init
@@ -67,15 +70,20 @@ public:
 	~GameRoom();
 #pragma endregion
 
-#pragma region Packet Handler
+#pragma region Contents
+	void GenMonster();
 	const bool CanPort(uint8 id) const;
+	void BroadcastMonsterInfo();
+	void CheckItemLifetime();
 #pragma endregion
 
 
 #pragma region Main Function
 public:
-	GameObject* Find(uint64& id);
-	void RemoveMonster(uint64& id);
+	GameObjectRef Find(uint64& id);
+	GameObjectRef Find(const uint64& id);
+	void RemoveObject(uint64& id);
+	void RemoveObject(const uint64& id);
 	void RemovePlayer(uint64& id);
 	void Push(GameObjectRef& go);
 	void Push(GameObject* go);

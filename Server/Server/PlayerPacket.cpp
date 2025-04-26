@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "PacketHandler.h"
+#include "Meso.h"
 
 void PacketHandler::C_AttackHandler(PacketSession* session, ByteRef& buffer)
 {
@@ -21,11 +22,13 @@ void PacketHandler::C_AttackHandler(PacketSession* session, ByteRef& buffer)
 
 		player->Room->PushJob<AttackEnum>([player, targets](AttackEnum attackId) {
 			auto room = player->Room;
-
 			vector<uint64> hitted;
-			hitted.reserve(targets.size());
 			vector<uint64> diedMonsters;
+			vector<shared_ptr<Meso>> mesos;
+
+			hitted.reserve(targets.size());
 			diedMonsters.reserve(targets.size());
+			mesos.reserve(targets.size());
 
 			for (auto id : targets)
 			{
@@ -33,16 +36,22 @@ void PacketHandler::C_AttackHandler(PacketSession* session, ByteRef& buffer)
 				if (go == nullptr)
 					continue;
 
-				auto enemy = reinterpret_cast<Monster*>(go);
+				auto enemy = reinterpret_pointer_cast<Monster>(go);
 				enemy->Target = player;
 				enemy->DestPosX = player->Pos->X;
-				enemy->SetState(MonsterState::MonsterState_Trace);
+				enemy->SetState(MonsterState::MonsterState_Hit);
 				auto dmg = 10;
 				enemy->TakeDamage(dmg);
 				if (enemy->IsAlive() == false)
 				{
 					enemy->SetState(MonsterState::MonsterState_Die);
 					diedMonsters.push_back(id);
+					auto meso = make_shared<Meso>();
+					meso->Pos->X = enemy->Pos->X;
+					meso->Pos->Y = enemy->Pos->Y;
+					auto go = reinterpret_pointer_cast<GameObject>(meso);
+					room->Push(go);
+					mesos.push_back(meso);
 				}
 				else
 				{
@@ -60,8 +69,18 @@ void PacketHandler::C_AttackHandler(PacketSession* session, ByteRef& buffer)
 			if (diedMonsters.size() > 0)
 			{
 				builder.Clear();
+				vector<Offset<Coin>> coins;
+				coins.reserve(diedMonsters.size());
+				for (auto meso : mesos)
+				{
+					auto coin = CreateCoin(builder, meso->Id, meso->Money);
+					coins.push_back(coin);
+				}
+
+				auto coinVec = builder.CreateVector(coins);
+
 				auto died = builder.CreateVector(diedMonsters);
-				auto data = CreateSC_MDespawn(builder, died);
+				auto data = CreateSC_MDespawn(builder, died, coinVec);
 				auto packet = Manager::Packet.CreatePacket(data, builder, PacketType::PacketType_SC_MDespawn);
 				room->Broadcast(packet);
 			}

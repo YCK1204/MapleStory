@@ -5,9 +5,9 @@ using UnityEngine.Tilemaps;
 
 public class ObjectManager : IManager
 {
-    Dictionary<UInt64, MonsterController> _monsters = new Dictionary<UInt64, MonsterController>();
+    Dictionary<UInt64, BaseController> _objects = new Dictionary<UInt64, BaseController>();
     Dictionary<UInt64, PlayerController> _players = new Dictionary<UInt64, PlayerController>();
-    public  MyPlayerContoller MyPlayer { get; set; } = null;
+    public MyPlayerContoller MyPlayer { get; set; } = null;
     public Tilemap NavGrid = null;
     public void Init()
     {
@@ -15,16 +15,30 @@ public class ObjectManager : IManager
     }
     public void Clear()
     {
-        _monsters.Clear();
+        _objects.Clear();
         _players.Clear();
     }
-    public void RemoveMonster(UInt64 id)
+    public void RemoveMonster(UInt64 id, Coin coin)
     {
-        MonsterController mc = null;
-        if (_monsters.TryGetValue(id, out mc) == false)
+        BaseController bc = null;
+        if (_objects.TryGetValue(id, out bc) == false)
             return;
+        CoinController cc = Manager.Resource.Instantiate("prefabs/MapObject/coin").GetComponent<CoinController>();
+        cc.transform.position = bc.transform.position;
+        cc.ID = coin.Id;
+        cc.Money = coin.Money;
+        MonsterController mc = bc as MonsterController;
         mc.State = MonsterState.Die;
-        _monsters.Remove(id);
+        _objects.Remove(id);
+        Push(cc);
+    }
+    public void RemoveObject(UInt64 id)
+    {
+        BaseController bc = null;
+        if (_objects.TryGetValue(id, out bc) == false)
+            return;
+        bc.Destroy();
+        _objects.Remove(id);
     }
     public void RemovePlayer(UInt64 id)
     {
@@ -34,11 +48,11 @@ public class ObjectManager : IManager
         _players.Remove(id);
         pc.Destroy();
     }
-    public void Push(MonsterController mc)
+    public void Push(BaseController go)
     {
-        if (_monsters.ContainsKey(mc.ID) == true)
+        if (_objects.ContainsKey(go.ID) == true)
             return;
-        _monsters.Add(mc.ID, mc);
+        _objects.Add(go.ID, go);
     }
     public void Push(PlayerController pc)
     {
@@ -54,8 +68,9 @@ public class ObjectManager : IManager
     }
     public MonsterController FindMonster(UInt64 id)
     {
-        MonsterController mc = null;
-        _monsters.TryGetValue (id, out mc);
-        return mc;
+        BaseController bc = null;
+        if (_objects.TryGetValue(id, out bc) == true)
+            return bc as MonsterController;
+        return null;
     }
 }

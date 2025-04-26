@@ -21,14 +21,17 @@ public struct CharacterInfoDetail : IFlatbufferObject
   public int Hp { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
   public int Mp { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
   public int Exp { get { int o = __p.__offset(12); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int Money { get { int o = __p.__offset(14); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
 
   public static Offset<CharacterInfoDetail> CreateCharacterInfoDetail(FlatBufferBuilder builder,
       Offset<CharacterInfo> prev_infoOffset = default(Offset<CharacterInfo>),
       int last_pos = 0,
       int hp = 0,
       int mp = 0,
-      int exp = 0) {
-    builder.StartTable(5);
+      int exp = 0,
+      int money = 0) {
+    builder.StartTable(6);
+    CharacterInfoDetail.AddMoney(builder, money);
     CharacterInfoDetail.AddExp(builder, exp);
     CharacterInfoDetail.AddMp(builder, mp);
     CharacterInfoDetail.AddHp(builder, hp);
@@ -37,12 +40,13 @@ public struct CharacterInfoDetail : IFlatbufferObject
     return CharacterInfoDetail.EndCharacterInfoDetail(builder);
   }
 
-  public static void StartCharacterInfoDetail(FlatBufferBuilder builder) { builder.StartTable(5); }
+  public static void StartCharacterInfoDetail(FlatBufferBuilder builder) { builder.StartTable(6); }
   public static void AddPrevInfo(FlatBufferBuilder builder, Offset<CharacterInfo> prevInfoOffset) { builder.AddOffset(0, prevInfoOffset.Value, 0); }
   public static void AddLastPos(FlatBufferBuilder builder, int lastPos) { builder.AddInt(1, lastPos, 0); }
   public static void AddHp(FlatBufferBuilder builder, int hp) { builder.AddInt(2, hp, 0); }
   public static void AddMp(FlatBufferBuilder builder, int mp) { builder.AddInt(3, mp, 0); }
   public static void AddExp(FlatBufferBuilder builder, int exp) { builder.AddInt(4, exp, 0); }
+  public static void AddMoney(FlatBufferBuilder builder, int money) { builder.AddInt(5, money, 0); }
   public static Offset<CharacterInfoDetail> EndCharacterInfoDetail(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<CharacterInfoDetail>(o);
@@ -60,6 +64,7 @@ static public class CharacterInfoDetailVerify
       && verifier.VerifyField(tablePos, 8 /*Hp*/, 4 /*int*/, 4, false)
       && verifier.VerifyField(tablePos, 10 /*Mp*/, 4 /*int*/, 4, false)
       && verifier.VerifyField(tablePos, 12 /*Exp*/, 4 /*int*/, 4, false)
+      && verifier.VerifyField(tablePos, 14 /*Money*/, 4 /*int*/, 4, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

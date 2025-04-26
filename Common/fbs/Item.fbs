@@ -1,0 +1,24 @@
+table Coin {
+	id:uint64;
+	money:uint16;
+	x:float;
+	y:float;
+}
+
+table SC_DespawnItem {
+	items:[uint64];
+}
+
+table C_CollectCoin {
+	id:uint64;
+}
+
+table SD_CollectionCoin {
+	char_id:uint64;
+	money:int32;
+}
+
+table SC_CollectCoin {
+	id:uint64;
+	owner:uint64;
+}

@@ -134,14 +134,14 @@ struct MonsterInfo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef MonsterInfoBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_ID = 4,
-    VT_DEST_X = 6,
+    VT_X = 6,
     VT_STATE = 8
   };
   uint64_t id() const {
     return GetField<uint64_t>(VT_ID, 0);
   }
-  float dest_x() const {
-    return GetField<float>(VT_DEST_X, 0.0f);
+  float x() const {
+    return GetField<float>(VT_X, 0.0f);
   }
   MonsterState state() const {
     return static_cast<MonsterState>(GetField<uint8_t>(VT_STATE, 0));
@@ -149,7 +149,7 @@ struct MonsterInfo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint64_t>(verifier, VT_ID, 8) &&
-           VerifyField<float>(verifier, VT_DEST_X, 4) &&
+           VerifyField<float>(verifier, VT_X, 4) &&
            VerifyField<uint8_t>(verifier, VT_STATE, 1) &&
            verifier.EndTable();
   }
@@ -162,8 +162,8 @@ struct MonsterInfoBuilder {
   void add_id(uint64_t id) {
     fbb_.AddElement<uint64_t>(MonsterInfo::VT_ID, id, 0);
   }
-  void add_dest_x(float dest_x) {
-    fbb_.AddElement<float>(MonsterInfo::VT_DEST_X, dest_x, 0.0f);
+  void add_x(float x) {
+    fbb_.AddElement<float>(MonsterInfo::VT_X, x, 0.0f);
   }
   void add_state(MonsterState state) {
     fbb_.AddElement<uint8_t>(MonsterInfo::VT_STATE, static_cast<uint8_t>(state), 0);
@@ -182,11 +182,11 @@ struct MonsterInfoBuilder {
 inline ::flatbuffers::Offset<MonsterInfo> CreateMonsterInfo(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     uint64_t id = 0,
-    float dest_x = 0.0f,
+    float x = 0.0f,
     MonsterState state = MonsterState_Move) {
   MonsterInfoBuilder builder_(_fbb);
   builder_.add_id(id);
-  builder_.add_dest_x(dest_x);
+  builder_.add_x(x);
   builder_.add_state(state);
   return builder_.Finish();
 }

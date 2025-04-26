@@ -19,6 +19,7 @@ typedef struct {
 	int32 Mp;
 	int32 Exp;
 	uint8 MapId;
+	int32 Money;
 } BasePlayerInfo;
 
 enum class PlayerState : uint8
@@ -60,6 +61,7 @@ public:
 	const int32& GetMp() const;
 	const uint8& GetMapId() const;
 	const int32& GetExp() const;
+	const int32& GetMoey() const;
 
 public:
 	void SetAbility(const struct CharacterAbility* ability);
@@ -74,6 +76,8 @@ public:
 	void RemoveState(const PlayerState state);
 	void AddState(const PlayerState state);
 	void ClearState();
+	void CollectCoin(shared_ptr<class Meso> meso);
+	void SetMoney(const int32& money);
 protected:
 	virtual const bool IsAlive() const;
 };
