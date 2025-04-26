@@ -34,6 +34,8 @@ public class PacketManager
 		_handler.Add((ushort)PacketType.SC_ProneStabStart, PacketHandler.SC_ProneStabStartHandler);
 		_handler.Add((ushort)PacketType.SC_ProneStabEnd, PacketHandler.SC_ProneStabEndHandler);
 		_handler.Add((ushort)PacketType.SC_Attack, PacketHandler.SC_AttackHandler);
+		_handler.Add((ushort)PacketType.SC_HitByMonster, PacketHandler.SC_HitByMonsterHandler);
+		_handler.Add((ushort)PacketType.SC_Die, PacketHandler.SC_DieHandler);
 		_handler.Add((ushort)PacketType.SC_MonsterInfos, PacketHandler.SC_MonsterInfosHandler);
 		_handler.Add((ushort)PacketType.SC_DespawnItem, PacketHandler.SC_DespawnItemHandler);
 		_handler.Add((ushort)PacketType.SC_CollectCoin, PacketHandler.SC_CollectCoinHandler);

@@ -81,16 +81,19 @@ enum PacketType : uint8_t {
   PacketType_C_PosNoti = 53,
   PacketType_C_Attack = 54,
   PacketType_SC_Attack = 55,
-  PacketType_SC_MonsterInfos = 56,
-  PacketType_SC_DespawnItem = 57,
-  PacketType_C_CollectCoin = 58,
-  PacketType_SC_CollectCoin = 59,
-  PacketType_SD_CollectionCoin = 60,
+  PacketType_C_HitByMonster = 56,
+  PacketType_SC_HitByMonster = 57,
+  PacketType_SC_Die = 58,
+  PacketType_SC_MonsterInfos = 59,
+  PacketType_SC_DespawnItem = 60,
+  PacketType_C_CollectCoin = 61,
+  PacketType_SC_CollectCoin = 62,
+  PacketType_SD_CollectionCoin = 63,
   PacketType_MIN = PacketType_NONE,
   PacketType_MAX = PacketType_SD_CollectionCoin
 };
 
-inline const PacketType (&EnumValuesPacketType())[61] {
+inline const PacketType (&EnumValuesPacketType())[64] {
   static const PacketType values[] = {
     PacketType_NONE,
     PacketType_C_SignUp,
@@ -148,6 +151,9 @@ inline const PacketType (&EnumValuesPacketType())[61] {
     PacketType_C_PosNoti,
     PacketType_C_Attack,
     PacketType_SC_Attack,
+    PacketType_C_HitByMonster,
+    PacketType_SC_HitByMonster,
+    PacketType_SC_Die,
     PacketType_SC_MonsterInfos,
     PacketType_SC_DespawnItem,
     PacketType_C_CollectCoin,
@@ -158,7 +164,7 @@ inline const PacketType (&EnumValuesPacketType())[61] {
 }
 
 inline const char * const *EnumNamesPacketType() {
-  static const char * const names[62] = {
+  static const char * const names[65] = {
     "NONE",
     "C_SignUp",
     "SD_SignUp",
@@ -215,6 +221,9 @@ inline const char * const *EnumNamesPacketType() {
     "C_PosNoti",
     "C_Attack",
     "SC_Attack",
+    "C_HitByMonster",
+    "SC_HitByMonster",
+    "SC_Die",
     "SC_MonsterInfos",
     "SC_DespawnItem",
     "C_CollectCoin",
@@ -453,6 +462,18 @@ template<> struct PacketTypeTraits<C_Attack> {
 
 template<> struct PacketTypeTraits<SC_Attack> {
   static const PacketType enum_value = PacketType_SC_Attack;
+};
+
+template<> struct PacketTypeTraits<C_HitByMonster> {
+  static const PacketType enum_value = PacketType_C_HitByMonster;
+};
+
+template<> struct PacketTypeTraits<SC_HitByMonster> {
+  static const PacketType enum_value = PacketType_SC_HitByMonster;
+};
+
+template<> struct PacketTypeTraits<SC_Die> {
+  static const PacketType enum_value = PacketType_SC_Die;
 };
 
 template<> struct PacketTypeTraits<SC_MonsterInfos> {
@@ -701,6 +722,18 @@ inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj,
     }
     case PacketType_SC_Attack: {
       auto ptr = reinterpret_cast<const SC_Attack *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_C_HitByMonster: {
+      auto ptr = reinterpret_cast<const C_HitByMonster *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_HitByMonster: {
+      auto ptr = reinterpret_cast<const SC_HitByMonster *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case PacketType_SC_Die: {
+      auto ptr = reinterpret_cast<const SC_Die *>(obj);
       return verifier.VerifyTable(ptr);
     }
     case PacketType_SC_MonsterInfos: {

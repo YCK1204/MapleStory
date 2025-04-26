@@ -46,7 +46,7 @@ public:
 public:
 	Player();
 	virtual ~Player();
-	virtual void TakeDamage(int32& damage);
+	virtual void TakeDamage(const int32& damage);
 	const bool IsInState(PlayerState state);
 	Offset<PlayerInfo> GeneratePlayerInfo(FlatBufferBuilder& builder);
 	Offset<CharacterInfoDetail> GenerateInfoDetail(FlatBufferBuilder& builder);
@@ -78,6 +78,5 @@ public:
 	void ClearState();
 	void CollectCoin(shared_ptr<class Meso> meso);
 	void SetMoney(const int32& money);
-protected:
 	virtual const bool IsAlive() const;
 };

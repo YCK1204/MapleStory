@@ -3,7 +3,7 @@
 
 class Monster : public Creature {
 public:
-	virtual void TakeDamage(int32& damage);
+	virtual void TakeDamage(const int32& damage);
 	virtual const bool IsAlive() const;
 	Monster();
 	virtual ~Monster();

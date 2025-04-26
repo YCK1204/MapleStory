@@ -32,3 +32,16 @@ table SC_Attack {
 table C_UpdatePosition {
 	position:Position;
 }
+
+table C_HitByMonster {
+	x:float;
+	y:float;
+}
+
+table SC_HitByMonster {
+	hp:int32;
+}
+
+table SC_Die {
+	my_player_info:CharacterInfoDetail;
+}

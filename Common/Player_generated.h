@@ -31,6 +31,15 @@ struct SC_AttackBuilder;
 struct C_UpdatePosition;
 struct C_UpdatePositionBuilder;
 
+struct C_HitByMonster;
+struct C_HitByMonsterBuilder;
+
+struct SC_HitByMonster;
+struct SC_HitByMonsterBuilder;
+
+struct SC_Die;
+struct SC_DieBuilder;
+
 enum AttackEnum : uint8_t {
   AttackEnum_TANJIRO_ATTACK1 = 0,
   AttackEnum_TANJIRO_ATTACK2 = 1,
@@ -350,6 +359,140 @@ inline ::flatbuffers::Offset<C_UpdatePosition> CreateC_UpdatePosition(
     ::flatbuffers::Offset<Position> position = 0) {
   C_UpdatePositionBuilder builder_(_fbb);
   builder_.add_position(position);
+  return builder_.Finish();
+}
+
+struct C_HitByMonster FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef C_HitByMonsterBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_X = 4,
+    VT_Y = 6
+  };
+  float x() const {
+    return GetField<float>(VT_X, 0.0f);
+  }
+  float y() const {
+    return GetField<float>(VT_Y, 0.0f);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<float>(verifier, VT_X, 4) &&
+           VerifyField<float>(verifier, VT_Y, 4) &&
+           verifier.EndTable();
+  }
+};
+
+struct C_HitByMonsterBuilder {
+  typedef C_HitByMonster Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_x(float x) {
+    fbb_.AddElement<float>(C_HitByMonster::VT_X, x, 0.0f);
+  }
+  void add_y(float y) {
+    fbb_.AddElement<float>(C_HitByMonster::VT_Y, y, 0.0f);
+  }
+  explicit C_HitByMonsterBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<C_HitByMonster> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<C_HitByMonster>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<C_HitByMonster> CreateC_HitByMonster(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    float x = 0.0f,
+    float y = 0.0f) {
+  C_HitByMonsterBuilder builder_(_fbb);
+  builder_.add_y(y);
+  builder_.add_x(x);
+  return builder_.Finish();
+}
+
+struct SC_HitByMonster FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SC_HitByMonsterBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_HP = 4
+  };
+  int32_t hp() const {
+    return GetField<int32_t>(VT_HP, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_HP, 4) &&
+           verifier.EndTable();
+  }
+};
+
+struct SC_HitByMonsterBuilder {
+  typedef SC_HitByMonster Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_hp(int32_t hp) {
+    fbb_.AddElement<int32_t>(SC_HitByMonster::VT_HP, hp, 0);
+  }
+  explicit SC_HitByMonsterBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SC_HitByMonster> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SC_HitByMonster>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SC_HitByMonster> CreateSC_HitByMonster(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    int32_t hp = 0) {
+  SC_HitByMonsterBuilder builder_(_fbb);
+  builder_.add_hp(hp);
+  return builder_.Finish();
+}
+
+struct SC_Die FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SC_DieBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_MY_PLAYER_INFO = 4
+  };
+  const CharacterInfoDetail *my_player_info() const {
+    return GetPointer<const CharacterInfoDetail *>(VT_MY_PLAYER_INFO);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_MY_PLAYER_INFO) &&
+           verifier.VerifyTable(my_player_info()) &&
+           verifier.EndTable();
+  }
+};
+
+struct SC_DieBuilder {
+  typedef SC_Die Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_my_player_info(::flatbuffers::Offset<CharacterInfoDetail> my_player_info) {
+    fbb_.AddOffset(SC_Die::VT_MY_PLAYER_INFO, my_player_info);
+  }
+  explicit SC_DieBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SC_Die> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SC_Die>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SC_Die> CreateSC_Die(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<CharacterInfoDetail> my_player_info = 0) {
+  SC_DieBuilder builder_(_fbb);
+  builder_.add_my_player_info(my_player_info);
   return builder_.Finish();
 }
 

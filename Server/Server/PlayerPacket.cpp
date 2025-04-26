@@ -6,12 +6,12 @@ void PacketHandler::C_AttackHandler(PacketSession* session, ByteRef& buffer)
 {
 	auto pkt = GetRoot<C_Attack>(buffer->operator std::byte * ());
 	ClientSession* client = reinterpret_cast<ClientSession*>(session);
-	auto player = client->Player;
 	if (client->State != ClientState::INGAME)
 	{
 		client->Disconnect();
 		return;
 	}
+	auto player = client->Player;
 	if (player->IsInState(PlayerState::ATTACK) == true)
 		return;
 	player->AddState(PlayerState::ATTACK);
@@ -94,6 +94,62 @@ void PacketHandler::C_AttackHandler(PacketSession* session, ByteRef& buffer)
 	}
 	catch (...)
 	{
+
+	}
+}
+
+void PacketHandler::C_HitByMonsterHandler(PacketSession* session, ByteRef& buffer) {
+	auto pkt = GetRoot<C_Attack>(buffer->operator std::byte * ());
+
+	ClientSession* client = reinterpret_cast<ClientSession*>(session);
+	if (client->State != ClientState::INGAME)
+	{
+		client->Disconnect();
+		return;
+	}
+	auto player = client->Player;
+	if (player->Room == nullptr)
+		return;
+	auto room = player->Room;
+
+	try {
+		auto pkt = GetRoot<C_HitByMonster>(buffer->operator std::byte * ());
+
+		room->PushJob<float, float>([player](float x, float y) {
+			auto curHp = player->GetHp();
+
+			player->SetHp(curHp - 10);
+			FlatBufferBuilder builder;
+
+			auto session = player->Session.lock();
+			if (player->IsAlive() == false)
+			{
+				// 마을로 이동
+				player->SetHp(100);
+				auto room = Manager::Server.Find(session->ServerId)->FindChannel(session->ChannelId)->FindRoom(1);
+				player->Pos->X = 0;
+				player->Pos->Y = 0;
+				player->Room->RemovePlayer(player->Id);
+				player->Room = room;
+				room->Push(player);
+				auto info = player->GenerateInfoDetail(builder);
+				auto data = CreateSC_Die(builder, info);
+				auto pkt = Manager::Packet.CreatePacket(data, builder, PacketType_SC_Die);
+				session->Send(pkt);
+			}
+			else
+			{
+				player->Pos->X = x;
+				player->Pos->Y = y;
+				auto dmg = 10;
+				player->TakeDamage(10);
+				auto data = CreateSC_HitByMonster(builder, player->GetHp());
+				auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_HitByMonster);
+				session->Send(packet);
+			}
+			}, pkt->x(), pkt->y());
+	}
+	catch (...) {
 
 	}
 }

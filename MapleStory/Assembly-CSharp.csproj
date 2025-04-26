@@ -118,6 +118,7 @@
     <Compile Include="Assets\Scripts\Controllers\BaseController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_ProneStabStart.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_MonsterInfos.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_HitByMonster.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_CreateCharacter.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_Attack.cs" />
     <Compile Include="Assets\Scripts\Controllers\MyPlayerContoller.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\C_ChannelInfo.cs" />
     <Compile Include="Assets\Scripts\Packet\PrevInGame\Login.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_CharacterSelect.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_HitByMonster.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterInfoDetail.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\D_CharacterList.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CheckNameError.cs" />
@@ -183,6 +185,7 @@
     <Compile Include="Assets\Scripts\Controllers\CameraController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\CharacterSelectError.cs" />
     <Compile Include="Assets\UI Toolkit\PrevInGame\Common.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_Die.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SD_SignUp.cs" />
     <Compile Include="Assets\Scripts\Packet\Monster.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_EnterGame.cs" />

@@ -3,7 +3,7 @@
 #include "RandomNumberGenerator.h"
 #include "GameRoom.h"
 
-void Monster::TakeDamage(int32& damage)
+void Monster::TakeDamage(const int32& damage)
 {
 	Hp -= damage;
 }

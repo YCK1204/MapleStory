@@ -11,7 +11,7 @@ Player::~Player()
 {
 }
 
-void Player::TakeDamage(int32& damage)
+void Player::TakeDamage(const int32& damage)
 {
 	_baseInfo->Hp -= damage;
 	if (_baseInfo->Hp <= 0)
@@ -194,5 +194,5 @@ void Player::SetMoney(const int32& money)
 
 const bool Player::IsAlive() const
 {
-	return (_baseInfo->Hp < 0);
+	return (_baseInfo->Hp > 0);
 }

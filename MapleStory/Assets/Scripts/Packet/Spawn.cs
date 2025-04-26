@@ -48,6 +48,44 @@ public partial class PacketHandler
             Manager.Network.Send(packet);
         });
     }
+    static void ChangeSceneHandler(CharacterInfoDetail myPlayerInfo, byte mapId)
+    {
+        var prevInfo = myPlayerInfo.PrevInfo.Value;
+        var ability = prevInfo.Ability.Value;
+        string mapName = $"Map_{mapId.ToString("000")}";
+        Manager.Scene.LoadSceneAsync(mapName, () =>
+        {
+            Manager.Object.Clear();
+            GameObject map = GameObject.Find(mapName);
+            Manager.Object.NavGrid = Util.FindChild<Tilemap>(map.transform, true, "SpawnGround");
+            var pc = HandlePSpawn<MyPlayerContoller>(prevInfo);
+            {
+                pc.STR = ability.STR;
+                pc.DEX = ability.DEX;
+                pc.INT = ability.INT;
+                pc.LUK = ability.LUK;
+                pc.HP = myPlayerInfo.Hp;
+                pc.MP = myPlayerInfo.Mp;
+                pc.EXP = myPlayerInfo.Exp;
+                pc.Money = myPlayerInfo.Money;
+            }
+            Manager.Object.MyPlayer = pc;
+            pc.transform.position = new Vector3(0, 0);
+            var cc = Camera.main.gameObject.AddComponent<CameraController>();
+            cc.AddComponent<CinemachineBrain>();
+            cc.cinemachineCamera = Manager.Resource.Instantiate("Prefabs/PlayUtil/FollowCamera").GetComponent<CinemachineCamera>();
+            var border = GameObject.Find("Border").GetComponent<Collider2D>();
+            cc.Border = border;
+            cc.Target = pc.gameObject;
+            Camera.main.cullingMask = ~0;
+
+            FlatBufferBuilder builder = new FlatBufferBuilder(1);
+            C_RoomObjects.StartC_RoomObjects(builder);
+            var data = C_RoomObjects.EndC_RoomObjects(builder);
+            var packet = Manager.Packet.CreatePacket(data, builder, PacketType.C_RoomObjects);
+            Manager.Network.Send(packet);
+        });
+    }
     public static void SC_EnterGameHandler(PacketSession session, ByteBuffer buffer)
     {
         var pkt = SC_EnterGame.GetRootAsSC_EnterGame(buffer);

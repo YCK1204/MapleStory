@@ -157,6 +157,9 @@ void PacketHandler::D_CharacterSelectHandler(PacketSession* session, ByteRef& bu
 		player->SetCharType(prevInfo->char_type());
 		player->SetMapId(lastPos);
 		player->SetMoney(info->money());
+		player->SetHp(info->hp());
+		player->SetMp(info->mp());
+		player->SetExp(info->exp());
 		client->State = ClientState::INGAME;
 	}
 

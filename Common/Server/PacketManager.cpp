@@ -51,6 +51,7 @@ void PacketManager::Register()
 		_handler[PacketType::PacketType_C_ProneStabEnd] = PacketHandler::C_ProneStabEndHandler;
 		_handler[PacketType::PacketType_C_PosNoti] = PacketHandler::C_PosNotiHandler;
 		_handler[PacketType::PacketType_C_Attack] = PacketHandler::C_AttackHandler;
+		_handler[PacketType::PacketType_C_HitByMonster] = PacketHandler::C_HitByMonsterHandler;
 		_handler[PacketType::PacketType_C_CollectCoin] = PacketHandler::C_CollectCoinHandler;
 		
 }

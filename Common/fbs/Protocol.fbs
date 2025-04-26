@@ -82,6 +82,9 @@ union PacketType {
 // ------------------- Player -----------------
 	C_Attack,
 	SC_Attack,
+	C_HitByMonster,
+	SC_HitByMonster,
+	SC_Die,
 // ------------------- Player -----------------
 // ------------------- Monster -----------------
 	SC_MonsterInfos,

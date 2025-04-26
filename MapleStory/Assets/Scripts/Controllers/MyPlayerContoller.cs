@@ -201,11 +201,25 @@ public class MyPlayerContoller : PlayerController
         });
         #endregion
     }
+    float TakeDmgInterval = 2000f;
+    float LastTakeDmg = 0;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         base.TriggerEnter2D(collision);
         if (collision.gameObject.HasLayer("Portal"))
             portal = collision.gameObject.GetComponent<PortalController>();
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.HasLayer("Enemy") && LastTakeDmg + TakeDmgInterval < Environment.TickCount)
+        {
+            LastTakeDmg = Environment.TickCount;
+            FlatBufferBuilder builder = new FlatBufferBuilder(100);
+
+            var data = C_HitByMonster.CreateC_HitByMonster(builder, transform.position.x, transform.position.y);
+            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_HitByMonster);
+            Manager.Network.Send(pkt);
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -217,15 +231,20 @@ public class MyPlayerContoller : PlayerController
     {
         base.UpdateController();
     }
-    float PosNotiTick = 1f;
-    float LastPosNotiTime = Time.deltaTime;
+    float PosNotiTick = 1000f;
+    float LastPosNotiTime = 0;
     private void Update()
     {
         HandleInput();
         UpdateController();
-        if (HasState(PlayerState.Walk) && LastPosNotiTime + PosNotiTick < Time.deltaTime)
+        if (HasState(PlayerState.Walk) && LastPosNotiTime + PosNotiTick < Environment.TickCount)
         {
+            LastPosNotiTime = Environment.TickCount;
+            FlatBufferBuilder builder = new FlatBufferBuilder(100);
 
+            var data = C_PosNoti.CreateC_PosNoti(builder, transform.position.x, transform.position.y);
+            var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_PosNoti);
+            Manager.Network.Send(pkt);
         }
     }
     [SerializeField]

@@ -34,4 +34,15 @@ public partial class PacketHandler
             }
         }
     }
+    public static void SC_HitByMonsterHandler(PacketSession session, ByteBuffer buffer)
+    {
+        var pkt = SC_HitByMonster.GetRootAsSC_HitByMonster(buffer);
+
+    }
+    public static void SC_DieHandler(PacketSession session, ByteBuffer buffer)
+    {
+        var pkt = SC_Die.GetRootAsSC_Die(buffer);
+
+        ChangeSceneHandler(pkt.MyPlayerInfo.Value, 1);
+    }
 }
