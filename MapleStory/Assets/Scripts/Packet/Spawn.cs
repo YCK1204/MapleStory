@@ -40,6 +40,12 @@ public partial class PacketHandler
             cc.Border = border;
             cc.Target = pc.gameObject;
             Camera.main.cullingMask = ~0;
+            if (GameObject.Find("@BGMHandler") == null)
+            {
+                var bgmHandler = Manager.Resource.Instantiate("Prefabs/PlayUtil/BGMHandler");
+                bgmHandler.name = "@BGMHandler";
+                GameObject.DontDestroyOnLoad(bgmHandler);
+            }
 
             FlatBufferBuilder builder = new FlatBufferBuilder(1);
             C_RoomObjects.StartC_RoomObjects(builder);

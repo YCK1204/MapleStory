@@ -23,6 +23,7 @@ public class MyPlayerContoller : PlayerController
     }
     Dictionary<PlayerKeyInput, Action> _keyDownHandler = new Dictionary<PlayerKeyInput, Action>();
     Dictionary<PlayerKeyInput, Action> _keyUpHandler = new Dictionary<PlayerKeyInput, Action>();
+    AudioClip JumpAudioClip;
     #region Ability
     class Ability
     {
@@ -49,6 +50,7 @@ public class MyPlayerContoller : PlayerController
     {
         base.Init();
         _renderers = GetComponentsInChildren<SpriteRenderer>();
+        JumpAudioClip = Manager.Resource.Load<AudioClip>("Audio/Jump");
         #region KeyDownBinding
         _keyDownHandler.Add(PlayerKeyInput.LeftArrow, () =>
         {
@@ -112,14 +114,14 @@ public class MyPlayerContoller : PlayerController
             foreach (var hit in hits)
             {
                 var mc = hit.GetComponent<MonsterController>();
-                if (mc.State == MonsterState.Hit)
-                    return;
-                mc.DestPosX = transform.position.x;
-                mc.State = MonsterState.Hit;
-                Invoke(() =>
+                if (mc.State != MonsterState.Hit)
                 {
-                    mc.State = MonsterState.Move;
-                }, 1f);
+                    Invoke(() =>
+                    {
+                        mc.State = MonsterState.Move;
+                    }, 1f);
+                }
+                mc.State = MonsterState.Hit;
                 targets.Add(mc.ID);
             }
             FlatBufferBuilder builder = new FlatBufferBuilder(50);
@@ -132,6 +134,7 @@ public class MyPlayerContoller : PlayerController
         {
             if (CanJump())
             {
+                Manager.Audio.OneShotPlay(JumpAudioClip);
                 Jump();
                 FlatBufferBuilder builder = new FlatBufferBuilder(50);
                 C_Jump.StartC_Jump(builder);

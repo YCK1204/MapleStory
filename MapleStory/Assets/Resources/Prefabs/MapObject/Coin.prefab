@@ -198,3 +198,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ee6434c1257ab468c82dd634328afc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PickUpItemAudioClip: {fileID: 8300000, guid: fd9ddc51006308e4db8ecc3b20eb3db0, type: 3}

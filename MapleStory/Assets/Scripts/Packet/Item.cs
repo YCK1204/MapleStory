@@ -16,6 +16,11 @@ public partial class PacketHandler
     {
         var pkt = SC_CollectCoin.GetRootAsSC_CollectCoin(buffer);
 
+        if (pkt.Owner == Manager.Object.MyPlayer.ID)
+        {
+            AudioClip PickUpItemAudioClip = Manager.Resource.Load<AudioClip>("Audio/PickUpItem");
+            Manager.Audio.OneShotPlay(PickUpItemAudioClip);
+        }
         Manager.Object.RemoveObject(pkt.Id);
     }
 }

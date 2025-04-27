@@ -30,6 +30,8 @@ public class MonsterController : CreatureController
         get { return _state; }
         set
         {
+            if (value == MonsterState.Hit)
+                PlayHitSound();
             if (_state == value || _state == MonsterState.Die)
                 return;
             _state = value;
