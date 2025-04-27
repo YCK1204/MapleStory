@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerController : CreatureController
 {
@@ -27,7 +28,8 @@ public class PlayerController : CreatureController
             UpdateAnimation();
         }
     }
-    public void AddState(PlayerState state) { 
+    public void AddState(PlayerState state)
+    {
         State |= (1 << (int)state);
 
         if (state == PlayerState.Attack)
@@ -44,8 +46,8 @@ public class PlayerController : CreatureController
         else if (state == PlayerState.Ladder || state == PlayerState.rope)
             rb.gravityScale = 0;
     }
-    public void RemoveState(PlayerState state) 
-    { 
+    public void RemoveState(PlayerState state)
+    {
         State &= ~(1 << (int)state);
         if (state == PlayerState.Ladder || state == PlayerState.rope)
             rb.gravityScale = GravitiyScale;
@@ -219,15 +221,16 @@ public class PlayerController : CreatureController
     {
         if ((collider.gameObject.HasLayer("Floor", "FloorBase", "Stair")))
         {
-            if (rb.linearVelocityY > 0)
-            {
-                if (MoveDir == Vector2.zero)
-                    AddState(PlayerState.Stand);
-                else
-                    AddState(PlayerState.Walk);
-                rb.angularVelocity = 0;
-                RemoveState(PlayerState.Jump);
-            }
+            var hit = Physics2D.Raycast(new Vector2(boxCollider.bounds.center.x, boxCollider.bounds.min.y - .1f), Vector2.down, .1f, LayerMask.GetMask("Floor", "FloorBase", "Stair"));
+            if (hit.collider == null)
+                return;
+
+            if (MoveDir == Vector2.zero)
+                AddState(PlayerState.Stand);
+            else
+                AddState(PlayerState.Walk);
+            rb.angularVelocity = 0;
+            RemoveState(PlayerState.Jump);
         }
     }
     private void OnCollisionEnter2D(Collision2D collision) { CollisionEnter2D(collision); }
