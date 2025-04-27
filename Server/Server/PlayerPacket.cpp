@@ -118,7 +118,7 @@ void PacketHandler::C_HitByMonsterHandler(PacketSession* session, ByteRef& buffe
 		room->PushJob<float, float>([player](float x, float y) {
 			auto curHp = player->GetHp();
 
-			player->SetHp(curHp - 10);
+			player->TakeDamage(10);
 			FlatBufferBuilder builder;
 
 			auto session = player->Session.lock();
@@ -141,8 +141,6 @@ void PacketHandler::C_HitByMonsterHandler(PacketSession* session, ByteRef& buffe
 			{
 				player->Pos->X = x;
 				player->Pos->Y = y;
-				auto dmg = 10;
-				player->TakeDamage(10);
 				auto data = CreateSC_HitByMonster(builder, player->GetHp());
 				auto packet = Manager::Packet.CreatePacket(data, builder, PacketType_SC_HitByMonster);
 				session->Send(packet);

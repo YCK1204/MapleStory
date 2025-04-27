@@ -48,6 +48,7 @@ public class MyPlayerContoller : PlayerController
     protected override void Init()
     {
         base.Init();
+        _renderers = GetComponentsInChildren<SpriteRenderer>();
         #region KeyDownBinding
         _keyDownHandler.Add(PlayerKeyInput.LeftArrow, () =>
         {
@@ -201,6 +202,27 @@ public class MyPlayerContoller : PlayerController
         });
         #endregion
     }
+    private SpriteRenderer[] _renderers;
+
+    public void ApplyHitEffect()
+    {
+        foreach (var renderer in _renderers)
+        {
+            Color color = renderer.color;
+            color *= 0.7f;
+            renderer.color = color;
+        }
+    }
+
+    public void ResetColor()
+    {
+        foreach (var renderer in _renderers)
+        {
+            Color color = renderer.color;
+            color = new Color(1f, 1f, 1f, 1f);
+            renderer.color = color;
+        }
+    }
     float TakeDmgInterval = 2000f;
     float LastTakeDmg = 0;
     private void OnTriggerEnter2D(Collider2D collision)
@@ -213,6 +235,8 @@ public class MyPlayerContoller : PlayerController
     {
         if (collision.gameObject.HasLayer("Enemy") && LastTakeDmg + TakeDmgInterval < Environment.TickCount)
         {
+            ApplyHitEffect();
+            Invoke(() => { ResetColor(); }, 1.9f);
             LastTakeDmg = Environment.TickCount;
             FlatBufferBuilder builder = new FlatBufferBuilder(100);
 
